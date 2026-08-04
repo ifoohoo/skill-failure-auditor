@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Academy · 与大模型弱点共处的工程学</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html" class="active">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+
+  <div class="hero">
+    <h1>与大模型弱点共处的工程学</h1>
+    <p>用 LLM 做 AI Coding 和各种真实任务时，我们大部分工程功夫其实花在<strong style="color:#fff">对抗模型的弱点</strong>上：
+    幻觉、谄媚、遗忘、走捷径、假完成。本站把这些弱点讲透——每个知识点都给你
+    <span class="kbd">🏠 生活类比</span> <span class="kbd">🎓 学术表达</span> <span class="kbd">🔧 工程表达</span>
+    三种说法，外加 <span class="kbd">🧪 复现方式</span> 和 <span class="kbd">🛠 对策清单</span>，五件套齐活，明天上班能直接抄。</p>
+  </div>
+
+  <div class="stat">
+    <div class="s"><div class="n">28</div><div class="l">个失效模式（FM-01~28），每个都有信号与对策</div></div>
+    <div class="s"><div class="n">3</div><div class="l">大工程战线：提示词 / 上下文 / 运行框架</div></div>
+    <div class="s"><div class="n">76</div><div class="l">条术语，悬停即见大白话 + 生活类比</div></div>
+    <div class="s"><div class="n">3+2</div><div class="l">每个知识点的表达五件套</div></div>
+  </div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>这个站怎么用</h2></div>
+    <p class="lead">读者画像：会用 LLM 干活、但常被它坑的工程师 / 技术负责人。你不需要懂机器学习，你需要的是——被坑之前认出坑。</p>
+    <div class="callout c-key"><div class="t">🔑 全站主线一句话</div>
+      LLM 的每一个「毛病」都不是随机 bug，而是它的工作机制的必然产物。理解机制 → 预判失效 → 用工程手段围堵。抱怨模型没有用，设计流程才有用。</div>
+    <div class="callout c-tip"><div class="t">💡 阅读提示</div>
+      正文里带<span style="border-bottom:1px dashed #2563eb">虚线下划线</span>的术语，鼠标悬停即可看到解释气泡（含大白话与生活类比），点击可跳转术语库详情。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>学习地图</h2></div>
+
+    <h3>第一步 · 打地基：模型是怎么回事（读完你就知道毛病从哪来）</h3>
+    <div class="grid g3">
+      <a class="card hover" href="00-matrix.html"><div class="idx">00</div><h3>全景矩阵</h3><p>一张大表：弱点 × 生活类比 × 学术名词 × 工程对策 × 失效模式编号，全站内容横向对齐。</p></a>
+      <a class="card hover" href="01-llm-basics.html"><div class="idx">01</div><h3>LLM 工作原理</h3><p>下一词预测、自回归、注意力、训练三阶段——不讲数学，只讲「机制如何决定行为」。</p></a>
+      <a class="card hover" href="02-traits.html"><div class="idx">02</div><h3>正负面特性图谱</h3><p>幻觉、谄媚、能力边界、知识截止……每个特性都追溯到机制根源，正面能力也如实盘点。</p></a>
+    </div>
+
+    <h3>第二步 · 三大战线：日常工程就在这三层设防</h3>
+    <div class="grid g3">
+      <a class="card hover" href="03-prompt.html"><div class="idx">03</div><h3>提示词工程</h3><p>把话说到位：正向指令、示例的毒性、规则分级。覆盖 FM-11/12/13/14。</p></a>
+      <a class="card hover" href="04-context.html"><div class="idx">04</div><h3>上下文工程</h3><p>管好模型的「办公桌」：腐烂、迷失在中间、交接包、压缩策略。覆盖 FM-08/09/17/20。</p></a>
+      <a class="card hover" href="05-harness.html"><div class="idx">05</div><h3>运行框架工程</h3><p>给马套上挽具：工具面、沙箱、钩子、注入防御。覆盖 FM-15/16/19/25。</p></a>
+    </div>
+
+    <h3>第三步 · 四个专题：最贵的坑逐个深挖</h3>
+    <div class="grid g4">
+      <a class="card hover" href="06-fake-completion.html"><div class="idx">06</div><h3>假完成</h3><p>「看起来做完了」是最贵的失效。FM-01/02/03/04/24。</p></a>
+      <a class="card hover" href="07-self-eval.html"><div class="idx">07</div><h3>自评估陷阱</h3><p>自己审自己、换马甲审查、同源自证。FM-05/06/07/23/27。</p></a>
+      <a class="card hover" href="08-verification.html"><div class="idx">08</div><h3>验证工程</h3><p>让检查真的在查：冻结、变异测试、证据链。FM-10/18/22/26。</p></a>
+      <a class="card hover" href="09-meta.html"><div class="idx">09</div><h3>元治理</h3><p>规则膨胀与监督失控：越管越乱怎么办。FM-21/28。</p></a>
+    </div>
+
+    <h3>随手翻 · 工具页与进阶</h3>
+    <div class="grid g4">
+      <a class="card hover" href="10-fm-handbook.html"><div class="idx">10</div><h3>失效模式速查手册</h3><p>28 张卡片，每张都是五件套：类比 / 学术 / 工程 / 复现 / 对策。开审计会前翻这页。</p></a>
+      <a class="card hover" href="11-glossary.html"><div class="idx">11</div><h3>术语库</h3><p>76 条术语可搜索：英文全称、音标、大白话、生活类比、关联战线。</p></a>
+      <a class="card hover" href="12-recipes.html"><div class="idx">12</div><h3>实战装备包</h3><p>可直接抄走的模板：任务简报、交接包、验收清单、审查指令、红线检查单。</p></a>
+      <a class="card hover" href="13-protocol.html"><div class="idx">13</div><h3>报文解剖（进阶）</h3><p>规则在协议里住哪层：三通道、指令层级、标签抬位阶、缓存优先、分层披露。</p></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>三种表达方式是什么意思</h2></div>
+    <p>专业知识难迁移，往往是因为只有一种说法。本站对同一件事坚持给三种表达，各自服务不同场景：</p>
+    <div class="fiveset">
+      <div class="fs-head">示例知识点：幻觉（Hallucination）</div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比 · 用来「秒懂」和给别人讲</div>像酒桌上的健谈朋友：讲什么都头头是道、有鼻子有眼，事后一查一半细节是他现场编的——而且他自己不知道自己在编。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达 · 用来查文献和精确讨论</div>模型生成与事实不符或无来源依据内容的现象。根源在于自回归语言建模的目标是最大化序列似然，而非事实一致性；解码过程缺乏对外部世界状态的校验环节。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达 · 用来写方案和定规则</div>不可消除、只可围堵的固有风险项。任何进入生产链路的模型输出，凡涉及事实断言（API 签名、数据、引用），必须经外部权威源校验后才可采信，无一例外。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式（30 秒亲眼看到）</div>让模型介绍一个不存在的库：「请给出 Python 库 <code>fastquery-orm</code> 的安装方式和三个常用 API 示例」。多数模型会给出完整的 pip 命令和像模像样的代码——全是编的。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>凡事实断言必过外部校验：编译、运行、检索、查官方文档，不采信模型的自我背书。</li>
+        <li>要求输出带来源，并抽查来源是否真实存在。</li>
+        <li>用检索增强生成把权威资料先喂进上下文，降低（但不能消除）编造概率。</li>
+      </ul></div>
+    </div>
+    <p class="muted">全站每个重要知识点都是这个结构。三种表达 + 复现 + 对策 = 五件套。</p>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">4</span><h2>本站的知识来源</h2></div>
+    <ul class="clean">
+      <li>失效模式清单来自一个真实在用的审计技能（skill-failure-auditor）：28 个失效模式全部经过实战提炼，不是理论清单。</li>
+      <li>原理部分对齐主流学术共识（自回归语言建模、对齐训练、上下文窗口机制），术语首次出现处给出英文原文。</li>
+      <li>对策部分是工程实践口径：每条都写到「能落到流程或代码」的深度，拒绝「要注意」「应加强」式的正确废话。</li>
+    </ul>
+  </section>
+
+</div>
+<footer class="site">LLM Academy · 与大模型弱点共处的工程学 · 学习地图</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>

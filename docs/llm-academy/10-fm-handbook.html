@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 · 失效模式手册 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.fm-body{padding:2px 18px 10px;font-size:13.8px;color:var(--ink-2);line-height:1.75}
+.fm-row{margin:5px 0}
+.fm-row b{color:var(--ink)}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html" class="active">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 10 失效模式手册</div>
+  <div class="pagehead"><span class="tag">工具书 · 28 张卡片，按需查阅</span>
+  <h1>失效模式手册：FM-01 ~ FM-28 全卡片</h1>
+  <p class="lead">来自实战审计技能的 28 个失效模式，按八大类别排列。每张卡含定义、一句类比、排除条件与可观察信号；<b>带「必查红线」标记的 11 张，任何一次严肃验收都必须逐条过</b>。深度拆解（三表达 + 复现 + 对策）在各主讲页。</p></div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>目标对齐（FM-01 · FM-02 · FM-03 · FM-04 · FM-24）</h2></div>
+    <p>「看起来做完了」不等于「做完了」——完成宣言与完成事实的分离。</p>
+
+    <div class="fmcard" id="fm-01">
+      <div class="fm-h"><span class="fm-id">FM-01</span><b>自己宣布完成就算通过</b>
+        <span class="fm-cat">目标对齐</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>允许执行者自己宣布完成、通过或验收，没有外部裁判环节。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>装修队自己验收自己签字，业主看都不看就付尾款。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>接受决定由执行者写不到的外部裁决记录写成文件留存</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="06-fake-completion.html">06 假完成 §2</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 实现者输出PASS或ACCEPTED</span><span class="sig">👀 候选状态直接驱动发布</span></div>
+    </div>
+
+    <div class="fmcard" id="fm-02">
+      <div class="fm-h"><span class="fm-id">FM-02</span><b>只看表面痕迹、不看实际结果</b>
+        <span class="fm-cat">目标对齐</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>验收只看文件存在、字段出现或接口被调用等表面痕迹，不看结果内容本身对不对。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>检查作业只看本子写满没有，不看写的对不对。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>每项结论都对照冻结的期望值或权威对象给出证明</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="06-fake-completion.html">06 假完成 §3</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 只检查存在或不为空</span><span class="sig">👀 只记录调用发生过</span></div>
+    </div>
+
+    <div class="fmcard" id="fm-03">
+      <div class="fm-h"><span class="fm-id">FM-03</span><b>检查写得等于没查</b>
+        <span class="fm-cat">目标对齐</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>验收测试使用len(x)&gt;0、is not None、assert True等怎么都过的写法，而不是比对精确值或性质。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>安检门灵敏度调到零：谁过都不响，记录却完整漂亮。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>断言精确比对冻结的期望值，并包含故意改错的反向用例</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="06-fake-completion.html">06 假完成 §4</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 恒真断言</span><span class="sig">👀 只检查长度或类型</span><span class="sig">👀 比较的两个值来自同一处</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-04">
+      <div class="fm-h"><span class="fm-id">FM-04</span><b>拿数量冒充质量</b>
+        <span class="fm-cat">目标对齐</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>验收强调跑了N个用例或做了多少个变异，却不验证用例覆盖面和断言精度。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>健身房炫耀有 300 台器械，但你要练的动作一台都覆盖不了。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>每个数量指标都有冻结的目标、覆盖证明和逐项结果</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-02">FM-02</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="06-fake-completion.html">06 假完成 §5</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 拿工具次数或用例数当通过依据</span><span class="sig">👀 只报总分</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-24">
+      <div class="fm-h"><span class="fm-id">FM-24</span><b>拿忙碌程度冒充真实进度</b>
+        <span class="fm-cat">目标对齐</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>把工具调用、日志长度、运行时长、文件数量、主观百分比或候选自报PASS当成交付进展。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>「这周开了 14 个会发了 200 封邮件」——所以项目到哪一步了？</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>进度只由权威检查或制品终态变化驱动</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-04">FM-04</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="06-fake-completion.html">06 假完成 §6</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 工具调用537次被计为完成</span><span class="sig">👀 无终态却显示99%</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>自评估（FM-05 · FM-06 · FM-07）</h2></div>
+    <p>运动员不能兼任裁判——评审价值全在独立性。</p>
+
+    <div class="fmcard" id="fm-05">
+      <div class="fm-h"><span class="fm-id">FM-05</span><b>自己审自己</b>
+        <span class="fm-cat">自评估</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>同一个角色或同一会话既写实现又写验收结论，没有独立审阅者。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>自己校对自己的文章，三遍还是漏掉那个错别字。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>实现、评分和裁决的身份及写入范围互斥，且能被机器核验</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="07-self-eval.html">07 自评估 §2</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 同一会话既改实现又改验证器</span><span class="sig">👀 实现者自己生成最终结论</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-06">
+      <div class="fm-h"><span class="fm-id">FM-06</span><b>审查者的任务被设成“确认没问题”</b>
+        <span class="fm-cat">自评估</span><span class="fm-sev high">严重度：高</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>审查者收到的指令是确认实现是否正确，而不是主动寻找能够推翻实现的证据。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>「帮我确认这方案没问题吧」——下属听到的不是任务，是标准答案。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>审查指令明确要求主动推翻，并记录试过但没能推翻的范围</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="07-self-eval.html">07 自评估 §3</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 指令是确认是否正确</span><span class="sig">👀 只复述实现者的说法</span></div>
+    </div>
+
+    <div class="fmcard sev-medium" id="fm-07">
+      <div class="fm-h"><span class="fm-id">FM-07</span><b>没人对最终结果负责</b>
+        <span class="fm-cat">自评估</span><span class="fm-sev medium">严重度：中</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>多角色链路没有明确谁最终把关，每个角色都假设其他角色会兜底。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>四人合租的厨房垃圾：每个人都觉得总会有人倒。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>有唯一的最终裁决者，出错即停的责任明确且不能转交</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="07-self-eval.html">07 自评估 §4</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 多人审阅但没有人握有最终否决权</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>上下文可靠性（FM-08 · FM-09 · FM-10 · FM-20）</h2></div>
+    <p>模型的工作台需要有人管——位置、整理、交接、满载处置。</p>
+
+    <div class="fmcard sev-high" id="fm-08">
+      <div class="fm-h"><span class="fm-id">FM-08</span><b>关键要求只在一个地方提了一次</b>
+        <span class="fm-cat">上下文可靠性</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>关键禁止或必须事项只在文档中间出现一次，开头、结尾和机器检查都没有强化。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>租房合同第 37 条夹了一句禁令，没人提没人贴没人查。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>关键红线在入口、执行前和最终检查处都有一致表述，或由脚本强制</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="04-context.html">04 上下文 §2</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 关键要求只出现一次</span><span class="sig">👀 后续步骤拿简称去猜原要求</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-09">
+      <div class="fm-h"><span class="fm-id">FM-09</span><b>上下文越堆越多、从不整理</b>
+        <span class="fm-cat">上下文可靠性</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>长任务或多轮流程没有总结、压缩、清除走不通路径或结构化交接的机制。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>从不清理的微信群，新人爬楼三小时后按被否掉的方案开工。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>存在带校验和的交接包和已排除路径清单</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="04-context.html">04 上下文 §3</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 恢复旧会话继续往上堆</span><span class="sig">👀 重复探索已证明走不通的方案</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-10">
+      <div class="fm-h"><span class="fm-id">FM-10</span><b>关键结论没有人复核</b>
+        <span class="fm-cat">上下文可靠性</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>关键中间结论一旦得出，后续没有重新质疑或出错即停的检查点。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>体检报告第一页血型写错，后面二十页用药建议全基于它展开。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>关键判定之后有不可跳过的独立复核或确定性检查</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="08-verification.html">08 验证 §2</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 第一次红灯后改验证器继续跑</span><span class="sig">👀 中间READY直接放行</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-20">
+      <div class="fm-h"><span class="fm-id">FM-20</span><b>上下文快满时处理方式不对</b>
+        <span class="fm-cat">上下文可靠性</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>把上下文阈值当自动失败、把累计输入当当前占用，或中断后不做结构化交接就原样重试。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>行李箱快满：弃箱、算错占用、硬塞崩拉链都是错，先打包寄走才对。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>阈值只触发WARNING或HANDOFF，安全停止只由语义跑偏或越权等实证触发</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-09">FM-09</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="04-context.html">04 上下文 §5</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 累计input直接触发停止</span><span class="sig">👀 恢复旧会话原样继续</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">4</span><h2>指令设计（FM-11 · FM-12 · FM-13 · FM-14 · FM-15）</h2></div>
+    <p>话没说到位，锅不全在模型——指令本身的设计缺陷。</p>
+
+    <div class="fmcard sev-medium" id="fm-11">
+      <div class="fm-h"><span class="fm-id">FM-11</span><b>只说不许做、没说该怎么做</b>
+        <span class="fm-cat">指令设计</span><span class="fm-sev medium">严重度：中</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>大量禁止、不要、不可以，却缺少可执行的正确做法。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>对新手司机狂喊「别压线别急刹」，不如教「视线看远处」。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>每个关键禁止项都有明确的替代动作和失败出口</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="03-prompt.html">03 提示词 §2</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 连续否定词</span><span class="sig">👀 遇到异常没有下一动作</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-12">
+      <div class="fm-h"><span class="fm-id">FM-12</span><b>规则不分轻重缓急</b>
+        <span class="fm-cat">指令设计</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>大量规则并列罗列，没有区分违反即失败的硬约束和一般偏好。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>搬家注意事项 20 条字号一样，师傅只好替你掷骰子。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>规则有严重度、优先级、冲突、依赖说明，违反关键规则时出错即停</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="03-prompt.html">03 提示词 §3</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 规则只有一段自然语言清单</span><span class="sig">👀 冲突规则没有优先级</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-13">
+      <div class="fm-h"><span class="fm-id">FM-13</span><b>拿几个例子当完整规则</b>
+        <span class="fm-cat">指令设计</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>验收只给具体案例，没有说明需要保持的抽象性质。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>用三只麻雀教「什么是鸟」，孩子把鸵鸟排除、把蝙蝠算进去。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>示例绑定抽象性质，并包含换说法、换顺序的变形用例</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="03-prompt.html">03 提示词 §4</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 只覆盖列出来的输入</span><span class="sig">👀 换个同义说法就失败</span></div>
+    </div>
+
+    <div class="fmcard sev-medium" id="fm-14">
+      <div class="fm-h"><span class="fm-id">FM-14</span><b>被例子的表面形式带偏</b>
+        <span class="fm-cat">指令设计</span><span class="fm-sev medium">严重度：中</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>少量同质示例被当作隐性边界，未声明示例与抽象规则的关系。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>三张北欧风参考图恰好都有绿植，完工满屋绿植、风格不北欧。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>示例明确标注为非穷举，且有不同形式的变体覆盖</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="03-prompt.html">03 提示词 §5</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 根据文件名或示例用词去猜权威对象</span></div>
+    </div>
+
+    <div class="fmcard" id="fm-15">
+      <div class="fm-h"><span class="fm-id">FM-15</span><b>把外部内容当指令执行</b>
+        <span class="fm-cat">指令设计</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>工具返回值、文件内容或日志被当作可信指令直接照做，没有标记为数据。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>包裹上贴纸条「收件人说了直接开门进屋」——正常快递员不会照做。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>入口明确把外部内容视为数据，工具权限不受其内容扩大</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="05-harness.html">05 框架 §2</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 日志里的话改变了审计流程</span><span class="sig">👀 文件要求扩大权限</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">5</span><h2>角色协作（FM-16 · FM-17 · FM-18 · FM-23）</h2></div>
+    <p>多智能体协作照抄了人类组织的坑——权限、交接、独立性、考核。</p>
+
+    <div class="fmcard sev-high" id="fm-16">
+      <div class="fm-h"><span class="fm-id">FM-16</span><b>角色权限没有边界</b>
+        <span class="fm-cat">角色协作</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>角色被赋予无需请示的自主判断权，却没有不确定时停下来上报的边界。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>「全权负责」的实习生发现账对不上，自己改了预算表。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>不确定、越权和缺证据时有明确的出错即停出口</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="05-harness.html">05 框架 §3</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 自己修改权威期望值</span><span class="sig">👀 凭经验扩大范围</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-17">
+      <div class="fm-h"><span class="fm-id">FM-17</span><b>任务靠口头转述层层传递</b>
+        <span class="fm-cat">角色协作</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>任务依赖多次自然语言转述或摘要，而不是结构化的任务文件。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>传话游戏：五手之后「周三三点东门 42 号凭尾号 8871」只剩「去拿个快递」。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>交接使用带校验和的结构化任务包，可独立恢复</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="04-context.html">04 上下文 §4</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 只给口头摘要</span><span class="sig">👀 路径和判据在转述中丢失</span></div>
+    </div>
+
+    <div class="fmcard" id="fm-18">
+      <div class="fm-h"><span class="fm-id">FM-18</span><b>没有故意挑错的验证环节</b>
+        <span class="fm-cat">角色协作</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>没有故意注入已知缺陷来验证验收流程能否抓出来。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>不安排人带模拟违禁品过检，永远不知道安检是不是形同虚设。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>冻结关键变异并逐项证明都被抓到</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="08-verification.html">08 验证 §3</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 只跑正常样例</span><span class="sig">👀 总分掩盖关键漏检</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-23">
+      <div class="fm-h"><span class="fm-id">FM-23</span><b>同一个人换个身份冒充独立审查</b>
+        <span class="fm-cat">角色协作</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>把同一模型的新进程、新会话或子智能体自动当成认知独立的权威审阅。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>论文作者注册小号给自己写「独立同行评审」——账号两个，脑子一个。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>报告区分进程隔离与认知独立，并用不同来源或冻结的确定性检查裁决</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-05">FM-05</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="07-self-eval.html">07 自评估 §5</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 同模型一致通过即称独立</span><span class="sig">👀 自造agent_id</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">6</span><h2>运行治理（FM-19 · FM-22 · FM-25）</h2></div>
+    <p>纸面规则拦不住运行期的手——裁决权、标准冻结、机器强制。</p>
+
+    <div class="fmcard" id="fm-19">
+      <div class="fm-h"><span class="fm-id">FM-19</span><b>做不了主的角色握着决定权</b>
+        <span class="fm-cat">运行治理</span><span class="fm-sev critical">严重度：严重</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>能力不足或上下文已受污染的执行角色，拥有选择验收标准、修改验证器或最终裁决的权限。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>学生自己出卷、自己监考、自己阅卷、自己定及格线。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>能力、权限和裁决权按职责分开，并由外部检查验证</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-05">FM-05</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="05-harness.html">05 框架 §4</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 实现者修改评分器</span><span class="sig">👀 低配置模型决定最终是否接受</span></div>
+    </div>
+
+    <div class="fmcard" id="fm-22">
+      <div class="fm-h"><span class="fm-id">FM-22</span><b>中途改验收标准、覆盖失败记录</b>
+        <span class="fm-cat">运行治理</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>执行开始后修改期望、验证器或检查项；首次失败后覆盖同一次尝试并重新宣称通过。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>射箭脱靶后围着箭画靶心；撕掉不及格的卷子只留重考那张。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>验收标准先冻结，尝试只许新建不许覆盖，首次失败后不可改</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-10">FM-10</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="08-verification.html">08 验证 §4</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 把实际值写回期望值</span><span class="sig">👀 删掉精确断言后重跑</span></div>
+    </div>
+
+    <div class="fmcard" id="fm-25">
+      <div class="fm-h"><span class="fm-id">FM-25</span><b>限制只写在纸上、没有强制手段</b>
+        <span class="fm-cat">运行治理</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>声称禁止某工具或只写某路径，但实际工具面、钩子、沙箱和写入范围没有机器强制。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>深水区立了「儿童禁入」的牌子，但没有围栏没有救生员。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>实际工具集合、前置钩子、路径限制和执行后差异共同证明边界</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="05-harness.html">05 框架 §5</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 提示写只读但仍有Write或Bash</span><span class="sig">👀 子职责不继承工具限制</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">7</span><h2>证据完整性（FM-26 · FM-27）</h2></div>
+    <p>证据链断一环，结论就只是主张——守恒校验与外部锚点。</p>
+
+    <div class="fmcard" id="fm-26">
+      <div class="fm-h"><span class="fm-id">FM-26</span><b>分片处理后丢了、重了或对不上</b>
+        <span class="fm-cat">证据完整性</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>长材料分片后静默遗漏、重复、截断或汇总对不上，只查首尾样本掩盖中间缺陷。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>50 个纸箱分三车搬家，只开箱看了第一箱和最后一箱。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>内容寻址索引证明输入、分片、解析、审计和汇总全程无遗漏无重复</div>
+        
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="08-verification.html">08 验证 §5</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 跳过异常行</span><span class="sig">👀 中间分片缺失</span><span class="sig">👀 分片重复但自报总数一致</span></div>
+    </div>
+
+    <div class="fmcard" id="fm-27">
+      <div class="fm-h"><span class="fm-id">FM-27</span><b>出题、答题、判卷是同一家</b>
+        <span class="fm-cat">证据完整性</span><span class="fm-sev critical">严重度：严重</span><span class="fm-redline">必查红线</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>实现者生成实际值、验证器和期望后，只证明这些同源对象彼此一致，没有绑定外部权威事实。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>商家自定好评标准、自己刷评、自己出质检报告，三样互相引用。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>验证器从执行者写不到的外部来源取得路径与期望，并用错误对象反向测试</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-02">FM-02</a>、<a href="#fm-05">FM-05</a>、<a href="#fm-22">FM-22</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="07-self-eval.html">07 自评估 §6</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 错误值与自身一致即通过</span><span class="sig">👀 验证器由实现者修改</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">8</span><h2>元治理（FM-21 · FM-28）</h2></div>
+    <p>治理系统自己也会失控——规则通胀与监督失衡。</p>
+
+    <div class="fmcard sev-high" id="fm-21">
+      <div class="fm-h"><span class="fm-id">FM-21</span><b>一出错就加规则、从不清理</b>
+        <span class="fm-cat">元治理</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>每次失败只新增规则，不删除冲突规则、不加机器强制，也不降低执行者的决策难度。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>每丢一次东西买一个收纳盒，五年后 200 个盒子让找东西更难。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>新增规则说明替换对象、执行者、机器验证方式、理解成本和新风险</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-12">FM-12</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="09-meta.html">09 元治理 §2</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 版本号持续增长但同类失效重复</span><span class="sig">👀 只增加禁止项</span></div>
+    </div>
+
+    <div class="fmcard sev-high" id="fm-28">
+      <div class="fm-h"><span class="fm-id">FM-28</span><b>监督流程比被监督的东西还复杂</b>
+        <span class="fm-cat">元治理</span><span class="fm-sev high">严重度：高</span></div>
+      <div class="fm-body">
+        <div class="fm-row"><b>定义：</b>监督、验证和纠偏流程持续膨胀，复杂度、自由度和新失效面超过目标对象，却没有新增已验收能力。</div>
+        <div class="fm-row"><b>🏠 一句类比：</b>为 3 人小卖部设 12 人监察委员会，每周产出 40 页没人看的报告。</div>
+        <div class="fm-row"><b>✅ 排除条件（做到这条就不算违规）：</b>监督流程只保留一层外部裁决，新增机制替换旧机制且带来可验证能力增量</div>
+        <div class="fm-row"><b>依赖关系：</b>常与 <a href="#fm-21">FM-21</a> 连锁出现。</div>
+        <div class="fm-row"><b>📖 深度拆解：</b><a href="09-meta.html">09 元治理 §3</a>（含三表达、复现方式与完整对策）</div>
+      </div>
+      <div class="sigrow"><span class="sig">👀 审计流程版本远多于交付制品</span><span class="sig">👀 连续尝试没有新增验收能力</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">🎫</span><h2>出口 · 用法说明</h2></div>
+    <div class="card">
+      <p><b>这一页怎么用：</b>不用背。三个场景想起它——</p>
+      <ul class="clean check">
+        <li><b>设计流程时：</b>过一遍 11 张红线卡，逐条问「我的流程防住了吗」。</li>
+        <li><b>验收产出时：</b>按「排除条件」逐条核对——做到了才算排除，没做到就是隐患。</li>
+        <li><b>事后复盘时：</b>拿「可观察信号」对号入座，定位这次翻在哪一张卡上。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pager">
+    <a href="09-meta.html"><div class="lbl">← 上一篇</div><div class="ttl">09 · 元治理</div></a>
+    <a class="next" href="11-glossary.html"><div class="lbl">下一篇 →</div><div class="ttl">11 · 术语库</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 10 失效模式手册</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>

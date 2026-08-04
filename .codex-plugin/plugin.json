@@ -1,0 +1,9 @@
+{
+  "name": "skill-failure-auditor",
+  "version": "1.0.0-candidate.15",
+  "description": "审计 Skill、Prompt、Agent 指令与工作流中“看似完成但真实目标未达成”的可靠性失效模式（Codex 投影）。",
+  "author": {
+    "name": "广州市风荷科技有限公司"
+  },
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.1",
+  "platform": "claude-code",
+  "allowed_builtin_agents": [
+    "Plan",
+    "Explore",
+    "general-purpose"
+  ],
+  "prompts": [
+    {
+      "role": "scope-routing",
+      "agent_type": "Plan",
+      "path": "prompts/scope-routing.md",
+      "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075"
+    },
+    {
+      "role": "static-audit",
+      "agent_type": "Explore",
+      "path": "prompts/static-audit.md",
+      "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75"
+    },
+    {
+      "role": "runtime-evidence",
+      "agent_type": "Explore",
+      "path": "prompts/runtime-evidence.md",
+      "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728"
+    },
+    {
+      "role": "evaluation-integrity",
+      "agent_type": "general-purpose",
+      "path": "prompts/evaluation-integrity.md",
+      "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac"
+    },
+    {
+      "role": "adversarial-challenge",
+      "agent_type": "general-purpose",
+      "path": "prompts/adversarial-challenge.md",
+      "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb"
+    },
+    {
+      "role": "result-synthesis",
+      "agent_type": "general-purpose",
+      "path": "prompts/result-synthesis.md",
+      "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11 · 术语库 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.gl-search{width:100%;max-width:460px;padding:11px 16px;font-size:14.5px;border:1.5px solid var(--border-2);border-radius:10px;outline:none;font-family:inherit;background:var(--surface);color:var(--ink)}
+.gl-search:focus{border-color:var(--it)}
+.gl-count{font-size:13px;color:var(--ink-3);margin:10px 0 0}
+.gl-cat{margin:30px 0 6px;font-size:15px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px}
+.gl-cat .n{font-size:11.5px;font-weight:700;background:var(--bg-soft);color:var(--ink-3);padding:2px 9px;border-radius:20px}
+.gl-card{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:14px 18px;margin:10px 0;box-shadow:var(--shadow-sm);scroll-margin-top:80px}
+.gl-card .h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+.gl-card .k{font-weight:800;font-size:15.5px;color:var(--ink)}
+.gl-card .full{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.gl-card .phon{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+.gl-card .cn{font-size:12px;font-weight:700;background:var(--it-bg);color:var(--it);padding:1px 8px;border-radius:20px}
+.gl-card .role{font-size:11.5px;font-weight:700;background:var(--purple-bg);color:var(--purple);padding:1px 8px;border-radius:20px}
+.gl-card .plain{font-size:13.8px;color:var(--ink-2);line-height:1.75;margin:4px 0}
+.gl-card .it-line{font-size:13.3px;color:var(--green);background:var(--green-bg);border-radius:8px;padding:8px 12px;margin-top:7px;line-height:1.7}
+.gl-card.hide{display:none}
+.gl-card:target{border-color:var(--it);box-shadow:0 0 0 3px var(--it-bg)}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html" class="active">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 11 术语库</div>
+  <div class="pagehead"><span class="tag">工具书 · 76 条术语，每条都带大白话和生活类比</span>
+  <h1>术语库：看懂圈内人在说什么</h1>
+  <p class="lead">全站正文里带虚线下划线的词，悬停可看气泡、点击会跳到这里。每条术语给四层信息：<b>英文全称 → 中文名 → 大白话解释 → 生活类比</b>，按八个分类组织，支持即时搜索。</p></div>
+
+  <section>
+    <input class="gl-search" id="glq" type="search" placeholder="搜索术语：中文 / 英文 / 解释关键字…">
+    <div class="gl-count" id="glcount"></div>
+    <div id="glbody"></div>
+  </section>
+
+  <div class="pager">
+    <a href="10-fm-handbook.html"><div class="lbl">← 上一篇</div><div class="ttl">10 · 失效模式手册</div></a>
+    <a class="next" href="12-recipes.html"><div class="lbl">下一篇 →</div><div class="ttl">12 · 实战装备包</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 11 术语库</footer>
+<script src="assets/terms.js" data-noscan></script>
+<script>
+(function(){
+  var CAT_ORDER = ["模型原理","模型特性","提示词工程","上下文工程","运行框架工程","评测与验证","失效模式","协议与装配","黑话行话"];
+  var CAT_ICON = {"模型原理":"⚙️","模型特性":"🎭","提示词工程":"✍️","上下文工程":"🗂","运行框架工程":"🛡","评测与验证":"🔬","失效模式":"💥","协议与装配":"📡","黑话行话":"🗣"};
+  var body = document.getElementById('glbody');
+  var count = document.getElementById('glcount');
+  var q = document.getElementById('glq');
+  var T = window.TERMS || {};
+  var keys = Object.keys(T);
+
+  function anchorId(k){ return 't-' + k.replace(/[\/\s]/g,'_'); }
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+  function render(){
+    var html = '';
+    CAT_ORDER.forEach(function(cat){
+      var ks = keys.filter(function(k){ return T[k].cat === cat; });
+      if (!ks.length) return;
+      html += '<div class="gl-cat" data-cat="' + esc(cat) + '">' + (CAT_ICON[cat]||'') + ' ' + esc(cat)
+            + ' <span class="n">' + ks.length + ' 条</span></div>';
+      ks.forEach(function(k){
+        var d = T[k];
+        html += '<div class="gl-card" id="' + anchorId(k) + '" data-text="'
+              + esc((k + ' ' + d.full + ' ' + d.cn + ' ' + d.plain + ' ' + d.it).toLowerCase()) + '">'
+              + '<div class="h"><span class="k">' + esc(k) + '</span>'
+              + '<span class="full">' + esc(d.full) + '</span>'
+              + (d.phon ? '<span class="phon">' + esc(d.phon) + '</span>' : '')
+              + '<span class="cn">' + esc(d.cn) + '</span>'
+              + (d.role ? '<span class="role">' + esc(d.role) + '</span>' : '')
+              + '</div>'
+              + '<div class="plain">' + esc(d.plain) + '</div>'
+              + '<div class="it-line">🏠 ' + esc(d.it) + '</div>'
+              + '</div>';
+      });
+    });
+    body.innerHTML = html;
+    update();
+  }
+
+  function update(){
+    var v = (q.value || '').trim().toLowerCase();
+    var cards = body.querySelectorAll('.gl-card');
+    var shown = 0;
+    cards.forEach(function(c){
+      var hit = !v || c.getAttribute('data-text').indexOf(v) !== -1;
+      c.classList.toggle('hide', !hit);
+      if (hit) shown++;
+    });
+    body.querySelectorAll('.gl-cat').forEach(function(h){
+      var el = h.nextElementSibling, any = false;
+      while (el && el.classList.contains('gl-card')) {
+        if (!el.classList.contains('hide')) { any = true; break; }
+        el = el.nextElementSibling;
+      }
+      h.style.display = any ? '' : 'none';
+    });
+    count.textContent = v ? ('匹配 ' + shown + ' / ' + cards.length + ' 条') : ('共 ' + cards.length + ' 条术语');
+  }
+
+  q.addEventListener('input', update);
+  render();
+  if (location.hash) {
+    var el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (el) el.scrollIntoView();
+  }
+})();
+</script>
+</body>
+</html>

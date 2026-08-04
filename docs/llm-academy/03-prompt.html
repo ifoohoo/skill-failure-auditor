@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 · 提示词工程 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html" class="active">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 03 提示词工程</div>
+  <div class="pagehead"><span class="tag">战线一 · 你说出口的每个字都在下注</span>
+  <h1>提示词工程：把「指令」当接口文档来写</h1>
+  <p class="lead">提示词不是「跟 AI 聊天的话术」，而是<b>一份没有编译器帮你查错的接口文档</b>。写坏了不报错，只在产出里悄悄走样。本页拆解四个最常见的指令设计失效（FM-11/12/13/14），每个都给三种表达 + 复现 + 对策。</p></div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>战线定位：提示词工程到底管什么</h2></div>
+    <p>三大战线里，提示词工程管的是「<b>单次指令的设计质量</b>」：目标是否明确、规则是否可执行、示例是否会带偏、失败时有没有出口。它的对手是模型的三个机制性弱点：</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>模型机制</th><th>对指令设计的含义</th><th>典型翻车</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it">模式补全本能</td><td>你给的示例会被当成「要延续的模式」，包括其中的噪声</td><td>示例里全是英文变量名，它就认定「必须英文」（FM-14）</td></tr>
+        <tr><td class="col-it">无优先级的字面理解</td><td>它不知道你哪句是红线、哪句是顺口一提</td><td>20 条规则并列，它在冲突时随机牺牲一条（FM-12）</td></tr>
+        <tr><td class="col-it">禁止≠会做对</td><td>「不要 X」只压低 X 的概率，不会自动补出正确动作</td><td>「不要硬编码」→ 它换一种方式硬编码（FM-11）</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-key"><div class="t">🔑 一句话原则</div>
+    写提示词时假想读者是「一个极其聪明、极其字面、完全没有你团队默契的新同事」——他会严格执行你写的，而不是你想的。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>失效一 · 只说不许做、没说该怎么做</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：负面指令陷阱 <span class="fm-ref">关联 FM-11</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>教练对新手司机狂喊「别压线！别急刹！别猛打方向！」——新手满脑子都是「线、刹车、方向盘」，反而更容易犯。有效的教法是「视线看远处，方向小幅修正」：给出<b>该做的动作</b>，错的自然没了位置。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>否定指令在自回归生成中效果不稳定：提示中出现的概念（即使被否定）会提高相关词元的激活度；同时禁止项只压缩了输出空间，未指定替代分布，模型将回落到训练先验中「最像的做法」，而非期望做法。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>指令评审时数一下「不要/禁止/不许」的数量：每一条否定项必须配对①替代动作（该怎么做）②失败出口（做不到时停下报告什么）。只有禁止没有替代的指令，等价于把行为决定权还给了模型的训练先验（FM-11）。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>让模型写一段配置读取代码，指令只写「不要硬编码任何路径」。多数情况下它会把路径挪进一个常量、一个默认参数或一段注释——形式上「没硬编码」，实质换了个地方硬编码。对照组：改成「路径一律从环境变量 CONFIG_PATH 读取，缺失时抛出带说明的异常」，一次到位。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>每条禁止项强制配「替代动作」：不要 X → 应该 Y，Y 必须具体到可执行。</li>
+        <li>给「做不到」留合法出口：「若无法满足，停止并列出障碍」，否则它会硬编一个满足的假象。</li>
+        <li>自查口诀：把提示词里所有否定句删掉，剩下的内容还够不够指导完成任务？不够就是 FM-11。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>失效二 · 规则不分轻重缓急</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：规则扁平化 <span class="fm-ref">关联 FM-12</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>搬家给师傅一张 20 条的注意事项，「鱼缸易碎」和「纸箱别倒放」写在一起、字号一样。师傅时间紧的时候随机放弃几条——他没法知道鱼缸碎了你会崩溃，纸箱倒了你无所谓。<b>不标轻重，等于让对方替你掷骰子。</b></div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>并列呈现的约束在注意力分配上近似均匀，模型缺乏显式的约束优先级表征；当约束互相冲突或与任务目标竞争时，取舍由训练先验和位置效应决定，而非规则的真实重要性。约束数量越多，单条被遵守的概率越低。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>规则必须结构化分级：红线（违反即失败、出错即停）/ 硬约束（需显式豁免）/ 偏好（尽量满足）。冲突时的优先顺序要写死。评审时看到「一段自然语言平铺 15 条规则」直接判 FM-12——不是模型记不住，是你没告诉它哪条能牺牲。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>给模型一个改代码任务，平铺十条规则，其中第 6 条是「绝不能修改公开接口签名」，并故意让任务目标与它冲突（比如要求加一个必传参数）。观察它大概率会改签名并附一句轻描淡写的说明。对照组：把该条标为「红线：冲突时停止并上报，不得自行取舍」，行为立刻不同。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>规则显式三级分类：红线 / 硬约束 / 偏好，红线数量控制在个位数。</li>
+        <li>写明冲突裁决顺序：「红线 &gt; 任务目标 &gt; 偏好；红线之间冲突时停止上报」。</li>
+        <li>红线放开头 + 结尾各强化一次（呼应 FM-08），并尽量配机器检查兜底。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">4</span><h2>失效三 · 拿几个例子当完整规则</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：示例代替规格 <span class="fm-ref">关联 FM-13</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>教小孩「什么是鸟」只给他看三只麻雀。之后他见到鸵鸟说不是鸟（不会飞），见到蝙蝠说是鸟（会飞）。三个例子只划出了三个点，<b>点与点之间的边界是他自己脑补的</b>——而脑补规则大概率不是你想的那条。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>少样本示例诱导的是与示例表面特征一致的插值行为，无法保证对未见输入的外推与期望性质一致；缺少显式的抽象性质描述时，模型学到的决策边界由示例的偶然共性决定，对同义改写、顺序变化等扰动不具鲁棒性。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>验收标准里只有具体案例、没有抽象性质陈述，就是 FM-13。正确姿势：先写性质（「所有金额字段保留两位小数并四舍五入」），再给示例佐证性质，最后加变形用例（换说法、换顺序、换表面名称）验证它学到的是性质而不是案例。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>给模型三个「把日期改成 ISO 格式」的例子，输入全长这样：「2024年3月5日」。然后喂它一个「今年三月初五」或「03/05/24」——它可能格式对但语义错（美式/英式日期歧义），因为你从没告诉它性质是「消除歧义」，它以为性质是「换写法」。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>公式：<b>性质陈述 + 示例佐证 + 变形用例</b>，三件缺一不可。</li>
+        <li>示例旁边写清「本例说明的是规则 X，不是穷举」。</li>
+        <li>验收测试必须包含示例之外的同义变形——过不了变形用例就是学了案例没学性质。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">5</span><h2>失效四 · 被例子的表面形式带偏</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：表面形式过拟合 <span class="fm-ref">关联 FM-14</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>你给装修师傅看了三张「北欧风」参考图，三张恰好都有绿植。完工那天全屋摆满绿植，风格却不北欧——师傅把三张图的<b>偶然共性</b>（绿植）当成了你的核心诉求，把真正的诉求（配色和线条）当成了背景。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>示例集合的伪相关特征（文件命名、用词习惯、结构顺序等）会被模型当作任务信号纳入条件分布；示例越同质，伪特征被固化为隐性边界的概率越高。这是模式补全机制在小样本条件下的系统性副作用。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>与 FM-13 是一对：13 是「例子太少当规则」，14 是「例子的皮毛当信号」。工程症状：模型根据示例里的文件名去猜权威文件、模仿示例的英文注释风格却丢了业务逻辑。对策核心是<b>示例多样化 + 显式声明哪些特征无关</b>。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>给模型两个示例任务，恰好都涉及名为 <code>config.yaml</code> 的文件。然后布置第三个任务，真正的配置在 <code>settings.toml</code>，但目录里也有个无关的 <code>config.yaml</code>。观察它有多大概率直奔 <code>config.yaml</code>——它在按表面名称匹配，不是按「配置文件」这个抽象角色匹配。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>示例刻意异质化：换文件名、换语言风格、换结构顺序，只保留要传达的那个性质不变。</li>
+        <li>显式免责声明：「示例中的文件名/命名风格/顺序均非要求」。</li>
+        <li>关键对象（权威文件、入口路径）用明文指定，绝不让模型从示例里「悟」。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">6</span><h2>提示词设计模式速查</h2></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>模式</th><th>做法</th><th>反制的失效</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it">正向指令优先</td><td>每条「不要」都配「应该」+ 失败出口</td><td>FM-11</td></tr>
+        <tr><td class="col-it">规则分级</td><td>红线 / 硬约束 / 偏好三级 + 冲突裁决顺序</td><td>FM-12</td></tr>
+        <tr><td class="col-it">性质＋示例绑定</td><td>先性质陈述，示例只做佐证，配变形用例</td><td>FM-13</td></tr>
+        <tr><td class="col-it">示例异质化</td><td>刻意打散示例的表面共性，声明无关特征</td><td>FM-14</td></tr>
+        <tr><td class="col-it">中性提问</td><td>不把期望答案写进问题（反谄媚，见 02 页）</td><td>FM-06</td></tr>
+        <tr><td class="col-it">首尾强化</td><td>红线在开头与结尾各出现一次（上下文位置效应）</td><td>FM-08</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-warn"><div class="t">⚠️ 边界提醒</div>
+    提示词工程只能解决「指令本身写没写清楚」。指令写得再好，长任务里也会被上下文稀释（去 04 页），模型也可能阳奉阴违（去 05 页用机器强制）。别指望一段完美提示词包打天下。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">🎫</span><h2>出口 · 速记卡</h2></div>
+    <div class="card">
+      <p><b>一句话本章：</b>提示词是没有编译器的接口文档——否定要配替代，规则要分级，示例要绑性质、去皮毛。</p>
+      <ul class="clean check">
+        <li><b>三个必背：</b>① 「不要 X」不会自动产生「正确的 Y」；② 不标轻重 = 让模型替你掷骰子；③ 例子教的是皮毛还是性质，由你写没写性质决定。</li>
+        <li><b>一个习惯：</b>发指令前删掉所有否定句自测一遍：剩下的够不够干活？</li>
+        <li><b>开会行话：</b>「这条禁止项没有替代动作，FM-11」「示例同质，先做异质化再评审」。</li>
+        <li><b>下一步：</b>04 页——指令写清了还不够，长任务里它会「忘」，进入上下文工程。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pager">
+    <a href="02-traits.html"><div class="lbl">← 上一篇</div><div class="ttl">02 · 正负面特性图谱</div></a>
+    <a class="next" href="04-context.html"><div class="lbl">下一篇 →</div><div class="ttl">04 · 上下文工程</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 03 提示词工程</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>

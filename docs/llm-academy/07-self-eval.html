@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07 · 自评估陷阱 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html" class="active">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 07 自评估陷阱</div>
+  <div class="pagehead"><span class="tag">专题二 · 「你再检查一遍」是最常见的安慰剂</span>
+  <h1>自评估陷阱：为什么不能让它给自己打分</h1>
+  <p class="lead">「让 AI 自己检查一遍」听起来很合理，实际近乎无效——同一套权重、同一份上下文、同一个盲区，查一百遍还是那个盲区。本页拆解五种自评估失效（FM-05/06/07/23/27），核心只有一个词：<b>独立性</b>。</p></div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>独立性为什么这么金贵</h2></div>
+    <p>人类的质量体系（审计、同行评审、交叉检验）全部建立在「评的人和做的人认知独立」上。对模型来说，独立性比看起来难得多：</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>看起来独立</th><th>实际上</th><th>失效编号</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it">「我再自查一遍」</td><td>同一会话、同一盲区，自查大概率复读原判断</td><td>FM-05</td></tr>
+        <tr><td class="col-it">「请审查者确认没问题」</td><td>指令本身就把结论预设成了「没问题」</td><td>FM-06</td></tr>
+        <tr><td class="col-it">「流程里有五个角色把关」</td><td>每个角色都以为别人会兜底，实际没人负责</td><td>FM-07</td></tr>
+        <tr><td class="col-it">「开个新会话来评审」</td><td>同一模型换个马甲，盲区原封不动搬过来</td><td>FM-23</td></tr>
+        <tr><td class="col-it">「实际值和期望值对上了」</td><td>值、验证器、期望全是同一人造的，自洽 ≠ 正确</td><td>FM-27</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-key"><div class="t">🔑 核心认知</div>
+    独立性不是「换个进程」这种物理属性，而是<b>认知属性</b>：不同的信息来源、不同的判断依据、不同的利益立场。三者至少占一个，评审才有增量价值。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>失效一 · 自己审自己（红线）</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：自我审查 <span class="fm-ref">关联 FM-05 · 必查红线</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>你写完一篇文章立刻自己校对三遍，还是漏掉那个错别字——因为你的大脑「知道」那里该是什么词，看到的是预期不是现实。隔天再看或换个人看，一眼就抓出来。<b>盲区的定义就是：制造它的那套认知，看不见它。</b></div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>同一会话中的自评估与原始生成共享全部条件：相同权重、相同上下文、相同的错误前提。若错误源于知识缺失或前提偏差，自查过程会以同样的缺失和偏差复核，得出「无误」结论；自评估的期望增量趋近于零，却提升了表面可信度——负收益。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>审计流程时看「实现」与「验收结论」是否出自同一角色/同一会话。是则判 FM-05，必查红线。注意变形：让执行者「先自查再提交」作为流程前置无妨，但自查结果不得计入验收效力——它只是礼貌，不是证据。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>让模型写一段含隐蔽逻辑错误的代码（比如边界条件差一），然后在同一会话连问三次「请仔细检查这段代码有没有 bug」。常见结果：三次都答「逻辑正确」。开一个全新会话贴同一段代码问同样的问题——命中率立刻不同。差别不在模型，在上下文里有没有「我刚写的」这个立场。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>验收结论必须出自独立环节：不同会话起步，最好不同信息源、不同判据（见 FM-23 的局限）。</li>
+        <li>自查可以做，但明确其地位：提交前的自我整理，不具验收效力。</li>
+        <li>机器验证（编译、测试、静态检查）天然独立于生成过程，优先级永远高于「再看一遍」。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>失效二 · 审查者的任务被设成「确认没问题」（红线）</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：确认式审查 <span class="fm-ref">关联 FM-06 · 必查红线</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>老板把方案递给下属：「帮我确认一下这个方案没问题吧。」下属听到的不是任务，是<b>标准答案</b>。他会找三个支持的理由交差。换一句话——「这个方案要拿去跟对手打，帮我找出会被打穿的地方」——同一个下属立刻变成另一个人。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>指令中的预设立场会锚定模型的生成方向（谄媚倾向的放大器）：「确认是否正确」诱导确证性搜索，「寻找反例」诱导证伪性搜索。二者在同一产出上的缺陷检出率差异显著。审查指令的措辞不是风格问题，是决定审查有效性的结构参数。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>逐字检查审查指令的动词：「确认」「验证是否正确」「检查有没有问题」都是确证式措辞，判 FM-06，必查红线。合格的审查指令是对抗式的：「找出能推翻此实现的证据」「列出三个最可能失败的输入」「假设它有 bug，最可能藏在哪」。审查产出还应要求「至少 N 条实质发现或明确说明为何为零」。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>拿同一段有两个中等隐蔽 bug 的代码开两个会话：A 会话说「请确认这段代码是否正确」，B 会话说「这段代码里埋了 bug，把它们全找出来，找不到就列出你排查过的路径」。统计检出数——B 几乎总是显著高于 A。指令措辞就是这么值钱。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>审查指令模板化：对抗式动词 + 最低发现数要求 + 「零发现需说明排查路径」。</li>
+        <li>把「审查通过」的默认值反转：默认不通过，审查者需给出「为什么可以通过」的论证。</li>
+        <li>12 页装备包提供可直接抄用的对抗式审查指令。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">4</span><h2>失效三 · 没人对最终结果负责</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：责任真空 <span class="fm-ref">关联 FM-07</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>四个人合租，厨房垃圾堆成山——每个人都觉得「总会有人倒的」。责任由四个人分摊，等于由零个人承担。多角色智能体流水线一模一样：生成者以为审查者会把关，审查者以为测试环节会兜底，测试环节以为人最后会看。<b>链条越长，每一环越松。</b></div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>多角色链路中若终审责任未被显式指派，各环节会做出「下游将处理残余风险」的隐含假设，导致检查强度系统性衰减（责任扩散效应的流程版）。风险在环节间传递而不收敛，最终产出的实际把关强度低于任何单环节的名义强度。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>审计多角色流程时问一个问题：「最终产出出了事，按流程定义该找哪个环节？」答不出唯一环节的，判 FM-07。合格结构：显式指定终审角色，终审必须产出带签名的裁决记录（依据哪些证据、判定什么结论）；其余环节的通过均标注为「中间通过」，不具终局效力。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>搭一条「生成 → 审查 → 汇总」三角色流水线，故意在生成环节埋一个明显错误，且不给任何角色「终审」头衔。观察错误穿越全链的概率：审查者常常「提了个建议」但不拦截，汇总者认为「审查过了」照单全收。同一条链，给汇总者加上「你是终审，出错算你的」的角色定义，拦截率立刻上升。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>每条流水线显式指定唯一终审环节，写进角色定义：「终局裁决由你作出」。</li>
+        <li>终审产出结构化裁决记录：证据清单 + 结论 + 责任签名，可追溯。</li>
+        <li>中间环节的「通过」一律改叫「转交」，从词汇上消灭「已经有人把过关」的错觉。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">5</span><h2>失效四 · 同一个人换个身份冒充独立审查</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：马甲评审 <span class="fm-ref">关联 FM-23</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>论文作者注册了个小号，用「独立学者」身份给自己的论文写了篇热情洋溢的同行评审。账号确实是两个，<b>脑子还是那一个</b>。期刊要的从来不是「两个账号」，是「两个大脑」。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>同一基础模型的新进程/新会话/子智能体与原实例共享全部参数与训练分布，具有高度相关的错误模式与知识盲区。系统级错误（模型本身不知道或想错的东西）在「马甲」间完全共现——新会话只消除了上下文立场偏差（对 FM-05 有部分缓解），不提供参数层面的认知独立。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>评估「独立审查」的成色要看三层：①上下文独立（新会话，最低配）②信息源独立（审查方另行检索权威资料）③参数独立（不同模型或人类）。只做了①就宣称「独立审查」，判 FM-23。对高风险结论，独立性至少要到②，理想到③。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>找一个模型普遍答错的知识点（比如某冷门 API 在新版本中的行为变更），让会话 A 给出（错误的）方案，再开同模型的会话 B「独立审查」。B 大概率背书这个错误——它和 A 错在同一处。换一个不同家族的模型或让审查方先查官方文档再审，错误立刻暴露。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>给「独立」定级并写进流程：会话级 / 信息源级 / 参数级，按风险选配。</li>
+        <li>审查方必须引入外部权威源（文档、运行结果、检索），禁止纯凭记忆背书。</li>
+        <li>高风险裁决用异构复核：不同模型交叉、或机器验证兜底、或人工终审。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">6</span><h2>失效五 · 出题、答题、判卷是同一家（红线）</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：同源自洽 <span class="fm-ref">关联 FM-27 · 必查红线</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>商家自己定「好评标准」、自己刷评价、自己出「质检报告」，三样文件互相引用、完美自洽——但没有一样碰过消费者的真实体验。<b>一套东西内部再自洽，只要没跟外部世界对过账，就什么都证明不了。</b></div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>当实际值、验证器、期望值同源生成时，验证退化为一致性检查（consistency check），仅证明「产出与自身镜像一致」，与外部正确性（对权威事实的符合）无逻辑关联。若源头前提有误，误差在三者间同步传播，验证以全绿状态掩盖系统性错误——这是最难肉眼察觉的假通过形态。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>追查验证链条的锚点：期望值从哪来？如果答案是「同一实现者生成的」，判 FM-27，必查红线。合格验证至少有一端锚定外部权威：官方文档给的规格值、真实运行环境的实测值、上游冻结的基准数据、人工确认的样本。锚点必须在实现开始前冻结（防 FM-22 篡改，见 08 页）。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>让模型实现一个业务计算函数，同时让它「顺便生成测试和期望值」。故意在需求描述里留一个模糊点（比如四舍五入规则不明说）。它会选一种理解，实现和期望值用同一种理解——测试全绿。拿真实业务数据一对账：算错了。全绿的测试从头到尾没检验过它理解得对不对。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>期望值来源三选一：外部权威文档 / 真实环境实测 / 独立方或人工出题，禁止实现者自产。</li>
+        <li>期望值先于实现冻结（写下并存档），实现者拿到的是「考卷」不是「出卷权」。</li>
+        <li>定期抽样和外部事实对账——内部全绿不豁免对账义务。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">🎫</span><h2>出口 · 速记卡</h2></div>
+    <div class="card">
+      <p><b>一句话本章：</b>评审的价值全在独立性——新会话只是马甲，独立要看信息源和参数；出题答题判卷必须拆成三家。</p>
+      <ul class="clean check">
+        <li><b>三个必背：</b>① 自查不具验收效力；② 「确认没问题」是把答案递给它抄；③ 自洽 ≠ 正确，锚点必须在外部。</li>
+        <li><b>一个习惯：</b>写审查指令时检查动词——是「确认」赶紧换成「推翻」。</li>
+        <li><b>开会行话：</b>「这是马甲评审，升级到信息源独立」「期望值同源了，FM-27，先冻结锚点」。</li>
+        <li><b>下一步：</b>08 页——验证体系自身怎么防腐：冻结标准、故意挑错、分片对账。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pager">
+    <a href="06-fake-completion.html"><div class="lbl">← 上一篇</div><div class="ttl">06 · 假完成识别</div></a>
+    <a class="next" href="08-verification.html"><div class="lbl">下一篇 →</div><div class="ttl">08 · 验证体系防腐</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 07 自评估陷阱</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>

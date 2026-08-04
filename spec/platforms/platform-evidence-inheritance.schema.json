@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "platform-evidence-inheritance.schema.json",
+  "title": "Platform evidence inheritance manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "targetCandidateDigest",
+    "freshPlatforms",
+    "bindings"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "targetCandidateDigest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "freshPlatforms": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/platform"
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "platform",
+          "sourceCandidateVersion",
+          "targetCandidateVersion",
+          "sourceCandidateDigest",
+          "targetCandidateDigest",
+          "sourceProjectionRoot",
+          "targetProjectionRoot",
+          "sourceProjectionDigest",
+          "targetProjectionDigest",
+          "sourcePlatformSummarySha256",
+          "allowedVersionOnlyPaths"
+        ],
+        "properties": {
+          "platform": {
+            "$ref": "#/$defs/platform"
+          },
+          "sourceCandidateVersion": {
+            "const": "1.0.0-candidate.10"
+          },
+          "targetCandidateVersion": {
+            "const": "1.0.0-candidate.15"
+          },
+          "sourceCandidateDigest": {
+            "$ref": "#/$defs/sha256"
+          },
+          "targetCandidateDigest": {
+            "$ref": "#/$defs/sha256"
+          },
+          "sourceProjectionRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "targetProjectionRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceProjectionDigest": {
+            "$ref": "#/$defs/sha256"
+          },
+          "targetProjectionDigest": {
+            "$ref": "#/$defs/sha256"
+          },
+          "sourcePlatformSummarySha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "allowedVersionOnlyPaths": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "platform": {
+      "enum": [
+        "claude-code",
+        "codex",
+        "kimi-code",
+        "workbuddy"
+      ]
+    }
+  }
+}

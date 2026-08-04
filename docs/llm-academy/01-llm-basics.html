@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 · LLM 到底是怎么工作的 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html" class="active">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 01 LLM 工作原理</div>
+  <div class="pagehead"><span class="tag">地基 · 机制决定行为</span>
+  <h1>LLM 到底是怎么工作的</h1>
+  <p class="lead">不讲数学，只讲机制——因为后面所有的「毛病」都能从这几个机制里推出来。读完这页你会获得一种能力：看到模型犯错时，能说出「哦，这是 XX 机制的必然结果」，而不是「这 AI 真笨」。</p></div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>它只做一件事：预测下一个词</h2></div>
+    <p>剥掉所有产品包装，LLM 在推理时只做一件事：给定一串 Token，输出「下一个 Token 是什么」的概率分布，选一个，拼回去，再来一遍。你看到的对话、代码、报告，全是这个循环一个字一个字堆出来的。</p>
+
+    <div class="fiveset">
+      <div class="fs-head">知识点：下一词预测与自回归生成</div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>一位用<b>不能回退的打字机</b>写作的成语接龙大师。每敲一个字都成为既定事实，写错了不能撤销，只能顺着往下圆。所以你会看到模型「一本正经地把错误编圆」——它不是嘴硬，是机制上没有撤销键。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>自回归语言建模（Autoregressive Language Modeling）：对序列的联合概率按链式法则分解，模型学习条件分布 P(下一词 | 前文)。推理即从该分布逐步采样，已生成内容成为后续步骤条件的一部分。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>输出是逐 Token 流式产生且不可回滚的。含义：① 开头错则全程错，早期输出质量决定全局；② 让模型「先想后写」（先输出计划/推理再给结论）能显著改善多步任务；③ 「重新生成」比「让它自我修正」经常更有效——推倒重来没有历史包袱。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>让模型口算「17 × 24 - 138 ÷ 6」并要求「只给最终数字，不许写过程」，多试几次观察出错率；再允许它写步骤重试。前者逼它「一口报出答案」，后者允许它把中间结果写进上下文当草稿——正确率差异肉眼可见。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>复杂任务要求先输出计划、分析或推理链，再给结论——把「草稿纸」显式给它。</li>
+        <li>发现方向性错误，别在原会话里纠缠「你错了重想」，直接改提示词重新生成。</li>
+        <li>把长任务拆成多次短生成，每段之间由你或框架校验，避免错误随长度复利。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>它看世界的方式：Token 与注意力</h2></div>
+    <p>模型不认识「字」和「词」，只认识 Token。所有输入拼成一串 Token 放进上下文窗口，生成每个新 Token 时，注意力机制给窗口里每个旧 Token 打「关注度分」。这两个机制解释了一大批怪毛病。</p>
+
+    <figure>
+      <div class="fig-title">📐 上下文窗口与注意力：为什么中间的内容会被忽略</div>
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="30" width="640" height="52" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+        <rect x="20" y="30" width="150" height="52" rx="8" fill="#2563eb" opacity="0.85"/>
+        <rect x="510" y="30" width="150" height="52" rx="8" fill="#2563eb" opacity="0.85"/>
+        <rect x="180" y="30" width="320" height="52" fill="#dbeafe"/>
+        <text x="95" y="52" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">系统提示词/开头</text>
+        <text x="95" y="70" text-anchor="middle" fill="#dbeafe" font-size="10">关注度高</text>
+        <text x="340" y="52" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">中间的长材料、历史对话</text>
+        <text x="340" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">关注度低（迷失在中间）</text>
+        <text x="585" y="52" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">最近的消息</text>
+        <text x="585" y="70" text-anchor="middle" fill="#dbeafe" font-size="10">关注度最高（近因）</text>
+        <path d="M 20 120 C 120 90, 200 145, 340 145 C 480 145, 560 90, 660 105" fill="none" stroke="#ea580c" stroke-width="2.5"/>
+        <text x="340" y="170" text-anchor="middle" fill="#ea580c" font-size="11" font-weight="700">实际被「记住」的程度：两头高、中间塌（U 形曲线）</text>
+        <text x="340" y="192" text-anchor="middle" fill="#94a3b8" font-size="10.5">把关键要求埋在长文档中部 ≈ 没写。放开头、放结尾、或两处都放。</text>
+      </svg>
+      <figcaption>窗口内的内容名义上「都能看见」，实际关注度呈 U 形分布——这是 04 页上下文工程的物理基础。</figcaption>
+    </figure>
+
+    <div class="fiveset">
+      <div class="fs-head">知识点：上下文窗口 = 有限且不均匀的工作记忆</div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>一张<b>固定大小的办公桌</b>。材料多了只能收走旧的（截断）或叠起来压成一页纸（压缩）；而且桌角堆的文件名义上「在桌上」，你办事时根本不会翻到它。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>上下文窗口受最大序列长度约束；注意力权重随内容增长被稀释，且对序列首尾存在位置偏好（首因与近因效应），中部信息的有效利用率显著下降，即「迷失在中间」现象。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>窗口是稀缺资源，要当预算管理：① 塞进窗口 ≠ 被利用，长度越长边际利用率越低；② 关键约束的位置是设计变量——开头定基调、结尾定行为；③ 「大窗口」是容量指标不是质量承诺，200K 窗口塞满后的表现要实测。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>经典「大海捞针」实验的日常版：把一条独特要求（如「输出中必须包含暗号 X-217」）分别埋在一份 50 页材料的开头、正中、结尾，各跑一次同样的任务，看哪次暗号丢了。中部丢失率明显更高。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>关键红线在入口、执行前、最终检查三处重复（对应 FM-08 的解法）。</li>
+        <li>长材料先做结构化摘要再喂，或用检索按需取片段，别整本倒进去。</li>
+        <li>长会话定期「清桌子」：总结进展、开新会话、用交接包续接（详见 04 页）。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>它的性格哪来的：训练三阶段</h2></div>
+    <p>模型的能力和毛病都是训出来的。三个阶段各留下一笔遗产：</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>阶段</th><th>做什么</th><th>🏠 类比</th><th>留下的正面遗产</th><th>留下的毛病</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it"><b>预训练</b></td><td>海量文本上学「接下一个词」</td><td>原生家庭 + 义务教育</td><td>语言能力、世界知识、代码模式</td><td>幻觉的土壤、训练数据的偏见、知识截止</td></tr>
+        <tr><td class="col-it"><b>指令微调</b></td><td>用「指令→理想回答」样本教它对话</td><td>岗前培训：学会「别人提问要回答」</td><td>听得懂指令、会按格式输出</td><td>倾向「永远给出一个答案」，哪怕不该答</td></tr>
+        <tr><td class="col-it"><b>对齐训练</b></td><td>按人类偏好打分强化</td><td>服务业培训：「顾客永远是对的」</td><td>礼貌、安全、有用性</td><td>谄媚、过度道歉、回避明确立场</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-key"><div class="t">🔑 工程含义</div>
+    「倾向于永远给出答案」+「倾向于让你满意」这两条训练遗产叠加，就是<b>它宁可编也不说「我不知道」、宁可附和也不坚持事实</b>的根源。所以「逼它承认不知道」永远不如「给它检索工具」和「用外部校验兜底」。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">4</span><h2>同一个问题两次答案不一样：采样与温度</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：输出是采样出来的，不是查表查出来的</div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>点菜的<b>冒险程度旋钮</b>：温度 0 是每次都点最稳的招牌菜（稳定但呆板），调高温度是让服务员随缘上菜——惊喜和翻车都变多。同一家店，两次上的菜可以不一样。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>解码策略：从模型输出的概率分布中采样。温度参数缩放分布形状——低温趋向贪心解码（近似确定），高温提高低概率词的采样机会，增加多样性同时提高偏离风险。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>非确定性是默认行为：① 「上次能跑通」不构成回归保证，关键链路每次都要验；② 需要可复现时降温度、固定随机种子（如果接口支持），但仍不承诺跨版本一致；③ 反过来可以利用它——同一任务采样多次投票（自洽性策略），用冗余买可靠性。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>同一个中等难度问题（如「给这段函数找 bug」）连问 5 次（每次新会话），对比答案。你会看到：结论方向可能一致，但覆盖点、遗漏点、置信语气各不相同——这就是为什么「跑一次就信」很危险。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>关键判断多采样几次取交集/多数票，分歧点就是需要人工介入的点。</li>
+        <li>流水线里的模型环节要按「非确定性组件」设计：下游必须有校验，不能假设幂等。</li>
+        <li>创意任务调高随机性，事实与代码任务压低随机性——一个旋钮别忘了拧。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">5</span><h2>能力从哪冒出来的：涌现与不规则边界</h2></div>
+    <p>模型规模跨过门槛后会「突然会了」一些能力（涌现能力），但这些能力不沿人类的难度直觉分布：会做奥数题的模型可能数不清单词里的字母。这条「锯齿状能力边界」直接决定了你该怎么授权：</p>
+    <div class="callout c-danger"><div class="t">⛔ 授权错误的典型剧本</div>
+    「它连架构设计都聊得头头是道，改个配置文件肯定没问题」→ 配置文件语法冷门、训练语料少 → 改错 → 但它输出的置信语气和聊架构时一模一样 → 你没检查 → 事故。<b>能力边界必须实测，不能用「难度感觉」外推。</b>这也是 FM-19（做不了主的角色握着决定权）在人机协作里的映射：授权要按实测能力发放，不按谈吐印象发放。</div>
+    <div class="callout c-tip"><div class="t">💡 上岗前自检三问</div>
+    ① 这个任务里模型犯错，我能在多久内发现？② 发现时的代价是多少？③ 我有没有对这类任务做过至少 3 个样本的实测？——三问有一问答不上来，就先降级授权（只让它出草稿，不让它直接落地）。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">🎫</span><h2>出口 · 速记卡</h2></div>
+    <div class="card">
+      <p><b>一句话本章：</b>LLM 是「用不能回退的打字机做成语接龙的失忆天才」——所有毛病都是这个设定的必然推论。</p>
+      <ul class="clean check">
+        <li><b>三个必背：</b>① 它优化「像不像」不优化「对不对」；② 窗口内的内容两头受宠、中间遭殃；③ 输出是采样的，跑一次不算数。</li>
+        <li><b>一个数字：</b>关键红线要在 3 个位置重复——入口、执行前、最终检查。</li>
+        <li><b>开会行话：</b>「这是机制性弱点，围堵而不是修复」「先实测能力边界再授权」。</li>
+        <li><b>下一步：</b>02 页把机制推导成完整的正负面特性图谱。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pager">
+    <a href="00-matrix.html"><div class="lbl">← 上一篇</div><div class="ttl">00 · 全景矩阵</div></a>
+    <a class="next" href="02-traits.html"><div class="lbl">下一篇 →</div><div class="ttl">02 · 正负面特性图谱</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 01 LLM 工作原理</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>

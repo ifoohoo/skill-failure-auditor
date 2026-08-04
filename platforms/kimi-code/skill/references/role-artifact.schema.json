@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill-failure-auditor:orchestration:role-artifact:1.0.0",
+  "title": "Role Artifact",
+  "description": "L2 职责成果合同。子智能体产出、主上下文不得伪造。包含语义状态、结论上限、发现/证据引用和成果自身摘要。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "platform",
+    "role",
+    "semantic_status",
+    "conclusion_ceiling",
+    "findings",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "task_id": { "type": "string", "pattern": "^AUDIT-[A-Z0-9][A-Z0-9._-]+$" },
+    "platform": { "type": "string", "enum": ["claude-code", "codex", "kimi-code", "workbuddy"] },
+    "role": {
+      "type": "string",
+      "enum": ["scope-routing", "static-audit", "runtime-evidence", "evaluation-integrity", "adversarial-challenge", "result-synthesis"]
+    },
+    "semantic_status": {
+      "type": "string",
+      "enum": ["PASS_WITHIN_FROZEN_SCOPE", "NEEDS_REVISION", "REJECT", "INCOMPLETE", "BLOCKED"]
+    },
+    "conclusion_ceiling": {
+      "type": "string",
+      "enum": ["PASS_WITHIN_FROZEN_SCOPE", "NEEDS_REVISION", "REJECT", "INCOMPLETE", "BLOCKED"],
+      "description": "该职责允许外层采用的最软结论上限。"
+    },
+    "findings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["statement", "evidence_refs"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "statement": { "type": "string", "minLength": 1 },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256"],
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "覆盖除自身外全部规范化字段的 canonical JSON 摘要。"
+    }
+  }
+}

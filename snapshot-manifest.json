@@ -1,0 +1,1536 @@
+{
+  "schemaVersion": "1.0",
+  "candidateVersion": "1.0.0-candidate.15",
+  "candidateDigest": "0b9780cddfc6e85da5bab3d20b8a20c0c6d10b989318402c2a9efdd0121542ac",
+  "fileCount": 253,
+  "generatedMetadataCount": 1,
+  "files": [
+    {
+      "path": ".claude-plugin/plugin.json",
+      "dest": ".claude-plugin/plugin.json",
+      "sha256": "0f9c8daba571ab2a2f2e987c8f8821f15a3bd674caa093b838fb2da8cd65b033",
+      "size": 332
+    },
+    {
+      "path": ".codebuddy-plugin/plugin.json",
+      "dest": ".codebuddy-plugin/plugin.json",
+      "sha256": "53c687d8266c2647aea747edb85df9f35a4e7799028f261ed9a397883b0163e3",
+      "size": 340
+    },
+    {
+      "path": ".codex-plugin/plugin.json",
+      "dest": ".codex-plugin/plugin.json",
+      "sha256": "bf3d2a5fb6f82be65b9b81c4c9380fd4216a97f26070e236bc6efadf00800b68",
+      "size": 326
+    },
+    {
+      "path": ".github/workflows/deploy-pages.yml",
+      "dest": ".github/workflows/deploy-pages.yml",
+      "sha256": "6f4a72097b566f02d0fd38cdd2b71fd1efc36a716364439d6076cc03cdf03bf1",
+      "size": 981
+    },
+    {
+      "path": ".kimi-plugin/plugin.json",
+      "dest": ".kimi-plugin/plugin.json",
+      "sha256": "40af939e373bf9dad68a83e1dcb4f5d434e307ec83fa8e60fbf12b0f92a58717",
+      "size": 615
+    },
+    {
+      "path": "CHANGELOG.md",
+      "dest": "CHANGELOG.md",
+      "sha256": "b2ac45a5118d8302f3038e95cb38de83db785c4b2cc5dd396084aae06f4800f4",
+      "size": 904
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "dest": "CONTRIBUTING.md",
+      "sha256": "c2d32ae43d578500ea274f8592b5cf26a2a06d4b3219085fbdc2e514160ee29d",
+      "size": 366
+    },
+    {
+      "path": "docs/llm-academy/00-matrix.html",
+      "dest": "docs/llm-academy/00-matrix.html",
+      "sha256": "d0dfb9f7358828ee02d80a35677457c711f0063f3c06c39650e56d6e14487ffa",
+      "size": 12035
+    },
+    {
+      "path": "docs/llm-academy/01-llm-basics.html",
+      "dest": "docs/llm-academy/01-llm-basics.html",
+      "sha256": "c9558dc0ef74c756c7c66c07abc4e1e50c5c4d6cda03e1cb6dc7129ea0688a8c",
+      "size": 14600
+    },
+    {
+      "path": "docs/llm-academy/02-traits.html",
+      "dest": "docs/llm-academy/02-traits.html",
+      "sha256": "243df7084cbba7dac0595af263706ad18bab497ef84759a5b1bd3a9295ceb172",
+      "size": 13887
+    },
+    {
+      "path": "docs/llm-academy/03-prompt.html",
+      "dest": "docs/llm-academy/03-prompt.html",
+      "sha256": "81297132efcb775958a70ce8c1ef4888b4054e88515c15d38a9cf6ab1760adb3",
+      "size": 15015
+    },
+    {
+      "path": "docs/llm-academy/04-context.html",
+      "dest": "docs/llm-academy/04-context.html",
+      "sha256": "22684981f3c0c1e23b66331f2c49889bbefcf99b408bc595bc76f5e0eda6eb97",
+      "size": 15124
+    },
+    {
+      "path": "docs/llm-academy/05-harness.html",
+      "dest": "docs/llm-academy/05-harness.html",
+      "sha256": "a959b8a23a3efb7345dd358f64d6408309feee13a106a96cec7fdbf016a167ce",
+      "size": 15941
+    },
+    {
+      "path": "docs/llm-academy/06-fake-completion.html",
+      "dest": "docs/llm-academy/06-fake-completion.html",
+      "sha256": "de5ef2a48ae4f8cc205492520a85b7647ea36582ff67a59f50a9e137b5cba73c",
+      "size": 16046
+    },
+    {
+      "path": "docs/llm-academy/07-self-eval.html",
+      "dest": "docs/llm-academy/07-self-eval.html",
+      "sha256": "4d0e55da0ec2fdd5372c938cfe63417dcc55fe5ec6caae7a36508b548ded99a9",
+      "size": 16580
+    },
+    {
+      "path": "docs/llm-academy/08-verification.html",
+      "dest": "docs/llm-academy/08-verification.html",
+      "sha256": "1eb2fa585d3d13533cb369917147d35007ff58f8821649a941afef58dbfe8403",
+      "size": 14935
+    },
+    {
+      "path": "docs/llm-academy/09-meta.html",
+      "dest": "docs/llm-academy/09-meta.html",
+      "sha256": "e45d491853ce52d5f29872d8aa7ec06a400fab42b3856893518965e5deae865d",
+      "size": 11230
+    },
+    {
+      "path": "docs/llm-academy/10-fm-handbook.html",
+      "dest": "docs/llm-academy/10-fm-handbook.html",
+      "sha256": "c7cc3717729f69d5155feb1a4345a6844249b22fd59bcebad7d52d1f65711eb0",
+      "size": 36312
+    },
+    {
+      "path": "docs/llm-academy/11-glossary.html",
+      "dest": "docs/llm-academy/11-glossary.html",
+      "sha256": "ae3df4f01e75ba3b0496c7f59113b414b0a30c60b6dba5f1c6fcfb0cc79ec7a5",
+      "size": 6824
+    },
+    {
+      "path": "docs/llm-academy/12-recipes.html",
+      "dest": "docs/llm-academy/12-recipes.html",
+      "sha256": "6c5d0a4e5baccb7dd59fed8a4016cd548e8dbfea889c4d084e34e48d02fda899",
+      "size": 11819
+    },
+    {
+      "path": "docs/llm-academy/13-protocol.html",
+      "dest": "docs/llm-academy/13-protocol.html",
+      "sha256": "adf7ab85de38938a0976991470151cd98741f89e1f399cce36d900cbb75e8d6e",
+      "size": 22347
+    },
+    {
+      "path": "docs/llm-academy/assets/style.css",
+      "dest": "docs/llm-academy/assets/style.css",
+      "sha256": "7397507c922d5b8f8c0901d5595a3616e364c72a37d7112d7fc15917d345e7f1",
+      "size": 22662
+    },
+    {
+      "path": "docs/llm-academy/assets/terms.js",
+      "dest": "docs/llm-academy/assets/terms.js",
+      "sha256": "d8986d30b64f7400adb1f1ed6fe0342ba5aacab247f30976721247e754041aaa",
+      "size": 39451
+    },
+    {
+      "path": "docs/llm-academy/index.html",
+      "dest": "docs/llm-academy/index.html",
+      "sha256": "d152cb5fdec93f189fa052611da00250dd92c064c46450c7dbbbe75db0da5986",
+      "size": 9622
+    },
+    {
+      "path": "kimi.plugin.json",
+      "dest": "kimi.plugin.json",
+      "sha256": "640548135c4d7def5cf6198ccdd9cead895451fe77cd0fcf90df072d2ce68aa4",
+      "size": 591
+    },
+    {
+      "path": "LICENSE",
+      "dest": "LICENSE",
+      "sha256": "e871628a8cefd1e4e666f510cd7058bd3b186f5326f6a51590aa9c23a94aba34",
+      "size": 11416
+    },
+    {
+      "path": "NOTICE",
+      "dest": "NOTICE",
+      "sha256": "655289718b995d228768688d1c2f6636e177d8bd55ba78499d793e13e09c1f14",
+      "size": 504
+    },
+    {
+      "path": "package.json",
+      "dest": "package.json",
+      "sha256": "38441c14e39ab353a24eafc92923c6c8ecf9953aa47ac33c8ea2c02c7f59034f",
+      "size": 551
+    },
+    {
+      "path": "platforms/build-manifest.json",
+      "dest": "platforms/build-manifest.json",
+      "sha256": "cf18f0964eeb57e8408836218414b252ef5d5b97500fabc126778301c060a4f7",
+      "size": 32821
+    },
+    {
+      "path": "platforms/claude-code/platform-manifest.json",
+      "dest": "platforms/claude-code/platform-manifest.json",
+      "sha256": "4d823a73081d7ca1ced75d1d7e90675994ef29845b09e5514f8773b68d5d2704",
+      "size": 1021
+    },
+    {
+      "path": "platforms/claude-code/skill/.claude-plugin/plugin.json",
+      "dest": "platforms/claude-code/skill/.claude-plugin/plugin.json",
+      "sha256": "0f9c8daba571ab2a2f2e987c8f8821f15a3bd674caa093b838fb2da8cd65b033",
+      "size": 332
+    },
+    {
+      "path": "platforms/claude-code/skill/claude-prompt-manifest.json",
+      "dest": "platforms/claude-code/skill/claude-prompt-manifest.json",
+      "sha256": "7d3457574a842aa9b3caced947b4b9166f04038799bb90122c83aeb498e3b633",
+      "size": 1423
+    },
+    {
+      "path": "platforms/claude-code/skill/prompts/adversarial-challenge.md",
+      "dest": "platforms/claude-code/skill/prompts/adversarial-challenge.md",
+      "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+      "size": 2269
+    },
+    {
+      "path": "platforms/claude-code/skill/prompts/evaluation-integrity.md",
+      "dest": "platforms/claude-code/skill/prompts/evaluation-integrity.md",
+      "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+      "size": 2574
+    },
+    {
+      "path": "platforms/claude-code/skill/prompts/result-synthesis.md",
+      "dest": "platforms/claude-code/skill/prompts/result-synthesis.md",
+      "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+      "size": 2552
+    },
+    {
+      "path": "platforms/claude-code/skill/prompts/runtime-evidence.md",
+      "dest": "platforms/claude-code/skill/prompts/runtime-evidence.md",
+      "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+      "size": 1979
+    },
+    {
+      "path": "platforms/claude-code/skill/prompts/scope-routing.md",
+      "dest": "platforms/claude-code/skill/prompts/scope-routing.md",
+      "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+      "size": 1924
+    },
+    {
+      "path": "platforms/claude-code/skill/prompts/static-audit.md",
+      "dest": "platforms/claude-code/skill/prompts/static-audit.md",
+      "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+      "size": 2389
+    },
+    {
+      "path": "platforms/claude-code/skill/references/attempt-manifest.schema.json",
+      "dest": "platforms/claude-code/skill/references/attempt-manifest.schema.json",
+      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "size": 1045
+    },
+    {
+      "path": "platforms/claude-code/skill/references/audit-result.schema.json",
+      "dest": "platforms/claude-code/skill/references/audit-result.schema.json",
+      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "size": 4518
+    },
+    {
+      "path": "platforms/claude-code/skill/references/builtin-registry-lock.json",
+      "dest": "platforms/claude-code/skill/references/builtin-registry-lock.json",
+      "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+      "size": 4309
+    },
+    {
+      "path": "platforms/claude-code/skill/references/claude-code-orchestration.md",
+      "dest": "platforms/claude-code/skill/references/claude-code-orchestration.md",
+      "sha256": "436f923075ffbbb4ad74673cb9340d41ebcb0c3baa9ce45559bfdaf84ab90f10",
+      "size": 5645
+    },
+    {
+      "path": "platforms/claude-code/skill/references/context-continuation.md",
+      "dest": "platforms/claude-code/skill/references/context-continuation.md",
+      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "size": 1689
+    },
+    {
+      "path": "platforms/claude-code/skill/references/continuation-package.schema.json",
+      "dest": "platforms/claude-code/skill/references/continuation-package.schema.json",
+      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "size": 2648
+    },
+    {
+      "path": "platforms/claude-code/skill/references/evaluation-integrity.md",
+      "dest": "platforms/claude-code/skill/references/evaluation-integrity.md",
+      "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+      "size": 2737
+    },
+    {
+      "path": "platforms/claude-code/skill/references/failure-mode.schema.json",
+      "dest": "platforms/claude-code/skill/references/failure-mode.schema.json",
+      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "size": 3687
+    },
+    {
+      "path": "platforms/claude-code/skill/references/failure-modes.jsonl",
+      "dest": "platforms/claude-code/skill/references/failure-modes.jsonl",
+      "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+      "size": 27103
+    },
+    {
+      "path": "platforms/claude-code/skill/references/platform-adapter-mapping.json",
+      "dest": "platforms/claude-code/skill/references/platform-adapter-mapping.json",
+      "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+      "size": 4952
+    },
+    {
+      "path": "platforms/claude-code/skill/references/report-contract.md",
+      "dest": "platforms/claude-code/skill/references/report-contract.md",
+      "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+      "size": 3094
+    },
+    {
+      "path": "platforms/claude-code/skill/references/result.schema.json",
+      "dest": "platforms/claude-code/skill/references/result.schema.json",
+      "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+      "size": 4125
+    },
+    {
+      "path": "platforms/claude-code/skill/references/role-artifact.schema.json",
+      "dest": "platforms/claude-code/skill/references/role-artifact.schema.json",
+      "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+      "size": 2360
+    },
+    {
+      "path": "platforms/claude-code/skill/references/runtime-supervision.md",
+      "dest": "platforms/claude-code/skill/references/runtime-supervision.md",
+      "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+      "size": 2395
+    },
+    {
+      "path": "platforms/claude-code/skill/references/self-iteration-protocol.md",
+      "dest": "platforms/claude-code/skill/references/self-iteration-protocol.md",
+      "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+      "size": 1475
+    },
+    {
+      "path": "platforms/claude-code/skill/references/source-manifest.schema.json",
+      "dest": "platforms/claude-code/skill/references/source-manifest.schema.json",
+      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "size": 990
+    },
+    {
+      "path": "platforms/claude-code/skill/references/task-package.schema.json",
+      "dest": "platforms/claude-code/skill/references/task-package.schema.json",
+      "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+      "size": 4280
+    },
+    {
+      "path": "platforms/claude-code/skill/references/taxonomy-index.md",
+      "dest": "platforms/claude-code/skill/references/taxonomy-index.md",
+      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "size": 2051
+    },
+    {
+      "path": "platforms/claude-code/skill/scripts/attempt_tool.py",
+      "dest": "platforms/claude-code/skill/scripts/attempt_tool.py",
+      "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+      "size": 14907
+    },
+    {
+      "path": "platforms/claude-code/skill/scripts/common.py",
+      "dest": "platforms/claude-code/skill/scripts/common.py",
+      "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+      "size": 13978
+    },
+    {
+      "path": "platforms/claude-code/skill/scripts/evaluation_tool.py",
+      "dest": "platforms/claude-code/skill/scripts/evaluation_tool.py",
+      "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+      "size": 26544
+    },
+    {
+      "path": "platforms/claude-code/skill/scripts/evidence_tool.py",
+      "dest": "platforms/claude-code/skill/scripts/evidence_tool.py",
+      "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+      "size": 19762
+    },
+    {
+      "path": "platforms/claude-code/skill/scripts/orchestration_engine.py",
+      "dest": "platforms/claude-code/skill/scripts/orchestration_engine.py",
+      "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+      "size": 46361
+    },
+    {
+      "path": "platforms/claude-code/skill/scripts/registry_tool.py",
+      "dest": "platforms/claude-code/skill/scripts/registry_tool.py",
+      "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+      "size": 20952
+    },
+    {
+      "path": "platforms/claude-code/skill/scripts/report_renderer.py",
+      "dest": "platforms/claude-code/skill/scripts/report_renderer.py",
+      "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+      "size": 8229
+    },
+    {
+      "path": "platforms/claude-code/skill/SKILL.md",
+      "dest": "platforms/claude-code/skill/SKILL.md",
+      "sha256": "17c4a44ef51fee2746b04a649dae4fda0ac5eb6f7932a598a23468a768f5dace",
+      "size": 8569
+    },
+    {
+      "path": "platforms/codex/.codex-plugin/plugin.json",
+      "dest": "platforms/codex/.codex-plugin/plugin.json",
+      "sha256": "bf3d2a5fb6f82be65b9b81c4c9380fd4216a97f26070e236bc6efadf00800b68",
+      "size": 326
+    },
+    {
+      "path": "platforms/codex/platform-manifest.json",
+      "dest": "platforms/codex/platform-manifest.json",
+      "sha256": "a33725503e3530d044c6e24de01075a67f615d6e7f6ed632ef37e982d0e52902",
+      "size": 929
+    },
+    {
+      "path": "platforms/codex/skill/prompts/adversarial-challenge.md",
+      "dest": "platforms/codex/skill/prompts/adversarial-challenge.md",
+      "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+      "size": 2269
+    },
+    {
+      "path": "platforms/codex/skill/prompts/evaluation-integrity.md",
+      "dest": "platforms/codex/skill/prompts/evaluation-integrity.md",
+      "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+      "size": 2574
+    },
+    {
+      "path": "platforms/codex/skill/prompts/result-synthesis.md",
+      "dest": "platforms/codex/skill/prompts/result-synthesis.md",
+      "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+      "size": 2552
+    },
+    {
+      "path": "platforms/codex/skill/prompts/runtime-evidence.md",
+      "dest": "platforms/codex/skill/prompts/runtime-evidence.md",
+      "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+      "size": 1979
+    },
+    {
+      "path": "platforms/codex/skill/prompts/scope-routing.md",
+      "dest": "platforms/codex/skill/prompts/scope-routing.md",
+      "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+      "size": 1924
+    },
+    {
+      "path": "platforms/codex/skill/prompts/static-audit.md",
+      "dest": "platforms/codex/skill/prompts/static-audit.md",
+      "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+      "size": 2389
+    },
+    {
+      "path": "platforms/codex/skill/references/attempt-manifest.schema.json",
+      "dest": "platforms/codex/skill/references/attempt-manifest.schema.json",
+      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "size": 1045
+    },
+    {
+      "path": "platforms/codex/skill/references/audit-result.schema.json",
+      "dest": "platforms/codex/skill/references/audit-result.schema.json",
+      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "size": 4518
+    },
+    {
+      "path": "platforms/codex/skill/references/builtin-registry-lock.json",
+      "dest": "platforms/codex/skill/references/builtin-registry-lock.json",
+      "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+      "size": 4309
+    },
+    {
+      "path": "platforms/codex/skill/references/codex-orchestration.md",
+      "dest": "platforms/codex/skill/references/codex-orchestration.md",
+      "sha256": "96fc20c5fa8cc99437ea2c5a3b4c27bf02b28ae4c32ce2e32ad5b8da91adad24",
+      "size": 4438
+    },
+    {
+      "path": "platforms/codex/skill/references/context-continuation.md",
+      "dest": "platforms/codex/skill/references/context-continuation.md",
+      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "size": 1689
+    },
+    {
+      "path": "platforms/codex/skill/references/continuation-package.schema.json",
+      "dest": "platforms/codex/skill/references/continuation-package.schema.json",
+      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "size": 2648
+    },
+    {
+      "path": "platforms/codex/skill/references/evaluation-integrity.md",
+      "dest": "platforms/codex/skill/references/evaluation-integrity.md",
+      "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+      "size": 2737
+    },
+    {
+      "path": "platforms/codex/skill/references/failure-mode.schema.json",
+      "dest": "platforms/codex/skill/references/failure-mode.schema.json",
+      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "size": 3687
+    },
+    {
+      "path": "platforms/codex/skill/references/failure-modes.jsonl",
+      "dest": "platforms/codex/skill/references/failure-modes.jsonl",
+      "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+      "size": 27103
+    },
+    {
+      "path": "platforms/codex/skill/references/platform-adapter-mapping.json",
+      "dest": "platforms/codex/skill/references/platform-adapter-mapping.json",
+      "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+      "size": 4952
+    },
+    {
+      "path": "platforms/codex/skill/references/report-contract.md",
+      "dest": "platforms/codex/skill/references/report-contract.md",
+      "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+      "size": 3094
+    },
+    {
+      "path": "platforms/codex/skill/references/result.schema.json",
+      "dest": "platforms/codex/skill/references/result.schema.json",
+      "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+      "size": 4125
+    },
+    {
+      "path": "platforms/codex/skill/references/role-artifact.schema.json",
+      "dest": "platforms/codex/skill/references/role-artifact.schema.json",
+      "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+      "size": 2360
+    },
+    {
+      "path": "platforms/codex/skill/references/runtime-supervision.md",
+      "dest": "platforms/codex/skill/references/runtime-supervision.md",
+      "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+      "size": 2395
+    },
+    {
+      "path": "platforms/codex/skill/references/self-iteration-protocol.md",
+      "dest": "platforms/codex/skill/references/self-iteration-protocol.md",
+      "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+      "size": 1475
+    },
+    {
+      "path": "platforms/codex/skill/references/source-manifest.schema.json",
+      "dest": "platforms/codex/skill/references/source-manifest.schema.json",
+      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "size": 990
+    },
+    {
+      "path": "platforms/codex/skill/references/task-package.schema.json",
+      "dest": "platforms/codex/skill/references/task-package.schema.json",
+      "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+      "size": 4280
+    },
+    {
+      "path": "platforms/codex/skill/references/taxonomy-index.md",
+      "dest": "platforms/codex/skill/references/taxonomy-index.md",
+      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "size": 2051
+    },
+    {
+      "path": "platforms/codex/skill/scripts/attempt_tool.py",
+      "dest": "platforms/codex/skill/scripts/attempt_tool.py",
+      "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+      "size": 14907
+    },
+    {
+      "path": "platforms/codex/skill/scripts/codex_artifact_normalizer.py",
+      "dest": "platforms/codex/skill/scripts/codex_artifact_normalizer.py",
+      "sha256": "cb686bbc468a1475c02b18b42704cf8c792d0338cc5c0a6efdf0f84fee204720",
+      "size": 5424
+    },
+    {
+      "path": "platforms/codex/skill/scripts/codex_prepare_run.py",
+      "dest": "platforms/codex/skill/scripts/codex_prepare_run.py",
+      "sha256": "cb559d83a4aeea02b7d113d4968684eda67261d60a4553635f6e1b37ca529b2f",
+      "size": 2195
+    },
+    {
+      "path": "platforms/codex/skill/scripts/common.py",
+      "dest": "platforms/codex/skill/scripts/common.py",
+      "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+      "size": 13978
+    },
+    {
+      "path": "platforms/codex/skill/scripts/evaluation_tool.py",
+      "dest": "platforms/codex/skill/scripts/evaluation_tool.py",
+      "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+      "size": 26544
+    },
+    {
+      "path": "platforms/codex/skill/scripts/evidence_tool.py",
+      "dest": "platforms/codex/skill/scripts/evidence_tool.py",
+      "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+      "size": 19762
+    },
+    {
+      "path": "platforms/codex/skill/scripts/orchestration_engine.py",
+      "dest": "platforms/codex/skill/scripts/orchestration_engine.py",
+      "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+      "size": 46361
+    },
+    {
+      "path": "platforms/codex/skill/scripts/registry_tool.py",
+      "dest": "platforms/codex/skill/scripts/registry_tool.py",
+      "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+      "size": 20952
+    },
+    {
+      "path": "platforms/codex/skill/scripts/report_renderer.py",
+      "dest": "platforms/codex/skill/scripts/report_renderer.py",
+      "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+      "size": 8229
+    },
+    {
+      "path": "platforms/codex/skill/SKILL.md",
+      "dest": "platforms/codex/skill/SKILL.md",
+      "sha256": "6b10c1f29df1f2400abacfaad2d69622f7bc706033a8e1ab84700ce68c53c430",
+      "size": 7529
+    },
+    {
+      "path": "platforms/kimi-code/.kimi-plugin/plugin.json",
+      "dest": "platforms/kimi-code/.kimi-plugin/plugin.json",
+      "sha256": "40af939e373bf9dad68a83e1dcb4f5d434e307ec83fa8e60fbf12b0f92a58717",
+      "size": 615
+    },
+    {
+      "path": "platforms/kimi-code/kimi.plugin.json",
+      "dest": "platforms/kimi-code/kimi.plugin.json",
+      "sha256": "640548135c4d7def5cf6198ccdd9cead895451fe77cd0fcf90df072d2ce68aa4",
+      "size": 591
+    },
+    {
+      "path": "platforms/kimi-code/platform-manifest.json",
+      "dest": "platforms/kimi-code/platform-manifest.json",
+      "sha256": "853b71653e7ce8f328eaeabf706af79be7bb589db9de97d837281bc7fc260632",
+      "size": 1054
+    },
+    {
+      "path": "platforms/kimi-code/skill/prompts/adversarial-challenge.md",
+      "dest": "platforms/kimi-code/skill/prompts/adversarial-challenge.md",
+      "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+      "size": 2269
+    },
+    {
+      "path": "platforms/kimi-code/skill/prompts/evaluation-integrity.md",
+      "dest": "platforms/kimi-code/skill/prompts/evaluation-integrity.md",
+      "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+      "size": 2574
+    },
+    {
+      "path": "platforms/kimi-code/skill/prompts/result-synthesis.md",
+      "dest": "platforms/kimi-code/skill/prompts/result-synthesis.md",
+      "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+      "size": 2552
+    },
+    {
+      "path": "platforms/kimi-code/skill/prompts/runtime-evidence.md",
+      "dest": "platforms/kimi-code/skill/prompts/runtime-evidence.md",
+      "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+      "size": 1979
+    },
+    {
+      "path": "platforms/kimi-code/skill/prompts/scope-routing.md",
+      "dest": "platforms/kimi-code/skill/prompts/scope-routing.md",
+      "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+      "size": 1924
+    },
+    {
+      "path": "platforms/kimi-code/skill/prompts/static-audit.md",
+      "dest": "platforms/kimi-code/skill/prompts/static-audit.md",
+      "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+      "size": 2389
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/attempt-manifest.schema.json",
+      "dest": "platforms/kimi-code/skill/references/attempt-manifest.schema.json",
+      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "size": 1045
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/audit-result.schema.json",
+      "dest": "platforms/kimi-code/skill/references/audit-result.schema.json",
+      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "size": 4518
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/builtin-registry-lock.json",
+      "dest": "platforms/kimi-code/skill/references/builtin-registry-lock.json",
+      "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+      "size": 4309
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/context-continuation.md",
+      "dest": "platforms/kimi-code/skill/references/context-continuation.md",
+      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "size": 1689
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/continuation-package.schema.json",
+      "dest": "platforms/kimi-code/skill/references/continuation-package.schema.json",
+      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "size": 2648
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/evaluation-integrity.md",
+      "dest": "platforms/kimi-code/skill/references/evaluation-integrity.md",
+      "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+      "size": 2737
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/failure-mode.schema.json",
+      "dest": "platforms/kimi-code/skill/references/failure-mode.schema.json",
+      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "size": 3687
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/failure-modes.jsonl",
+      "dest": "platforms/kimi-code/skill/references/failure-modes.jsonl",
+      "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+      "size": 27103
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/kimi-code-orchestration.md",
+      "dest": "platforms/kimi-code/skill/references/kimi-code-orchestration.md",
+      "sha256": "5a0764b7b208f67a4a0bd395094a27b08928308d893a6e12237a554ddf94b447",
+      "size": 2929
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/platform-adapter-mapping.json",
+      "dest": "platforms/kimi-code/skill/references/platform-adapter-mapping.json",
+      "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+      "size": 4952
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/report-contract.md",
+      "dest": "platforms/kimi-code/skill/references/report-contract.md",
+      "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+      "size": 3094
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/result.schema.json",
+      "dest": "platforms/kimi-code/skill/references/result.schema.json",
+      "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+      "size": 4125
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/role-artifact.schema.json",
+      "dest": "platforms/kimi-code/skill/references/role-artifact.schema.json",
+      "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+      "size": 2360
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/runtime-supervision.md",
+      "dest": "platforms/kimi-code/skill/references/runtime-supervision.md",
+      "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+      "size": 2395
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/self-iteration-protocol.md",
+      "dest": "platforms/kimi-code/skill/references/self-iteration-protocol.md",
+      "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+      "size": 1475
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/source-manifest.schema.json",
+      "dest": "platforms/kimi-code/skill/references/source-manifest.schema.json",
+      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "size": 990
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/task-package.schema.json",
+      "dest": "platforms/kimi-code/skill/references/task-package.schema.json",
+      "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+      "size": 4280
+    },
+    {
+      "path": "platforms/kimi-code/skill/references/taxonomy-index.md",
+      "dest": "platforms/kimi-code/skill/references/taxonomy-index.md",
+      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "size": 2051
+    },
+    {
+      "path": "platforms/kimi-code/skill/scripts/attempt_tool.py",
+      "dest": "platforms/kimi-code/skill/scripts/attempt_tool.py",
+      "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+      "size": 14907
+    },
+    {
+      "path": "platforms/kimi-code/skill/scripts/common.py",
+      "dest": "platforms/kimi-code/skill/scripts/common.py",
+      "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+      "size": 13978
+    },
+    {
+      "path": "platforms/kimi-code/skill/scripts/evaluation_tool.py",
+      "dest": "platforms/kimi-code/skill/scripts/evaluation_tool.py",
+      "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+      "size": 26544
+    },
+    {
+      "path": "platforms/kimi-code/skill/scripts/evidence_tool.py",
+      "dest": "platforms/kimi-code/skill/scripts/evidence_tool.py",
+      "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+      "size": 19762
+    },
+    {
+      "path": "platforms/kimi-code/skill/scripts/orchestration_engine.py",
+      "dest": "platforms/kimi-code/skill/scripts/orchestration_engine.py",
+      "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+      "size": 46361
+    },
+    {
+      "path": "platforms/kimi-code/skill/scripts/registry_tool.py",
+      "dest": "platforms/kimi-code/skill/scripts/registry_tool.py",
+      "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+      "size": 20952
+    },
+    {
+      "path": "platforms/kimi-code/skill/scripts/report_renderer.py",
+      "dest": "platforms/kimi-code/skill/scripts/report_renderer.py",
+      "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+      "size": 8229
+    },
+    {
+      "path": "platforms/kimi-code/skill/SKILL.md",
+      "dest": "platforms/kimi-code/skill/SKILL.md",
+      "sha256": "47eb683640334d4e7559e53f98560684bff825730c50a0347ed21b90255566c6",
+      "size": 5608
+    },
+    {
+      "path": "platforms/workbuddy/.codebuddy-plugin/plugin.json",
+      "dest": "platforms/workbuddy/.codebuddy-plugin/plugin.json",
+      "sha256": "53c687d8266c2647aea747edb85df9f35a4e7799028f261ed9a397883b0163e3",
+      "size": 340
+    },
+    {
+      "path": "platforms/workbuddy/platform-manifest.json",
+      "dest": "platforms/workbuddy/platform-manifest.json",
+      "sha256": "13a743f466bd01a975ce50a3902d28ce3e52d1c3a512eedd3072c61fea070530",
+      "size": 1018
+    },
+    {
+      "path": "platforms/workbuddy/skill/prompts/adversarial-challenge.md",
+      "dest": "platforms/workbuddy/skill/prompts/adversarial-challenge.md",
+      "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+      "size": 2269
+    },
+    {
+      "path": "platforms/workbuddy/skill/prompts/evaluation-integrity.md",
+      "dest": "platforms/workbuddy/skill/prompts/evaluation-integrity.md",
+      "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+      "size": 2574
+    },
+    {
+      "path": "platforms/workbuddy/skill/prompts/result-synthesis.md",
+      "dest": "platforms/workbuddy/skill/prompts/result-synthesis.md",
+      "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+      "size": 2552
+    },
+    {
+      "path": "platforms/workbuddy/skill/prompts/runtime-evidence.md",
+      "dest": "platforms/workbuddy/skill/prompts/runtime-evidence.md",
+      "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+      "size": 1979
+    },
+    {
+      "path": "platforms/workbuddy/skill/prompts/scope-routing.md",
+      "dest": "platforms/workbuddy/skill/prompts/scope-routing.md",
+      "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+      "size": 1924
+    },
+    {
+      "path": "platforms/workbuddy/skill/prompts/static-audit.md",
+      "dest": "platforms/workbuddy/skill/prompts/static-audit.md",
+      "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+      "size": 2389
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/attempt-manifest.schema.json",
+      "dest": "platforms/workbuddy/skill/references/attempt-manifest.schema.json",
+      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "size": 1045
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/audit-result.schema.json",
+      "dest": "platforms/workbuddy/skill/references/audit-result.schema.json",
+      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "size": 4518
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/builtin-registry-lock.json",
+      "dest": "platforms/workbuddy/skill/references/builtin-registry-lock.json",
+      "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+      "size": 4309
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/context-continuation.md",
+      "dest": "platforms/workbuddy/skill/references/context-continuation.md",
+      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "size": 1689
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/continuation-package.schema.json",
+      "dest": "platforms/workbuddy/skill/references/continuation-package.schema.json",
+      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "size": 2648
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/evaluation-integrity.md",
+      "dest": "platforms/workbuddy/skill/references/evaluation-integrity.md",
+      "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+      "size": 2737
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/failure-mode.schema.json",
+      "dest": "platforms/workbuddy/skill/references/failure-mode.schema.json",
+      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "size": 3687
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/failure-modes.jsonl",
+      "dest": "platforms/workbuddy/skill/references/failure-modes.jsonl",
+      "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+      "size": 27103
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/platform-adapter-mapping.json",
+      "dest": "platforms/workbuddy/skill/references/platform-adapter-mapping.json",
+      "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+      "size": 4952
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/report-contract.md",
+      "dest": "platforms/workbuddy/skill/references/report-contract.md",
+      "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+      "size": 3094
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/result.schema.json",
+      "dest": "platforms/workbuddy/skill/references/result.schema.json",
+      "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+      "size": 4125
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/role-artifact.schema.json",
+      "dest": "platforms/workbuddy/skill/references/role-artifact.schema.json",
+      "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+      "size": 2360
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/runtime-supervision.md",
+      "dest": "platforms/workbuddy/skill/references/runtime-supervision.md",
+      "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+      "size": 2395
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/self-iteration-protocol.md",
+      "dest": "platforms/workbuddy/skill/references/self-iteration-protocol.md",
+      "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+      "size": 1475
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/source-manifest.schema.json",
+      "dest": "platforms/workbuddy/skill/references/source-manifest.schema.json",
+      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "size": 990
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/task-package.schema.json",
+      "dest": "platforms/workbuddy/skill/references/task-package.schema.json",
+      "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+      "size": 4280
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/taxonomy-index.md",
+      "dest": "platforms/workbuddy/skill/references/taxonomy-index.md",
+      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "size": 2051
+    },
+    {
+      "path": "platforms/workbuddy/skill/references/workbuddy-orchestration.md",
+      "dest": "platforms/workbuddy/skill/references/workbuddy-orchestration.md",
+      "sha256": "7e9f42ca832406bacbc0df6f86604bf320d1df21e62215c5d3453a7c85abe26d",
+      "size": 3081
+    },
+    {
+      "path": "platforms/workbuddy/skill/scripts/attempt_tool.py",
+      "dest": "platforms/workbuddy/skill/scripts/attempt_tool.py",
+      "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+      "size": 14907
+    },
+    {
+      "path": "platforms/workbuddy/skill/scripts/common.py",
+      "dest": "platforms/workbuddy/skill/scripts/common.py",
+      "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+      "size": 13978
+    },
+    {
+      "path": "platforms/workbuddy/skill/scripts/evaluation_tool.py",
+      "dest": "platforms/workbuddy/skill/scripts/evaluation_tool.py",
+      "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+      "size": 26544
+    },
+    {
+      "path": "platforms/workbuddy/skill/scripts/evidence_tool.py",
+      "dest": "platforms/workbuddy/skill/scripts/evidence_tool.py",
+      "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+      "size": 19762
+    },
+    {
+      "path": "platforms/workbuddy/skill/scripts/orchestration_engine.py",
+      "dest": "platforms/workbuddy/skill/scripts/orchestration_engine.py",
+      "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+      "size": 46361
+    },
+    {
+      "path": "platforms/workbuddy/skill/scripts/registry_tool.py",
+      "dest": "platforms/workbuddy/skill/scripts/registry_tool.py",
+      "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+      "size": 20952
+    },
+    {
+      "path": "platforms/workbuddy/skill/scripts/report_renderer.py",
+      "dest": "platforms/workbuddy/skill/scripts/report_renderer.py",
+      "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+      "size": 8229
+    },
+    {
+      "path": "platforms/workbuddy/skill/SKILL.md",
+      "dest": "platforms/workbuddy/skill/SKILL.md",
+      "sha256": "3250f70240194be7d3a38a9fb011129c271fcd4155fd9ac80154b668b07a74aa",
+      "size": 5490
+    },
+    {
+      "path": "plugin-src/core/prompts/adversarial-challenge.md",
+      "dest": "plugin-src/core/prompts/adversarial-challenge.md",
+      "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+      "size": 2269
+    },
+    {
+      "path": "plugin-src/core/prompts/evaluation-integrity.md",
+      "dest": "plugin-src/core/prompts/evaluation-integrity.md",
+      "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+      "size": 2574
+    },
+    {
+      "path": "plugin-src/core/prompts/result-synthesis.md",
+      "dest": "plugin-src/core/prompts/result-synthesis.md",
+      "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+      "size": 2552
+    },
+    {
+      "path": "plugin-src/core/prompts/runtime-evidence.md",
+      "dest": "plugin-src/core/prompts/runtime-evidence.md",
+      "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+      "size": 1979
+    },
+    {
+      "path": "plugin-src/core/prompts/scope-routing.md",
+      "dest": "plugin-src/core/prompts/scope-routing.md",
+      "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+      "size": 1924
+    },
+    {
+      "path": "plugin-src/core/prompts/static-audit.md",
+      "dest": "plugin-src/core/prompts/static-audit.md",
+      "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+      "size": 2389
+    },
+    {
+      "path": "plugin-src/core/references/attempt-manifest.schema.json",
+      "dest": "plugin-src/core/references/attempt-manifest.schema.json",
+      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "size": 1045
+    },
+    {
+      "path": "plugin-src/core/references/audit-result.schema.json",
+      "dest": "plugin-src/core/references/audit-result.schema.json",
+      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "size": 4518
+    },
+    {
+      "path": "plugin-src/core/references/builtin-registry-lock.json",
+      "dest": "plugin-src/core/references/builtin-registry-lock.json",
+      "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+      "size": 4309
+    },
+    {
+      "path": "plugin-src/core/references/context-continuation.md",
+      "dest": "plugin-src/core/references/context-continuation.md",
+      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "size": 1689
+    },
+    {
+      "path": "plugin-src/core/references/continuation-package.schema.json",
+      "dest": "plugin-src/core/references/continuation-package.schema.json",
+      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "size": 2648
+    },
+    {
+      "path": "plugin-src/core/references/evaluation-integrity.md",
+      "dest": "plugin-src/core/references/evaluation-integrity.md",
+      "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+      "size": 2737
+    },
+    {
+      "path": "plugin-src/core/references/failure-mode.schema.json",
+      "dest": "plugin-src/core/references/failure-mode.schema.json",
+      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "size": 3687
+    },
+    {
+      "path": "plugin-src/core/references/failure-modes.jsonl",
+      "dest": "plugin-src/core/references/failure-modes.jsonl",
+      "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+      "size": 27103
+    },
+    {
+      "path": "plugin-src/core/references/report-contract.md",
+      "dest": "plugin-src/core/references/report-contract.md",
+      "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+      "size": 3094
+    },
+    {
+      "path": "plugin-src/core/references/runtime-supervision.md",
+      "dest": "plugin-src/core/references/runtime-supervision.md",
+      "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+      "size": 2395
+    },
+    {
+      "path": "plugin-src/core/references/self-iteration-protocol.md",
+      "dest": "plugin-src/core/references/self-iteration-protocol.md",
+      "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+      "size": 1475
+    },
+    {
+      "path": "plugin-src/core/references/source-manifest.schema.json",
+      "dest": "plugin-src/core/references/source-manifest.schema.json",
+      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "size": 990
+    },
+    {
+      "path": "plugin-src/core/references/taxonomy-index.md",
+      "dest": "plugin-src/core/references/taxonomy-index.md",
+      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "size": 2051
+    },
+    {
+      "path": "plugin-src/core/scripts/attempt_tool.py",
+      "dest": "plugin-src/core/scripts/attempt_tool.py",
+      "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+      "size": 14907
+    },
+    {
+      "path": "plugin-src/core/scripts/common.py",
+      "dest": "plugin-src/core/scripts/common.py",
+      "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+      "size": 13978
+    },
+    {
+      "path": "plugin-src/core/scripts/evaluation_tool.py",
+      "dest": "plugin-src/core/scripts/evaluation_tool.py",
+      "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+      "size": 26544
+    },
+    {
+      "path": "plugin-src/core/scripts/evidence_tool.py",
+      "dest": "plugin-src/core/scripts/evidence_tool.py",
+      "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+      "size": 19762
+    },
+    {
+      "path": "plugin-src/core/scripts/orchestration_engine.py",
+      "dest": "plugin-src/core/scripts/orchestration_engine.py",
+      "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+      "size": 46361
+    },
+    {
+      "path": "plugin-src/core/scripts/registry_tool.py",
+      "dest": "plugin-src/core/scripts/registry_tool.py",
+      "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+      "size": 20952
+    },
+    {
+      "path": "plugin-src/core/scripts/report_renderer.py",
+      "dest": "plugin-src/core/scripts/report_renderer.py",
+      "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+      "size": 8229
+    },
+    {
+      "path": "plugin-src/core/scripts/tests/test_common_schema.py",
+      "dest": "plugin-src/core/scripts/tests/test_common_schema.py",
+      "sha256": "1661dd300af877699cc673c1f013de1a0c109bdc3c740d9f5dc77118e883b700",
+      "size": 5244
+    },
+    {
+      "path": "plugin-src/core/scripts/tests/test_evidence_integrity.py",
+      "dest": "plugin-src/core/scripts/tests/test_evidence_integrity.py",
+      "sha256": "00bebd4806cff9f1f8cc6d5d39c152b47a45946738f50d4f3672fa6ef974a2de",
+      "size": 12502
+    },
+    {
+      "path": "plugin-src/core/scripts/tests/test_orchestration_engine.py",
+      "dest": "plugin-src/core/scripts/tests/test_orchestration_engine.py",
+      "sha256": "5971e348131d2542d5e7c5e20ccc39d5a503f02b35cebd7ef60c4929850d81c7",
+      "size": 47231
+    },
+    {
+      "path": "plugin-src/core/scripts/tests/test_report_renderer.py",
+      "dest": "plugin-src/core/scripts/tests/test_report_renderer.py",
+      "sha256": "2380c17a8c763339d777e32ad5ef6cd209d5126dadda946ee0c704358149eef9",
+      "size": 4724
+    },
+    {
+      "path": "plugin-src/core/scripts/tests/test_state_boundaries.py",
+      "dest": "plugin-src/core/scripts/tests/test_state_boundaries.py",
+      "sha256": "8f02c72bcbbea87b85aa34a2affa87931afe8c6eb09c4f592793fd41043bbd89",
+      "size": 37580
+    },
+    {
+      "path": "plugin-src/core/scripts/tests/test_structure_registry.py",
+      "dest": "plugin-src/core/scripts/tests/test_structure_registry.py",
+      "sha256": "d172616071bb671a15c01b8953e35fa644558e80a1a4c9552fd5e685f8c676d3",
+      "size": 14771
+    },
+    {
+      "path": "plugin-src/core/SKILL.md",
+      "dest": "plugin-src/core/SKILL.md",
+      "sha256": "dfd88ecd22174361a2d24e36d7bd2b559a455c5b58991b11e9a6731c1614df68",
+      "size": 3971
+    },
+    {
+      "path": "plugin-src/platforms/claude-code/.claude-plugin/plugin.json",
+      "dest": "plugin-src/platforms/claude-code/.claude-plugin/plugin.json",
+      "sha256": "0f9c8daba571ab2a2f2e987c8f8821f15a3bd674caa093b838fb2da8cd65b033",
+      "size": 332
+    },
+    {
+      "path": "plugin-src/platforms/claude-code/claude-prompt-manifest.json",
+      "dest": "plugin-src/platforms/claude-code/claude-prompt-manifest.json",
+      "sha256": "7d3457574a842aa9b3caced947b4b9166f04038799bb90122c83aeb498e3b633",
+      "size": 1423
+    },
+    {
+      "path": "plugin-src/platforms/claude-code/platform-manifest.json",
+      "dest": "plugin-src/platforms/claude-code/platform-manifest.json",
+      "sha256": "4d823a73081d7ca1ced75d1d7e90675994ef29845b09e5514f8773b68d5d2704",
+      "size": 1021
+    },
+    {
+      "path": "plugin-src/platforms/claude-code/references/claude-code-orchestration.md",
+      "dest": "plugin-src/platforms/claude-code/references/claude-code-orchestration.md",
+      "sha256": "436f923075ffbbb4ad74673cb9340d41ebcb0c3baa9ce45559bfdaf84ab90f10",
+      "size": 5645
+    },
+    {
+      "path": "plugin-src/platforms/claude-code/SKILL.md",
+      "dest": "plugin-src/platforms/claude-code/SKILL.md",
+      "sha256": "9b7055e5391499f399c348e1874f001b0f3f2b7e0562497a8a335994ab487fff",
+      "size": 8669
+    },
+    {
+      "path": "plugin-src/platforms/codex/.codex-plugin/plugin.json",
+      "dest": "plugin-src/platforms/codex/.codex-plugin/plugin.json",
+      "sha256": "bf3d2a5fb6f82be65b9b81c4c9380fd4216a97f26070e236bc6efadf00800b68",
+      "size": 326
+    },
+    {
+      "path": "plugin-src/platforms/codex/platform-manifest.json",
+      "dest": "plugin-src/platforms/codex/platform-manifest.json",
+      "sha256": "a33725503e3530d044c6e24de01075a67f615d6e7f6ed632ef37e982d0e52902",
+      "size": 929
+    },
+    {
+      "path": "plugin-src/platforms/codex/references/codex-orchestration.md",
+      "dest": "plugin-src/platforms/codex/references/codex-orchestration.md",
+      "sha256": "96fc20c5fa8cc99437ea2c5a3b4c27bf02b28ae4c32ce2e32ad5b8da91adad24",
+      "size": 4438
+    },
+    {
+      "path": "plugin-src/platforms/codex/scripts/codex_artifact_normalizer.py",
+      "dest": "plugin-src/platforms/codex/scripts/codex_artifact_normalizer.py",
+      "sha256": "cb686bbc468a1475c02b18b42704cf8c792d0338cc5c0a6efdf0f84fee204720",
+      "size": 5424
+    },
+    {
+      "path": "plugin-src/platforms/codex/scripts/codex_prepare_run.py",
+      "dest": "plugin-src/platforms/codex/scripts/codex_prepare_run.py",
+      "sha256": "cb559d83a4aeea02b7d113d4968684eda67261d60a4553635f6e1b37ca529b2f",
+      "size": 2195
+    },
+    {
+      "path": "plugin-src/platforms/codex/SKILL.md",
+      "dest": "plugin-src/platforms/codex/SKILL.md",
+      "sha256": "720ade81af6bc17f5d9f61cc18b32b7c11ba30511312ed5c79da974ad878089b",
+      "size": 7569
+    },
+    {
+      "path": "plugin-src/platforms/kimi-code/.kimi-plugin/plugin.json",
+      "dest": "plugin-src/platforms/kimi-code/.kimi-plugin/plugin.json",
+      "sha256": "40af939e373bf9dad68a83e1dcb4f5d434e307ec83fa8e60fbf12b0f92a58717",
+      "size": 615
+    },
+    {
+      "path": "plugin-src/platforms/kimi-code/kimi.plugin.json",
+      "dest": "plugin-src/platforms/kimi-code/kimi.plugin.json",
+      "sha256": "640548135c4d7def5cf6198ccdd9cead895451fe77cd0fcf90df072d2ce68aa4",
+      "size": 591
+    },
+    {
+      "path": "plugin-src/platforms/kimi-code/platform-manifest.json",
+      "dest": "plugin-src/platforms/kimi-code/platform-manifest.json",
+      "sha256": "853b71653e7ce8f328eaeabf706af79be7bb589db9de97d837281bc7fc260632",
+      "size": 1054
+    },
+    {
+      "path": "plugin-src/platforms/kimi-code/references/kimi-code-orchestration.md",
+      "dest": "plugin-src/platforms/kimi-code/references/kimi-code-orchestration.md",
+      "sha256": "5a0764b7b208f67a4a0bd395094a27b08928308d893a6e12237a554ddf94b447",
+      "size": 2929
+    },
+    {
+      "path": "plugin-src/platforms/kimi-code/SKILL.md",
+      "dest": "plugin-src/platforms/kimi-code/SKILL.md",
+      "sha256": "34ad07df2918cc4ded2377c1fb848dfd8d3fde0b39b311efc6cb0e1947798d4a",
+      "size": 5628
+    },
+    {
+      "path": "plugin-src/platforms/workbuddy/.codebuddy-plugin/plugin.json",
+      "dest": "plugin-src/platforms/workbuddy/.codebuddy-plugin/plugin.json",
+      "sha256": "53c687d8266c2647aea747edb85df9f35a4e7799028f261ed9a397883b0163e3",
+      "size": 340
+    },
+    {
+      "path": "plugin-src/platforms/workbuddy/platform-manifest.json",
+      "dest": "plugin-src/platforms/workbuddy/platform-manifest.json",
+      "sha256": "13a743f466bd01a975ce50a3902d28ce3e52d1c3a512eedd3072c61fea070530",
+      "size": 1018
+    },
+    {
+      "path": "plugin-src/platforms/workbuddy/references/workbuddy-orchestration.md",
+      "dest": "plugin-src/platforms/workbuddy/references/workbuddy-orchestration.md",
+      "sha256": "7e9f42ca832406bacbc0df6f86604bf320d1df21e62215c5d3453a7c85abe26d",
+      "size": 3081
+    },
+    {
+      "path": "plugin-src/platforms/workbuddy/SKILL.md",
+      "dest": "plugin-src/platforms/workbuddy/SKILL.md",
+      "sha256": "761f1b0d3f26868df42605764e3e6e7f474ca2ab9032169a690093c73c017584",
+      "size": 5510
+    },
+    {
+      "path": "README_zh.md",
+      "dest": "README_zh.md",
+      "sha256": "c8c0a1a6035294df50f4bc7beece3db0b74dfd9103bead465cb9fbaec4a74d05",
+      "size": 2951
+    },
+    {
+      "path": "README.md",
+      "dest": "README.md",
+      "sha256": "3dd3c4f298b1d045de8ce1ae00fa82a23280982069dacf2f7e58ab8fd84ef961",
+      "size": 2932
+    },
+    {
+      "path": "scripts/build/build_platforms.py",
+      "dest": "scripts/build/build_platforms.py",
+      "sha256": "c4352a516d66a9defdff18efa1a17c7ee2e93fe92afd10a0ca66d80fc769fb7a",
+      "size": 16996
+    },
+    {
+      "path": "scripts/build/generate_kimi_compat_manifest.py",
+      "dest": "scripts/build/generate_kimi_compat_manifest.py",
+      "sha256": "7b4069cbd47563dddbfee14b26ec6572758a2bbd871917a32322a9da15573bfc",
+      "size": 1671
+    },
+    {
+      "path": "SECURITY.md",
+      "dest": "SECURITY.md",
+      "sha256": "31e3dc9aa888dd3a1261e3d4089e3ba28f3ef95dc8798604a8fc156aeca68dd4",
+      "size": 485
+    },
+    {
+      "path": "spec/orchestration/platform-adapter-mapping.json",
+      "dest": "spec/orchestration/platform-adapter-mapping.json",
+      "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+      "size": 4952
+    },
+    {
+      "path": "spec/orchestration/protocol.md",
+      "dest": "spec/orchestration/protocol.md",
+      "sha256": "2164083f63bfc8227c9074784369887ca561df150be19c9fa29a6a0d5e6b2844",
+      "size": 10592
+    },
+    {
+      "path": "spec/orchestration/result.schema.json",
+      "dest": "spec/orchestration/result.schema.json",
+      "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+      "size": 4125
+    },
+    {
+      "path": "spec/orchestration/role-artifact.schema.json",
+      "dest": "spec/orchestration/role-artifact.schema.json",
+      "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+      "size": 2360
+    },
+    {
+      "path": "spec/orchestration/semantic-claim-cases.json",
+      "dest": "spec/orchestration/semantic-claim-cases.json",
+      "sha256": "c055e4a803cb2e393f3dfedbeef9703b03344ec9847a6c8fafaa72be0eacc8cd",
+      "size": 1438
+    },
+    {
+      "path": "spec/orchestration/task-package.schema.json",
+      "dest": "spec/orchestration/task-package.schema.json",
+      "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+      "size": 4280
+    },
+    {
+      "path": "spec/platforms/equivalence-matrix.json",
+      "dest": "spec/platforms/equivalence-matrix.json",
+      "sha256": "328ef1557f48ac1201279f9b88f0326975c3bba53f6ab31be0b63cef081f7aa1",
+      "size": 2199
+    },
+    {
+      "path": "spec/platforms/platform-evidence-inheritance.schema.json",
+      "dest": "spec/platforms/platform-evidence-inheritance.schema.json",
+      "sha256": "e64e6d19a106bb5455b406c3601776c60635aa04268276eafc6b8d7266d5099a",
+      "size": 2557
+    },
+    {
+      "path": "spec/platforms/support-matrix.json",
+      "dest": "spec/platforms/support-matrix.json",
+      "sha256": "e38442d85027120bac82587305eef58dd8e7be9a57f41249945399c7b77fd5ee",
+      "size": 3517
+    },
+    {
+      "path": "spec/release/public-boundary.json",
+      "dest": "spec/release/public-boundary.json",
+      "sha256": "5fa0930a4aeac4aca6c49f343a56274142eb3eb1be45e975ecb458434a5feb75",
+      "size": 2255
+    },
+    {
+      "path": "spec/release/release-pages-hub-design.md",
+      "dest": "spec/release/release-pages-hub-design.md",
+      "sha256": "b9562f1796ad06670a7f5424b1a61b56d24a0cc7dec86b9323b634eadbbc9834",
+      "size": 2550
+    },
+    {
+      "path": "tests/blackbox/test_gate_blackbox.py",
+      "dest": "tests/blackbox/test_gate_blackbox.py",
+      "sha256": "3faf8d7240b6695c4c87720f4ff40b88245eaddb4299ecd105167cd1b167d653",
+      "size": 58046
+    },
+    {
+      "path": "tests/blackbox/test_kimi_fail_fast.py",
+      "dest": "tests/blackbox/test_kimi_fail_fast.py",
+      "sha256": "26dd0142cbb0ce6242b54e74c525f69e87ba6121a6bbe1b58e157336b4ec37ef",
+      "size": 6032
+    },
+    {
+      "path": "tests/blackbox/test_workbuddy_home_boundary.py",
+      "dest": "tests/blackbox/test_workbuddy_home_boundary.py",
+      "sha256": "f9ee1550bfd989aacbd4bf593a2289172ce4e25f7fff86d0bae86d0f1adad0b9",
+      "size": 2096
+    },
+    {
+      "path": "tests/build/test_deterministic_build.py",
+      "dest": "tests/build/test_deterministic_build.py",
+      "sha256": "3c84b136b453a081c396c4503f6c49c4734868e8781ea19cce5a279ebbbf3d01",
+      "size": 4194
+    },
+    {
+      "path": "tests/build/test_precandidate_pipeline.py",
+      "dest": "tests/build/test_precandidate_pipeline.py",
+      "sha256": "f4f391ab3a7d01d59d4c25038e1194350350500e7bdc59ac534d408c3ba0520f",
+      "size": 7843
+    },
+    {
+      "path": "tests/consumer/test_consumer_isolation.py",
+      "dest": "tests/consumer/test_consumer_isolation.py",
+      "sha256": "ea2b1b453786486fddc4a53d42d676fc4c8117bfacd326a485169ff86d24474e",
+      "size": 22858
+    },
+    {
+      "path": "tests/release/test_release_snapshot.py",
+      "dest": "tests/release/test_release_snapshot.py",
+      "sha256": "8ce58d0494dde14f97255768b04da33e036c0a79ce3d43f2663ed00a11d0c3f0",
+      "size": 20132
+    },
+    {
+      "path": "tests/structural/test_claude_projection.py",
+      "dest": "tests/structural/test_claude_projection.py",
+      "sha256": "122a8166d7cfa611e7bd10957a5d5855f630c0318310bd10fc4f663b506b0bce",
+      "size": 5086
+    },
+    {
+      "path": "tests/structural/test_codex_artifact_normalizer.py",
+      "dest": "tests/structural/test_codex_artifact_normalizer.py",
+      "sha256": "0c71d3a9eadd949b896a42092374ed7e1362531242709af157634d054dc081d6",
+      "size": 11310
+    },
+    {
+      "path": "tests/structural/test_docs_academy.py",
+      "dest": "tests/structural/test_docs_academy.py",
+      "sha256": "719418c476f725c33685feb22f85866239330467fa3237ad2a2c5512a8130fe5",
+      "size": 4355
+    },
+    {
+      "path": "tests/structural/test_entry_verbatim.py",
+      "dest": "tests/structural/test_entry_verbatim.py",
+      "sha256": "03daefc6e6ed71aff971538f905f27055a78c0158f2db0f80b10fa7eb4bcdd7d",
+      "size": 6686
+    },
+    {
+      "path": "tests/structural/test_platforms_contracts.py",
+      "dest": "tests/structural/test_platforms_contracts.py",
+      "sha256": "828f6741e4ff91b4df42b02cd6f0dfadc81afb3442e91e204ef89f0458f56ec9",
+      "size": 14573
+    },
+    {
+      "path": "tests/structural/test_prompt_schema_alignment.py",
+      "dest": "tests/structural/test_prompt_schema_alignment.py",
+      "sha256": "5451d6731f3e2d5a54b3a0df31b9cd91cf8a9f1f22e36bb0ff825a020af18eda",
+      "size": 1380
+    },
+    {
+      "path": "tests/structural/test_semantic_claim_cases.py",
+      "dest": "tests/structural/test_semantic_claim_cases.py",
+      "sha256": "0c9b4925608d086b6a2c7aed8683a3ce0e519a29f600f9ba470e2d8314e9c54e",
+      "size": 2126
+    },
+    {
+      "path": "tests/structural/test_version_coherence.py",
+      "dest": "tests/structural/test_version_coherence.py",
+      "sha256": "57a62a90a31fb8f240890f3bc8915a742e8819f17ee6a3100c9e705efcaa8049",
+      "size": 13239
+    }
+  ],
+  "generatedMetadata": [
+    {
+      "path": "candidate-manifest.json",
+      "dest": "generated-metadata/candidate-manifest.json",
+      "sha256": "a38deb1dd86b39054054d84bbff11ce7dea6ed15e6b3f28101a795cabc3128f2",
+      "size": 65787
+    }
+  ],
+  "verdict": "PASS"
+}

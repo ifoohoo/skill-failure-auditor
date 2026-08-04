@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "2.0",
+  "platformId": "claude-code",
+  "product": "skill-failure-auditor",
+  "minClientVersion": "2.1.218",
+  "deliveryMode": "claude_plugin",
+  "pluginManifest": ".claude-plugin/plugin.json",
+  "entry": "SKILL.md",
+  "delegation": {
+    "tool": "Agent",
+    "builtinAgents": [
+      "Plan",
+      "Explore",
+      "general-purpose"
+    ],
+    "caseSensitive": true,
+    "foregroundBaseline": true,
+    "customAgentsForbidden": true
+  },
+  "assets": {
+    "skillMd": "SKILL.md",
+    "promptManifest": "claude-prompt-manifest.json",
+    "orchestrationDoc": "references/claude-code-orchestration.md",
+    "prompts": "prompts/"
+  },
+  "coreContract": {
+    "engine": "scripts/orchestration_engine.py（来自核心，W7 组装）",
+    "registry": "references/failure-modes.jsonl（来自核心，唯一规则源）",
+    "rule": "投影不得携带规则登记表、Schema 或引擎实现副本；只携带清单、提示词、编排文档与入口"
+  },
+  "projectionStatus": "projection_complete"
+}

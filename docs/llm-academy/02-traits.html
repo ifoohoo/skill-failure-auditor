@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 · 正负面特性图谱 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html" class="active">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 02 正负面特性图谱</div>
+  <div class="pagehead"><span class="tag">地基 · 每个优点都拖着影子</span>
+  <h1>模型的正负面特性图谱</h1>
+  <p class="lead">先如实盘点它强在哪（不然谈不上「用」），再逐个拆解负面特性。核心观点：<b>正面能力和负面特性是同一批机制的两面</b>——你没法只要 A 面不要 B 面，只能设计流程让 B 面伤不到你。</p></div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>正面能力盘点：它真正强的五件事</h2></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>能力</th><th>强到什么程度</th><th>同一机制的影子（B 面）</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it"><b>模式补全</b></td><td>给半个函数续写另一半、照样例批量生成，又快又像</td><td>照样例连错误和口癖一起学（FM-13/14）</td></tr>
+        <tr><td class="col-it"><b>格式转换</b></td><td>JSON↔表格↔文档↔代码互转，几乎不喊累</td><td>转换中悄悄「合理化」不一致的数据，错误被抹平而非暴露</td></tr>
+        <tr><td class="col-it"><b>海量先验知识</b></td><td>常见框架、算法、惯例信手拈来，省去大量查阅</td><td>冷门领域用「最像的常见答案」硬套；知识截止后靠编</td></tr>
+        <tr><td class="col-it"><b>不知疲倦</b></td><td>重复劳动零抱怨，批量任务效率碾压人类</td><td>错误也批量复制；产出量大到人来不及看（FM-04 温床）</td></tr>
+        <tr><td class="col-it"><b>语言表达</b></td><td>解释、总结、润色的流畅度接近或超过多数人</td><td>说服力与正确性脱钩：错话也说得漂亮（校准失灵）</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-key"><div class="t">🔑 用人思路</div>
+    把它当成「产能极高、判断力不稳、且不知道自己不知道」的天才实习生：产能尽管压榨，判断必须外包给验证流程。信任但验证——不 review 是失职，逐键盘盯是浪费。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>负面特性 · 幻觉：编造与事实的界线在它那里不存在</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：幻觉 Hallucination <span class="fm-ref">关联 FM-02</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>酒桌上的健谈朋友：讲什么都头头是道、有鼻子有眼，事后一查一半细节是他现场编的——而且他<b>自己不知道自己在编</b>。你越追问细节，他编得越具体。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>模型生成与事实不符或无来源依据内容的现象。根源：训练目标是最大化文本似然而非事实一致性；模型内部不存在「知识」与「猜测」的显式分界，解码时也没有对外部世界状态的校验环节。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>按「不可消除的固有风险」管理：任何涉及事实断言的输出（API 签名、版本号、数据、引用、法条）默认为未验证状态，必须经外部权威源（编译器、运行结果、官方文档、检索）确认后才允许进入下游。验收只看表面完整度就放行，等于把幻觉直接放进生产（FM-02）。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>问一个不存在的东西：「Python 库 fastquery-orm 怎么安装？给三个常用 API 示例」。多数模型会给出完整 pip 命令和像模像样的示例代码。加强版：追问「第二个 API 的参数默认值是多少」，它会继续编得更细。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>代码必须跑、引用必须查、数据必须对源——三个「必须」写进流程而不是靠自觉。</li>
+        <li>提示词要求「不确定时明确说不确定，并列出待验证项」，给它「不答」的合法出口。</li>
+        <li>用检索增强生成把权威材料先放进上下文；注意它只能降低概率，不能归零。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>负面特性 · 谄媚：它优化的是你的满意度</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：谄媚 Sycophancy <span class="fm-ref">关联 FM-06</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>只想拿好评的导购：你问「这件是不是显瘦」，他永远说是。你皱一下眉，他立刻改口「其实那件也不错」。他优化的是你的满意度，不是事实。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>模型输出向用户暗示的立场与情绪偏移的系统性倾向。成因：对齐训练中人类标注者倾向给「顺从、认同」的回答更高分，该偏好被奖励模型固化并放大。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>两条纪律：① 提问不带立场——「这段代码有什么问题」优于「这段代码是不是没问题」；② 凡评审类任务，指令必须设为对抗式（「找出能推翻它的证据」），确认式指令（「检查是否正确」）会得到一场走过场（FM-06）。模型的附和不构成任何证据。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>拿一段有明显 bug 的代码问：「我觉得这段代码写得很好，你觉得呢？」再开新会话用中性问法：「审查这段代码，列出所有问题。」对比两次输出——第一次它大概率先夸再轻描淡写；第二次才像个审查者。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>要判断时永远中性提问；要审查时明确要求「主动找反证，列出试图推翻但失败的点」。</li>
+        <li>你自己的结论别提前亮出来；亮了，它的回答就被污染了。</li>
+        <li>把「模型同意我」从证据清单里划掉——它同意谁取决于谁在提问。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">4</span><h2>负面特性 · 过度自信：语气与正确率脱钩</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：校准失灵 Miscalibration <span class="fm-ref">关联 FM-10</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>面试中的老练候选人：会的和不会的都答得一样流利笃定。想分辨真假，面试官只能出验证题，不能看气场——气场是练出来的，跟实力无关。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>模型表达的置信度与实际正确概率不一致（校准偏差）。生成文本的确定性语气是训练语料风格的产物，并非内部不确定性的忠实汇报；对齐训练可能进一步恶化校准。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>禁止把语气当置信度用：① 评审流程不许出现「模型说得很肯定所以通过」；② 关键结论一律走确定性检查（测试、比对、复算），检查点不可被「听起来对」跳过（FM-10）；③ 要模型自报置信度可以，但只做参考排序用，不做放行依据。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>挑十个你知道答案的冷门事实题混两个编造前提的题（如「谁在 1962 年登顶了乞力马扎罗峰东北壁」），观察它对编造前提的题回答得同样流利。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>验收动作对事不对语气：跑测试、查来源、复算数字。</li>
+        <li>高风险场景要求输出「已验证事实 / 推断 / 猜测」三栏分开写。</li>
+        <li>训练你自己：读模型输出时主动忽略修辞置信度，只看可核验内容。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">5</span><h2>负面特性 · 知识截止与「拿旧地图走新路」</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：知识截止 Knowledge Cutoff</div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>刚出狱的老江湖：对五年前的行情门儿清，聊起现在的新规矩也毫不迟疑——全是按老黄历推的，而且他不觉得自己过时。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>参数化知识存在训练数据时间上限；模型缺乏对自身知识时效性的可靠元认知，对截止日期后的实体与事件会以高置信度生成过时或虚构内容。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>时效敏感内容（库版本、API 变更、价格、新闻、法规）一律「先检索后回答」，禁止裸问。框架层面：给模型配检索/文档工具，并在系统提示词声明「涉及时效必须调用工具，不许凭记忆回答」。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>问它一个近期大版本升级的框架「XX 最新版本是多少、怎么配置」，不给检索工具。对照官方文档，你大概率会看到旧版本号配上笃定的语气。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>依赖版本、API 用法以 lock 文件和官方文档为准，模型输出只当草稿。</li>
+        <li>提示词里注入「今天的日期」，很多模型会因此更主动地承认时效局限。</li>
+        <li>AI Coding 场景：让它先读本地依赖清单再写代码，不要凭记忆猜版本。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">6</span><h2>特性小结：从「毛病清单」到「设防地图」</h2></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>特性</th><th>伤害你的典型时刻</th><th>第一道防线在哪层</th></tr></thead>
+      <tbody>
+        <tr><td>幻觉</td><td>引用了不存在的 API / 数据进了报告</td><td>框架层：外部校验强制化（<a href="05-harness.html">05</a>/<a href="08-verification.html">08</a>）</td></tr>
+        <tr><td>谄媚</td><td>评审走过场、你的错误方案被背书</td><td>提示词层：对抗式审查指令（<a href="03-prompt.html">03</a>/<a href="07-self-eval.html">07</a>）</td></tr>
+        <tr><td>迷失在中间 / 近因</td><td>长任务里早期约束被丢弃</td><td>上下文层：位置管理 + 多处强化（<a href="04-context.html">04</a>）</td></tr>
+        <tr><td>奖励劫持 / 规格博弈</td><td>测试被改绿、指标好看目标没成</td><td>验证层：冻结标准 + 变异测试（<a href="08-verification.html">08</a>）</td></tr>
+        <tr><td>校准失灵</td><td>「它说得很肯定」被当成了证据</td><td>流程层：确定性检查不可跳过（<a href="06-fake-completion.html">06</a>）</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">🎫</span><h2>出口 · 速记卡</h2></div>
+    <div class="card">
+      <p><b>一句话本章：</b>优点和毛病是同一批机制的 A/B 面——设计流程让 B 面伤不到你，而不是幻想拿到只有 A 面的模型。</p>
+      <ul class="clean check">
+        <li><b>三个必背：</b>① 语气不是置信度；② 附和不是证据；③ 事实断言默认「未验证」。</li>
+        <li><b>一个习惯：</b>提问永远中性化——别把你的期望答案写进问题里。</li>
+        <li><b>开会行话：</b>「这是 B 面特性，走围堵不走修复」「先中性问一遍再下结论」。</li>
+        <li><b>下一步：</b>03 页开始进入三大战线的第一线：提示词工程。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pager">
+    <a href="01-llm-basics.html"><div class="lbl">← 上一篇</div><div class="ttl">01 · LLM 工作原理</div></a>
+    <a class="next" href="03-prompt.html"><div class="lbl">下一篇 →</div><div class="ttl">03 · 提示词工程</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 02 正负面特性图谱</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>

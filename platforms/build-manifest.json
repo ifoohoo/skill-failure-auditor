@@ -1,0 +1,739 @@
+{
+  "schemaVersion": "1.0",
+  "builder": "scripts/build/build_platforms.py",
+  "builderSha256": "c4352a516d66a9defdff18efa1a17c7ee2e93fe92afd10a0ca66d80fc769fb7a",
+  "units": {
+    "claude-code": {
+      "platformId": "claude-code",
+      "status": "assembled",
+      "fileCount": 35,
+      "files": [
+        {
+          "path": "platform-manifest.json",
+          "sha256": "4d823a73081d7ca1ced75d1d7e90675994ef29845b09e5514f8773b68d5d2704",
+          "source": "platforms/claude-code/platform-manifest.json"
+        },
+        {
+          "path": "skill/.claude-plugin/plugin.json",
+          "sha256": "0f9c8daba571ab2a2f2e987c8f8821f15a3bd674caa093b838fb2da8cd65b033",
+          "source": "platforms/claude-code/.claude-plugin/plugin.json"
+        },
+        {
+          "path": "skill/SKILL.md",
+          "sha256": "17c4a44ef51fee2746b04a649dae4fda0ac5eb6f7932a598a23468a768f5dace",
+          "source": "platforms/claude-code/SKILL.md"
+        },
+        {
+          "path": "skill/claude-prompt-manifest.json",
+          "sha256": "7d3457574a842aa9b3caced947b4b9166f04038799bb90122c83aeb498e3b633",
+          "source": "generated-from:core/prompts+platform-adapter-mapping.json"
+        },
+        {
+          "path": "skill/prompts/adversarial-challenge.md",
+          "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+          "source": "core/prompts/adversarial-challenge.md"
+        },
+        {
+          "path": "skill/prompts/evaluation-integrity.md",
+          "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+          "source": "core/prompts/evaluation-integrity.md"
+        },
+        {
+          "path": "skill/prompts/result-synthesis.md",
+          "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+          "source": "core/prompts/result-synthesis.md"
+        },
+        {
+          "path": "skill/prompts/runtime-evidence.md",
+          "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+          "source": "core/prompts/runtime-evidence.md"
+        },
+        {
+          "path": "skill/prompts/scope-routing.md",
+          "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+          "source": "core/prompts/scope-routing.md"
+        },
+        {
+          "path": "skill/prompts/static-audit.md",
+          "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+          "source": "core/prompts/static-audit.md"
+        },
+        {
+          "path": "skill/references/attempt-manifest.schema.json",
+          "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+          "source": "core/references/attempt-manifest.schema.json"
+        },
+        {
+          "path": "skill/references/audit-result.schema.json",
+          "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+          "source": "core/references/audit-result.schema.json"
+        },
+        {
+          "path": "skill/references/builtin-registry-lock.json",
+          "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+          "source": "core/references/builtin-registry-lock.json"
+        },
+        {
+          "path": "skill/references/claude-code-orchestration.md",
+          "sha256": "436f923075ffbbb4ad74673cb9340d41ebcb0c3baa9ce45559bfdaf84ab90f10",
+          "source": "platforms/claude-code/references/claude-code-orchestration.md"
+        },
+        {
+          "path": "skill/references/context-continuation.md",
+          "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+          "source": "core/references/context-continuation.md"
+        },
+        {
+          "path": "skill/references/continuation-package.schema.json",
+          "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+          "source": "core/references/continuation-package.schema.json"
+        },
+        {
+          "path": "skill/references/evaluation-integrity.md",
+          "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+          "source": "core/references/evaluation-integrity.md"
+        },
+        {
+          "path": "skill/references/failure-mode.schema.json",
+          "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+          "source": "core/references/failure-mode.schema.json"
+        },
+        {
+          "path": "skill/references/failure-modes.jsonl",
+          "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+          "source": "core/references/failure-modes.jsonl"
+        },
+        {
+          "path": "skill/references/platform-adapter-mapping.json",
+          "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+          "source": "spec/orchestration/platform-adapter-mapping.json"
+        },
+        {
+          "path": "skill/references/report-contract.md",
+          "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+          "source": "core/references/report-contract.md"
+        },
+        {
+          "path": "skill/references/result.schema.json",
+          "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+          "source": "spec/orchestration/result.schema.json"
+        },
+        {
+          "path": "skill/references/role-artifact.schema.json",
+          "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+          "source": "spec/orchestration/role-artifact.schema.json"
+        },
+        {
+          "path": "skill/references/runtime-supervision.md",
+          "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+          "source": "core/references/runtime-supervision.md"
+        },
+        {
+          "path": "skill/references/self-iteration-protocol.md",
+          "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+          "source": "core/references/self-iteration-protocol.md"
+        },
+        {
+          "path": "skill/references/source-manifest.schema.json",
+          "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+          "source": "core/references/source-manifest.schema.json"
+        },
+        {
+          "path": "skill/references/task-package.schema.json",
+          "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+          "source": "spec/orchestration/task-package.schema.json"
+        },
+        {
+          "path": "skill/references/taxonomy-index.md",
+          "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+          "source": "core/references/taxonomy-index.md"
+        },
+        {
+          "path": "skill/scripts/attempt_tool.py",
+          "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+          "source": "core/scripts/attempt_tool.py"
+        },
+        {
+          "path": "skill/scripts/common.py",
+          "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+          "source": "core/scripts/common.py"
+        },
+        {
+          "path": "skill/scripts/evaluation_tool.py",
+          "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+          "source": "core/scripts/evaluation_tool.py"
+        },
+        {
+          "path": "skill/scripts/evidence_tool.py",
+          "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+          "source": "core/scripts/evidence_tool.py"
+        },
+        {
+          "path": "skill/scripts/orchestration_engine.py",
+          "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+          "source": "core/scripts/orchestration_engine.py"
+        },
+        {
+          "path": "skill/scripts/registry_tool.py",
+          "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+          "source": "core/scripts/registry_tool.py"
+        },
+        {
+          "path": "skill/scripts/report_renderer.py",
+          "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+          "source": "core/scripts/report_renderer.py"
+        }
+      ],
+      "treeDigest": "452e477c9814baee636ea0e88c2dcb381a376d0148346174c02dca7777d4c2e5"
+    },
+    "codex": {
+      "platformId": "codex",
+      "status": "assembled",
+      "fileCount": 36,
+      "files": [
+        {
+          "path": ".codex-plugin/plugin.json",
+          "sha256": "bf3d2a5fb6f82be65b9b81c4c9380fd4216a97f26070e236bc6efadf00800b68",
+          "source": "platforms/codex/.codex-plugin/plugin.json"
+        },
+        {
+          "path": "platform-manifest.json",
+          "sha256": "a33725503e3530d044c6e24de01075a67f615d6e7f6ed632ef37e982d0e52902",
+          "source": "platforms/codex/platform-manifest.json"
+        },
+        {
+          "path": "skill/SKILL.md",
+          "sha256": "6b10c1f29df1f2400abacfaad2d69622f7bc706033a8e1ab84700ce68c53c430",
+          "source": "platforms/codex/SKILL.md"
+        },
+        {
+          "path": "skill/prompts/adversarial-challenge.md",
+          "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+          "source": "core/prompts/adversarial-challenge.md"
+        },
+        {
+          "path": "skill/prompts/evaluation-integrity.md",
+          "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+          "source": "core/prompts/evaluation-integrity.md"
+        },
+        {
+          "path": "skill/prompts/result-synthesis.md",
+          "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+          "source": "core/prompts/result-synthesis.md"
+        },
+        {
+          "path": "skill/prompts/runtime-evidence.md",
+          "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+          "source": "core/prompts/runtime-evidence.md"
+        },
+        {
+          "path": "skill/prompts/scope-routing.md",
+          "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+          "source": "core/prompts/scope-routing.md"
+        },
+        {
+          "path": "skill/prompts/static-audit.md",
+          "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+          "source": "core/prompts/static-audit.md"
+        },
+        {
+          "path": "skill/references/attempt-manifest.schema.json",
+          "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+          "source": "core/references/attempt-manifest.schema.json"
+        },
+        {
+          "path": "skill/references/audit-result.schema.json",
+          "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+          "source": "core/references/audit-result.schema.json"
+        },
+        {
+          "path": "skill/references/builtin-registry-lock.json",
+          "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+          "source": "core/references/builtin-registry-lock.json"
+        },
+        {
+          "path": "skill/references/codex-orchestration.md",
+          "sha256": "96fc20c5fa8cc99437ea2c5a3b4c27bf02b28ae4c32ce2e32ad5b8da91adad24",
+          "source": "platforms/codex/references/codex-orchestration.md"
+        },
+        {
+          "path": "skill/references/context-continuation.md",
+          "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+          "source": "core/references/context-continuation.md"
+        },
+        {
+          "path": "skill/references/continuation-package.schema.json",
+          "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+          "source": "core/references/continuation-package.schema.json"
+        },
+        {
+          "path": "skill/references/evaluation-integrity.md",
+          "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+          "source": "core/references/evaluation-integrity.md"
+        },
+        {
+          "path": "skill/references/failure-mode.schema.json",
+          "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+          "source": "core/references/failure-mode.schema.json"
+        },
+        {
+          "path": "skill/references/failure-modes.jsonl",
+          "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+          "source": "core/references/failure-modes.jsonl"
+        },
+        {
+          "path": "skill/references/platform-adapter-mapping.json",
+          "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+          "source": "spec/orchestration/platform-adapter-mapping.json"
+        },
+        {
+          "path": "skill/references/report-contract.md",
+          "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+          "source": "core/references/report-contract.md"
+        },
+        {
+          "path": "skill/references/result.schema.json",
+          "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+          "source": "spec/orchestration/result.schema.json"
+        },
+        {
+          "path": "skill/references/role-artifact.schema.json",
+          "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+          "source": "spec/orchestration/role-artifact.schema.json"
+        },
+        {
+          "path": "skill/references/runtime-supervision.md",
+          "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+          "source": "core/references/runtime-supervision.md"
+        },
+        {
+          "path": "skill/references/self-iteration-protocol.md",
+          "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+          "source": "core/references/self-iteration-protocol.md"
+        },
+        {
+          "path": "skill/references/source-manifest.schema.json",
+          "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+          "source": "core/references/source-manifest.schema.json"
+        },
+        {
+          "path": "skill/references/task-package.schema.json",
+          "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+          "source": "spec/orchestration/task-package.schema.json"
+        },
+        {
+          "path": "skill/references/taxonomy-index.md",
+          "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+          "source": "core/references/taxonomy-index.md"
+        },
+        {
+          "path": "skill/scripts/attempt_tool.py",
+          "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+          "source": "core/scripts/attempt_tool.py"
+        },
+        {
+          "path": "skill/scripts/codex_artifact_normalizer.py",
+          "sha256": "cb686bbc468a1475c02b18b42704cf8c792d0338cc5c0a6efdf0f84fee204720",
+          "source": "platforms/codex/scripts/codex_artifact_normalizer.py"
+        },
+        {
+          "path": "skill/scripts/codex_prepare_run.py",
+          "sha256": "cb559d83a4aeea02b7d113d4968684eda67261d60a4553635f6e1b37ca529b2f",
+          "source": "platforms/codex/scripts/codex_prepare_run.py"
+        },
+        {
+          "path": "skill/scripts/common.py",
+          "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+          "source": "core/scripts/common.py"
+        },
+        {
+          "path": "skill/scripts/evaluation_tool.py",
+          "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+          "source": "core/scripts/evaluation_tool.py"
+        },
+        {
+          "path": "skill/scripts/evidence_tool.py",
+          "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+          "source": "core/scripts/evidence_tool.py"
+        },
+        {
+          "path": "skill/scripts/orchestration_engine.py",
+          "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+          "source": "core/scripts/orchestration_engine.py"
+        },
+        {
+          "path": "skill/scripts/registry_tool.py",
+          "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+          "source": "core/scripts/registry_tool.py"
+        },
+        {
+          "path": "skill/scripts/report_renderer.py",
+          "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+          "source": "core/scripts/report_renderer.py"
+        }
+      ],
+      "treeDigest": "b624673bd5ecae1bd4751ea25d6171bdc0051696bdf6f602af1137128775194c"
+    },
+    "kimi-code": {
+      "platformId": "kimi-code",
+      "status": "assembled",
+      "fileCount": 35,
+      "files": [
+        {
+          "path": ".kimi-plugin/plugin.json",
+          "sha256": "40af939e373bf9dad68a83e1dcb4f5d434e307ec83fa8e60fbf12b0f92a58717",
+          "source": "generated-from:kimi.plugin.json"
+        },
+        {
+          "path": "kimi.plugin.json",
+          "sha256": "640548135c4d7def5cf6198ccdd9cead895451fe77cd0fcf90df072d2ce68aa4",
+          "source": "platforms/kimi-code/kimi.plugin.json"
+        },
+        {
+          "path": "platform-manifest.json",
+          "sha256": "853b71653e7ce8f328eaeabf706af79be7bb589db9de97d837281bc7fc260632",
+          "source": "platforms/kimi-code/platform-manifest.json"
+        },
+        {
+          "path": "skill/SKILL.md",
+          "sha256": "47eb683640334d4e7559e53f98560684bff825730c50a0347ed21b90255566c6",
+          "source": "platforms/kimi-code/SKILL.md"
+        },
+        {
+          "path": "skill/prompts/adversarial-challenge.md",
+          "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+          "source": "core/prompts/adversarial-challenge.md"
+        },
+        {
+          "path": "skill/prompts/evaluation-integrity.md",
+          "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+          "source": "core/prompts/evaluation-integrity.md"
+        },
+        {
+          "path": "skill/prompts/result-synthesis.md",
+          "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+          "source": "core/prompts/result-synthesis.md"
+        },
+        {
+          "path": "skill/prompts/runtime-evidence.md",
+          "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+          "source": "core/prompts/runtime-evidence.md"
+        },
+        {
+          "path": "skill/prompts/scope-routing.md",
+          "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+          "source": "core/prompts/scope-routing.md"
+        },
+        {
+          "path": "skill/prompts/static-audit.md",
+          "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+          "source": "core/prompts/static-audit.md"
+        },
+        {
+          "path": "skill/references/attempt-manifest.schema.json",
+          "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+          "source": "core/references/attempt-manifest.schema.json"
+        },
+        {
+          "path": "skill/references/audit-result.schema.json",
+          "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+          "source": "core/references/audit-result.schema.json"
+        },
+        {
+          "path": "skill/references/builtin-registry-lock.json",
+          "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+          "source": "core/references/builtin-registry-lock.json"
+        },
+        {
+          "path": "skill/references/context-continuation.md",
+          "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+          "source": "core/references/context-continuation.md"
+        },
+        {
+          "path": "skill/references/continuation-package.schema.json",
+          "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+          "source": "core/references/continuation-package.schema.json"
+        },
+        {
+          "path": "skill/references/evaluation-integrity.md",
+          "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+          "source": "core/references/evaluation-integrity.md"
+        },
+        {
+          "path": "skill/references/failure-mode.schema.json",
+          "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+          "source": "core/references/failure-mode.schema.json"
+        },
+        {
+          "path": "skill/references/failure-modes.jsonl",
+          "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+          "source": "core/references/failure-modes.jsonl"
+        },
+        {
+          "path": "skill/references/kimi-code-orchestration.md",
+          "sha256": "5a0764b7b208f67a4a0bd395094a27b08928308d893a6e12237a554ddf94b447",
+          "source": "platforms/kimi-code/references/kimi-code-orchestration.md"
+        },
+        {
+          "path": "skill/references/platform-adapter-mapping.json",
+          "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+          "source": "spec/orchestration/platform-adapter-mapping.json"
+        },
+        {
+          "path": "skill/references/report-contract.md",
+          "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+          "source": "core/references/report-contract.md"
+        },
+        {
+          "path": "skill/references/result.schema.json",
+          "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+          "source": "spec/orchestration/result.schema.json"
+        },
+        {
+          "path": "skill/references/role-artifact.schema.json",
+          "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+          "source": "spec/orchestration/role-artifact.schema.json"
+        },
+        {
+          "path": "skill/references/runtime-supervision.md",
+          "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+          "source": "core/references/runtime-supervision.md"
+        },
+        {
+          "path": "skill/references/self-iteration-protocol.md",
+          "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+          "source": "core/references/self-iteration-protocol.md"
+        },
+        {
+          "path": "skill/references/source-manifest.schema.json",
+          "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+          "source": "core/references/source-manifest.schema.json"
+        },
+        {
+          "path": "skill/references/task-package.schema.json",
+          "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+          "source": "spec/orchestration/task-package.schema.json"
+        },
+        {
+          "path": "skill/references/taxonomy-index.md",
+          "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+          "source": "core/references/taxonomy-index.md"
+        },
+        {
+          "path": "skill/scripts/attempt_tool.py",
+          "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+          "source": "core/scripts/attempt_tool.py"
+        },
+        {
+          "path": "skill/scripts/common.py",
+          "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+          "source": "core/scripts/common.py"
+        },
+        {
+          "path": "skill/scripts/evaluation_tool.py",
+          "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+          "source": "core/scripts/evaluation_tool.py"
+        },
+        {
+          "path": "skill/scripts/evidence_tool.py",
+          "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+          "source": "core/scripts/evidence_tool.py"
+        },
+        {
+          "path": "skill/scripts/orchestration_engine.py",
+          "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+          "source": "core/scripts/orchestration_engine.py"
+        },
+        {
+          "path": "skill/scripts/registry_tool.py",
+          "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+          "source": "core/scripts/registry_tool.py"
+        },
+        {
+          "path": "skill/scripts/report_renderer.py",
+          "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+          "source": "core/scripts/report_renderer.py"
+        }
+      ],
+      "treeDigest": "c485b1d243ef79cf7edfe2014848e67a5b210c227527ba942df7f1e6014830fa"
+    },
+    "workbuddy": {
+      "platformId": "workbuddy",
+      "status": "assembled",
+      "fileCount": 34,
+      "files": [
+        {
+          "path": ".codebuddy-plugin/plugin.json",
+          "sha256": "53c687d8266c2647aea747edb85df9f35a4e7799028f261ed9a397883b0163e3",
+          "source": "platforms/workbuddy/.codebuddy-plugin/plugin.json"
+        },
+        {
+          "path": "platform-manifest.json",
+          "sha256": "13a743f466bd01a975ce50a3902d28ce3e52d1c3a512eedd3072c61fea070530",
+          "source": "platforms/workbuddy/platform-manifest.json"
+        },
+        {
+          "path": "skill/SKILL.md",
+          "sha256": "3250f70240194be7d3a38a9fb011129c271fcd4155fd9ac80154b668b07a74aa",
+          "source": "platforms/workbuddy/SKILL.md"
+        },
+        {
+          "path": "skill/prompts/adversarial-challenge.md",
+          "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb",
+          "source": "core/prompts/adversarial-challenge.md"
+        },
+        {
+          "path": "skill/prompts/evaluation-integrity.md",
+          "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac",
+          "source": "core/prompts/evaluation-integrity.md"
+        },
+        {
+          "path": "skill/prompts/result-synthesis.md",
+          "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c",
+          "source": "core/prompts/result-synthesis.md"
+        },
+        {
+          "path": "skill/prompts/runtime-evidence.md",
+          "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728",
+          "source": "core/prompts/runtime-evidence.md"
+        },
+        {
+          "path": "skill/prompts/scope-routing.md",
+          "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075",
+          "source": "core/prompts/scope-routing.md"
+        },
+        {
+          "path": "skill/prompts/static-audit.md",
+          "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75",
+          "source": "core/prompts/static-audit.md"
+        },
+        {
+          "path": "skill/references/attempt-manifest.schema.json",
+          "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+          "source": "core/references/attempt-manifest.schema.json"
+        },
+        {
+          "path": "skill/references/audit-result.schema.json",
+          "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+          "source": "core/references/audit-result.schema.json"
+        },
+        {
+          "path": "skill/references/builtin-registry-lock.json",
+          "sha256": "da4ca305ea0d43ba51d3621f4cc2983a31c671da8692163c97bd394e1f96d399",
+          "source": "core/references/builtin-registry-lock.json"
+        },
+        {
+          "path": "skill/references/context-continuation.md",
+          "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+          "source": "core/references/context-continuation.md"
+        },
+        {
+          "path": "skill/references/continuation-package.schema.json",
+          "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+          "source": "core/references/continuation-package.schema.json"
+        },
+        {
+          "path": "skill/references/evaluation-integrity.md",
+          "sha256": "f909e16d52c26dc31704f9efce1d1939c80a91e6ec1ebaecd13cd90004f5637e",
+          "source": "core/references/evaluation-integrity.md"
+        },
+        {
+          "path": "skill/references/failure-mode.schema.json",
+          "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+          "source": "core/references/failure-mode.schema.json"
+        },
+        {
+          "path": "skill/references/failure-modes.jsonl",
+          "sha256": "1155cf3b9ffc6842d5ad325fb67fe45072b38b3a8eeecdf4cc05990742b77f84",
+          "source": "core/references/failure-modes.jsonl"
+        },
+        {
+          "path": "skill/references/platform-adapter-mapping.json",
+          "sha256": "7cf8d78e8f7e87e4c6a0a7bfabf0caf4302983a01966d56b7c8b70fe3a1ad966",
+          "source": "spec/orchestration/platform-adapter-mapping.json"
+        },
+        {
+          "path": "skill/references/report-contract.md",
+          "sha256": "41fb04d66f6dd4e0f851e8feddc35950f188a0a0b2cecf114051b38b6a5616bc",
+          "source": "core/references/report-contract.md"
+        },
+        {
+          "path": "skill/references/result.schema.json",
+          "sha256": "a5fdff59db54a5f7baa9ee436d8d347efc3ce7e4912cd0996115b4155bfee026",
+          "source": "spec/orchestration/result.schema.json"
+        },
+        {
+          "path": "skill/references/role-artifact.schema.json",
+          "sha256": "35dc587876897b1ba6ed5f45b435b5e3d532d8b5a406cb4db8fbb66614da6f2f",
+          "source": "spec/orchestration/role-artifact.schema.json"
+        },
+        {
+          "path": "skill/references/runtime-supervision.md",
+          "sha256": "b717fe8f7ad59420bfe6e133aee4957cb3f91b16220ca9baa6b07e428bea676e",
+          "source": "core/references/runtime-supervision.md"
+        },
+        {
+          "path": "skill/references/self-iteration-protocol.md",
+          "sha256": "96ac8ff6fa58a5eeed28ee8c6de570a369e512157578a930848dd75cacb2dd89",
+          "source": "core/references/self-iteration-protocol.md"
+        },
+        {
+          "path": "skill/references/source-manifest.schema.json",
+          "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+          "source": "core/references/source-manifest.schema.json"
+        },
+        {
+          "path": "skill/references/task-package.schema.json",
+          "sha256": "cd46c01453e8b4c89d8b1132eb04c1e116fb9382b441d9994e7b5f14be78b7c6",
+          "source": "spec/orchestration/task-package.schema.json"
+        },
+        {
+          "path": "skill/references/taxonomy-index.md",
+          "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+          "source": "core/references/taxonomy-index.md"
+        },
+        {
+          "path": "skill/references/workbuddy-orchestration.md",
+          "sha256": "7e9f42ca832406bacbc0df6f86604bf320d1df21e62215c5d3453a7c85abe26d",
+          "source": "platforms/workbuddy/references/workbuddy-orchestration.md"
+        },
+        {
+          "path": "skill/scripts/attempt_tool.py",
+          "sha256": "7b04df3e526701a46ae865b16718cc98a239dc4fe72d1c42f9b569dcc0b4c565",
+          "source": "core/scripts/attempt_tool.py"
+        },
+        {
+          "path": "skill/scripts/common.py",
+          "sha256": "a364ffbb714723f519cf9760d5fd0cb8e7f3aff2e44b5c94ba1e4a871ba7e772",
+          "source": "core/scripts/common.py"
+        },
+        {
+          "path": "skill/scripts/evaluation_tool.py",
+          "sha256": "0f5da3e3c7a56cdf6d92e1e15488beee930de99588b8accb9e49a55ca1a5f90f",
+          "source": "core/scripts/evaluation_tool.py"
+        },
+        {
+          "path": "skill/scripts/evidence_tool.py",
+          "sha256": "54ebb0de5519b7e596af7942416777f1b4b9a41d24e67114a6daf0f3455f80ee",
+          "source": "core/scripts/evidence_tool.py"
+        },
+        {
+          "path": "skill/scripts/orchestration_engine.py",
+          "sha256": "72121de68ad08ee77398afa0e127ad5c19ae97a214c4a6d00be74eee6debe815",
+          "source": "core/scripts/orchestration_engine.py"
+        },
+        {
+          "path": "skill/scripts/registry_tool.py",
+          "sha256": "af7e7b1ba7de2939f9cd5e80c33b5b4e1c1ccc5d0f66024781c55ce98efde5e8",
+          "source": "core/scripts/registry_tool.py"
+        },
+        {
+          "path": "skill/scripts/report_renderer.py",
+          "sha256": "3e09f47f6d679fe07229dd7bfacada943785a3cc96951b9c48854c80e4911345",
+          "source": "core/scripts/report_renderer.py"
+        }
+      ],
+      "treeDigest": "27ac4b6d86df9f72410889d84d1248e9cffa27c0d8dd639cf5f3cb65f959e9ca"
+    }
+  }
+}
