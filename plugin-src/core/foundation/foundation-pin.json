@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0",
+  "profile": {
+    "id": "quickstart-profile",
+    "version": 2,
+    "stability": "candidate-only"
+  },
+  "runtime": {
+    "node": "v22.23.2",
+    "nodeRange": ">=22.22.2 <23",
+    "pnpm": "10.30.0"
+  },
+  "packages": [
+    {
+      "name": "skill-family-contracts",
+      "version": "0.4.0",
+      "tarball": "skill-family-contracts-0.4.0.tgz",
+      "sha256": "fcdcd2134b43110d3fc73fa0897794047205c1dae2710454a4bfd8aba469045b"
+    },
+    {
+      "name": "skill-family-engineering-kit",
+      "version": "0.4.0",
+      "tarball": "skill-family-engineering-kit-0.4.0.tgz",
+      "sha256": "99472ad4a68104483830925bacb11a1f8309348795d7de5c7002abf93aed76f5"
+    },
+    {
+      "name": "skill-family-harness-node",
+      "version": "0.4.0",
+      "tarball": "skill-family-harness-node-0.4.0.tgz",
+      "sha256": "5cfc000a543f8922c874289b82d31b7491d47521ec08b48754bd001782aa5774"
+    }
+  ],
+  "consumerSchemas": [
+    {
+      "path": "task-package.schema.json",
+      "sourcePath": "spec/orchestration/task-package.schema.json",
+      "$id": "skill-failure-auditor:orchestration:task-package:2.1.0",
+      "sha256": "64a539f7ffc382dd0d3b69e0b36c7c883d5c782e2997ea1bcef9f74a4e6b9da5"
+    },
+    {
+      "path": "result.schema.json",
+      "sourcePath": "spec/orchestration/result.schema.json",
+      "$id": "skill-failure-auditor:orchestration:result:2.1.0",
+      "sha256": "8cc653fbd0cf0432f880a487deb341d8f50435663f1cb411b16e1abb036a75e2"
+    },
+    {
+      "path": "role-artifact.schema.json",
+      "sourcePath": "spec/orchestration/role-artifact.schema.json",
+      "$id": "skill-failure-auditor:orchestration:role-artifact:1.1.0",
+      "sha256": "9d2e2efeb95f323debc3140cef5eb4da8a5d3a8bf357a691488f964be6fe23bc"
+    },
+    {
+      "path": "attempt-manifest.schema.json",
+      "sourcePath": "plugin-src/core/references/attempt-manifest.schema.json",
+      "$id": "attempt-manifest.schema.json",
+      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6"
+    },
+    {
+      "path": "audit-result.schema.json",
+      "sourcePath": "plugin-src/core/references/audit-result.schema.json",
+      "$id": "audit-result.schema.json",
+      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b"
+    },
+    {
+      "path": "continuation-package.schema.json",
+      "sourcePath": "plugin-src/core/references/continuation-package.schema.json",
+      "$id": "continuation-package.schema.json",
+      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc"
+    },
+    {
+      "path": "failure-mode.schema.json",
+      "sourcePath": "plugin-src/core/references/failure-mode.schema.json",
+      "$id": "failure-mode.schema.json",
+      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3"
+    },
+    {
+      "path": "source-manifest.schema.json",
+      "sourcePath": "plugin-src/core/references/source-manifest.schema.json",
+      "$id": "source-manifest.schema.json",
+      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa"
+    }
+  ],
+  "source": {
+    "repository": "ifoohoo/skill-family-foundation",
+    "baseCommit": "8a0a400d7f0aeb266b554d09e54e0f9ec1887cff",
+    "status": "VERIFIED"
+  },
+  "bundle": {
+    "targetPrefix": "quickstart-profile",
+    "payloadSha256": "3d29e242dab001d3aa60c7f45492db907d5d407930a0340b420ec99b844f1011"
+  }
+}

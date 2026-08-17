@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audit-result.schema.json",
+  "title": "Skill Failure Audit Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audit_id",
+    "mode",
+    "subject",
+    "evidence_index",
+    "coverage_records",
+    "coverage_ledger",
+    "registry_sha256",
+    "selection_sha256",
+    "coverage_status",
+    "known_rule_results",
+    "novel_hypotheses",
+    "executable_acceptance",
+    "hard_gate_failures",
+    "conclusion",
+    "self_audit",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "audit_id": {"type": "string", "pattern": "^AUDIT-[A-Z0-9][A-Z0-9._-]+$"},
+    "mode": {"type": "string", "enum": ["static", "runtime", "combined"]},
+    "subject": {"$ref": "#/$defs/subject_binding"},
+    "evidence_index": {"$ref": "#/$defs/binding"},
+    "coverage_records": {"$ref": "#/$defs/binding"},
+    "coverage_ledger": {"$ref": "#/$defs/binding"},
+    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "selection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "coverage_status": {"type": "string", "enum": ["COMPLETE", "INCOMPLETE", "INVALID"]},
+    "known_rule_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "revision", "severity", "status", "evidence_refs", "reason"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(FM-(0[1-9]|1[0-9]|2[0-8])|SYN-[0-9]{4})$"
+          },
+          "revision": {"type": "integer", "minimum": 1},
+          "severity": {"type": "string", "enum": ["critical", "high", "medium", "low"]},
+          "status": {"type": "string", "enum": ["HIT", "NOT_HIT", "NOT_APPLICABLE", "UNCHECKED"]},
+          "evidence_refs": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/evidence_ref"}
+          },
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "novel_hypotheses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "hypothesis", "observable_signal", "falsifier", "next_probe"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^HYP-[0-9]{2,}$"},
+          "hypothesis": {"type": "string", "minLength": 4},
+          "observable_signal": {"type": "string", "minLength": 2},
+          "falsifier": {"type": "string", "minLength": 2},
+          "next_probe": {"type": "string", "minLength": 2}
+        }
+      }
+    },
+    "executable_acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence_refs", "reason"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["VERIFIED", "ABSENT", "NOT_APPLICABLE", "UNCHECKED"]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/evidence_ref"}
+        },
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "hard_gate_failures": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "conclusion": {
+      "type": "string",
+      "enum": ["PASS_WITHIN_FROZEN_SCOPE", "NEEDS_REVISION", "REJECT", "INCOMPLETE", "BLOCKED"]
+    },
+    "self_audit": {"type": "boolean"},
+    "status": {
+      "type": "string",
+      "enum": [
+        "AUDIT_SUBMITTED_FOR_REVIEW",
+        "SELF_AUDIT_SUBMITTED_FOR_EXTERNAL_REVIEW"
+      ]
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "subject_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_set_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_set_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "evidence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chunk_id", "chunk_sha256"],
+      "properties": {
+        "chunk_id": {"type": "string", "pattern": "^CHUNK-[0-9]{6}$"},
+        "chunk_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

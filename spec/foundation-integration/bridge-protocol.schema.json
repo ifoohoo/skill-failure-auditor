@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill-failure-auditor:foundation-bridge-protocol:1.0.0",
+  "title": "Failure Auditor Foundation bridge request",
+  "type": "object",
+  "required": ["protocolVersion", "command"],
+  "properties": {
+    "protocolVersion": { "const": 1 },
+    "command": { "enum": ["describe", "validate", "prepare-exchange", "verify-exchange"] },
+    "schemaId": { "type": "string", "minLength": 1 },
+    "document": true,
+    "workspaceRoot": { "type": "string", "minLength": 1 },
+    "options": { "type": "object" }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "command": { "const": "validate" } }, "required": ["command"] },
+      "then": { "required": ["schemaId", "document"] }
+    },
+    {
+      "if": { "properties": { "command": { "enum": ["prepare-exchange", "verify-exchange"] } }, "required": ["command"] },
+      "then": { "required": ["workspaceRoot", "options"] }
+    }
+  ]
+}

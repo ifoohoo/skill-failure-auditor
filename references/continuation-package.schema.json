@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "continuation-package.schema.json",
+  "title": "Structured Continuation Package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "package_id",
+    "task_id",
+    "current_node",
+    "registry_sha256",
+    "selection_sha256",
+    "source_manifest_sha256",
+    "source_bindings",
+    "selected_rules",
+    "accepted_artifacts",
+    "remaining_tasks",
+    "disproved_paths",
+    "open_questions",
+    "next_action",
+    "context_state",
+    "package_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "package_id": {"type": "string", "pattern": "^CONT-[A-Z0-9][A-Z0-9._-]+$"},
+    "task_id": {"type": "string", "minLength": 1},
+    "current_node": {"type": "string", "minLength": 1},
+    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "selection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/binding"}
+    },
+    "selected_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "revision", "source_sha256"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(FM-(0[1-9]|1[0-9]|2[0-8])|SYN-[0-9]{4})$"
+          },
+          "revision": {"type": "integer", "minimum": 1},
+          "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "accepted_artifacts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/binding"}
+    },
+    "remaining_tasks": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "disproved_paths": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "next_action": {"type": "string", "minLength": 1},
+    "context_state": {
+      "type": "string",
+      "enum": ["HEALTHY", "WARNING", "HANDOFF_REQUIRED", "SAFETY_STOPPED"]
+    },
+    "package_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

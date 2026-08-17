@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "2.0",
+  "familyId": "skill-failure-auditor",
+  "platformId": "codex",
+  "product": "skill-failure-auditor",
+  "version": "1.0.0",
+  "versionPolicy": "运行前探测客户端版本并写入包外证据",
+  "deliveryMode": "codex_plugin_or_skill",
+  "pluginManifest": ".codex-plugin/plugin.json",
+  "entry": "SKILL.md",
+  "delegation": {
+    "requiredTools": [
+      "collaboration.spawn_agent",
+      "collaboration.wait_agent"
+    ],
+    "nativeRoles": null,
+    "nativeRolesNote": "无原生角色类型；task_name 使用 roleToTaskName 的小写下划线安全投影，成果仍绑定规范语义角色",
+    "mustNotMimicClaudeParams": true
+  },
+  "constraints": [
+    "任务包固定职责与权限；不得模仿 Claude Agent 工具的参数名与角色类型字面量",
+    "未等待即聚合、主代理冒充子代理均失败关闭",
+    "codex exec 必须 </dev/null；rollout 不得落用户 ~/.codex"
+  ],
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
+  "projectionStatus": "projection_complete"
+}

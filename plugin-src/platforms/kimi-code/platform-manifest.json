@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "2.0",
+  "familyId": "skill-failure-auditor",
+  "platformId": "kimi-code",
+  "product": "skill-failure-auditor",
+  "version": "1.0.0",
+  "minClientVersion": "0.31.0",
+  "deliveryMode": "kimi_plugin",
+  "authoritativeManifest": "kimi.plugin.json",
+  "hubCompatProjection": ".kimi-plugin/plugin.json",
+  "projectionRule": ".kimi-plugin/plugin.json 必须由 scripts/build/generate_kimi_compat_manifest.py 从 kimi.plugin.json 机械生成，字段完全相等，禁止双写维护；测试验证相等性。",
+  "entry": "SKILL.md",
+  "delegation": {
+    "tool": "Agent",
+    "nativeRoles": [
+      "plan",
+      "explore",
+      "coder"
+    ],
+    "caseSensitive": true,
+    "lowercaseRequired": true,
+    "roleMapping": {
+      "scope-routing": "plan",
+      "static-audit": "explore",
+      "runtime-evidence": "explore",
+      "evaluation-integrity": "coder",
+      "adversarial-challenge": "coder",
+      "result-synthesis": "coder"
+    }
+  },
+  "receiptNormalization": "kimi -p --output-format stream-json 原始事件 → 统一结果合同",
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
+  "projectionStatus": "projection_complete"
+}

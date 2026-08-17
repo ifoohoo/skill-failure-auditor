@@ -1,0 +1,16 @@
+{
+  "name": "skill-failure-auditor",
+  "owner": {
+    "name": "ifoohoo"
+  },
+  "plugins": [
+    {
+      "name": "skill-failure-auditor",
+      "version": "1.0.0",
+      "source": {
+        "source": "local",
+        "path": "."
+      }
+    }
+  ]
+}

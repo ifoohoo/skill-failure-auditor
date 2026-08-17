@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 · 上下文工程 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html" class="active">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 04 上下文工程</div>
+  <div class="pagehead"><span class="tag">战线二 · 它的「记忆」是一张会漏的桌子</span>
+  <h1>上下文工程：管理一张有限、会漏、越堆越乱的工作台</h1>
+  <p class="lead">模型没有记忆，只有一个<b>长度有限、注意力不均、内容越多越糊</b>的上下文窗口。上下文工程管的就是：什么信息放进去、放在哪、什么时候整理、怎么在会话之间安全传递。本页覆盖 FM-08/09/17/20 四个上下文可靠性失效。</p></div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>战线定位：为什么「写清楚」还不够</h2></div>
+    <p>03 页解决的是「一段指令写没写好」。但真实任务是长跑：几十轮对话、几百 KB 材料、跨会话接力。这时敌人换了三个：</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>机制（01 页讲过）</th><th>长任务里的表现</th><th>本页对应失效</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it">U 形注意力（迷失在中间）</td><td>写在长文档中间的关键要求被无声跳过</td><td>FM-08</td></tr>
+        <tr><td class="col-it">上下文腐烂</td><td>信息越堆越多，模型开始翻旧账、重复走死路</td><td>FM-09</td></tr>
+        <tr><td class="col-it">转述损耗</td><td>任务经过几次口头摘要，路径和判据全丢了</td><td>FM-17</td></tr>
+        <tr><td class="col-it">窗口是硬上限</td><td>快满时胡乱截断或原样重试，状态直接损坏</td><td>FM-20</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-key"><div class="t">🔑 心智模型</div>
+    把上下文窗口想成一张<b>面积固定的工作台</b>：东西越堆越难找（腐烂）、台子中间的最容易被压住看不见（U 形）、换班时不能指望口头交代（转述损耗）、台面快满必须先归档再继续（交接）。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>失效一 · 关键要求只在一个地方提了一次</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：单点提及 <span class="fm-ref">关联 FM-08</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>租房合同第 37 条里夹了一句「阳台严禁堆放杂物」，签约时中介没提、门口没贴、也没人巡查。三个月后阳台照样堆满——不是租客故意违约，是<b>只出现一次的要求约等于没出现</b>。真正想执行的规定会写进门口告示 + 每月检查单。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>受「迷失在中间」位置效应影响，长上下文中部内容的检索成功率显著低于首尾；单次提及的约束在后续轮次中激活强度随距离衰减，且无重复强化时容易被近因内容覆盖。约束的实际约束力 ≈ 提及次数 × 位置权重 × 是否有外部检查。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>审计长指令 / 多阶段流程时检查：关键禁止项和必须项是否在①入口（开头）②执行前（相关步骤旁）③最终检查（结尾清单）三处一致出现，最好再配一条机器校验。只在文档中间出现一次、后文拿简称去指代的，判 FM-08。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>写一份 2000 字的任务说明，把「所有 SQL 必须走参数绑定，禁止字符串拼接」埋在第三段中部，只出现一次。让模型完成一个包含七八个步骤的开发任务。相当概率某个步骤会出现拼接 SQL。对照组：开头红线区 + 该步骤旁 + 结尾自查清单各写一次，违约率明显下降。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>红线「三点布防」：入口声明、执行点就近重申、出口清单复查。</li>
+        <li>重要约束不用简称传递——每次都写全，避免后续轮次「拿简称猜原文」。</li>
+        <li>能上机器检查的（关键字扫描、lint 规则）一律上，别赌注意力。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>失效二 · 上下文越堆越多、从不整理</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：上下文腐烂 <span class="fm-ref">关联 FM-09</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>一个从不清理的微信群：三个月的聊天记录里混着已废弃的方案 A、被推翻的结论 B、五个版本的需求文档。新人爬楼三小时，最后按<b>已经被否掉的方案 A</b> 开工了——因为爬楼时它看起来说得最详细。没人整理的历史，等于埋雷的历史。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>随上下文长度增长，模型的有效检索精度与指令遵循度呈退化趋势（上下文腐烂）；无效信息（已否决路径、过期状态）不会被自动降权，反而通过语义相似性继续参与注意力竞争，诱发重复探索与旧状态复活。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>长任务必须有显式的上下文卫生机制：阶段性总结压缩、<b>已排除路径清单</b>（明确记录「方案 A 已证明走不通，原因 X」）、结构化交接包。症状识别：恢复旧会话直接往上堆、模型第二次提出已被否决的方案——判 FM-09。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>做一个长调试任务：前 20 轮里你们试过方案 A 失败、换方案 B 成功了一半。不做任何总结，继续对话 30 轮后问「接下来怎么办」。相当概率它会重新提出方案 A，或把 A 和 B 的细节混在一起。对照组：第 20 轮插入一段「状态总结 + 已排除路径」，跑偏率显著下降。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>每完成一个阶段就做「压缩点」：当前状态、已验证结论、已排除路径、下一步。</li>
+        <li>已排除路径必须显式记录并随身携带——不写下来，它一定会再撞一次。</li>
+        <li>感觉模型开始「翻旧账」「绕圈」就是腐烂信号：立即总结、必要时开新会话带交接包重启。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">4</span><h2>失效三 · 任务靠口头转述层层传递</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：转述损耗 <span class="fm-ref">关联 FM-17</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>传话游戏：第一个人说「周三下午三点在东门取 42 号快递，凭尾号 8871」，传到第五个人变成「这两天去门口拿个快递」。<b>每次转述都在做有损压缩</b>，而丢掉的恰恰是数字、路径、判据这些最不像「重点」的硬信息。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>自然语言摘要是有损压缩，且损失偏向低频细节（路径、标识符、阈值、边界条件）；多级转述使损失复合叠加。缺乏结构化载体与完整性校验时，接收方无法检测信息缺失，只能以先验补全——补全即引入偏差。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>跨角色、跨会话、跨智能体传任务，禁止只靠自然语言摘要。必须使用结构化任务包：目标、输入路径、权威文件及其校验和、验收判据、已排除路径。接收方要能<b>不依赖转述者</b>独立恢复任务。只给口头摘要的交接判 FM-17。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>让智能体 A 完成任务前半段，然后只把 A 的「最后一段总结」贴给新会话的智能体 B 继续。对比：B 大概率找不到 A 用过的关键文件路径、不知道哪些方案已被排除，甚至重做 A 做过的事。对照组：让 A 输出结构化交接包（含路径清单和判据）再交给 B，衔接质量完全不同。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>交接用固定模板：目标 / 当前状态 / 权威文件路径（含校验和）/ 验收判据 / 已排除路径 / 下一步。</li>
+        <li>接收方开工前先复述任务关键项，与交接包对账——对不上就打回，不猜。</li>
+        <li>12 页装备包提供可直接抄用的交接包模板。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">5</span><h2>失效四 · 上下文快满时处理方式不对</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：窗口压力误处置 <span class="fm-ref">关联 FM-20</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>行李箱快装满，有三种错误反应：①看见「快满」就直接弃箱不装了（把警戒当失败）；②把「这趟旅行累计买过的东西」当成「箱里现在装的东西」，明明还有空位却慌了（算错占用）；③硬塞到拉链崩开，撒一地重捡（不整理就硬续）。正确做法只有一种：<b>快满时打包一箱寄走，列好清单再继续装</b>。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>上下文占用是「当前窗口内词元数」，与「会话累计输入词元数」是不同度量（后者含已滑出窗口或被缓存计费的部分）。阈值应触发分级响应（警告→交接）而非终止；截断或无交接重试会破坏任务状态的完整性，导致后续行为建立在损坏状态上。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>三条纪律：①区分计量——累计输入 ≠ 当前占用，别拿错表报警；②阈值只触发「警告」或「交接」，安全停止只由语义跑偏、越权等实证触发；③中断恢复必须走结构化交接包，禁止「原样重试」旧会话。把阈值当自动失败、或恢复时不做交接的，判 FM-20。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>观察一个长任务运行框架：当累计输入统计达到某阈值时，看它是①直接判任务失败退出，还是②生成交接包开新会话继续。前者就是活的 FM-20。另一个变体：会话意外中断后，直接把原提示原样重发——新会话缺了中间产生的所有状态，产出会「倒退」到任务早期版本。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>监控「当前窗口占用」而不是「累计输入」，两个数别混用。</li>
+        <li>阈值分级：80% 警告并开始准备交接包；需要停时先落盘交接包再停。</li>
+        <li>任何恢复都从交接包冷启动：能独立恢复才算合格交接（与 FM-17 联防）。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">6</span><h2>上下文卫生操作表</h2></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>时机</th><th>动作</th><th>反制的失效</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it">写长指令时</td><td>红线三点布防：入口 + 执行点 + 出口清单</td><td>FM-08</td></tr>
+        <tr><td class="col-it">每完成一阶段</td><td>压缩点：状态总结 + 已排除路径清单</td><td>FM-09</td></tr>
+        <tr><td class="col-it">跨会话/跨角色</td><td>结构化交接包，接收方对账后再开工</td><td>FM-17</td></tr>
+        <tr><td class="col-it">窗口告急</td><td>先落盘交接包，再开新会话冷启动</td><td>FM-20</td></tr>
+        <tr><td class="col-it">发现绕圈翻旧账</td><td>立即总结重启，别在腐烂的上下文里硬撑</td><td>FM-09</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-warn"><div class="t">⚠️ 边界提醒</div>
+    上下文工程解决「信息在不在、乱不乱」，但解决不了「模型阳奉阴违」：限制写在纸上它照样越权、外部内容混进来它照样执行。这些要靠机器强制——下一页，运行框架工程。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">🎫</span><h2>出口 · 速记卡</h2></div>
+    <div class="card">
+      <p><b>一句话本章：</b>上下文是一张会漏的工作台——重要的多放几处、过期的及时清走、换班必须交清单、快满先归档再继续。</p>
+      <ul class="clean check">
+        <li><b>三个必背：</b>① 只提一次 ≈ 没提；② 不写下来的「已排除路径」一定会被再撞一次；③ 累计输入 ≠ 当前占用。</li>
+        <li><b>一个习惯：</b>每个阶段收尾时花一分钟写压缩点，比事后救火便宜一百倍。</li>
+        <li><b>开会行话：</b>「这个约束只有单点提及，加三点布防」「上下文腐烂了，带交接包重启」。</li>
+        <li><b>下一步：</b>05 页——纸面约束靠不住的地方，用工具面和钩子做机器强制。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pager">
+    <a href="03-prompt.html"><div class="lbl">← 上一篇</div><div class="ttl">03 · 提示词工程</div></a>
+    <a class="next" href="05-harness.html"><div class="lbl">下一篇 →</div><div class="ttl">05 · 运行框架工程</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 04 上下文工程</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>

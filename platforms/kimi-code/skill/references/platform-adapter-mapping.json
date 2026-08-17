@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "2.0",
+  "description": "语义角色到各平台原生调度语法的唯一静态映射表。适配器只做语法映射与回执归一化，不得承载业务规则或候选运行状态。legacy 别名只允许出现在适配层，核心与任务包只使用规范 role ID。",
+  "canonicalRoles": [
+    "scope-routing",
+    "static-audit",
+    "runtime-evidence",
+    "evaluation-integrity",
+    "adversarial-challenge",
+    "result-synthesis"
+  ],
+  "legacyAliasTable": {
+    "scope-and-routing": "scope-routing",
+    "runtime-evidence-audit": "runtime-evidence"
+  },
+  "modeRoleSets": {
+    "static": [
+      "scope-routing",
+      "static-audit",
+      "evaluation-integrity",
+      "adversarial-challenge",
+      "result-synthesis"
+    ],
+    "runtime": [
+      "scope-routing",
+      "runtime-evidence",
+      "evaluation-integrity",
+      "adversarial-challenge",
+      "result-synthesis"
+    ],
+    "combined": [
+      "scope-routing",
+      "static-audit",
+      "runtime-evidence",
+      "evaluation-integrity",
+      "adversarial-challenge",
+      "result-synthesis"
+    ]
+  },
+  "roleDependencies": {
+    "scope-routing": [],
+    "static-audit": [
+      "scope-routing"
+    ],
+    "runtime-evidence": [
+      "scope-routing"
+    ],
+    "evaluation-integrity": [
+      "static-audit",
+      "runtime-evidence"
+    ],
+    "adversarial-challenge": [
+      "evaluation-integrity"
+    ],
+    "result-synthesis": [
+      "adversarial-challenge"
+    ]
+  },
+  "loopOuterContract": {
+    "compiler": "scripts/loop_audit_contract.py compile-loop-audit",
+    "validator": "scripts/loop_audit_contract.py validate-loop-audit",
+    "workflowSourceConsumer": "loop-agent:scripts/prepare-workflow-source.mjs",
+    "schemaProvider": {
+      "name": "loop-agent",
+      "version": "0.4.0",
+      "manifestRelativePath": "references/schema-provider-manifest.json",
+      "manifestSha256": "3c5c89e65a309dcff4c8bc0a37dd82ac7ff600eba59d4c53428b96d0786389c8",
+      "deliveryResultRole": "task_result"
+    },
+    "roleArtifactSchemaId": "skill-failure-auditor:orchestration:role-artifact:1.1.0",
+    "platformPolicy": {
+      "claude-code": {
+        "status": "required",
+        "automaticLegacyFallback": false
+      },
+      "codex": {
+        "status": "required",
+        "automaticLegacyFallback": false
+      },
+      "kimi-code": {
+        "status": "legacy-compatibility",
+        "automaticLegacyFallback": false
+      },
+      "workbuddy": {
+        "status": "legacy-compatibility",
+        "automaticLegacyFallback": false
+      }
+    }
+  },
+  "platforms": {
+    "claude-code": {
+      "dispatchTool": "Agent",
+      "roleToNativeAgentType": {
+        "scope-routing": "Plan",
+        "static-audit": "Explore",
+        "runtime-evidence": "Explore",
+        "evaluation-integrity": "general-purpose",
+        "adversarial-challenge": "general-purpose",
+        "result-synthesis": "general-purpose"
+      },
+      "caseRule": "原生类型大小写敏感：Plan/Explore/general-purpose 精确匹配",
+      "runMode": "foreground（run_in_background=false 为确定性基线）",
+      "receiptKind": "claude-trace",
+      "receiptNormalization": "stream-json + subagent trace → result.schema.json"
+    },
+    "codex": {
+      "dispatchTool": "collaboration.spawn_agent / collaboration.wait_agent",
+      "roleToNativeAgentType": null,
+      "roleToTaskName": {
+        "scope-routing": "scope_routing",
+        "static-audit": "static_audit",
+        "runtime-evidence": "runtime_evidence",
+        "evaluation-integrity": "evaluation_integrity",
+        "adversarial-challenge": "adversarial_challenge",
+        "result-synthesis": "result_synthesis"
+      },
+      "roleToNativeAgentTypeNote": "无原生角色类型；规范 role ID 保留连字符，平台 task_name 使用 roleToTaskName 的小写下划线投影，回执归一化时必须可逆映射回规范 role ID",
+      "caseRule": "不适用；不得传入 Claude 的 subagent_type 参数",
+      "runMode": "codex exec 非交互（必须 </dev/null）",
+      "receiptKind": "codex-collaboration-receipt",
+      "receiptNormalization": "spawn/wait/结果身份回执 → result.schema.json；必须区分真实子智能体与主代理文本"
+    },
+    "kimi-code": {
+      "dispatchTool": "Agent",
+      "roleToNativeAgentType": {
+        "scope-routing": "plan",
+        "static-audit": "explore",
+        "runtime-evidence": "explore",
+        "evaluation-integrity": "coder",
+        "adversarial-challenge": "coder",
+        "result-synthesis": "coder"
+      },
+      "caseRule": "小写强制：plan/explore/coder；Plan 等大写形式必须被测试拒绝",
+      "runMode": "kimi -p --output-format stream-json",
+      "receiptKind": "kimi-stream-json",
+      "receiptNormalization": "stream-json 原始事件 → result.schema.json；伪事件必须失败",
+      "manifestAuthority": "kimi.plugin.json 为唯一手写权威源；.kimi-plugin/plugin.json 由其机械生成且字段完全相等"
+    },
+    "workbuddy": {
+      "dispatchTool": "Agent",
+      "roleToNativeAgentType": {
+        "scope-routing": "Plan",
+        "static-audit": "Explore",
+        "runtime-evidence": "Explore",
+        "evaluation-integrity": "general-purpose",
+        "adversarial-challenge": "general-purpose",
+        "result-synthesis": "general-purpose"
+      },
+      "caseRule": "原生类型大小写敏感：Plan/Explore/general-purpose 精确匹配（与 Claude Code 同构）",
+      "runMode": "内嵌 codebuddy CLI -p -y（非交互权限旁路）",
+      "receiptKind": "workbuddy-stream-json",
+      "receiptNormalization": "stream-json → result.schema.json",
+      "isolationPolicy": "真实验证必须使用隔离 HOME；不得为复用用户认证而改回真实 HOME"
+    }
+  },
+  "conservationRule": "每次运行：actual 角色集合必须与任务包 expected_roles 精确相等；缺失/重复/额外/角色错配/摘要错配/Schema 失败/非零退出/超时一律失败关闭；主上下文补位即整体否决。"
+}

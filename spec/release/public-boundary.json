@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "description": "公开/私有边界与泄漏模型的唯一机器真源。W9 门禁与 leakage-scan 消费本文件；修改本文件必须重跑全门禁。",
+  "selfReferenceEncoding": "本文件中的敏感字面量以 JSON unicode 转义书写（如 \\u0070），使原始字节不自我命中内容扫描；JSON 解析后的字符串才是权威模式值。扫描器不因此获得任何豁免。",
+  "publicRepo": "ifoohoo/skill-failure-auditor",
+  "publicPackageRoot": "packages/skill-failure-auditor",
+  "allowList": [
+    "package.json", "README.md", "README_zh.md", "LICENSE", "NOTICE",
+    ".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".codebuddy-plugin/plugin.json",
+    "kimi.plugin.json", ".kimi-plugin/plugin.json",
+    "plugin-src/**", "spec/**", "scripts/**", "tests/**",
+    "docs/llm-academy/**", ".github/workflows/deploy-pages.yml",
+    "generated/**", "dist/**"
+  ],
+  "denyList": [
+    "control/**", "evidence/**", "authorizations/**", ".codex/**", "versions/**",
+    "**/oracle-\u0076ault/**", "**/oracle-\u0063ommitment*", "**/public-gate-commitment*", "**/public-evaluation-spec*", "**/public-test-manifest*",
+    "**/*private*.pem", "**/*PRIVATE KEY*",
+    "**/node_modules/**", "**/.cache/**", "**/__pycache__/**", "**/*.pyc", "**/.DS_Store", "**/.pytest_cache/**",
+    "**/long-task-progress/**"
+  ],
+  "forbiddenContentPatterns": [
+    { "id": "abs-user-path", "pattern": "/Users/[A-Za-z0-9._-]+/" },
+    { "id": "abs-home-path", "pattern": "/home/[A-Za-z0-9._-]+/" },
+    { "id": "abs-win-path", "pattern": "[A-Za-z]:\\\\Users\\\\[A-Za-z0-9._-]+\\\\" },
+    { "id": "private-key", "pattern": "BEGIN [A-Z ]*PRIVATE KEY" },
+    { "id": "authority-material", "pattern": "authority-\u0070rivate|oracle-(\u0076ault|commitment)" },
+    { "id": "internal-task-id", "pattern": "skill-failure-auditor-refactor-202607\u00328" }
+  ],
+  "rules": [
+    "公开包内不得存在指向私有控制面的引用（路径或摘要均不得出现）。",
+    "历史证据结论可在公开文档中以去路径化摘要引用，不得复制原始回执。",
+    "generated/ 与 dist/ 必须可从权威源重建；手工修改必须被门禁检出。",
+    "扫描命中任一 pattern 即失败关闭，不得降级为警告。"
+  ]
+}

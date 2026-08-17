@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>00 · 全景矩阵 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html" class="active">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 00 全景矩阵</div>
+  <div class="pagehead"><span class="tag">中枢 · 一张表看全站</span>
+  <h1>全景矩阵：弱点 × 类比 × 学术 × 对策</h1>
+  <p class="lead">这张矩阵把全站内容横向对齐：每一行是一个模型弱点，五列分别是它的生活类比、学术名词、机制根源、工程对策和对应的失效模式编号。先扫一遍建立地图，再进各专题页深挖。</p></div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>模型弱点总矩阵</h2></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>弱点</th><th>🏠 一句话生活类比</th><th>🎓 学术名词</th><th>机制根源</th><th>🔧 核心工程对策</th><th>关联失效模式</th></tr></thead>
+      <tbody>
+        <tr><td><b>一本正经编造</b></td><td>酒桌上的健谈朋友，细节全是现编的</td><td class="col-it">幻觉 Hallucination</td><td>目标是「接得像」不是「说得对」</td><td>事实断言必过外部校验，不采信自我背书</td><td><a href="10-fm-handbook.html#fm-02">FM-02</a></td></tr>
+        <tr><td><b>顺着你说</b></td><td>只想拿好评的导购，你说啥都对</td><td class="col-it">谄媚 Sycophancy</td><td>对齐训练优化的是人类满意度</td><td>要事实别给暗示；审查指令设为「推翻它」</td><td><a href="10-fm-handbook.html#fm-06">FM-06</a></td></tr>
+        <tr><td><b>长文中间失忆</b></td><td>三小时电影只记得开头结尾</td><td class="col-it">迷失在中间 Lost in the Middle</td><td>注意力对首尾位置有系统性偏好</td><td>关键要求放开头结尾并多处强化</td><td><a href="10-fm-handbook.html#fm-08">FM-08</a></td></tr>
+        <tr><td><b>越聊越乱</b></td><td>从不收拾的工作台，废料混着成品</td><td class="col-it">上下文腐烂 Context Rot</td><td>错误中间态滞留窗口持续被引用</td><td>定期压缩清场；重要状态外置到文件</td><td><a href="10-fm-handbook.html#fm-09">FM-09</a>·<a href="10-fm-handbook.html#fm-20">20</a></td></tr>
+        <tr><td><b>最后一句话最大</b></td><td>吵架时只记得对方最后那句刺耳的</td><td class="col-it">近因偏向 Recency Bias</td><td>生成位置附近的内容注意力权重更高</td><td>硬约束写在末尾重申，或由框架强制</td><td><a href="10-fm-handbook.html#fm-08">FM-08</a></td></tr>
+        <tr><td><b>把数据当命令</b></td><td>快递员照包裹里的纸条改送货地址</td><td class="col-it">提示词注入 Prompt Injection</td><td>指令与数据在 Token 层无类型区分</td><td>入口声明数据边界；权限不随内容扩大</td><td><a href="10-fm-handbook.html#fm-15">FM-15</a></td></tr>
+        <tr><td><b>刷指标不干活</b></td><td>把体重秤垫斜的减肥者</td><td class="col-it">奖励劫持 Reward Hacking</td><td>优化可见信号比完成真目标更便宜</td><td>验收对照冻结的权威事实，不看表面痕迹</td><td><a href="10-fm-handbook.html#fm-01">FM-01</a>·<a href="10-fm-handbook.html#fm-02">02</a>·<a href="10-fm-handbook.html#fm-03">03</a></td></tr>
+        <tr><td><b>钻字面空子</b></td><td>精读合同的老油条，字面全合规</td><td class="col-it">规格博弈 Specification Gaming</td><td>模型优化的是文本要求，不是意图</td><td>验收标准绑定抽象性质 + 变形用例</td><td><a href="10-fm-handbook.html#fm-13">FM-13</a>·<a href="10-fm-handbook.html#fm-14">14</a></td></tr>
+        <tr><td><b>编的和真的一样自信</b></td><td>会与不会都答得同样流利的面试者</td><td class="col-it">校准失灵 Miscalibration</td><td>置信语气与正确率不挂钩</td><td>用事实校验代替「听起来靠谱」</td><td><a href="10-fm-handbook.html#fm-10">FM-10</a></td></tr>
+        <tr><td><b>拿旧知识硬答</b></td><td>刚出狱的老江湖聊现在的行情</td><td class="col-it">知识截止 Knowledge Cutoff</td><td>训练数据有日期上限且不自知</td><td>时效性内容一律先检索再回答</td><td><a href="10-fm-handbook.html#fm-02">FM-02</a></td></tr>
+        <tr><td><b>会微积分不会系鞋带</b></td><td>偏科天才，能力边界反直觉</td><td class="col-it">能力边界不规则 Jagged Frontier</td><td>涌现能力不沿人类难度轴分布</td><td>关键环节先做小样本实测，不凭感觉授权</td><td><a href="10-fm-handbook.html#fm-19">FM-19</a></td></tr>
+        <tr><td><b>每次会话都失忆</b></td><td>《记忆碎片》主角，全靠纹身和照片</td><td class="col-it">无跨会话记忆 Statelessness</td><td>权重不因对话更新，窗口即全部记忆</td><td>记忆文件 + 结构化交接包</td><td><a href="10-fm-handbook.html#fm-17">FM-17</a></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-key"><div class="t">🔑 怎么读这张表</div>
+    「机制根源」一列是重点：弱点不是随机 bug，而是机制的必然产物。这意味着两件事——① 换个更强的模型，弱点会减轻但不会消失；② 对策必须做在流程和框架里，而不是指望「下个版本就好了」。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>28 个失效模式 × 六大类别 分布图</h2></div>
+    <p>失效模式（FM-01~28）来自实战审计技能，按六大类别组织。<b>标红的 11 个是必查红线</b>——任何一次严肃验收都必须逐条过。</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>类别</th><th>失效模式（红=必查红线）</th><th>一句话概括这类坑</th><th>主讲页面</th></tr></thead>
+      <tbody>
+        <tr><td class="col-auto">目标对齐</td><td><span style="color:#dc2626;font-weight:700">FM-01 自报完成</span> · <span style="color:#dc2626;font-weight:700">FM-02 只看表面痕迹</span> · <span style="color:#dc2626;font-weight:700">FM-03 恒真检查</span> · FM-04 拿数量冒充质量 · FM-24 拿忙碌冒充进度</td><td>「看起来做完了」不等于「做完了」</td><td><a href="06-fake-completion.html">06 假完成</a></td></tr>
+        <tr><td class="col-auto">自评估</td><td><span style="color:#dc2626;font-weight:700">FM-05 自己审自己</span> · <span style="color:#dc2626;font-weight:700">FM-06 确认式审查</span> · FM-07 无人负责终局</td><td>运动员不能兼任裁判</td><td><a href="07-self-eval.html">07 自评估</a></td></tr>
+        <tr><td class="col-auto">上下文可靠性</td><td>FM-08 关键要求只提一次 · FM-09 上下文只堆不理 · FM-10 关键结论无复核 · FM-20 满窗时处理不当</td><td>模型的桌面需要有人管</td><td><a href="04-context.html">04 上下文</a></td></tr>
+        <tr><td class="col-auto">指令设计</td><td>FM-11 只说不许做 · FM-12 规则不分轻重 · FM-13 拿例子当规则 · FM-14 被例子带偏 · <span style="color:#dc2626;font-weight:700">FM-15 把数据当指令</span></td><td>话没说到位，锅不全在模型</td><td><a href="03-prompt.html">03 提示词</a></td></tr>
+        <tr><td class="col-auto">角色协作</td><td>FM-16 权限无边界 · FM-17 口头转述交接 · <span style="color:#dc2626;font-weight:700">FM-18 没有故意挑错环节</span> · FM-23 换马甲冒充独立审查</td><td>多智能体协作照抄人类组织的坑</td><td><a href="05-harness.html">05 框架</a> / <a href="07-self-eval.html">07</a></td></tr>
+        <tr><td class="col-auto">运行治理</td><td>FM-19 做不了主的角色握决定权 · <span style="color:#dc2626;font-weight:700">FM-22 中途改验收标准</span> · <span style="color:#dc2626;font-weight:700">FM-25 限制只写在纸上</span></td><td>纸面规则拦不住运行期的手</td><td><a href="05-harness.html">05 框架</a> / <a href="08-verification.html">08</a></td></tr>
+        <tr><td class="col-auto">证据完整性</td><td><span style="color:#dc2626;font-weight:700">FM-26 分片丢重错</span> · <span style="color:#dc2626;font-weight:700">FM-27 出题答题判卷同一家</span></td><td>证据链断一环，结论只是主张</td><td><a href="08-verification.html">08 验证</a></td></tr>
+        <tr><td class="col-auto">元治理</td><td>FM-21 一出错就加规则 · FM-28 监督比生产还复杂</td><td>治理本身也会失控</td><td><a href="09-meta.html">09 元治理</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>三大工程战线怎么分工</h2></div>
+    <p>日常「对抗模型弱点」的功夫，可以按干预位置分成三层。判断一个问题该在哪层解决，是工程决策的第一步：</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>战线</th><th>管什么</th><th>🏠 类比</th><th>典型手段</th><th>解决不了什么</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it"><b>提示词工程</b><br><small><a href="03-prompt.html">03 页</a></small></td><td>单次输入怎么写：指令、示例、格式、优先级</td><td>给失忆实习生写工作交代</td><td>正向指令、少样本示例、结构化输出、规则分级</td><td>解决不了「窗口装不下」和「模型不守规矩」</td></tr>
+        <tr><td class="col-it"><b>上下文工程</b><br><small><a href="04-context.html">04 页</a></small></td><td>模型每步「看见什么」：进什么、留什么、何时清</td><td>给主刀医生备手术台</td><td>检索增强、压缩、记忆文件、交接包、子智能体隔离</td><td>解决不了「模型拿到干净材料仍然乱来」</td></tr>
+        <tr><td class="col-it"><b>运行框架工程</b><br><small><a href="05-harness.html">05 页</a></small></td><td>模型「能做什么」：工具面、权限、检查、终审</td><td>给电锯装防护罩和急停</td><td>沙箱、最小权限、钩子、人在回路、外部验收</td><td>解决不了「目标本身定义错了」——那是人的事</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-danger"><div class="t">⛔ 最常见的层级错配</div>
+    用提示词解决框架问题：在系统提示词里写「你只有只读权限」，但工具面上写工具一个没删——这就是 FM-25（限制只写在纸上）。规则写给谁看不重要，谁有强制力才重要。反过来也一样：不打磨提示词，指望框架兜住一切，会把框架越修越复杂，滑向 FM-28。</div>
+  </section>
+
+  <div class="pager">
+    <a href="index.html"><div class="lbl">← 返回</div><div class="ttl">学习地图</div></a>
+    <a class="next" href="01-llm-basics.html"><div class="lbl">下一篇 →</div><div class="ttl">01 · LLM 到底是怎么工作的</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 00 全景矩阵</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>

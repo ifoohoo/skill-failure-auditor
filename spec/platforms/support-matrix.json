@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "3.0.0",
+  "authority": "static-platform-support-contract",
+  "description": "四平台公开能力合同。候选版本、运行状态、环境探测值和证据位置由包外控制面记录，不得写入本文件。",
+  "product": "skill-failure-auditor",
+  "platformSet": [
+    "claude-code",
+    "codex",
+    "kimi-code",
+    "workbuddy"
+  ],
+  "platforms": [
+    {
+      "platformId": "claude-code",
+      "platformName": "Claude Code",
+      "toolAvailability": {
+        "supportLevel": "supported",
+        "minClientVersion": "2.1.218",
+        "deliveryMode": "claude_plugin",
+        "manifestPath": ".claude-plugin/plugin.json",
+        "skillsRoot": "skills",
+        "delegation": {
+          "tool": "Agent",
+          "nativeRoles": [
+            "Plan",
+            "Explore",
+            "general-purpose"
+          ],
+          "caseSensitive": true,
+          "foregroundBaseline": true
+        }
+      }
+    },
+    {
+      "platformId": "codex",
+      "platformName": "Codex",
+      "toolAvailability": {
+        "supportLevel": "supported",
+        "versionPolicy": "运行前探测客户端版本并写入包外证据",
+        "deliveryMode": "codex_plugin_or_skill",
+        "manifestPath": ".codex-plugin/plugin.json",
+        "skillsRoot": "skills",
+        "delegation": {
+          "requiredTools": [
+            "collaboration.spawn_agent",
+            "collaboration.wait_agent"
+          ],
+          "nativeRoles": null,
+          "mustNotMimicClaudeParams": true
+        }
+      }
+    },
+    {
+      "platformId": "kimi-code",
+      "platformName": "Kimi Code",
+      "toolAvailability": {
+        "supportLevel": "supported",
+        "minClientVersion": "0.31.0",
+        "deliveryMode": "kimi_plugin",
+        "manifestPath": "kimi.plugin.json",
+        "hubCompatProjection": ".kimi-plugin/plugin.json（由 kimi.plugin.json 机械生成）",
+        "skillsRoot": "skills",
+        "delegation": {
+          "tool": "Agent",
+          "nativeRoles": [
+            "plan",
+            "explore",
+            "coder"
+          ],
+          "caseSensitive": true,
+          "lowercaseRequired": true
+        }
+      }
+    },
+    {
+      "platformId": "workbuddy",
+      "platformName": "WorkBuddy/CodeBuddy",
+      "toolAvailability": {
+        "supportLevel": "supported",
+        "versionPolicy": "运行前同时探测应用壳版本与内嵌 CLI 版本并写入包外证据",
+        "deliveryMode": "workbuddy_plugin",
+        "manifestPath": ".codebuddy-plugin/plugin.json",
+        "skillsRootRule": "<CODEBUDDY_CONFIG_DIR>/skills；WorkBuddy 应用默认 CODEBUDDY_CONFIG_DIR=~/.workbuddy",
+        "defaultAppSkillInstall": "~/.workbuddy/skills/skill-failure-auditor",
+        "delegation": {
+          "tool": "Agent",
+          "nativeRoles": [
+            "Plan",
+            "Explore",
+            "general-purpose"
+          ],
+          "caseSensitive": true
+        },
+        "isolationPolicy": "真实验证必须使用与用户真实 HOME 隔离的运行目录；认证只能显式注入该隔离环境",
+        "versionDualReporting": "支持声明必须同时记录应用壳版本与内嵌 CLI 版本"
+      }
+    }
+  ],
+  "claimPolicy": {
+    "fourPlatformVerified": "只有四个平台都形成绑定同一候选的完整成功最终化证据后，包外裁决方才可声明",
+    "stable": "四平台验证结论不能由公开包自我声明，仍需独立语义审阅或用户裁决",
+    "runtimeEvidenceLocation": "候选运行事实只写入包外 control/ 与 evidence/，不得回填公开静态合同",
+    "historicalEvidenceRule": "历史候选证据不得迁移为新候选结论"
+  }
+}

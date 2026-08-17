@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>09 · 元治理 | LLM Academy</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">🧠</span>LLM Academy</a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="00-matrix.html">矩阵</a>
+    <a href="01-llm-basics.html">原理</a>
+    <a href="02-traits.html">特性</a>
+    <a href="03-prompt.html">提示词</a>
+    <a href="04-context.html">上下文</a>
+    <a href="05-harness.html">框架</a>
+    <a href="06-fake-completion.html">假完成</a>
+    <a href="07-self-eval.html">自评估</a>
+    <a href="08-verification.html">验证</a>
+    <a href="09-meta.html" class="active">元治理</a>
+    <a href="10-fm-handbook.html">手册</a>
+    <a href="11-glossary.html">术语库</a>
+    <a href="12-recipes.html">装备包</a>
+    <a href="13-protocol.html">报文</a>
+  </div>
+</div></nav>
+
+<div class="wrap page">
+  <div class="crumb"><a href="index.html">首页</a> / 09 元治理</div>
+  <div class="pagehead"><span class="tag">专题四 · 治理系统自己也会生病</span>
+  <h1>元治理：别让「防坑体系」长成新的坑</h1>
+  <p class="lead">学完前面八页，你手里已经有一大堆规则、检查、流程。最后一课是泼冷水：<b>这套防御体系本身也会失控</b>——规则只增不减地通胀，监督流程比被监督的东西还复杂。本页两个失效（FM-21/28）教你给治理系统本身做体检。</p></div>
+
+  <section>
+    <div class="section-t"><span class="num">1</span><h2>为什么防御体系会自我膨胀</h2></div>
+    <p>每次翻车后，最顺手的动作是「加一条规则」——加规则有三个诱人特点：立刻见效的错觉、明确的责任交代、零删减阻力。于是防御体系天然朝一个方向演化：<b>只增不减</b>。而 03 页讲过的机制在这里反噬：规则越多，单条被遵守的概率越低（FM-12 的数学），执行者的决策难度越高，新失效面越大。</p>
+    <div class="callout c-key"><div class="t">🔑 核心认知</div>
+    治理的目的是让「做对」变容易，不是让「做错」有解释。每加一条规则都在向注意力预算收税——<b>税率超过收益的规则，本身就是失效源</b>。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">2</span><h2>失效一 · 一出错就加规则、从不清理</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：规则通胀 <span class="fm-ref">关联 FM-21</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>家里每丢一次东西就添一个收纳盒，从不扔旧盒子。五年后满屋 200 个盒子，找东西比从前更难——因为「该放哪个盒子」本身成了新难题。<b>每个盒子单看都有道理，加在一起就是灾难。</b>会收纳的人做的第一件事从来是扔，不是买。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>失败驱动的规则累积是一种局部贪心：每条新规则针对上一次失败局部有效，但规则集合的整体可执行性随规模退化——注意力稀释（单条遵守率下降）、规则间冲突概率上升、执行者决策熵增大。缺乏删减与合并机制时，系统朝「规则密度最大、执行率最低」的方向漂移。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>健康的失效响应有优先级：①能否机器强制（钩子/工具面/校验脚本，把规则变成物理约束）→②能否简化流程（消除产生错误的步骤本身）→③实在不行才加纸面规则，且加一条要评估与现有规则的冲突、并主动找一条可删可并的。只会做③的治理，判 FM-21。审计口径：看规则库的增删比——只有增没有删，就是通胀现场。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>翻一个运行半年以上的智能体提示词/规则文件的修订历史：数一数新增了多少条、删除了多少条、有多少条是某次事故后加的「补丁规则」。再随机挑五条问维护者「这条现在还需要吗？和第 X 条冲突吗？」——答不上来的比例，就是这套规则库的通胀率。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>失效响应三问排序：能上机器强制吗？能简化流程吗？必须加规则吗？</li>
+        <li>规则库设「一进一出」预算：新增一条，必须评审能否删并一条。</li>
+        <li>定期做规则审计：每条规则标注最近一次「实际起作用」的记录，长期无记录的进清理候选。</li>
+        <li>把规则写成检查脚本是最好的清理——脚本不占模型的注意力预算。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">3</span><h2>失效二 · 监督流程比被监督的东西还复杂</h2></div>
+    <div class="fiveset">
+      <div class="fs-head">知识点：监督失衡 <span class="fm-ref">关联 FM-28</span></div>
+      <div class="triple">
+        <div class="tp tp-life"><div class="hd">🏠 生活类比</div>为了管好一家 3 人小卖部，成立了 12 人的监察委员会，下设采购审计组、陈列合规组、收银复核组，每周产出 40 页报告。小卖部还是那个小卖部，营业额没变——但现在<b>出错的地方从 3 个人变成了 15 个人</b>，而且没人有空看那 40 页报告。</div>
+        <div class="tp tp-acad"><div class="hd">🎓 学术表达</div>监督系统自身也是由会失效的组件（模型、规则、流程）构成：其复杂度、自由度每增长一分，就引入新的失效面（监督者的幻觉、监督流程的假完成、监督报告没人验证）。当监督体系的复杂度超过目标对象，且其增长未伴随「新增的已验证能力」时，系统总风险不降反升——这是治理的收益递减拐点。</div>
+        <div class="tp tp-eng"><div class="hd">🔧 工程表达</div>给监督体系算两笔账：①复杂度账——监督流程的角色数、规则数、产出物体量与被监督对象相比是什么量级？②收益账——最近新增的监督环节，各自抓住过什么真问题（有记录可查）？复杂度超标且新环节抓不出新问题的，判 FM-28。特别警惕「用更多智能体监督智能体」的套娃冲动：每一层马甲都带着 07 页 FM-23 的原罪。</div>
+      </div>
+      <div class="repro"><div class="hd">🧪 复现方式</div>审视你自己的多智能体流水线：数一数「干活的角色」和「监督/审查/汇总的角色」各几个，两边的提示词字数各多少。然后查最近十次交付：监督环节抓住的真缺陷有几个？如果监督侧规模是执行侧的两倍而月度捕获数接近零——这套监督体系本身就是最大的待优化对象。</div>
+      <div class="fix"><div class="hd">🛠 对策</div><ul>
+        <li>监督体系立预算：复杂度与被监督对象成比例，超预算先砍监督不砍执行。</li>
+        <li>每个监督环节记「捕获台账」：抓过什么真问题。空台账环节限期证明价值，否则合并或撤销。</li>
+        <li>优先用确定性检查（脚本、测试、diff）替代「再加一个审查智能体」——脚本不会幻觉。</li>
+        <li>接受剩余风险的存在：治理的终点是风险可控可见，不是零风险——追零风险的尽头是 FM-28。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">4</span><h2>全课程收束：对抗弱点的完整地图</h2></div>
+    <p>到这里，八页正课全部走完。回看整个体系，它是一个四层防御 + 一层自省的结构：</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>层</th><th>管什么</th><th>页</th><th>核心动作</th></tr></thead>
+      <tbody>
+        <tr><td class="col-it">认知层</td><td>知道它是什么、强在哪、弱在哪</td><td><a href="01-llm-basics.html">01</a> / <a href="02-traits.html">02</a></td><td>机制归因，不神化不妖魔化</td></tr>
+        <tr><td class="col-it">输入层</td><td>指令写清楚、信息摆对位置</td><td><a href="03-prompt.html">03</a> / <a href="04-context.html">04</a></td><td>正向指令、规则分级、三点布防、交接包</td></tr>
+        <tr><td class="col-it">运行层</td><td>权限围栏、外部内容降级、三权分立</td><td><a href="05-harness.html">05</a></td><td>机器强制，不赌自觉</td></tr>
+        <tr><td class="col-it">结果层</td><td>识破假完成、保证评审独立、验证防腐</td><td><a href="06-fake-completion.html">06</a> / <a href="07-self-eval.html">07</a> / <a href="08-verification.html">08</a></td><td>只认事实不认宣言，标准冻结记录只增</td></tr>
+        <tr><td class="col-it">自省层</td><td>防御体系自己不长成新的坑</td><td>09（本页）</td><td>规则做减法、监督算收益账</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout c-warn"><div class="t">⚠️ 最后一句实话</div>
+    这 28 个失效模式没有一个能「彻底修好」——它们全部源于模型的基础机制（01 页），机制不变，弱点常在。工程的意义不是消灭弱点，而是<b>让弱点发作时伤不到要害</b>。这正是本站开头那句话：我们的大量工程功夫，本质上都花在对抗 LLM 的弱点上——现在你知道每一分功夫该花在哪了。</div>
+  </section>
+
+  <section>
+    <div class="section-t"><span class="num">🎫</span><h2>出口 · 速记卡</h2></div>
+    <div class="card">
+      <p><b>一句话本章：</b>治理系统自己也会病——规则要做减法、监督要算收益账，防御体系的复杂度本身就是风险。</p>
+      <ul class="clean check">
+        <li><b>三个必背：</b>① 加规则是下策，机器强制和简化流程才是上策；② 空台账的监督环节是成本不是保险；③ 治理终点是风险可控，不是零风险。</li>
+        <li><b>一个习惯：</b>每次想「加一条规则」时，先问能不能改成一行检查脚本。</li>
+        <li><b>开会行话：</b>「这是补丁规则，走三问排序」「监督侧超预算了，FM-28」。</li>
+        <li><b>下一步：</b>10 页失效模式手册——28 张卡片按需查阅；12 页装备包——模板直接抄。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pager">
+    <a href="08-verification.html"><div class="lbl">← 上一篇</div><div class="ttl">08 · 验证体系防腐</div></a>
+    <a class="next" href="10-fm-handbook.html"><div class="lbl">下一篇 →</div><div class="ttl">10 · 失效模式手册</div></a>
+  </div>
+</div>
+<footer class="site">LLM Academy · 09 元治理</footer>
+<script src="assets/terms.js"></script>
+</body>
+</html>
