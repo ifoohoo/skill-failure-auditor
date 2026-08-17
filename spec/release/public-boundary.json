@@ -16,7 +16,7 @@
     "control/**", "evidence/**", "authorizations/**", ".codex/**", "versions/**",
     "**/oracle-\u0076ault/**", "**/oracle-\u0063ommitment*", "**/public-gate-commitment*", "**/public-evaluation-spec*", "**/public-test-manifest*",
     "**/*private*.pem", "**/*PRIVATE KEY*",
-    "**/__pycache__/**", "**/*.pyc", "**/.DS_Store", "**/.pytest_cache/**",
+    "**/node_modules/**", "**/.cache/**", "**/__pycache__/**", "**/*.pyc", "**/.DS_Store", "**/.pytest_cache/**",
     "**/long-task-progress/**"
   ],
   "forbiddenContentPatterns": [

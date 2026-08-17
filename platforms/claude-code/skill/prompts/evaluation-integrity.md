@@ -32,8 +32,9 @@
 只返回符合 `references/role-artifact.schema.json` 的单个 JSON 对象：
 
 - 顶层字段只能且必须是 `schema_version`、`task_id`、`platform`、`role`、
-  `semantic_status`、`conclusion_ceiling`、`findings`、`artifact_sha256`；
+  `semantic_status`、`conclusion_ceiling`、`rule_results`、`findings`、`artifact_sha256`；
 - `role` 为 `evaluation-integrity`；
+- 本职责复核其他职责与判据，不声明完整逐规则覆盖，`rule_results` 必须为空数组；
 - 每条发现说明真实身份、模型、上下文、读写范围和裁决依据；
 - `findings[*].evidence_refs` 只能绑定任务包证据索引中的真实分片；`path` 使用
   `evidence-index.json` 中 `files[*].path` 的精确值（相对路径）或其在冻结目标下解析出的

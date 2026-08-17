@@ -39,7 +39,9 @@ WORKSPACE = PACKAGE_ROOT.parent.parent  # workspace root
 SNAPSHOT_SCRIPT = WORKSPACE / "scripts" / "snapshot.mjs"
 CONSUMER_RUNNER = WORKSPACE / "scripts" / "consumer" / "consumer-runner.mjs"
 PRODUCT_NAME = "skill-failure-auditor"
-PLATFORMS = ["claude-code", "codex", "kimi-code", "workbuddy"]
+# 旧 root consumer-runner 只保留三平台兼容隔离测试。它的 WorkBuddy 布局已过时，
+# 不得再产生产品通过证据；WorkBuddy 由 package 内 manifest 驱动测试和显式真实门禁覆盖。
+LEGACY_RUNNER_PLATFORMS = ["claude-code", "codex", "kimi-code"]
 
 FAKE_CANDIDATE_DIGEST = "a" * 64
 
@@ -124,7 +126,7 @@ class TestInputSource:
 
     def test_runner_uses_release_tree_not_source(self, release_tree, isolated_out):
         """运行器 --release-tree 参数指向物化目录，不是源码目录。"""
-        for platform in PLATFORMS:
+        for platform in LEGACY_RUNNER_PLATFORMS:
             result = run_consumer_runner(
                 platform, release_tree, FAKE_CANDIDATE_DIGEST,
                 mode="install", out_dir=isolated_out,
@@ -155,7 +157,7 @@ class TestInputSource:
 class TestInstallManifest:
     """四平台 install-manifest 逐文件 sha256 与 Release 树对应投影一致。"""
 
-    @pytest.mark.parametrize("platform", PLATFORMS)
+    @pytest.mark.parametrize("platform", LEGACY_RUNNER_PLATFORMS)
     def test_install_sha_consistency(self, platform, release_tree, isolated_out):
         """安装文件 SHA-256 与 Release 树源文件一致。"""
         result = run_consumer_runner(
@@ -202,9 +204,9 @@ class TestInstallManifest:
             f"{[c['source'] for c in cross_copies[:5]]}"
         )
 
-    @pytest.mark.parametrize("platform", ["codex", "workbuddy"])
+    @pytest.mark.parametrize("platform", ["codex"])
     def test_non_claude_no_cross_projection_copy(self, platform, release_tree, isolated_out):
-        """codex/workbuddy 安装文件不包含来自 Claude 投影的文件。"""
+        """Codex 安装文件不包含来自 Claude 投影的文件。"""
         result = run_consumer_runner(
             platform, release_tree, FAKE_CANDIDATE_DIGEST,
             mode="install", out_dir=isolated_out,
@@ -229,7 +231,7 @@ class TestInstallManifest:
 class TestIsolation:
     """verify-isolation 通过；全局同名污染检测。"""
 
-    @pytest.mark.parametrize("platform", PLATFORMS)
+    @pytest.mark.parametrize("platform", LEGACY_RUNNER_PLATFORMS)
     def test_isolation_proof_passes(self, platform, release_tree, isolated_out):
         """隔离证明：所有安装路径在隔离 HOME 内。"""
         # 先安装
@@ -278,7 +280,7 @@ class TestIsolation:
 class TestUninstall:
     """卸载后隔离 HOME 无候选残留。"""
 
-    @pytest.mark.parametrize("platform", PLATFORMS)
+    @pytest.mark.parametrize("platform", LEGACY_RUNNER_PLATFORMS)
     def test_uninstall_clean(self, platform, release_tree, isolated_out):
         """卸载后隔离 HOME 被完全删除。"""
         run_consumer_runner(

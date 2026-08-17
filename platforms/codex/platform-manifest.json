@@ -1,7 +1,9 @@
 {
   "schemaVersion": "2.0",
+  "familyId": "skill-failure-auditor",
   "platformId": "codex",
   "product": "skill-failure-auditor",
+  "version": "1.0.0",
   "versionPolicy": "运行前探测客户端版本并写入包外证据",
   "deliveryMode": "codex_plugin_or_skill",
   "pluginManifest": ".codex-plugin/plugin.json",
@@ -20,5 +22,15 @@
     "未等待即聚合、主代理冒充子代理均失败关闭",
     "codex exec 必须 </dev/null；rollout 不得落用户 ~/.codex"
   ],
-  "projectionStatus": "projection_complete"
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
+  "projectionStatus": "projection_complete",
+  "projectionDigest": "c2f4d69d760b58c88d509b6a3654bd59fcb0b0a6e0137cef7c5bb827400d7aeb"
 }

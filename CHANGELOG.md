@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.0 - 2026-08-16
+
+- 正式发布（1.0.0）：从 1.0.0-candidate.16 候选世代推进的单一版本额度发布。
+- 全量候选世代经 1.0.0 preflight 证书周期（证书绑定候选摘要与 Release 快照）。
+- Foundation 依赖升级 0.4.0（npm registry 字节物化，pin status VERIFIED）；batch E
+  （publishFileExclusive/token-lock/HARNESS_ERROR_KINDS 本地等价实现）剥离并委托 Foundation 导出。
+- 四平台投影（Claude Code / Codex / Kimi Code / WorkBuddy）随本版本重建。
+
+## 1.0.0-candidate.16
+
+- 收窄隐式触发策略，并把同一 description 与适用性门禁机械投影到四个平台。
+- 修复 WorkBuddy 配置根/skills 发现路径与顶层 Agent 派发，移除 fork 死锁来源。
+- 恢复结构化逐规则结果及精确集合、冻结元数据、证据和高严重度未检查门禁。
+
 本产品的显著变更记录于此。格式参考 Keep a Changelog。
 
 ## [1.0.0-candidate] - 2026-08-01

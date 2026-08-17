@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -31,10 +32,21 @@ class PromptSchemaAlignmentTests(unittest.TestCase):
         self.assertEqual(len(prompt_paths), 6)
         for prompt_path in prompt_paths:
             output = prompt_path.read_text(encoding="utf-8").split("## 输出", 1)[1]
-            for field in allowed:
-                self.assertIn(f"`{field}`", output, f"{prompt_path.name}: missing {field}")
-            for field in forbidden:
-                self.assertNotIn(f"`{field}`", output, f"{prompt_path.name}: undefined {field}")
+            declarations = re.findall(
+                r"顶层字段只能且必须是(?P<fields>.*?)[；;]",
+                output,
+                flags=re.DOTALL,
+            )
+            self.assertEqual(
+                len(declarations), 1,
+                f"{prompt_path.name}: expected exactly one top-level declaration",
+            )
+            declared = set(re.findall(r"`([^`]+)`", declarations[0]))
+            self.assertEqual(declared, allowed, f"{prompt_path.name}: top-level field drift")
+            self.assertTrue(
+                forbidden.isdisjoint(declared),
+                f"{prompt_path.name}: undefined top-level field",
+            )
 
 if __name__ == "__main__":
     unittest.main()

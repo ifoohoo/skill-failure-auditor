@@ -11,14 +11,11 @@ from typing import Any
 
 from common import (
     ContractError,
-    canonical_json_bytes,
     load_json,
     load_jsonl,
-    sha256_bytes,
-    sha256_file,
-    validate_schema,
     write_json_exclusive,
 )
+from foundation_client import foundation_digest_document, foundation_file_sha256, require_production_validate
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -43,7 +40,7 @@ CORE_REDLINES = {
 
 
 def source_digest(entry: dict[str, Any]) -> str:
-    return sha256_bytes(canonical_json_bytes(entry))
+    return foundation_digest_document(entry)
 
 
 def validate_builtin_lock(
@@ -61,7 +58,7 @@ def validate_builtin_lock(
         raise ContractError("built-in registry lock has an unexpected field set")
     unsigned = dict(lock)
     unsigned.pop("lock_sha256")
-    if lock["lock_sha256"] != sha256_bytes(canonical_json_bytes(unsigned)):
+    if lock["lock_sha256"] != foundation_digest_document(unsigned):
         raise ContractError("built-in registry lock self digest mismatch")
     entries = lock["entries"]
     if (
@@ -69,7 +66,7 @@ def validate_builtin_lock(
         or not isinstance(entries, list)
         or lock["builtin_count"] != len(entries)
         or lock["builtin_count"] != len(EXPECTED_BUILTINS)
-        or lock["builtin_set_sha256"] != sha256_bytes(canonical_json_bytes(entries))
+        or lock["builtin_set_sha256"] != foundation_digest_document(entries)
     ):
         raise ContractError("built-in registry lock header or set digest is invalid")
     expected_records = []
@@ -119,7 +116,10 @@ def validate_registry(
     by_id: dict[str, dict[str, Any]] = {}
     mutation_ids: set[str] = set()
     for index, entry in enumerate(entries):
-        validate_schema(entry, schema, schema, path=f"$[{index}]")
+        try:
+            require_production_validate(entry, schema)
+        except ContractError as error:
+            raise ContractError(f"$[{index}]: {error}") from error
         identifier = entry["id"]
         if identifier in by_id:
             raise ContractError(f"duplicate rule id: {identifier}")
@@ -161,8 +161,8 @@ def validate_registry(
         "legacy_count": sum(identifier in by_id for identifier in EXPECTED_LEGACY),
         "builtin_count": sum(identifier in by_id for identifier in EXPECTED_BUILTINS),
         "mutation_count": len(mutation_ids),
-        "registry_sha256": sha256_file(registry_path),
-        "schema_sha256": sha256_file(schema_path),
+        "registry_sha256": foundation_file_sha256(registry_path),
+        "schema_sha256": foundation_file_sha256(schema_path),
         "builtin_lock_sha256": (
             builtin_lock["lock_sha256"] if builtin_lock is not None else None
         ),
@@ -336,7 +336,7 @@ def build_selection(
         "evidence_types": sorted(evidence_types),
         "selected_rules": selected_rules,
     }
-    context_sha = sha256_bytes(canonical_json_bytes(selection_context))
+    context_sha = foundation_digest_document(selection_context)
     status = "INCOMPLETE_LOW_CONFIDENCE" if truncated_ids else "SELECTED"
     coverage: dict[str, Any] = {
         "schema_version": "1.0",
@@ -346,7 +346,7 @@ def build_selection(
         "unselected_count": len(entries) - len(selected_rules),
         "entries": ledger,
     }
-    coverage["ledger_sha256"] = sha256_bytes(canonical_json_bytes(coverage))
+    coverage["ledger_sha256"] = foundation_digest_document(coverage)
     result = {
         "schema_version": "1.0",
         "status": status,
@@ -360,7 +360,7 @@ def build_selection(
         "selection_context_sha256": context_sha,
         "coverage_ledger_sha256": coverage["ledger_sha256"],
     }
-    result["selection_sha256"] = sha256_bytes(canonical_json_bytes(result))
+    result["selection_sha256"] = foundation_digest_document(result)
     return {"selection": result, "coverage": coverage}
 
 
@@ -388,7 +388,7 @@ def validate_selection_artifact(
         raise ContractError("selection artifact has an unexpected field set")
     unsigned = dict(selection)
     unsigned.pop("selection_sha256")
-    if selection["selection_sha256"] != sha256_bytes(canonical_json_bytes(unsigned)):
+    if selection["selection_sha256"] != foundation_digest_document(unsigned):
         raise ContractError("selection artifact self digest mismatch")
 
     context = selection["selection_context"]
@@ -411,7 +411,7 @@ def validate_selection_artifact(
         raise ContractError("selection context evidence types are not canonical")
     if not isinstance(context["selected_rules"], list) or not context["selected_rules"]:
         raise ContractError("selection context selected rules are empty")
-    if selection["selection_context_sha256"] != sha256_bytes(canonical_json_bytes(context)):
+    if selection["selection_context_sha256"] != foundation_digest_document(context):
         raise ContractError("selection context digest mismatch")
 
     validation = validate_registry(registry_path, schema_path)

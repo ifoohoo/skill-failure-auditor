@@ -96,12 +96,18 @@ def _session_copy():
         # 旧候选和授权材料既不属于被测输入，也可能包含指向隔离区外的软链；
         # copytree 默认跟随软链，复制整仓会让无关的悬空证据在 setup 阶段
         # 阻断全部参数化用例。
-        skip = {
-            "node_modules", ".git", "__pycache__", ".pytest_cache", "dist",
-            ".codex", "evidence", "control", "versions", "authorizations",
-            "artifacts", "generated",
-        }
-        return {f for f in files if f in skip}
+            skip = {
+                "node_modules", ".git", "__pycache__", ".pytest_cache", "dist",
+                ".codex", "evidence", "control", "versions", "authorizations",
+                "artifacts",
+            }
+            # 只排除包根的构建输出；Foundation Bundle 自身的
+            # runtime/generated/standalone-map.mjs 是权威源码闭包成员。
+            if Path(dir).resolve() == (
+                REAL_WORKSPACE / "packages/skill-failure-auditor"
+            ).resolve():
+                skip.add("generated")
+            return {f for f in files if f in skip}
 
     shutil.copytree(str(REAL_WORKSPACE), str(dst), ignore=ignore)
     build = subprocess.run(

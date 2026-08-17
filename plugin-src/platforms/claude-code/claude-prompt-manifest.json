@@ -11,37 +11,37 @@
       "role": "scope-routing",
       "agent_type": "Plan",
       "path": "prompts/scope-routing.md",
-      "sha256": "1068ce75f78be8539d0493c43b505e61d4a03b0a72583357bbe075eae4db1075"
+      "sha256": "aaf71aa586f7d545f16f8666411cf84fe6f42e4d3d6330417644569c94bf0829"
     },
     {
       "role": "static-audit",
       "agent_type": "Explore",
       "path": "prompts/static-audit.md",
-      "sha256": "4db75593683e92f8d825dcb21e9ea67b51e796e057f8d56f1d40ee744a1d7d75"
+      "sha256": "6d28b38e96f77b8612159f463b16c406793f729fc62b532072b85710cdb7da0f"
     },
     {
       "role": "runtime-evidence",
       "agent_type": "Explore",
       "path": "prompts/runtime-evidence.md",
-      "sha256": "8f3737f5ac6dd3df29042c7830498864ab8bedb9bc7102a36f183a1f18771728"
+      "sha256": "9b622b5327ee3bc600f140ae479cbdb983c04fd4194cf97b7f12ba2f1d659abc"
     },
     {
       "role": "evaluation-integrity",
       "agent_type": "general-purpose",
       "path": "prompts/evaluation-integrity.md",
-      "sha256": "aef4a848efed496856d0e61d1565fbb1c0156495d6c7cd32eb01b72200906cac"
+      "sha256": "8c15cf0a1f1d55d3c6598cbaabd72844b979140ad3e62481ebcbe601469cf794"
     },
     {
       "role": "adversarial-challenge",
       "agent_type": "general-purpose",
       "path": "prompts/adversarial-challenge.md",
-      "sha256": "89c9318703e12629dec46c8fd7a260f51e12f4133e9fc3b5ad9ea6b3f50066fb"
+      "sha256": "7d5f6362a3b49f5cb8ad3381afcf369a40ce9ef731cbdcedef46ce7f4f7720ec"
     },
     {
       "role": "result-synthesis",
       "agent_type": "general-purpose",
       "path": "prompts/result-synthesis.md",
-      "sha256": "3cbb813f9ebaedaf1f27b28ff8b97b82166c817a15e101b82c347906b5c0301c"
+      "sha256": "fd2509ddd103195e8dff20bdd2e0e54f670925c53761c691533d3d69e44e267c"
     }
   ]
 }

@@ -11,24 +11,22 @@ from pathlib import Path
 try:
     from common import (
         ContractError,
-        canonical_json_bytes,
         load_json,
-        sha256_bytes,
-        sha256_file,
-        validate_schema,
         write_json_exclusive,
     )
+    from foundation_client import foundation_digest_document, foundation_file_sha256, require_production_validate
 except ModuleNotFoundError:  # 源码树直接执行；安装投影中 common.py 与本文件同目录。
     source_core_scripts = Path(__file__).resolve().parents[3] / "core" / "scripts"
     sys.path.insert(0, str(source_core_scripts))
     from common import (  # type: ignore[no-redef]
         ContractError,
-        canonical_json_bytes,
         load_json,
-        sha256_bytes,
-        sha256_file,
-        validate_schema,
         write_json_exclusive,
+    )
+    from foundation_client import (  # type: ignore[no-redef]
+        foundation_digest_document,
+        foundation_file_sha256,
+        require_production_validate,
     )
 
 
@@ -56,9 +54,7 @@ def normalize(task_package_path: Path, role: str, source_path: Path, output_path
     if not isinstance(package, dict):
         raise ContractError("task package must be a JSON object")
 
-    expected_package_digest = sha256_bytes(
-        canonical_json_bytes({**package, "package_digest": ""})
-    )
+    expected_package_digest = foundation_digest_document({**package, "package_digest": ""})
     if package.get("package_digest") != expected_package_digest:
         raise ContractError("TASK_PACKAGE_DIGEST_DRIFT")
     if package.get("platform") != "codex":
@@ -86,19 +82,19 @@ def normalize(task_package_path: Path, role: str, source_path: Path, output_path
     if output_path.exists() or output_path.is_symlink():
         raise ContractError("OUTPUT_ARTIFACT_ALREADY_EXISTS")
 
-    source_sha256_before = sha256_file(source_path)
+    source_sha256_before = foundation_file_sha256(source_path)
     artifact = load_json(source_path)
     if not isinstance(artifact, dict):
         raise ContractError("source artifact must be a JSON object")
 
     declared_digest = artifact.pop("artifact_sha256", None)
-    computed_digest = sha256_bytes(canonical_json_bytes(artifact))
+    computed_digest = foundation_digest_document(artifact)
     normalized = {**artifact, "artifact_sha256": computed_digest}
 
     schema = load_json(_schema_path())
     if not isinstance(schema, dict):
         raise ContractError("role artifact schema must be a JSON object")
-    validate_schema(normalized, schema, schema)
+    require_production_validate(normalized, schema)
 
     if normalized.get("task_id") != package.get("task_id"):
         raise ContractError("ARTIFACT_TASK_ID_MISMATCH")
@@ -108,7 +104,7 @@ def normalize(task_package_path: Path, role: str, source_path: Path, output_path
         raise ContractError("ARTIFACT_ROLE_MISMATCH")
 
     write_json_exclusive(output_path, normalized, mode=0o600)
-    source_sha256_after = sha256_file(source_path)
+    source_sha256_after = foundation_file_sha256(source_path)
     if source_sha256_after != source_sha256_before:
         raise ContractError("SOURCE_ARTIFACT_CHANGED_DURING_NORMALIZATION")
 
@@ -120,7 +116,7 @@ def normalize(task_package_path: Path, role: str, source_path: Path, output_path
         "declared_artifact_sha256": declared_digest,
         "artifact_sha256": computed_digest,
         "output_path": str(output_resolved),
-        "output_file_sha256": sha256_file(output_path),
+        "output_file_sha256": foundation_file_sha256(output_path),
     }
 
 

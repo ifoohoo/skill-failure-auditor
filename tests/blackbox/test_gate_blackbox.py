@@ -333,15 +333,18 @@ def create_receipt(platform: str, task_id: str, role: str, raw_path: Path) -> di
 
 def create_artifact(platform: str, task_id: str, role: str,
                     semantic_status: str = "PASS_WITHIN_FROZEN_SCOPE",
-                    conclusion_ceiling: str = "PASS_WITHIN_FROZEN_SCOPE") -> dict:
+                    conclusion_ceiling: str = "PASS_WITHIN_FROZEN_SCOPE",
+                    selected_rules: list[dict] | None = None,
+                    evidence_ref: dict | None = None) -> dict:
     """创建 L2 职责成果对象（不含 artifact_sha256）。"""
-    return {
+    artifact = {
         "schema_version": "1.0",
         "task_id": task_id,
         "platform": platform,
         "role": role,
         "semantic_status": semantic_status,
         "conclusion_ceiling": conclusion_ceiling,
+        "rule_results": [],
         "findings": [
             {
                 "statement": f"Synthetic finding for {role}",
@@ -349,6 +352,20 @@ def create_artifact(platform: str, task_id: str, role: str,
             }
         ],
     }
+    if role in {"static-audit", "runtime-evidence"}:
+        assert selected_rules is not None and evidence_ref is not None
+        artifact["rule_results"] = [
+            {
+                "id": item["id"],
+                "revision": item["revision"],
+                "severity": item["severity"],
+                "status": "NOT_HIT",
+                "reason": "Synthetic black-box fixture checked the frozen target.",
+                "evidence_refs": [dict(evidence_ref)],
+            }
+            for item in selected_rules
+        ]
+    return artifact
 
 
 def write_artifact_file(artifact: dict, path: Path) -> Path:
@@ -409,6 +426,13 @@ def build_platform_attempt(bb_root: Path, platform: str, task_num: int,
     pkg_path = attempt_dir / "task-package.json"
     pkg = json.loads(pkg_path.read_text(encoding="utf-8"))
     expected_roles = list(pkg["expected_roles"])
+    selection = json.loads((attempt_dir / "selection.json").read_text(encoding="utf-8"))
+    selected_rules = selection["selection_context"]["selected_rules"]
+    evidence_index = json.loads(
+        (attempt_dir / "evidence-index.json").read_text(encoding="utf-8")
+    )
+    indexed = evidence_index["files"][0]
+    evidence_ref = {"path": indexed["path"], "sha256": indexed["sha256"]}
 
     roles_to_process = list(expected_roles)
     if skip_roles:
@@ -436,7 +460,9 @@ def build_platform_attempt(bb_root: Path, platform: str, task_num: int,
         # 3. 创建成果
         artifact = create_artifact(platform, task_id, role,
                                    semantic_status=semantic_status,
-                                   conclusion_ceiling=conclusion_ceiling)
+                                   conclusion_ceiling=conclusion_ceiling,
+                                   selected_rules=selected_rules,
+                                   evidence_ref=evidence_ref)
         artifact_path = work_dir / f"{role}-artifact.json"
         write_artifact_file(artifact, artifact_path)
         artifact_files[role] = artifact_path
@@ -473,7 +499,11 @@ def build_platform_attempt(bb_root: Path, platform: str, task_num: int,
             receipt_path = work_dir / f"{role}-receipt.json"
             receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n",
                                     encoding="utf-8")
-            artifact = create_artifact(platform, task_id, role)
+            artifact = create_artifact(
+                platform, task_id, role,
+                selected_rules=selected_rules,
+                evidence_ref=evidence_ref,
+            )
             artifact_path = work_dir / f"{role}-artifact.json"
             write_artifact_file(artifact, artifact_path)
             out_path, out_sha = create_output_file(work_dir, role)

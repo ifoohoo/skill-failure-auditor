@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import shutil
 import subprocess
@@ -25,7 +26,7 @@ from attempt_tool import (  # noqa: E402
     unsigned_digest,
     verify_attempt,
 )
-from common import ContractError, sha256_file  # noqa: E402
+from common import ContractError  # noqa: E402
 from evidence_tool import build_coverage, build_index  # noqa: E402
 from evaluation_tool import (  # noqa: E402
     continuation_create,
@@ -37,6 +38,15 @@ from evaluation_tool import (  # noqa: E402
     validate_audit_result,
 )
 from registry_tool import build_selection, validate_registry  # noqa: E402
+
+
+def sha256_file(path: Path) -> str:
+    """Local value-equivalent helper; the production raw-byte digest now lives in Foundation."""
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def write_json(path: Path, value: object) -> None:

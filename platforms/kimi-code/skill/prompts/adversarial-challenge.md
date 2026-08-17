@@ -32,8 +32,9 @@
 只返回符合 `references/role-artifact.schema.json` 的单个 JSON 对象：
 
 - 顶层字段只能且必须是 `schema_version`、`task_id`、`platform`、`role`、
-  `semantic_status`、`conclusion_ceiling`、`findings`、`artifact_sha256`；
+  `semantic_status`、`conclusion_ceiling`、`rule_results`、`findings`、`artifact_sha256`；
 - `role` 为 `adversarial-challenge`；
+- 本职责复核既有逐规则结果，不另造一份覆盖声明，`rule_results` 必须为空数组；
 - `findings` 记录反证、冲突和红线组合；
 - `findings[*].evidence_refs` 只能使用任务包证据索引中的真实分片，无法绑定
   目标分片的结果集合问题使用空数组；

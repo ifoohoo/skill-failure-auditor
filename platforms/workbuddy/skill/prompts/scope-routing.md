@@ -31,8 +31,9 @@
 只返回符合 `references/role-artifact.schema.json` 的单个 JSON 对象：
 
 - 顶层字段只能且必须是 `schema_version`、`task_id`、`platform`、`role`、
-  `semantic_status`、`conclusion_ceiling`、`findings`、`artifact_sha256`；
+  `semantic_status`、`conclusion_ceiling`、`rule_results`、`findings`、`artifact_sha256`；
 - `role` 为 `scope-routing`；
+- 本职责不作逐规则语义判定，`rule_results` 必须为空数组；
 - `findings` 记录范围或路由问题；
 - `findings[*].evidence_refs` 只引用证据索引 `files[*]` 中的真实目标文件绝对
   路径与摘要；范围元数据问题无法绑定目标文件时使用空数组；

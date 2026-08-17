@@ -38,12 +38,19 @@
 - `schema_version`（"1.0"）、`task_id`、`platform`、`role`；
 - `semantic_status`：枚举 `PASS_WITHIN_FROZEN_SCOPE / NEEDS_REVISION / REJECT / INCOMPLETE / BLOCKED`；
 - `conclusion_ceiling`：同一枚举，表示该职责允许外层采用的最软结论上限；
+- `rule_results`：逐规则结构化数组，每项必须包含冻结规则的 `id`、`revision`、
+  `severity`，以及 `status`（`HIT / NOT_HIT / NOT_APPLICABLE / UNCHECKED`）、
+  `reason` 和 `evidence_refs`。`static-audit` 与 `runtime-evidence` 必须覆盖冻结选择的
+  精确集合，顺序不影响集合判定；缺失、重复、未知规则、revision/severity 漂移、
+  无证据的已检查结果均失败关闭。critical/high 的 `UNCHECKED` 不得与通过语义结论并存；
 - `findings`：数组，每项 `{id?, statement, evidence_refs:[{path, sha256}]}`。目标证据可使用
   `evidence-index.json/files[*].path` 的精确相对路径或其在冻结目标下解析出的绝对路径；必须
   同时匹配索引摘要与实际文件摘要。编排输出证据只接受 `allowed_write_paths` 内的绝对路径；
 - `artifact_sha256`：覆盖除自身外全部规范化字段的 canonical JSON 摘要。
 
 `COMPLETED` 结果必须绑定一个通过 Schema 与摘要验证的 artifact。
+清单外可证伪假设继续写入 `findings`，其 ID 不得使用 `FM-<数字>` 形式，因而不会被
+误计为所选规则结果。
 
 ### L3 归一化结果外壳（result.schema.json v2.1）
 

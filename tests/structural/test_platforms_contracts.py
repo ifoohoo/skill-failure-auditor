@@ -194,6 +194,9 @@ class CrossPlatformContractTests(unittest.TestCase):
                     f"{source_name}:{path} 不得保存候选运行事实或重复冻结状态",
                 )
                 if isinstance(value, str):
+                    # manifest 顶层 version 是产品身份，不是某次运行产生的状态事实。
+                    if source_name.endswith("-manifest") and path == "$.version":
+                        continue
                     self.assertIsNone(
                         CANDIDATE_FACT_PATTERN.search(value),
                         f"{source_name}:{path} 不得引用某次候选运行状态",
@@ -355,6 +358,40 @@ class CrossPlatformContractTests(unittest.TestCase):
                 "projection_complete",
                 platform_id,
             )
+
+    def test_logical_mappings_present_and_consistent_across_platforms(self) -> None:
+        """四平台 logicalMappings 非空、映射路径存在且结构一致。"""
+        expected_mapping = {
+            "logicalName": "skill-failure-auditor",
+            "physicalName": "skill-failure-auditor",
+            "path": "skill/SKILL.md",
+            "type": "human_entry",
+            "userInvocable": True,
+        }
+        all_mappings: dict[str, list[dict[str, Any]]] = {}
+        for platform_id in PLATFORM_IDS:
+            m = manifest(platform_id)
+            mappings = m.get("logicalMappings")
+            self.assertIsInstance(mappings, list, f"{platform_id}: logicalMappings 必须是数组")
+            self.assertGreater(len(mappings), 0, f"{platform_id}: logicalMappings 不得为空")
+            for entry in mappings:
+                self.assertIsInstance(entry, dict, f"{platform_id}: 映射条目必须是对象")
+                self.assertEqual(entry.get("logicalName"), expected_mapping["logicalName"],
+                                 f"{platform_id}: logicalName 不匹配")
+                self.assertEqual(entry.get("physicalName"), expected_mapping["physicalName"],
+                                 f"{platform_id}: physicalName 不匹配")
+                self.assertEqual(entry.get("path"), expected_mapping["path"],
+                                 f"{platform_id}: path 不匹配")
+                self.assertEqual(entry.get("type"), expected_mapping["type"],
+                                 f"{platform_id}: type 不匹配")
+                self.assertIs(entry.get("userInvocable"), expected_mapping["userInvocable"],
+                              f"{platform_id}: userInvocable 不匹配")
+            all_mappings[platform_id] = mappings
+        # 四平台映射结构完全一致
+        reference = all_mappings[PLATFORM_IDS[0]]
+        for platform_id in PLATFORM_IDS[1:]:
+            self.assertEqual(all_mappings[platform_id], reference,
+                             f"{platform_id} 与 {PLATFORM_IDS[0]} 的 logicalMappings 不一致")
 
 
 if __name__ == "__main__":

@@ -1,11 +1,21 @@
 {
   "schemaVersion": "2.0",
+  "familyId": "skill-failure-auditor",
   "platformId": "workbuddy",
   "product": "skill-failure-auditor",
+  "version": "1.0.0",
   "versionPolicy": "运行前同时探测应用壳版本与内嵌 CLI 版本并写入包外证据",
   "deliveryMode": "workbuddy_plugin",
   "pluginManifest": ".codebuddy-plugin/plugin.json",
   "entry": "SKILL.md",
+  "discovery": {
+    "configRootEnv": "CODEBUDDY_CONFIG_DIR",
+    "skillRootRelativeToConfig": "skills",
+    "skillInstallRelativeToConfig": "skills/skill-failure-auditor",
+    "workbuddyAppDefaultConfigRoot": "~/.workbuddy",
+    "workbuddyAppDefaultSkillInstall": "~/.workbuddy/skills/skill-failure-auditor",
+    "codebuddyCliDefaultConfigRoot": "~/.codebuddy"
+  },
   "delegation": {
     "tool": "Agent",
     "nativeRoles": [
@@ -25,5 +35,15 @@
   },
   "dualVersionReporting": "支持声明必须同时记录应用壳版本与内嵌 CLI 版本",
   "isolationPolicy": "真实验证必须使用与用户真实 HOME 隔离的运行目录；认证只能显式注入该隔离环境",
-  "projectionStatus": "projection_complete"
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
+  "projectionStatus": "projection_complete",
+  "projectionDigest": "0dcca95e176540a1880307598e11ffd92686f8b800e33c66f7cc4888ee11f564"
 }

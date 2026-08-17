@@ -56,6 +56,37 @@
       "adversarial-challenge"
     ]
   },
+  "loopOuterContract": {
+    "compiler": "scripts/loop_audit_contract.py compile-loop-audit",
+    "validator": "scripts/loop_audit_contract.py validate-loop-audit",
+    "workflowSourceConsumer": "loop-agent:scripts/prepare-workflow-source.mjs",
+    "schemaProvider": {
+      "name": "loop-agent",
+      "version": "0.4.0",
+      "manifestRelativePath": "references/schema-provider-manifest.json",
+      "manifestSha256": "3c5c89e65a309dcff4c8bc0a37dd82ac7ff600eba59d4c53428b96d0786389c8",
+      "deliveryResultRole": "task_result"
+    },
+    "roleArtifactSchemaId": "skill-failure-auditor:orchestration:role-artifact:1.1.0",
+    "platformPolicy": {
+      "claude-code": {
+        "status": "required",
+        "automaticLegacyFallback": false
+      },
+      "codex": {
+        "status": "required",
+        "automaticLegacyFallback": false
+      },
+      "kimi-code": {
+        "status": "legacy-compatibility",
+        "automaticLegacyFallback": false
+      },
+      "workbuddy": {
+        "status": "legacy-compatibility",
+        "automaticLegacyFallback": false
+      }
+    }
+  },
   "platforms": {
     "claude-code": {
       "dispatchTool": "Agent",

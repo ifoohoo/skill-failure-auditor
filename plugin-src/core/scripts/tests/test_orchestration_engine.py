@@ -151,9 +151,31 @@ class EngineHarness:
             "role": role,
             "semantic_status": semantic_status,
             "conclusion_ceiling": conclusion_ceiling,
+            "rule_results": [],
             "findings": findings,
             "artifact_sha256": ""
         }
+        if role in {"static-audit", "runtime-evidence"}:
+            selection = json.loads(
+                (self.output / "selection.json").read_text(encoding="utf-8")
+            )
+            evidence_index = json.loads(
+                (self.output / "evidence-index.json").read_text(encoding="utf-8")
+            )
+            indexed = evidence_index["files"][0]
+            artifact["rule_results"] = [
+                {
+                    "id": item["id"],
+                    "revision": item["revision"],
+                    "severity": item["severity"],
+                    "status": "NOT_HIT",
+                    "reason": "Test fixture checked the frozen target.",
+                    "evidence_refs": [
+                        {"path": indexed["path"], "sha256": indexed["sha256"]}
+                    ],
+                }
+                for item in selection["selection_context"]["selected_rules"]
+            ]
         artifact["artifact_sha256"] = compute_artifact_sha256(artifact)
         path = self.work_dir() / f"{role}-artifact.json"
         path.write_text(json.dumps(artifact, ensure_ascii=False), encoding="utf-8")
@@ -468,6 +490,118 @@ class NegativeTests(unittest.TestCase):
         self.assertIn("MISSING_OUTPUT", codes)
         self.assertIn("EXTRA_OUTPUT", codes)
         self._assert_no_success_artifacts()
+
+
+class RuleResultContractTests(unittest.TestCase):
+    """Candidate 16：逐规则集合与冻结元数据必须由引擎机械强制。"""
+
+    def setUp(self) -> None:
+        self.h = EngineHarness()
+        self.assertEqual(self.h.prepare().returncode, 0)
+        scope = self.h.dispatch_role("scope-routing")
+        self.assertEqual(scope.returncode, 0, scope.stdout)
+
+    def tearDown(self) -> None:
+        self.h.cleanup()
+
+    def _write_mutated_static(self, mutate) -> subprocess.CompletedProcess:
+        artifact_path = Path(self.h.create_valid_artifact("static-audit"))
+        artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+        mutate(artifact)
+        artifact["artifact_sha256"] = compute_artifact_sha256(artifact)
+        artifact_path.write_text(json.dumps(artifact, ensure_ascii=False), encoding="utf-8")
+        receipt = self.h.create_valid_receipt("static-audit")
+        return self.h.write_result_via_engine(
+            "static-audit", receipt_file=receipt, artifact_file=str(artifact_path)
+        )
+
+    def test_missing_fm22_is_rejected(self):
+        out = self._write_mutated_static(
+            lambda artifact: artifact["rule_results"].__setitem__(
+                slice(None),
+                [r for r in artifact["rule_results"] if r["id"] != "FM-22"],
+            )
+        )
+        self.assertNotEqual(out.returncode, 0)
+        self.assertIn("SELECTED_RULE_SET_MISMATCH", out.stdout)
+
+    def test_duplicate_fm05_is_rejected(self):
+        def mutate(artifact):
+            fm05 = next(r for r in artifact["rule_results"] if r["id"] == "FM-05")
+            artifact["rule_results"].append(dict(fm05))
+
+        out = self._write_mutated_static(mutate)
+        self.assertNotEqual(out.returncode, 0)
+        self.assertIn("DUPLICATE_SELECTED_RULE_ID", out.stdout)
+
+    def test_unknown_fm_id_is_rejected(self):
+        def mutate(artifact):
+            artifact["rule_results"][0]["id"] = "FM-999"
+
+        out = self._write_mutated_static(mutate)
+        self.assertNotEqual(out.returncode, 0)
+        self.assertIn("UNKNOWN_SELECTED_RULE_ID", out.stdout)
+
+    def test_revision_drift_is_rejected(self):
+        def mutate(artifact):
+            artifact["rule_results"][0]["revision"] += 1
+
+        out = self._write_mutated_static(mutate)
+        self.assertNotEqual(out.returncode, 0)
+        self.assertIn("SELECTED_RULE_REVISION_DRIFT", out.stdout)
+
+    def test_severity_drift_is_rejected(self):
+        def mutate(artifact):
+            artifact["rule_results"][0]["severity"] = "medium"
+
+        out = self._write_mutated_static(mutate)
+        self.assertNotEqual(out.returncode, 0)
+        self.assertIn("SELECTED_RULE_SEVERITY_DRIFT", out.stdout)
+
+    def test_checked_rule_without_evidence_is_rejected(self):
+        def mutate(artifact):
+            artifact["rule_results"][0]["evidence_refs"] = []
+
+        out = self._write_mutated_static(mutate)
+        self.assertNotEqual(out.returncode, 0)
+        self.assertIn("EVIDENCE_FREE_CHECKED_RULE", out.stdout)
+
+    def test_high_unchecked_with_passing_semantics_is_rejected(self):
+        def mutate(artifact):
+            fm22 = next(r for r in artifact["rule_results"] if r["id"] == "FM-22")
+            fm22["status"] = "UNCHECKED"
+            fm22["evidence_refs"] = []
+
+        out = self._write_mutated_static(mutate)
+        self.assertNotEqual(out.returncode, 0)
+        self.assertIn("HIGH_SEVERITY_UNCHECKED_WITH_PASS", out.stdout)
+
+    def test_reordered_complete_rule_set_is_accepted(self):
+        out = self._write_mutated_static(lambda artifact: artifact["rule_results"].reverse())
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+
+    def test_novel_non_fm_hypothesis_remains_allowed(self):
+        def mutate(artifact):
+            artifact["findings"] = [{
+                "id": "NOVEL-CONTEXT-LOSS",
+                "statement": "A falsifiable hypothesis outside the frozen FM identifiers.",
+                "evidence_refs": [],
+            }]
+
+        out = self._write_mutated_static(mutate)
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+
+    def test_selected_fm_identifier_misfiled_as_finding_is_rejected(self):
+        def mutate(artifact):
+            artifact["findings"] = [{
+                "id": "FM-05",
+                "statement": "Selected rules belong in rule_results.",
+                "evidence_refs": [],
+            }]
+
+        out = self._write_mutated_static(mutate)
+        self.assertNotEqual(out.returncode, 0)
+        self.assertIn("SELECTED_RULE_MISFILED_AS_FINDING", out.stdout)
 
 
 class PositiveTests(unittest.TestCase):

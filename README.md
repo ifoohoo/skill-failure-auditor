@@ -16,11 +16,31 @@ Audits Skills, Prompts, Agent instructions, workflows, and their real runtime ev
 
 Six semantic roles: `scope-routing`, `static-audit`, `runtime-evidence`, `evaluation-integrity`, `adversarial-challenge`, `result-synthesis`. Modes: `static` (5 roles), `runtime` (5), `combined` (6). The engine is the only writer of result files; missing/duplicated/extra/mismatched outputs, schema failures, non-zero exits and timeouts fail closed. Candidates and implementers may only submit diagnostics (`SELF_AUDIT_SUBMITTED_FOR_EXTERNAL_REVIEW`); formal acceptance requires independent review.
 
+<!-- release-skill:external-write-boundary -->
+
+External-write boundary: the audit engine writes only diagnostic evidence under the audited target's evidence directory; the audited source tree is never modified.
+
 ## Install
 
 - Claude Code: copy (or symlink) `platforms/claude-code/skill/` into a skills directory (e.g. project `.claude/skills/skill-failure-auditor`), then invoke `/skill-failure-auditor <target> <static|runtime|combined>`.
+- WorkBuddy: copy `platforms/workbuddy/skill/` to `~/.workbuddy/skills/skill-failure-auditor/`. This is the WorkBuddy app's default `<CODEBUDDY_CONFIG_DIR>/skills` discovery root; do not install this projection under `.claude/skills`.
 - Kimi Code: use `kimi.plugin.json` (authoritative); `.kimi-plugin/plugin.json` is a mechanically generated Hub-compat projection (field-identical).
 - Codex / WorkBuddy (CodeBuddy): install the corresponding `platforms/<id>/` projection; see `spec/platforms/support-matrix.json` for verified runtimes and honest status.
+
+<!-- release-skill:safe-first-command -->
+
+Safe first command: a one-shot audit (`/skill-failure-auditor <target> static`) is read-only — it inspects the target and writes only diagnostic evidence; nothing else in the workspace is modified. The release-time state machine (assess/prepare/approve/publish/reconcile/verify) is governed by the release-skill pipeline (`npx release-skill`).
+
+## Minimal example
+
+```sh
+# one-shot static audit; release-skill governs the release-time state machine
+/skill-failure-auditor packages/flow-architect static
+```
+
+## Troubleshooting
+
+Audits fail closed: schema violations, missing/duplicated/mismatched outputs, non-zero exits, and timeouts surface as explicit diagnostics (e.g. `GATE_FAILED`-style gate failures) rather than silent success. If an audit fails, inspect the run evidence under the target's evidence directory, re-run with a single role (`static`) to isolate the failing role, then consult `spec/` for the failure-mode registry (FM-01…FM-28).
 
 ## License
 

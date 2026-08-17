@@ -20,7 +20,8 @@
 6. 对可执行验收工件给出唯一固定 finding：
    `id` 为 `EXECUTABLE_ACCEPTANCE`；`VERIFIED` 表示工件存在且已验证，
    `HIT` 表示确定缺失，`NOT_APPLICABLE` 表示不适用，`UNCHECKED` 表示
-   证据不足。
+   证据不足。这一枚举词写入该 finding 的 `statement` 文本，不新增 `status`
+   或其他 Schema 外字段。
 7. 给编排者提交合并建议、未完成项和结论上限。
 
 ## 边界
@@ -35,8 +36,9 @@
 只返回符合 `references/role-artifact.schema.json` 的单个 JSON 对象：
 
 - 顶层字段只能且必须是 `schema_version`、`task_id`、`platform`、`role`、
-  `semantic_status`、`conclusion_ceiling`、`findings`、`artifact_sha256`；
+  `semantic_status`、`conclusion_ceiling`、`rule_results`、`findings`、`artifact_sha256`；
 - `role` 为 `result-synthesis`；
+- 本职责只合并已经验证的逐规则结果，`rule_results` 必须为空数组；
 - `findings` 记录集合、绑定和语义冲突；
 - `findings` 中恰好有一个 `EXECUTABLE_ACCEPTANCE`；
 - `EXECUTABLE_ACCEPTANCE` 非 `UNCHECKED` 时必须绑定至少一个任务包证据索引

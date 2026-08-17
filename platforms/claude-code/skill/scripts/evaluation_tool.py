@@ -11,16 +11,13 @@ from typing import Any
 
 from common import (
     ContractError,
-    canonical_json_bytes,
     load_json,
     load_jsonl,
     require_sha256,
-    sha256_bytes,
-    sha256_file,
-    validate_schema,
     write_json_exclusive,
 )
 from evidence_tool import build_coverage, verify_index
+from foundation_client import foundation_digest_document, foundation_file_sha256, require_production_validate
 from registry_tool import DEFAULT_REGISTRY, validate_selection_artifact
 
 
@@ -45,7 +42,7 @@ def stable_skill_identity(root: Path) -> tuple[tuple[str, str], ...] | None:
         path = root / relative
         if path.is_symlink() or not path.is_file():
             return None
-        identity.append((relative, sha256_file(path)))
+        identity.append((relative, foundation_file_sha256(path)))
     return tuple(identity)
 
 
@@ -73,7 +70,7 @@ def validate_audit_result(
 ) -> dict[str, Any]:
     result = load_json(path)
     schema = load_json(AUDIT_SCHEMA)
-    validate_schema(result, schema, schema)
+    require_production_validate(result, schema)
     selection, _ = validate_selection_artifact(selection_path, registry_path)
     context = selection["selection_context"]
     if result["mode"] != context["mode"]:
@@ -252,7 +249,7 @@ def validate_audit_result(
         "schema_version": "1.0",
         "status": "VALID",
         "audit_id": result["audit_id"],
-        "result_sha256": sha256_file(path),
+        "result_sha256": foundation_file_sha256(path),
         "selection_sha256": selection["selection_sha256"],
         "subject_file_set_sha256": index["file_set_sha256"],
         "coverage_ledger_sha256": recomputed_ledger["ledger_sha256"],
@@ -375,11 +372,11 @@ def grade_cases(cases_path: Path, results_path: Path) -> dict[str, Any]:
         "failed_count": sum(not item["passed"] for item in grades),
         "overall_pass": overall,
         "acceptance_eligible": False,
-        "cases_sha256": sha256_file(cases_path),
-        "results_sha256": sha256_file(results_path),
+        "cases_sha256": foundation_file_sha256(cases_path),
+        "results_sha256": foundation_file_sha256(results_path),
         "case_grades": grades,
     }
-    grade["grade_sha256"] = sha256_bytes(canonical_json_bytes(grade))
+    grade["grade_sha256"] = foundation_digest_document(grade)
     return grade
 
 
@@ -390,7 +387,7 @@ def verify_binding(binding: dict[str, Any], label: str) -> Path:
     if path.is_symlink() or not path.is_file():
         raise ContractError(f"{label} must bind a regular file: {path}")
     require_sha256(binding["sha256"], f"{label} sha256")
-    if sha256_file(path) != binding["sha256"]:
+    if foundation_file_sha256(path) != binding["sha256"]:
         raise ContractError(f"{label} digest mismatch: {path}")
     return path
 
@@ -398,19 +395,19 @@ def verify_binding(binding: dict[str, Any], label: str) -> Path:
 def continuation_digest(package: dict[str, Any]) -> str:
     unsigned = dict(package)
     unsigned.pop("package_digest", None)
-    return sha256_bytes(canonical_json_bytes(unsigned))
+    return foundation_digest_document(unsigned)
 
 
 def source_manifest_digest(manifest: dict[str, Any]) -> str:
     unsigned = dict(manifest)
     unsigned.pop("manifest_digest", None)
-    return sha256_bytes(canonical_json_bytes(unsigned))
+    return foundation_digest_document(unsigned)
 
 
 def validate_source_manifest(path: Path) -> dict[str, Any]:
     manifest = load_json(path)
     schema = load_json(SOURCE_MANIFEST_SCHEMA)
-    validate_schema(manifest, schema, schema)
+    require_production_validate(manifest, schema)
     if manifest["manifest_digest"] != source_manifest_digest(manifest):
         raise ContractError("source manifest self digest mismatch")
     bindings = manifest["bindings"]
@@ -466,7 +463,7 @@ def continuation_create(
     source_manifest = validate_source_manifest(source_manifest_path)
     if template["task_id"] != source_manifest["task_id"]:
         raise ContractError("continuation task id does not match source manifest")
-    if template["source_manifest_sha256"] != sha256_file(source_manifest_path):
+    if template["source_manifest_sha256"] != foundation_file_sha256(source_manifest_path):
         raise ContractError("continuation source manifest file digest mismatch")
     if template["source_bindings"] != source_manifest["bindings"]:
         raise ContractError(
@@ -475,7 +472,7 @@ def continuation_create(
     verify_continuation_selection(template, selection_path, registry_path)
     package = dict(template)
     package["package_digest"] = continuation_digest(package)
-    validate_schema(package, schema, schema)
+    require_production_validate(package, schema)
     write_json_exclusive(output_path, package)
     return package
 
@@ -488,7 +485,7 @@ def continuation_verify(
 ) -> dict[str, Any]:
     package = load_json(path)
     schema = load_json(CONTINUATION_SCHEMA)
-    validate_schema(package, schema, schema)
+    require_production_validate(package, schema)
     if package["package_digest"] != continuation_digest(package):
         raise ContractError("continuation package self digest mismatch")
     for index, binding in enumerate(package["source_bindings"]):
@@ -498,7 +495,7 @@ def continuation_verify(
     source_manifest = validate_source_manifest(source_manifest_path)
     if package["task_id"] != source_manifest["task_id"]:
         raise ContractError("continuation task id does not match source manifest")
-    if package["source_manifest_sha256"] != sha256_file(source_manifest_path):
+    if package["source_manifest_sha256"] != foundation_file_sha256(source_manifest_path):
         raise ContractError("continuation source manifest file digest mismatch")
     if package["source_bindings"] != source_manifest["bindings"]:
         raise ContractError(
@@ -509,7 +506,7 @@ def continuation_verify(
         "schema_version": "1.0",
         "status": "VERIFIED",
         "package_id": package["package_id"],
-        "package_sha256": sha256_file(path),
+        "package_sha256": foundation_file_sha256(path),
         "package_digest": package["package_digest"],
         "source_binding_count": len(package["source_bindings"]),
         "selected_rule_count": len(package["selected_rules"]),

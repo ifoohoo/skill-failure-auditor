@@ -85,8 +85,9 @@ class VerbatimEntryExecutionTests(unittest.TestCase):
                                        self._target_dir, self._output_root,
                                        prompts_root)
         # 逐字执行——不补任何参数
+        env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
         return subprocess.run(cmd, shell=True, capture_output=True, text=True,
-                              timeout=30)
+                              timeout=30, env=env)
 
     def test_claude_code_verbatim_prepare_run(self) -> None:
         result = self._run_verbatim("claude-code")
@@ -129,8 +130,9 @@ class VerbatimEntryExecutionTests(unittest.TestCase):
         cmd_no_platform = re.sub(r"--platform\s+\S+\s*\\?\s*\n?", "", cmd)
         # 确认去掉后确实不含 --platform
         self.assertNotIn("--platform", cmd_no_platform)
+        env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
         result = subprocess.run(cmd_no_platform, shell=True, capture_output=True,
-                                text=True, timeout=30)
+                                text=True, timeout=30, env=env)
         self.assertNotEqual(result.returncode, 0,
                             f"Expected non-zero exit when --platform is missing, "
                             f"got 0. stdout: {result.stdout}")

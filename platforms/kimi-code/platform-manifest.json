@@ -1,7 +1,9 @@
 {
   "schemaVersion": "2.0",
+  "familyId": "skill-failure-auditor",
   "platformId": "kimi-code",
   "product": "skill-failure-auditor",
+  "version": "1.0.0",
   "minClientVersion": "0.31.0",
   "deliveryMode": "kimi_plugin",
   "authoritativeManifest": "kimi.plugin.json",
@@ -27,5 +29,15 @@
     }
   },
   "receiptNormalization": "kimi -p --output-format stream-json 原始事件 → 统一结果合同",
-  "projectionStatus": "projection_complete"
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
+  "projectionStatus": "projection_complete",
+  "projectionDigest": "94c6aa9e04a360b17f824448c2890b8586b98806b42f4059cf8ccb14854ce80d"
 }

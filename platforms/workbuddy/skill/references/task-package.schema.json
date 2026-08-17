@@ -59,15 +59,15 @@
     {
       "description": "模式-角色集合守恒：static 与 runtime 各 5 角色，combined 全 6 角色；expected_roles 必须与 prompts 角色集合精确相等。",
       "if": { "properties": { "mode": { "const": "static" } }, "required": ["mode"] },
-      "then": { "properties": { "expected_roles": { "minItems": 5, "maxItems": 5, "not": { "contains": { "const": "runtime-evidence" } } } } }
+      "then": { "properties": { "expected_roles": { "type": "array", "minItems": 5, "maxItems": 5, "not": { "type": "array", "contains": { "const": "runtime-evidence" } } } } }
     },
     {
       "if": { "properties": { "mode": { "const": "runtime" } }, "required": ["mode"] },
-      "then": { "properties": { "expected_roles": { "minItems": 5, "maxItems": 5, "not": { "contains": { "const": "static-audit" } } } } }
+      "then": { "properties": { "expected_roles": { "type": "array", "minItems": 5, "maxItems": 5, "not": { "type": "array", "contains": { "const": "static-audit" } } } } }
     },
     {
       "if": { "properties": { "mode": { "const": "combined" } }, "required": ["mode"] },
-      "then": { "properties": { "expected_roles": { "minItems": 6, "maxItems": 6 } } }
+      "then": { "properties": { "expected_roles": { "type": "array", "minItems": 6, "maxItems": 6 } } }
     }
   ],
   "$defs": {

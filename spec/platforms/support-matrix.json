@@ -80,7 +80,8 @@
         "versionPolicy": "运行前同时探测应用壳版本与内嵌 CLI 版本并写入包外证据",
         "deliveryMode": "workbuddy_plugin",
         "manifestPath": ".codebuddy-plugin/plugin.json",
-        "skillsRoot": "skills",
+        "skillsRootRule": "<CODEBUDDY_CONFIG_DIR>/skills；WorkBuddy 应用默认 CODEBUDDY_CONFIG_DIR=~/.workbuddy",
+        "defaultAppSkillInstall": "~/.workbuddy/skills/skill-failure-auditor",
         "delegation": {
           "tool": "Agent",
           "nativeRoles": [

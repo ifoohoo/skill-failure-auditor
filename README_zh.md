@@ -42,6 +42,7 @@ python3 -m http.server 8000
 ## 安装
 
 - Claude Code：把 `platforms/claude-code/skill/` 复制（或软链）到技能目录（如项目 `.claude/skills/skill-failure-auditor`），然后调用 `/skill-failure-auditor <目标> <static|runtime|combined>`。
+- WorkBuddy：把 `platforms/workbuddy/skill/` 复制到 `~/.workbuddy/skills/skill-failure-auditor/`。这是 WorkBuddy 应用默认的 `<CODEBUDDY_CONFIG_DIR>/skills` 发现根；不要把该投影安装到 `.claude/skills`。
 - Kimi Code：使用 `kimi.plugin.json`（权威清单）；`.kimi-plugin/plugin.json` 为机械生成的 Hub 兼容投影（字段完全相等）。
 - Codex / WorkBuddy（CodeBuddy）：安装对应 `platforms/<id>/` 投影；已验证运行时与诚实状态见 `spec/platforms/support-matrix.json`。
 

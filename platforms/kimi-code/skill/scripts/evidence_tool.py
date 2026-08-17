@@ -12,14 +12,13 @@ from typing import Any
 
 from common import (
     ContractError,
-    canonical_json_bytes,
     list_regular_files,
     load_json,
     load_jsonl,
     sha256_bytes,
-    sha256_file,
     write_json_exclusive,
 )
+from foundation_client import foundation_digest_document, foundation_file_sha256
 from registry_tool import DEFAULT_REGISTRY, validate_selection_artifact
 
 
@@ -46,7 +45,7 @@ def build_index(input_root: Path, chunk_size: int) -> dict[str, Any]:
     for file_path in files:
         relative = logical_path(input_root, file_path)
         size = file_path.stat().st_size
-        digest = sha256_file(file_path)
+        digest = foundation_file_sha256(file_path)
         file_records.append({"path": relative, "size": size, "sha256": digest})
         total_bytes += size
         offset = 0
@@ -74,7 +73,7 @@ def build_index(input_root: Path, chunk_size: int) -> dict[str, Any]:
 
     if total_bytes == 0 or not chunks:
         raise ContractError("evidence input must contain at least one non-empty chunk")
-    file_set_sha = sha256_bytes(canonical_json_bytes(file_records))
+    file_set_sha = foundation_digest_document(file_records)
     index: dict[str, Any] = {
         "schema_version": "1.0",
         "input_kind": "file" if input_root.is_file() else "directory",
@@ -87,7 +86,7 @@ def build_index(input_root: Path, chunk_size: int) -> dict[str, Any]:
         "chunk_count": len(chunks),
         "chunks": chunks,
     }
-    index["index_sha256"] = sha256_bytes(canonical_json_bytes(index))
+    index["index_sha256"] = foundation_digest_document(index)
     return index
 
 
@@ -109,7 +108,7 @@ def validate_index_document(index: Any) -> dict[str, Any]:
         raise ContractError("evidence index has an unexpected field set")
     unsigned = dict(index)
     declared_digest = unsigned.pop("index_sha256")
-    if declared_digest != sha256_bytes(canonical_json_bytes(unsigned)):
+    if declared_digest != foundation_digest_document(unsigned):
         raise ContractError("evidence index self digest mismatch")
     if index["schema_version"] != "1.0" or index["input_kind"] not in {
         "file",
@@ -160,7 +159,7 @@ def validate_index_document(index: Any) -> dict[str, Any]:
         total_bytes += record["size"]
     if total_bytes != index["total_bytes"]:
         raise ContractError("evidence index total byte count mismatch")
-    if index["file_set_sha256"] != sha256_bytes(canonical_json_bytes(index["files"])):
+    if index["file_set_sha256"] != foundation_digest_document(index["files"]):
         raise ContractError("evidence index file set digest mismatch")
 
     chunks_by_file: dict[str, list[dict[str, Any]]] = {path: [] for path in file_map}
@@ -286,7 +285,7 @@ def search_index(input_root: Path, index_path: Path, needle: bytes) -> dict[str,
         "match_count": len(matches),
         "matches": matches,
     }
-    result["result_sha256"] = sha256_bytes(canonical_json_bytes(result))
+    result["result_sha256"] = foundation_digest_document(result)
     return result
 
 
@@ -371,9 +370,9 @@ def build_coverage(
         "unknown_chunk_ids": sorted(set(unknown)),
         "digest_mismatch_chunk_ids": sorted(set(digest_mismatches)),
         "conservation_holds": status == "COMPLETE",
-        "records_sha256": sha256_file(records_path),
+        "records_sha256": foundation_file_sha256(records_path),
     }
-    ledger["ledger_sha256"] = sha256_bytes(canonical_json_bytes(ledger))
+    ledger["ledger_sha256"] = foundation_digest_document(ledger)
     return ledger, 0 if status == "COMPLETE" else 2
 
 
@@ -481,7 +480,7 @@ def main() -> int:
                 "status": "VALID",
                 "physical_line_count": len(records),
                 "parsed_record_count": len(records),
-                "input_sha256": sha256_file(args.input),
+                "input_sha256": foundation_file_sha256(args.input),
             }
             emit_json(result, args.output)
             return 0

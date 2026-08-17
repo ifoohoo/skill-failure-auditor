@@ -15,7 +15,7 @@ CANDIDATE_DIR = SCRIPTS_DIR.parent
 REFERENCES_DIR = CANDIDATE_DIR / "references"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
-from common import ContractError, canonical_json_bytes, load_jsonl  # noqa: E402
+from common import ContractError, load_jsonl  # noqa: E402
 from evidence_tool import (  # noqa: E402
     build_coverage,
     build_index,

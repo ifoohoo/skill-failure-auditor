@@ -9,7 +9,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from common import ContractError, load_json, write_bytes_exclusive
+from common import ContractError, load_json
+from foundation_client import foundation_publish_file_exclusive
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -207,7 +208,7 @@ def main() -> int:
             raise ContractError("input is not an audit-result JSON object")
         names = load_registry_names(args.registry)
         report = render(result, names)
-        write_bytes_exclusive(args.output, report.encode("utf-8"), mode=0o644)
+        foundation_publish_file_exclusive(args.output, report.encode("utf-8"), mode=0o644)
         return 0
     except (ContractError, OSError) as error:
         print(f"ERROR: {error}", file=sys.stderr)

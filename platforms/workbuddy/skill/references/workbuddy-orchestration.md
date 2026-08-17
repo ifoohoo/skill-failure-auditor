@@ -43,8 +43,14 @@ HOME="<隔离HOME>" codebuddy -p "<驱动提示词>" -y
 内嵌 CLI 路径：`/Applications/WorkBuddy.app/Contents/Resources/app.asar.unpacked/cli/bin/codebuddy`
 （PATH 中无命令）。
 
-技能发现：`<隔离HOME>/.claude/skills/skill-failure-auditor/`——此为 WorkBuddy
-自身 HOME 内的原生布局（WorkBuddy 兼容 Claude 风格技能发现路径），不是借用用户全局 Claude 目录。
+技能发现根只按 `platform-manifest.json` 的 `discovery` 解析：
+`<CODEBUDDY_CONFIG_DIR>/skills/skill-failure-auditor/`。WorkBuddy 应用默认配置根为
+`~/.workbuddy`，所以应用安装路径是 `~/.workbuddy/skills/skill-failure-auditor/`。
+独立 codebuddy CLI 未设置 `CODEBUDDY_CONFIG_DIR` 时默认配置根是 `~/.codebuddy`；
+隔离黑盒必须显式设置 `HOME=<隔离HOME>` 与
+`CODEBUDDY_CONFIG_DIR=<隔离HOME>/.workbuddy`，并安装到同一配置根的 `skills/` 下。
+不得使用 `.claude/skills`，也不得把只负责加载时变量替换的 `CODEBUDDY_SKILL_DIR`
+误作发现根。
 
 ## 固定执行顺序
 

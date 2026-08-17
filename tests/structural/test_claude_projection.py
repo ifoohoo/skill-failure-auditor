@@ -8,6 +8,7 @@ from pathlib import Path
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[2]
 PLATFORM_ROOT = PACKAGE_ROOT / "plugin-src" / "platforms" / "claude-code"
+GENERATED_SKILL = PACKAGE_ROOT / "generated" / "platforms" / "claude-code" / "skill"
 CORE_PROMPTS = PACKAGE_ROOT / "plugin-src" / "core" / "prompts"
 SPEC_MAPPING = PACKAGE_ROOT / "spec" / "orchestration" / "platform-adapter-mapping.json"
 SUPPORT_MATRIX = PACKAGE_ROOT / "spec" / "platforms" / "support-matrix.json"
@@ -27,12 +28,11 @@ class ClaudeProjectionTests(unittest.TestCase):
         self.assertIn("version", manifest)
 
     def test_skill_frontmatter_uses_builtin_agent_and_engine(self) -> None:
-        text = (PLATFORM_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        text = (GENERATED_SKILL / "SKILL.md").read_text(encoding="utf-8")
         self.assertTrue(text.startswith("---\n"))
         _, frontmatter, _ = text.split("---", 2)
-        self.assertIn("context: fork", frontmatter)
-        self.assertIn("agent: general-purpose", frontmatter)
-        self.assertIn("background: false", frontmatter)
+        self.assertNotIn("context: fork", frontmatter)
+        self.assertNotIn("agent: general-purpose", frontmatter)
         self.assertIn("allowed-tools: Agent, Read, Write, Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/orchestration_engine.py *)", frontmatter)
         self.assertIn("2.1.218", text)
         self.assertIn("禁止创建或依赖自定义 Agent", text)

@@ -20,12 +20,17 @@ SCHEMA_PATH = REFERENCES_DIR / "failure-mode.schema.json"
 
 sys.path.insert(0, str(SCRIPTS_DIR))
 
-from common import ContractError, canonical_json_bytes, load_jsonl  # noqa: E402
+from common import ContractError, load_jsonl  # noqa: E402
 from registry_tool import (  # noqa: E402
     CORE_REDLINES,
     build_selection,
     validate_registry,
 )
+
+
+def canonical_json_bytes(value: object) -> bytes:
+    """Local value-equivalent helper for byte-length assertions only (not a digest authority)."""
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
 LEGACY_SEMANTICS = {

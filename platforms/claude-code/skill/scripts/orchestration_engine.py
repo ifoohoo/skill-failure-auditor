@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -27,15 +28,25 @@ CORE_ROOT = SCRIPTS_DIR.parent
 SPEC_ROOT = CORE_ROOT.parent.parent / "spec" / "orchestration"
 
 sys.path.insert(0, str(SCRIPTS_DIR))
-from common import ContractError, canonical_json_bytes, validate_schema  # noqa: E402
+from common import ContractError  # noqa: E402
 from evidence_tool import DEFAULT_CHUNK_SIZE, build_index, verify_index  # noqa: E402
 from registry_tool import build_selection, validate_registry  # noqa: E402
+from foundation_client import (  # noqa: E402
+    production_validate,
+    foundation_digest_document,
+    foundation_file_sha256,
+    foundation_prepare_exchange,
+    foundation_wrap_result,
+    foundation_verify_exchange,
+    FOUNDATION_SCHEMA_IDS,
+    SCHEMA_NAME_TO_FOUNDATION_ID,
+)
 
 SCHEMA_VERSION = "2.1"
 ROLES = ["scope-routing", "static-audit", "runtime-evidence", "evaluation-integrity",
          "adversarial-challenge", "result-synthesis"]
 PLATFORMS = ["claude-code", "codex", "kimi-code", "workbuddy"]
-# 结果必填字段由 result.schema.json required 定义；引擎通过 validate_schema 真实校验。
+# 结果必填字段由 result.schema.json required 定义；引擎通过 Foundation 真实校验。
 RESULT_STATUS_FAIL = {"FAILED", "TIMEOUT", "SCHEMA_INVALID", "RECEIPT_MISMATCH"}
 
 # 语义状态严重度序（数值越大越严格）
@@ -47,18 +58,23 @@ SEVERITY = {
     "REJECT": 2,
 }
 SEMANTIC_FAIL = {"INCOMPLETE", "BLOCKED", "REJECT"}
+SEMANTIC_RULE_ROLES = {"static-audit", "runtime-evidence"}
+PASSING_SEMANTIC_STATUS = "PASS_WITHIN_FROZEN_SCOPE"
+HIGH_SEVERITIES = {"critical", "high"}
+FM_ID_PATTERN = re.compile(r"^FM-[0-9]+$")
 
 
-def _sha256_bytes(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
+def _relative_posix_under_output_root(absolute_path: str, output_root: Path) -> str | None:
+    """将绝对文件路径转换为 output root 下的相对 POSIX 路径。
 
-
-def _sha256_file(path: Path) -> str:
-    return _sha256_bytes(path.read_bytes())
-
-
-def _canonical(obj) -> bytes:
-    return canonical_json_bytes(obj)
+    返回 None 表示路径不在 output root 下（失败关闭）。
+    """
+    try:
+        abs_resolved = Path(absolute_path).resolve()
+        root_resolved = output_root.resolve()
+        return abs_resolved.relative_to(root_resolved).as_posix()
+    except ValueError:
+        return None
 
 
 def _load_mapping() -> dict:
@@ -79,6 +95,20 @@ def _load_schema(name: str) -> dict:
     if not path.is_file():
         raise ContractError(f"Schema {name} not found (neither bundled nor source)")
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _validate_schema_production(document: Any, schema_name: str) -> None:
+    """Validate a managed orchestration document through Foundation."""
+    schema = _load_schema(schema_name)
+    result = production_validate(document, schema)
+    if not result["accepted"]:
+        path = result.get("path") or "$"
+        category = result.get("category") or "contract"
+        details = result.get("details", [])
+        detail_str = details[0] if details else f"{category} violation at {path}"
+        raise ContractError(f"{path}: {detail_str}")
+    if result["authority"] != "foundation":
+        raise ContractError(f"Foundation did not validate managed schema {schema_name}")
 
 
 def _load_role_dependencies() -> dict:
@@ -144,7 +174,7 @@ def _validate_evidence_ref(ref: dict, package: dict, allowed_paths: list[str]) -
     if path_obj.is_absolute() and _path_in_allowed(raw_path, allowed_paths):
         if not path_obj.is_file():
             return "ARTIFACT_EVIDENCE_NOT_FOUND"
-        if _sha256_file(path_obj) != ref.get("sha256"):
+        if foundation_file_sha256(path_obj) != ref.get("sha256"):
             return "ARTIFACT_EVIDENCE_DIGEST_MISMATCH"
         return None
 
@@ -182,19 +212,19 @@ def _validate_evidence_ref(ref: dict, package: dict, allowed_paths: list[str]) -
         return "ARTIFACT_EVIDENCE_DIGEST_MISMATCH"
     if not resolved.is_file():
         return "ARTIFACT_EVIDENCE_NOT_FOUND"
-    if _sha256_file(resolved) != expected_digest:
+    if foundation_file_sha256(resolved) != expected_digest:
         return "ARTIFACT_EVIDENCE_DIGEST_MISMATCH"
     return None
 
 
 def _binding(path: Path) -> dict:
-    return {"path": str(path.resolve()), "sha256": _sha256_file(path)}
+    return {"path": str(path.resolve()), "sha256": foundation_file_sha256(path)}
 
 
 def _subject_tree_sha256(target: Path) -> str:
     """tree-sha256-v1(src)：单文件取其字节；目录递归（排除 __pycache__/*.pyc/符号链接）。"""
     if target.is_file():
-        return _sha256_file(target)
+        return foundation_file_sha256(target)
     entries = []
     for dirpath, dirnames, filenames in os.walk(target):
         dirnames[:] = [d for d in dirnames if d != "__pycache__"]
@@ -203,19 +233,18 @@ def _subject_tree_sha256(target: Path) -> str:
             if fn.endswith(".pyc") or full.is_symlink() or not full.is_file():
                 continue
             rel = full.relative_to(target).as_posix()
-            entries.append((rel, _sha256_file(full)))
+            entries.append((rel, foundation_file_sha256(full)))
     entries.sort(key=lambda e: e[0].encode("utf-8"))
     acc = b""
     for rel, digest in entries:
         acc += rel.encode("utf-8") + b"\x00" + digest.encode("ascii") + b"\n"
-    return _sha256_bytes(acc)
+    return hashlib.sha256(acc).hexdigest()
 
 
 def _validate_frozen_subject(package: dict) -> tuple[str | None, str | None]:
     """分别验证目标树绑定与证据索引绑定，不混用两种摘要语义。"""
     try:
-        schema = _load_schema("task-package.schema.json")
-        validate_schema(package, schema, schema)
+        _validate_schema_production(package, "task-package.schema.json")
     except ContractError as error:
         return "TASK_PACKAGE_SCHEMA_INVALID", str(error)
 
@@ -232,7 +261,7 @@ def _validate_frozen_subject(package: dict) -> tuple[str | None, str | None]:
     source_path = Path(source_binding["path"])
     if not source_path.is_file():
         return "SOURCE_MANIFEST_MISSING", str(source_path)
-    if _sha256_file(source_path) != source_binding["sha256"]:
+    if foundation_file_sha256(source_path) != source_binding["sha256"]:
         return "SOURCE_MANIFEST_BINDING_DIGEST_MISMATCH", str(source_path)
     try:
         source = json.loads(source_path.read_text(encoding="utf-8"))
@@ -252,13 +281,79 @@ def _validate_frozen_subject(package: dict) -> tuple[str | None, str | None]:
     evidence_path = Path(evidence_binding["path"])
     if not evidence_path.is_file():
         return "EVIDENCE_INDEX_MISSING", str(evidence_path)
-    if _sha256_file(evidence_path) != evidence_binding["sha256"]:
+    if foundation_file_sha256(evidence_path) != evidence_binding["sha256"]:
         return "EVIDENCE_INDEX_BINDING_DIGEST_MISMATCH", str(evidence_path)
     try:
         verify_index(target, evidence_path)
     except ContractError as error:
         return "EVIDENCE_INDEX_DRIFT", str(error)
+
+    selection_binding = package["selection"]
+    selection_path = Path(selection_binding["path"])
+    if not selection_path.is_file():
+        return "SELECTION_MISSING", str(selection_path)
+    if foundation_file_sha256(selection_path) != selection_binding["sha256"]:
+        return "SELECTION_BINDING_DIGEST_MISMATCH", str(selection_path)
+    try:
+        selection = json.loads(selection_path.read_text(encoding="utf-8"))
+        selected_rules = selection["selection_context"]["selected_rules"]
+    except (OSError, json.JSONDecodeError, KeyError, TypeError) as error:
+        return "SELECTION_INVALID", str(error)
+    selected_ids = [item.get("id") for item in selected_rules if isinstance(item, dict)]
+    if (len(selected_ids) != selection.get("selected_count")
+            or len(selected_ids) != len(set(selected_ids))
+            or any(not FM_ID_PATTERN.fullmatch(rule_id or "") for rule_id in selected_ids)):
+        return "SELECTION_INVALID", "selected rule IDs are missing, duplicated, or malformed"
     return None, None
+
+
+def _selected_rule_bindings(package: dict) -> dict[str, dict]:
+    """读取已由 `_validate_frozen_subject` 校验摘要的冻结选择。"""
+    selection_path = Path(package["selection"]["path"])
+    selection = json.loads(selection_path.read_text(encoding="utf-8"))
+    return {
+        item["id"]: {"revision": item["revision"], "severity": item["severity"]}
+        for item in selection["selection_context"]["selected_rules"]
+    }
+
+
+def _validate_rule_results(artifact: dict, package: dict, role: str,
+                           allowed_paths: list[str]) -> str | None:
+    """强制逐规则集合、冻结元数据、证据与高严重度未检查门禁。"""
+    selected = _selected_rule_bindings(package)
+    results = artifact.get("rule_results", [])
+    result_ids = [item.get("id") for item in results]
+
+    if len(result_ids) != len(set(result_ids)):
+        return "DUPLICATE_SELECTED_RULE_ID"
+    if any(rule_id not in selected for rule_id in result_ids):
+        return "UNKNOWN_SELECTED_RULE_ID"
+    if role in SEMANTIC_RULE_ROLES and set(result_ids) != set(selected):
+        return "SELECTED_RULE_SET_MISMATCH"
+
+    for item in results:
+        binding = selected[item["id"]]
+        if item.get("revision") != binding["revision"]:
+            return "SELECTED_RULE_REVISION_DRIFT"
+        if item.get("severity") != binding["severity"]:
+            return "SELECTED_RULE_SEVERITY_DRIFT"
+        refs = item.get("evidence_refs", [])
+        if item.get("status") != "UNCHECKED" and not refs:
+            return "EVIDENCE_FREE_CHECKED_RULE"
+        for ref in refs:
+            failure = _validate_evidence_ref(ref, package, allowed_paths)
+            if failure:
+                return failure
+        if (item.get("status") == "UNCHECKED"
+                and binding["severity"] in HIGH_SEVERITIES
+                and artifact.get("semantic_status") == PASSING_SEMANTIC_STATUS):
+            return "HIGH_SEVERITY_UNCHECKED_WITH_PASS"
+
+    for finding in artifact.get("findings", []):
+        finding_id = finding.get("id", "")
+        if isinstance(finding_id, str) and FM_ID_PATTERN.fullmatch(finding_id):
+            return "SELECTED_RULE_MISFILED_AS_FINDING"
+    return None
 
 
 def _validate_receipt(receipt: dict, package: dict, expected_role: str, allowed_paths: list) -> str | None:
@@ -280,7 +375,7 @@ def _validate_receipt(receipt: dict, package: dict, expected_role: str, allowed_
         return "RAW_RECORD_PATH_NOT_ALLOWED"
     if not Path(raw_path).is_file():
         return "RAW_RECORD_NOT_FOUND"
-    if _sha256_file(Path(raw_path)) != raw_record.get("sha256"):
+    if foundation_file_sha256(Path(raw_path)) != raw_record.get("sha256"):
         return "RAW_RECORD_DIGEST_MISMATCH"
 
     expected_native = _get_expected_native_agent_type(package["platform"], expected_role)
@@ -297,9 +392,8 @@ def _validate_artifact_file(artifact_path: str, package: dict, role: str,
         return "ARTIFACT_NOT_FOUND", None
 
     artifact = json.loads(Path(artifact_path).read_text(encoding="utf-8"))
-    art_schema = _load_schema("role-artifact.schema.json")
     try:
-        validate_schema(artifact, art_schema, art_schema)
+        _validate_schema_production(artifact, "role-artifact.schema.json")
     except ContractError as e:
         return "ARTIFACT_SCHEMA_INVALID", None
 
@@ -310,7 +404,11 @@ def _validate_artifact_file(artifact_path: str, package: dict, role: str,
     if artifact.get("role") != role:
         return "ARTIFACT_ROLE_MISMATCH", None
 
-    # 验证 findings.evidence_refs 路径、索引成员资格与摘要
+    rule_failure = _validate_rule_results(artifact, package, role, allowed_paths)
+    if rule_failure:
+        return rule_failure, None
+
+    # 验证清单外 findings.evidence_refs 路径、索引成员资格与摘要
     for finding in artifact.get("findings", []):
         for ref in finding.get("evidence_refs", []):
             failure = _validate_evidence_ref(ref, package, allowed_paths)
@@ -319,7 +417,7 @@ def _validate_artifact_file(artifact_path: str, package: dict, role: str,
 
     # 验证 artifact_sha256
     unsigned = {k: v for k, v in artifact.items() if k != "artifact_sha256"}
-    computed = _sha256_bytes(_canonical(unsigned))
+    computed = foundation_digest_document(unsigned)
     if computed != artifact.get("artifact_sha256"):
         return "ARTIFACT_DIGEST_MISMATCH", None
 
@@ -356,7 +454,7 @@ def prepare_run(args) -> int:
         if not p.is_file():
             print(json.dumps({"status": "REJECTED", "reason": "PROMPT_MISSING", "role": role}))
             return 1
-        prompt_bindings.append({"role": role, "path": str(p.resolve()), "sha256": _sha256_file(p)})
+        prompt_bindings.append({"role": role, "path": str(p.resolve()), "sha256": foundation_file_sha256(p)})
 
     # 规则筛选：FM-01..FM-28 全选（skill 目标），复用核心 registry_tool
     registry_path = CORE_ROOT / "references" / "failure-modes.jsonl"
@@ -418,28 +516,48 @@ def prepare_run(args) -> int:
         "acceptance_criteria": ["集合守恒", "失败关闭", "判据隔离", "回执内容绑定"],
         "package_digest": "",
     }
-    package["package_digest"] = _sha256_bytes(_canonical({**package, "package_digest": ""}))
+    package["package_digest"] = foundation_digest_document({**package, "package_digest": ""})
     package_path = output_root / "task-package.json"
     package_path.write_text(json.dumps(package, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # 回读验证任务包摘要
     reread = json.loads(package_path.read_text(encoding="utf-8"))
-    expect = _sha256_bytes(_canonical({**reread, "package_digest": ""}))
+    expect = foundation_digest_document({**reread, "package_digest": ""})
     if reread["package_digest"] != expect:
         print(json.dumps({"status": "REJECTED", "reason": "PACKAGE_DIGEST_READBACK_MISMATCH"}))
         return 1
 
-    # 任务包 Schema 校验（R-AC-04）
+    # 任务包 Schema 校验（R-AC-04）——由 Foundation Bundle 生产执行
     try:
-        tp_schema = _load_schema("task-package.schema.json")
-        validate_schema(reread, tp_schema, tp_schema)
+        _validate_schema_production(reread, "task-package.schema.json")
     except ContractError as e:
         print(json.dumps({"status": "REJECTED", "reason": "TASK_PACKAGE_SCHEMA_INVALID",
                           "detail": str(e)}))
         return 1
 
+    # Foundation Quickstart Task 交换：创建含 observation Resource 的 Task
+    try:
+        safe_task_id = args.task_id.replace(":", "-")
+        exchange_task = foundation_prepare_exchange(
+            str(output_root.resolve()),
+            observation_path="task-package.json",
+            operation_id=f"{safe_task_id}.{args.platform}.prepare",
+            method="audit-role",
+            parameters={"platform": args.platform, "mode": args.mode},
+            run=safe_task_id,
+            stage="prepare",
+            attempt=1,
+        )
+        exchange_path = output_root / "foundation-task.json"
+        exchange_path.write_text(json.dumps(exchange_task, ensure_ascii=False, indent=2), encoding="utf-8")
+    except ContractError as e:
+        print(json.dumps({"status": "REJECTED", "reason": "FOUNDATION_EXCHANGE_PREPARE_FAILED",
+                          "detail": str(e)}))
+        return 1
+
     print(json.dumps({"status": "READY_FOR_ISOLATED_TASKS",
-                      "task_package": str(package_path), "expected_roles": list(expected_roles)},
+                      "task_package": str(package_path), "expected_roles": list(expected_roles),
+                      "foundation_task": str(exchange_path)},
                      ensure_ascii=False))
     return 0
 
@@ -450,7 +568,7 @@ def write_result(args) -> int:
     """登记子智能体结果（L3 外壳）：验证 L1 回执、L2 成果、输出文件，强制依赖序。"""
     package_path = Path(args.task_package)
     package = json.loads(package_path.read_text(encoding="utf-8"))
-    expect_digest = _sha256_bytes(_canonical({**package, "package_digest": ""}))
+    expect_digest = foundation_digest_document({**package, "package_digest": ""})
     if package.get("package_digest") != expect_digest:
         print(json.dumps({"status": "REJECTED", "reason": "TASK_PACKAGE_DIGEST_DRIFT"}))
         return 1
@@ -504,15 +622,8 @@ def write_result(args) -> int:
             print(json.dumps({"status": "REJECTED", "reason": "RECEIPT_NOT_FOUND"}))
             return 1
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-        # Schema 校验
-        result_schema = _load_schema("result.schema.json")
-        receipt_schema_def = result_schema["properties"]["native_receipt"]
-        try:
-            validate_schema(receipt, receipt_schema_def, result_schema)
-        except ContractError:
-            print(json.dumps({"status": "REJECTED", "reason": "RECEIPT_SCHEMA_INVALID"}))
-            return 1
-        # 回执 role 与登记角色精确比较（不覆写，不静默修正）
+        # 回执结构校验已由 Foundation 完整 result.schema.json 生产校验承担；
+        # 此处只做领域身份、平台回执语义、路径和摘要检查。
         fail = _validate_receipt(receipt, package, role, allowed_paths)
         if fail:
             print(json.dumps({"status": "REJECTED", "reason": fail}))
@@ -546,7 +657,7 @@ def write_result(args) -> int:
             print(json.dumps({"status": "REJECTED", "reason": "OUTPUT_NOT_FOUND",
                               "path": item["path"]}))
             return 1
-        actual_sha = _sha256_file(Path(item["path"]))
+        actual_sha = foundation_file_sha256(Path(item["path"]))
         if actual_sha != item["sha256"]:
             print(json.dumps({"status": "REJECTED", "reason": "WRONG_OUTPUT_DIGEST",
                               "path": item["path"]}))
@@ -577,9 +688,8 @@ def write_result(args) -> int:
             print(json.dumps({"status": "REJECTED", "reason": "DEPENDENCY_NOT_SATISFIED",
                               "role": role, "missing_dependency": dep}))
             return 1
-        dep_schema = _load_schema("result.schema.json")
         try:
-            validate_schema(dep_result, dep_schema, dep_schema)
+            _validate_schema_production(dep_result, "result.schema.json")
         except ContractError:
             print(json.dumps({"status": "REJECTED", "reason": "DEPENDENCY_NOT_SATISFIED",
                               "role": role, "dependency_schema_invalid": dep}))
@@ -619,17 +729,146 @@ def write_result(args) -> int:
         "native_receipt": receipt,
         "outputs": outputs,
         "artifact": {"path": str(Path(args.artifact_file).resolve()),
-                      "sha256": _sha256_file(Path(args.artifact_file))} if args.artifact_file else None,
+                      "sha256": foundation_file_sha256(Path(args.artifact_file))} if args.artifact_file else None,
     }
     if args.error:
         body["error"] = args.error
 
     result = {
         **body,
-        "result_sha256": _sha256_bytes(_canonical(body)),
+        "result_sha256": foundation_digest_document(body),
     }
+
+    # ── 领域 result Schema 前置校验（exchange 与领域结果落盘之前）──
+    # 适用于 COMPLETED、FAILED、TIMEOUT 全部领域终态。
+    # Foundation failed 外层不携带 domainResult，不等于领域失败结果可以绕过自身完整 Schema。
+    is_succeeded = args.status == "COMPLETED"
+    try:
+        _validate_schema_production(result, "result.schema.json")
+    except ContractError as e:
+        print(json.dumps({"status": "REJECTED", "reason": "DOMAIN_RESULT_SCHEMA_INVALID",
+                          "detail": str(e)}, ensure_ascii=False))
+        return 1
+
+    # ── Foundation Quickstart 交换：精确绑定 per-role Task ──
+    output_root = Path(package["output_root"])
+    safe_task_id = package["task_id"].replace(":", "-")
+
+    # 1) 创建精确绑定的 per-role Task（correlation.stage=role, attempt=attempt）
+    try:
+        foundation_task = foundation_prepare_exchange(
+            str(output_root.resolve()),
+            observation_path="task-package.json",
+            operation_id=f"{safe_task_id}.{package['platform']}.{role}.{attempt}",
+            method="audit-role",
+            parameters={"platform": package["platform"], "role": role},
+            run=safe_task_id,
+            stage=role,
+            attempt=attempt,
+        )
+    except ContractError as e:
+        print(json.dumps({"status": "REJECTED", "reason": "FOUNDATION_TASK_CREATE_FAILED",
+                          "detail": str(e)}, ensure_ascii=False))
+        return 1
+
+    # 2) 构造 output Resources（路径必须在 output root 下，否则失败关闭）
+    output_resources = []
+    if is_succeeded:
+        for idx, item in enumerate(outputs):
+            rel_path = _relative_posix_under_output_root(item["path"], output_root)
+            if rel_path is None:
+                print(json.dumps({"status": "REJECTED", "reason": "OUTPUT_PATH_NOT_UNDER_OUTPUT_ROOT",
+                                  "path": item["path"]}, ensure_ascii=False))
+                return 1
+            output_resources.append({
+                "schemaVersion": 1,
+                "kind": "skill-family.resource",
+                "id": f"output-{role}-{idx}",
+                "location": {"path": rel_path},
+                "role": "output",
+                "digest": {"algorithm": "sha256", "value": item["sha256"]},
+            })
+
+    # 3) 构造 evidence Resources（回执文件 + 角色制品文件，路径必须在 output root 下）
+    evidence_resources: list[dict[str, Any]] = []
+    if is_succeeded:
+        # 回执文件的 raw_record 作为 evidence
+        if receipt and receipt.get("raw_record", {}).get("path"):
+            raw_rel = _relative_posix_under_output_root(receipt["raw_record"]["path"], output_root)
+            if raw_rel is None:
+                print(json.dumps({"status": "REJECTED", "reason": "RECEIPT_RAW_PATH_NOT_UNDER_OUTPUT_ROOT",
+                                  "path": receipt["raw_record"]["path"]}, ensure_ascii=False))
+                return 1
+            evidence_resources.append({
+                "schemaVersion": 1,
+                "kind": "skill-family.resource",
+                "id": f"evidence-receipt-{role}",
+                "location": {"path": raw_rel},
+                "role": "evidence",
+                "digest": {"algorithm": "sha256", "value": receipt["raw_record"]["sha256"]},
+            })
+        # 角色制品文件作为 evidence
+        if args.artifact_file:
+            art_rel = _relative_posix_under_output_root(args.artifact_file, output_root)
+            if art_rel is None:
+                print(json.dumps({"status": "REJECTED", "reason": "ARTIFACT_PATH_NOT_UNDER_OUTPUT_ROOT",
+                                  "path": args.artifact_file}, ensure_ascii=False))
+                return 1
+            evidence_resources.append({
+                "schemaVersion": 1,
+                "kind": "skill-family.resource",
+                "id": f"evidence-artifact-{role}",
+                "location": {"path": art_rel},
+                "role": "evidence",
+                "digest": {"algorithm": "sha256", "value": foundation_file_sha256(Path(args.artifact_file))},
+            })
+
+    # 4) 包装 Foundation Result（含 result Schema 生产校验）
+    try:
+        wrap_kwargs: dict[str, Any] = {
+            "task": foundation_task,
+            "state": "succeeded" if is_succeeded else "failed",
+            "evidence": evidence_resources if is_succeeded else [],
+        }
+        if is_succeeded:
+            wrap_kwargs["summary"] = f"{role} {args.status}"
+            wrap_kwargs["outputs"] = output_resources
+            wrap_kwargs["domain_result"] = result
+        else:
+            wrap_kwargs["errors"] = [{"code": "SFC2004", "message": args.error or "role failed"}]
+        wrapped = foundation_wrap_result(**wrap_kwargs)
+    except ContractError as e:
+        print(json.dumps({"status": "REJECTED", "reason": "FOUNDATION_WRAP_FAILED",
+                          "detail": str(e)}, ensure_ascii=False))
+        return 1
+
+    # 5) 验证交换绑定（重算 Task/Resource 绑定与字节摘要）
+    try:
+        verification = foundation_verify_exchange(
+            str(output_root.resolve()),
+            task=foundation_task,
+            result=wrapped,
+        )
+        if not verification.get("valid"):
+            print(json.dumps({"status": "REJECTED", "reason": "FOUNDATION_EXCHANGE_VERIFY_FAILED",
+                              "detail": verification.get("message", "exchange verification failed")},
+                             ensure_ascii=False))
+            return 1
+    except ContractError as e:
+        print(json.dumps({"status": "REJECTED", "reason": "FOUNDATION_EXCHANGE_VERIFY_FAILED",
+                          "detail": str(e)}, ensure_ascii=False))
+        return 1
+
+    # 6) 全部验证通过后才写 exchange 与领域结果
+    exchanges_dir = output_root / "exchanges"
+    exchanges_dir.mkdir(parents=True, exist_ok=True)
+    exchange_path = exchanges_dir / f"{role}.exchange.json"
+    exchange_bundle = {"task": foundation_task, "result": wrapped}
+    exchange_path.write_text(json.dumps(exchange_bundle, ensure_ascii=False, indent=2), encoding="utf-8")
+
     results_dir.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
     print(json.dumps({"status": "WRITTEN", "role": role, "result_sha256": result["result_sha256"],
                       "path": str(target)}, ensure_ascii=False))
     return 0
@@ -639,7 +878,7 @@ def write_result(args) -> int:
 
 def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) -> dict:
     package = json.loads(Path(args.task_package).read_text(encoding="utf-8"))
-    expect_digest = _sha256_bytes(_canonical({**package, "package_digest": ""}))
+    expect_digest = foundation_digest_document({**package, "package_digest": ""})
     if package.get("package_digest") != expect_digest:
         return {"status": "REJECTED", "reason": "TASK_PACKAGE_DIGEST_DRIFT"}
     frozen_failure, frozen_detail = _validate_frozen_subject(package)
@@ -653,7 +892,7 @@ def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) 
     results = []
     semantic_statuses = []
 
-    # 加载全部 Schema
+    # 加载全部 Schema（三份编排 Schema 由 Foundation Bundle 生产校验）
     result_schema = _load_schema("result.schema.json")
     art_schema = _load_schema("role-artifact.schema.json")
 
@@ -686,9 +925,9 @@ def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) 
             failures.append({"code": "SCHEMA_INVALID", "role": role, "detail": "invalid json"})
             continue
 
-        # 真实 JSON Schema 校验
+        # 真实 JSON Schema 校验（由 Foundation Bundle 生产执行）
         try:
-            validate_schema(result, result_schema, result_schema)
+            _validate_schema_production(result, "result.schema.json")
         except ContractError as e:
             failures.append({"code": "SCHEMA_INVALID", "role": role, "detail": str(e)})
             continue
@@ -743,7 +982,7 @@ def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) 
             if not Path(raw_path).is_file():
                 failures.append({"code": "RAW_RECORD_NOT_FOUND", "role": role})
                 continue
-            if _sha256_file(Path(raw_path)) != raw_record.get("sha256"):
+            if foundation_file_sha256(Path(raw_path)) != raw_record.get("sha256"):
                 failures.append({"code": "RAW_RECORD_DIGEST_MISMATCH", "role": role})
                 continue
 
@@ -759,14 +998,14 @@ def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) 
         if not Path(art_path_str).is_file():
             failures.append({"code": "ARTIFACT_NOT_FOUND", "role": role})
             continue
-        if _sha256_file(Path(art_path_str)) != artifact_binding.get("sha256"):
+        if foundation_file_sha256(Path(art_path_str)) != artifact_binding.get("sha256"):
             failures.append({"code": "ARTIFACT_BINDING_DIGEST_MISMATCH", "role": role})
             continue
 
-        # 加载并验证成果 Schema 与摘要
+        # 加载并验证成果 Schema 与摘要（由 Foundation Bundle 生产执行）
         try:
             artifact = json.loads(Path(art_path_str).read_text(encoding="utf-8"))
-            validate_schema(artifact, art_schema, art_schema)
+            _validate_schema_production(artifact, "role-artifact.schema.json")
         except (OSError, json.JSONDecodeError, ContractError) as e:
             failures.append({"code": "ARTIFACT_SCHEMA_INVALID", "role": role, "detail": str(e)})
             continue
@@ -778,9 +1017,14 @@ def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) 
             continue
 
         unsigned_art = {k: v for k, v in artifact.items() if k != "artifact_sha256"}
-        computed_art_sha = _sha256_bytes(_canonical(unsigned_art))
+        computed_art_sha = foundation_digest_document(unsigned_art)
         if computed_art_sha != artifact.get("artifact_sha256"):
             failures.append({"code": "ARTIFACT_DIGEST_MISMATCH", "role": role})
+            continue
+
+        rule_failure = _validate_rule_results(artifact, package, role, allowed_paths)
+        if rule_failure:
+            failures.append({"code": rule_failure, "role": role})
             continue
 
         evidence_ref_failure = None
@@ -816,7 +1060,7 @@ def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) 
             if not Path(opath).is_file():
                 failures.append({"code": "OUTPUT_NOT_FOUND", "role": role, "path": opath})
                 continue
-            if _sha256_file(Path(opath)) != output.get("sha256"):
+            if foundation_file_sha256(Path(opath)) != output.get("sha256"):
                 failures.append({"code": "WRONG_OUTPUT_DIGEST", "role": role, "path": opath})
                 continue
 
@@ -826,19 +1070,57 @@ def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) 
                  "native_receipt", "outputs", "artifact")}
         if "error" in result:
             body["error"] = result["error"]
-        if result.get("result_sha256") != _sha256_bytes(_canonical(body)):
+        if result.get("result_sha256") != foundation_digest_document(body):
             failures.append({"code": "RECEIPT_MISMATCH", "role": role})
             continue
 
         results.append({"role": role, "status": status, "sha256": result["result_sha256"],
                         "semantic_status": sem_status, "conclusion_ceiling": conc_ceiling})
 
-    # 检查语义失败
+    # 检查语义失败（优先于 exchange 验证，确保语义失败先报告）
     semantic_failures = [s for s in semantic_statuses if s["semantic_status"] in SEMANTIC_FAIL]
     if semantic_failures and semantic_failures_are_incomplete:
         for sf in semantic_failures:
             failures.append({"code": "INNER_SEMANTIC_FAILURE", "role": sf["role"],
                              "semantic_status": sf["semantic_status"]})
+
+    # Foundation 交换验证：仅在域校验和语义检查全部通过后执行
+    if not failures:
+        exchanges_dir = Path(package["output_root"]) / "exchanges"
+        for item in results:
+            role = item["role"]
+            exchange_path = exchanges_dir / f"{role}.exchange.json"
+            if not exchange_path.is_file():
+                failures.append({"code": "FOUNDATION_EXCHANGE_MISSING", "role": role})
+                continue
+            try:
+                exchange_bundle = json.loads(exchange_path.read_text(encoding="utf-8"))
+                foundation_task = exchange_bundle.get("task")
+                exchange_result = exchange_bundle.get("result")
+                if not foundation_task or not exchange_result:
+                    failures.append({"code": "FOUNDATION_EXCHANGE_INVALID", "role": role,
+                                     "detail": "exchange file missing task or result"})
+                    continue
+                # 验证 correlation.stage 与当前角色一致
+                actual_stage = foundation_task.get("params", {}).get("correlation", {}).get("stage")
+                if actual_stage != role:
+                    failures.append({"code": "FOUNDATION_EXCHANGE_INVALID", "role": role,
+                                     "detail": f"task correlation.stage={actual_stage}, expected {role}"})
+                    continue
+                verification = foundation_verify_exchange(
+                    str(Path(package["output_root"]).resolve()),
+                    task=foundation_task,
+                    result=exchange_result,
+                )
+                if not verification.get("valid"):
+                    failures.append({"code": "FOUNDATION_EXCHANGE_INVALID", "role": role,
+                                     "detail": verification.get("message", "exchange verification failed")})
+            except ContractError as e:
+                failures.append({"code": "FOUNDATION_EXCHANGE_REJECTED", "role": role,
+                                 "detail": str(e)})
+            except (OSError, json.JSONDecodeError) as e:
+                failures.append({"code": "FOUNDATION_EXCHANGE_INVALID", "role": role,
+                                 "detail": str(e)})
 
     if failures:
         return {"status": "INCOMPLETE", "failures": failures, "results": results,
@@ -849,7 +1131,7 @@ def validate_result_set(args, *, semantic_failures_are_incomplete: bool = True) 
                         for s in semantic_statuses}
     return {"status": "COMPLETE", "task_id": package["task_id"], "platform": package["platform"],
             "mode": package["mode"], "results": results,
-            "task_package_sha256": _sha256_file(Path(args.task_package)),
+            "task_package_sha256": foundation_file_sha256(Path(args.task_package)),
             "semantic_summary": semantic_summary,
             "semantic_failures": semantic_failures}
 
@@ -942,7 +1224,7 @@ def finalize_run(args) -> int:
     result_set_for_digest = [{"role": r["role"], "result_sha256": r["sha256"],
                                "semantic_status": r["semantic_status"]}
                               for r in outcome["results"]]
-    set_digest = _sha256_bytes(_canonical(result_set_for_digest))
+    set_digest = foundation_digest_document(result_set_for_digest)
 
     report_lines = [
         f"# 审计报告：{outcome['task_id']}",
@@ -969,7 +1251,7 @@ def finalize_run(args) -> int:
         "task_id": outcome["task_id"],
         "task_package_sha256": outcome["task_package_sha256"],
         "result_set_sha256": set_digest,
-        "report_sha256": _sha256_file(report_path),
+        "report_sha256": foundation_file_sha256(report_path),
         "run_verdict": run_verdict,
     }
     (Path(args.output_root) / "finalization.json").write_text(

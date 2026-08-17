@@ -30,13 +30,14 @@
 只返回符合 `references/role-artifact.schema.json` 的单个 JSON 对象：
 
 - 顶层字段只能且必须是 `schema_version`、`task_id`、`platform`、`role`、
-  `semantic_status`、`conclusion_ceiling`、`findings`、`artifact_sha256`；
+  `semantic_status`、`conclusion_ceiling`、`rule_results`、`findings`、`artifact_sha256`；
 - `role` 为 `runtime-evidence`；
-- `findings` 对任务包选中的每条 FM 规则恰好返回一次；
-- 非 `UNCHECKED` 的 FM finding 至少包含一个真实 `evidence_refs`；
-- 全部证据索引分片必须在 `findings[*].evidence_refs` 中被引用；每条选中规则
-  的 finding 说明其实际检查范围，不得另造顶层覆盖声明；
-- 缺失、无法验证的材料或证据集合异常写入 finding，并将
+- `rule_results` 对任务包选中的每条 FM 规则恰好返回一次，顺序不限；每项带冻结的
+  `revision` 与 `severity`，并给出 `status`、`reason` 和 `evidence_refs`；
+- 非 `UNCHECKED` 的规则结果至少包含一个真实 `evidence_refs`；
+- 全部证据索引分片必须在 `rule_results[*].evidence_refs` 中被引用；每条选中规则
+  的 `reason` 说明其实际检查范围，不得另造顶层覆盖声明；
+- 缺失、无法验证的材料或证据集合异常写入规则结果或清单外 finding，并将
   `semantic_status` 与 `conclusion_ceiling` 设为相应的非通过状态。
 
 不要用 Markdown 代码围栏包裹 JSON。

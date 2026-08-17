@@ -18,5 +18,5 @@
   "name": "skill-failure-auditor",
   "schemaVersion": "1.0",
   "skillsRoot": "skills",
-  "version": "1.0.0-candidate.15"
+  "version": "1.0.0"
 }

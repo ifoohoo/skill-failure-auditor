@@ -1,12 +1,11 @@
 ---
-name: skill-failure-auditor
-description: 审计、评审、加固或诊断 Skill、Prompt、Agent 指令、工作流及其真实运行证据中的可靠性失效模式。用于"审查这个 skill""这个 agent 指令是否可靠""监督长程运行是否假完成""检查自学习评测是否自证""分析上下文、证据、验证器、分片或职责隔离失效"等静态审计、运行期监督和二者联合场景。
+name: {{SHARED_SKILL_NAME}}
+description: "{{SHARED_TRIGGER_DESCRIPTION}}"
 argument-hint: "[目标路径] [static|runtime|combined] [证据类型与输出目录]"
-context: fork
-agent: general-purpose
-background: false
 allowed-tools: Agent, Read, Write, Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/orchestration_engine.py *)
 ---
+
+{{SHARED_APPLICABILITY_GATE}}
 
 # 技能失效审计 v9（Claude Code）
 
@@ -32,7 +31,26 @@ $ARGUMENTS
 
 从参数取得目标、`static`、`runtime` 或 `combined` 模式、证据类型和可选输出目录。未给输出目录时使用 `${CLAUDE_PROJECT_DIR}/.skill-failure-auditor/runs/${CLAUDE_SESSION_ID}`。输出目录只许新建；已存在时停止并要求新的运行标识。
 
-## 多隔离上下文编排
+## Loop 外层合同
+
+Claude Code 的新运行必须由 Loop Agent 承担进程、依赖、等待、重试和验收编排。SFA 只编译审计领域输入，并在 Loop 交回六个 `delivery-task-result` 后校验职责成果：
+
+```bash
+python3 "$SKILL_ROOT/scripts/loop_audit_contract.py" compile-loop-audit \
+  --input "<冻结审计输入.json>" \
+  --output-dir "<尚不存在的仓外编译目录>"
+
+python3 "$SKILL_ROOT/scripts/loop_audit_contract.py" validate-loop-audit \
+  --compilation-manifest "<编译目录>/compilation-manifest.json" \
+  --results-root "<Loop 六职责结果目录>" \
+  --output "<仓外 SFA 领域报告.json>"
+```
+
+第一条命令只生成 Loop `prepare-workflow-source.mjs` 可消费的 source 与 acceptance 输入，不启动进程，也不写审计目标。第二条命令只生成 SFA 领域报告，不写 Loop acceptance。缺少 Loop Agent 或合同不匹配时直接停止；禁止自动退回旧版直接编排。
+
+## 旧版直接编排（仅用于读取既有证据）
+
+以下流程保留用于解释旧运行记录。Claude Code 新运行不得执行这些命令。
 
 在读取目标语义或写审计结果之前，先完成以下硬门禁。取一个只含大写字母、数字、点、下划线或连字符且以 `AUDIT-` 开头的新任务标识，运行：
 
@@ -86,6 +104,7 @@ claude-code 的 `roleToNativeAgentType` 值（Plan/Explore/general-purpose）。
   "role": "<规范角色 ID>",
   "semantic_status": "<PASS_WITHIN_FROZEN_SCOPE|NEEDS_REVISION|REJECT|INCOMPLETE|BLOCKED>",
   "conclusion_ceiling": "<同枚举，该职责允许外层采用的最软结论上限>",
+  "rule_results": [{"id": "FM-01", "revision": 1, "severity": "critical", "status": "HIT|NOT_HIT|NOT_APPLICABLE|UNCHECKED", "reason": "<理由>", "evidence_refs": [{"path": "...", "sha256": "..."}]}],
   "findings": [{"id": "<可选>", "statement": "<发现>", "evidence_refs": [{"path": "...", "sha256": "..."}]}],
   "artifact_sha256": "<覆盖除自身外全部规范化字段的 canonical JSON SHA-256>"
 }

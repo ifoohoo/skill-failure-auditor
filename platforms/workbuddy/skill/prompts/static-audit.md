@@ -32,16 +32,18 @@
 只返回符合 `references/role-artifact.schema.json` 的单个 JSON 对象：
 
 - 顶层字段只能且必须是 `schema_version`、`task_id`、`platform`、`role`、
-  `semantic_status`、`conclusion_ceiling`、`findings`、`artifact_sha256`；
+  `semantic_status`、`conclusion_ceiling`、`rule_results`、`findings`、`artifact_sha256`；
 - `role` 为 `static-audit`；
-- `findings` 对任务包选中的每条 FM 规则恰好返回一次，无遗漏、无重复；
-- 非 `UNCHECKED` 的 FM finding 至少包含一个 `evidence_refs`。`path` 必须是
+- `rule_results` 对任务包选中的每条 FM 规则恰好返回一次，无遗漏、无重复，顺序不限；
+  每项字段为 `id`、冻结选择中的 `revision` 与 `severity`、`status`、`reason`、
+  `evidence_refs`；不得把 FM 规则写入 `findings`；
+- 非 `UNCHECKED` 的规则结果至少包含一个 `evidence_refs`。`path` 必须是
   冻结目标下由证据索引 `files[*].path` 解析出的绝对文件路径，`sha256` 必须
   逐字来自对应 `files[*].sha256`；需要定位片段时在 statement 中同时写明
   `chunks[*].id` 与范围；
-- 全部证据索引分片必须在 `findings[*].evidence_refs` 中被引用；每条选中规则
-  的 finding 说明其实际检查范围，不得另造顶层覆盖声明；
+- 全部证据索引分片必须在 `rule_results[*].evidence_refs` 中被引用；每条选中规则
+  的 `reason` 说明其实际检查范围，不得另造顶层覆盖声明；
 - 可证伪的清单外假设写成额外 finding，并使用不与 FM 编号冲突的 `id`；
-- 无法完整读取时返回 `BLOCKED` 或 `FAILED`。
+- 无法完整读取时返回 `BLOCKED` 或 `INCOMPLETE`。
 
 不要用 Markdown 代码围栏包裹 JSON。

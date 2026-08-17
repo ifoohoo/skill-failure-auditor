@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -70,6 +72,7 @@ def base_artifact() -> dict:
         "role": "scope-routing",
         "semantic_status": "PASS_WITHIN_FROZEN_SCOPE",
         "conclusion_ceiling": "PASS_WITHIN_FROZEN_SCOPE",
+        "rule_results": [],
         "findings": [
             {"id": "SCOPE", "statement": "范围明确", "evidence_refs": []}
         ],
@@ -126,7 +129,7 @@ def test_wrong_correct_and_missing_declared_digest_normalize_identically(tmp_pat
 @pytest.mark.parametrize(
     ("mutation", "reason"),
     [
-        ({"unexpected": "field"}, "unexpected keys"),
+        ({"unexpected": "field"}, "additional properties"),
         ({"task_id": "AUDIT-WRONG"}, "ARTIFACT_TASK_ID_MISMATCH"),
         ({"platform": "claude-code"}, "ARTIFACT_PLATFORM_MISMATCH"),
         ({"role": "static-audit"}, "ARTIFACT_ROLE_MISMATCH"),
@@ -317,19 +320,31 @@ def test_normalizer_is_packaged_only_for_codex() -> None:
 def test_platform_builder_can_rebuild_same_output_with_codex_normalizer(
     tmp_path: Path,
 ) -> None:
-    output = tmp_path / "platforms"
+    source_root = PACKAGE_ROOT
+    candidate_a = tmp_path / "candidate-a"
+    candidate_b = tmp_path / "candidate-b"
+    for candidate in (candidate_a, candidate_b):
+        foundation = candidate / "packages/skill-failure-auditor/plugin-src/core/foundation"
+        foundation.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(PACKAGE_ROOT / "plugin-src/core/foundation", foundation)
+        migration = candidate / "packages/skill-failure-auditor/skill-family.migration.json"
+        migration.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(PACKAGE_ROOT / "skill-family.migration.json", migration)
+    node = os.environ.get("SFA_FOUNDATION_NODE", "/opt/homebrew/Cellar/node@22/22.23.2/bin/node")
     first = subprocess.run(
-        [sys.executable, str(BUILDER), "--out", str(output)],
+        [sys.executable, str(BUILDER), "--source-package-root", str(source_root),
+         "--candidate-root", str(candidate_a), "--node", node],
         capture_output=True,
         text=True,
     )
     assert first.returncode == 0, first.stdout + first.stderr
-    first_manifest = (output / "build-manifest.json").read_bytes()
+    first_manifest = (candidate_a / "packages/skill-failure-auditor/generated/platforms/build-manifest.json").read_bytes()
 
     second = subprocess.run(
-        [sys.executable, str(BUILDER), "--out", str(output)],
+        [sys.executable, str(BUILDER), "--source-package-root", str(source_root),
+         "--candidate-root", str(candidate_b), "--node", node],
         capture_output=True,
         text=True,
     )
     assert second.returncode == 0, second.stdout + second.stderr
-    assert (output / "build-manifest.json").read_bytes() == first_manifest
+    assert (candidate_b / "packages/skill-failure-auditor/generated/platforms/build-manifest.json").read_bytes() == first_manifest

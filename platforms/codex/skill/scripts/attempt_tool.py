@@ -14,15 +14,16 @@ from typing import Any
 
 from common import (
     ContractError,
-    canonical_json_bytes,
     load_json,
     normalize_relative_path,
     require_sha256,
-    sha256_bytes,
-    sha256_file,
-    validate_schema,
-    write_bytes_exclusive,
     write_json_exclusive,
+)
+from foundation_client import (
+    foundation_digest_document,
+    foundation_file_sha256,
+    foundation_publish_file_exclusive,
+    require_production_validate,
 )
 
 
@@ -46,7 +47,7 @@ def now_iso() -> str:
 def unsigned_digest(value: dict[str, Any], digest_field: str) -> str:
     unsigned = dict(value)
     unsigned.pop(digest_field, None)
-    return sha256_bytes(canonical_json_bytes(unsigned))
+    return foundation_digest_document(unsigned)
 
 
 def create_attempt(args: argparse.Namespace) -> dict[str, Any]:
@@ -78,7 +79,7 @@ def create_attempt(args: argparse.Namespace) -> dict[str, Any]:
     }
     manifest["manifest_sha256"] = unsigned_digest(manifest, "manifest_sha256")
     schema = load_json(MANIFEST_SCHEMA)
-    validate_schema(manifest, schema, schema)
+    require_production_validate(manifest, schema)
     write_json_exclusive(attempt / "manifest.json", manifest)
     return {"status": "CREATED", "attempt": str(attempt), **manifest}
 
@@ -86,7 +87,7 @@ def create_attempt(args: argparse.Namespace) -> dict[str, Any]:
 def verify_manifest(attempt: Path) -> dict[str, Any]:
     manifest = load_json(attempt / "manifest.json")
     schema = load_json(MANIFEST_SCHEMA)
-    validate_schema(manifest, schema, schema)
+    require_production_validate(manifest, schema)
     if manifest["manifest_sha256"] != unsigned_digest(manifest, "manifest_sha256"):
         raise ContractError("attempt manifest self digest mismatch")
     if attempt.name != manifest["attempt_id"]:
@@ -119,7 +120,7 @@ def verify_record(record_path: Path, attempt: Path) -> dict[str, Any]:
         raise ContractError(f"record blob missing or non-regular: {blob}")
     if blob.stat().st_size != record["artifact_size"]:
         raise ContractError(f"record blob size mismatch: {blob}")
-    if sha256_file(blob) != record["artifact_sha256"]:
+    if foundation_file_sha256(blob) != record["artifact_sha256"]:
         raise ContractError(f"record blob digest mismatch: {blob}")
     return record
 
@@ -157,13 +158,13 @@ def record_artifact(args: argparse.Namespace) -> dict[str, Any]:
         raise ContractError("artifact must be a regular file")
 
     existing = list_records(attempt)
-    digest = sha256_file(args.artifact)
+    digest = foundation_file_sha256(args.artifact)
     blob = attempt / "blobs" / digest
     if blob.exists():
-        if blob.is_symlink() or not blob.is_file() or sha256_file(blob) != digest:
+        if blob.is_symlink() or not blob.is_file() or foundation_file_sha256(blob) != digest:
             raise ContractError(f"existing content-addressed blob is invalid: {blob}")
     else:
-        write_bytes_exclusive(blob, args.artifact.read_bytes(), mode=0o400)
+        foundation_publish_file_exclusive(blob, args.artifact.read_bytes(), mode=0o400)
 
     record_id = f"REC-{len(existing) + 1:04d}"
     record: dict[str, Any] = {
@@ -216,7 +217,7 @@ def verify_seal(
     expected_record_refs = record_references(records)
     if seal["records"] != expected_record_refs or seal["record_count"] != len(records):
         raise ContractError("seal record set does not match attempt records")
-    expected_set_sha = sha256_bytes(canonical_json_bytes(expected_record_refs))
+    expected_set_sha = foundation_digest_document(expected_record_refs)
     if seal["records_set_sha256"] != expected_set_sha:
         raise ContractError("seal records set digest mismatch")
     return seal
@@ -245,7 +246,7 @@ def verify_attempt(
     records = list_records(attempt)
     seal = verify_seal(attempt, manifest, records)
     record_refs = record_references(records)
-    seal_file_sha256 = sha256_file(attempt / "seal.json") if seal else None
+    seal_file_sha256 = foundation_file_sha256(attempt / "seal.json") if seal else None
     if seal is None and expected_seal_file_sha256 is not None:
         raise ContractError("cannot bind an open attempt to a seal file digest")
     if seal is not None and expected_seal_file_sha256 is not None:
@@ -266,7 +267,7 @@ def verify_attempt(
         "attempt_id": manifest["attempt_id"],
         "manifest_sha256": manifest["manifest_sha256"],
         "record_count": len(records),
-        "records_set_sha256": sha256_bytes(canonical_json_bytes(record_refs)),
+        "records_set_sha256": foundation_digest_document(record_refs),
         "sealed": seal is not None,
         "outcome": seal["outcome"] if seal else None,
         "seal_sha256": seal["seal_sha256"] if seal else None,
@@ -297,7 +298,7 @@ def seal_attempt(args: argparse.Namespace) -> dict[str, Any]:
         "sealed_at": args.sealed_at or now_iso(),
         "record_count": len(records),
         "records": record_refs,
-        "records_set_sha256": sha256_bytes(canonical_json_bytes(record_refs)),
+        "records_set_sha256": foundation_digest_document(record_refs),
     }
     seal["seal_sha256"] = unsigned_digest(seal, "seal_sha256")
     write_json_exclusive(attempt / "seal.json", seal, mode=0o400)

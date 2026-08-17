@@ -1,7 +1,9 @@
 {
   "schemaVersion": "2.0",
+  "familyId": "skill-failure-auditor",
   "platformId": "claude-code",
   "product": "skill-failure-auditor",
+  "version": "1.0.0",
   "minClientVersion": "2.1.218",
   "deliveryMode": "claude_plugin",
   "pluginManifest": ".claude-plugin/plugin.json",
@@ -28,5 +30,15 @@
     "registry": "references/failure-modes.jsonl（来自核心，唯一规则源）",
     "rule": "投影不得携带规则登记表、Schema 或引擎实现副本；只携带清单、提示词、编排文档与入口"
   },
-  "projectionStatus": "projection_complete"
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
+  "projectionStatus": "projection_complete",
+  "projectionDigest": "767f4f5a069628726e6e482896ccfb53136e072160dd98590e43e4b848a10dc1"
 }
