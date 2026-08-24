@@ -13,42 +13,24 @@
   "packages": [
     {
       "name": "skill-family-contracts",
-      "version": "0.4.0",
-      "tarball": "skill-family-contracts-0.4.0.tgz",
-      "sha256": "fcdcd2134b43110d3fc73fa0897794047205c1dae2710454a4bfd8aba469045b"
+      "version": "0.8.3",
+      "tarball": "skill-family-contracts-0.8.3.tgz",
+      "sha256": "9166aad37d30a0053ce9de9e7594369404f74123d1b578fec5733b96b7794ee1"
     },
     {
       "name": "skill-family-engineering-kit",
-      "version": "0.4.0",
-      "tarball": "skill-family-engineering-kit-0.4.0.tgz",
-      "sha256": "99472ad4a68104483830925bacb11a1f8309348795d7de5c7002abf93aed76f5"
+      "version": "0.8.3",
+      "tarball": "skill-family-engineering-kit-0.8.3.tgz",
+      "sha256": "07f14291c81040870c30ffed0842a69f15f01cefe1e7e58d85e5e435a5a2fdb6"
     },
     {
       "name": "skill-family-harness-node",
-      "version": "0.4.0",
-      "tarball": "skill-family-harness-node-0.4.0.tgz",
-      "sha256": "5cfc000a543f8922c874289b82d31b7491d47521ec08b48754bd001782aa5774"
+      "version": "0.8.3",
+      "tarball": "skill-family-harness-node-0.8.3.tgz",
+      "sha256": "e112eceed9070e11bceb6d5be5e38edd5951ae1e5fbbe1de3687002f7c795e6d"
     }
   ],
   "consumerSchemas": [
-    {
-      "path": "task-package.schema.json",
-      "sourcePath": "spec/orchestration/task-package.schema.json",
-      "$id": "skill-failure-auditor:orchestration:task-package:2.1.0",
-      "sha256": "64a539f7ffc382dd0d3b69e0b36c7c883d5c782e2997ea1bcef9f74a4e6b9da5"
-    },
-    {
-      "path": "result.schema.json",
-      "sourcePath": "spec/orchestration/result.schema.json",
-      "$id": "skill-failure-auditor:orchestration:result:2.1.0",
-      "sha256": "8cc653fbd0cf0432f880a487deb341d8f50435663f1cb411b16e1abb036a75e2"
-    },
-    {
-      "path": "role-artifact.schema.json",
-      "sourcePath": "spec/orchestration/role-artifact.schema.json",
-      "$id": "skill-failure-auditor:orchestration:role-artifact:1.1.0",
-      "sha256": "9d2e2efeb95f323debc3140cef5eb4da8a5d3a8bf357a691488f964be6fe23bc"
-    },
     {
       "path": "attempt-manifest.schema.json",
       "sourcePath": "plugin-src/core/references/attempt-manifest.schema.json",
@@ -81,12 +63,13 @@
     }
   ],
   "source": {
-    "repository": "ifoohoo/skill-family-foundation",
-    "baseCommit": "8a0a400d7f0aeb266b554d09e54e0f9ec1887cff",
-    "status": "VERIFIED"
+    "repository": "skill-family-foundation-workspace",
+    "baseCommit": "5c887424cb637ace708b34580a63004aaa59c307",
+    "status": "VERIFIED",
+    "note": "Foundation 0.8.3 已发布并通过发布后验证；字节来自 release-skill 不可变 prepare 计划 9ff82d9e33c93722f56ddf071113f2981da10507acd53ecc02d66820fe67e57c。"
   },
   "bundle": {
     "targetPrefix": "quickstart-profile",
-    "payloadSha256": "3d29e242dab001d3aa60c7f45492db907d5d407930a0340b420ec99b844f1011"
+    "payloadSha256": "34eab83dd2471d28b27fe773e9e34a3082310515cebc91f09c3979eb74595085"
   }
 }

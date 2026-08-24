@@ -16,11 +16,7 @@ const STANDALONE_VALIDATORS = Object.freeze({
   "https://contracts.skill-family.example/v1/migration-manifest.json": validate202012.__skillFamilyFoundationValidator_00010,
   "https://contracts.skill-family.example/v1/operation-request.json": validate202012.__skillFamilyFoundationValidator_00011,
   "https://contracts.skill-family.example/v1/operation-result.json": validate202012.__skillFamilyFoundationValidator_00012,
-  "skill-failure-auditor:orchestration:result:2.1.0": validate202012.__skillFamilyFoundationValidator_00013,
-  "skill-failure-auditor:orchestration:role-artifact:1.1.0": validate202012.__skillFamilyFoundationValidator_00014,
-  "skill-failure-auditor:orchestration:task-package:2.1.0": validate202012.__skillFamilyFoundationValidator_00015,
-  "source-manifest.schema.json": validate202012.__skillFamilyFoundationValidator_00016,
-  "urn:loop-agent:schema:delivery-task-result": validate202012.__skillFamilyFoundationValidator_00017,
+  "source-manifest.schema.json": validate202012.__skillFamilyFoundationValidator_00013,
 });
 
 export default STANDALONE_VALIDATORS;

@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "3.0",
   "familyId": "skill-failure-auditor",
   "platformId": "workbuddy",
   "product": "skill-failure-auditor",
-  "version": "1.0.0",
+  "version": "1.1.4",
   "versionPolicy": "运行前同时探测应用壳版本与内嵌 CLI 版本并写入包外证据",
   "deliveryMode": "workbuddy_plugin",
   "pluginManifest": ".codebuddy-plugin/plugin.json",
@@ -16,33 +16,21 @@
     "workbuddyAppDefaultSkillInstall": "~/.workbuddy/skills/skill-failure-auditor",
     "codebuddyCliDefaultConfigRoot": "~/.codebuddy"
   },
-  "delegation": {
-    "tool": "Agent",
-    "nativeRoles": [
-      "Plan",
-      "Explore",
-      "general-purpose"
-    ],
-    "roleToNativeAgentType": {
-      "scope-routing": "Plan",
-      "static-audit": "Explore",
-      "runtime-evidence": "Explore",
-      "evaluation-integrity": "general-purpose",
-      "adversarial-challenge": "general-purpose",
-      "result-synthesis": "general-purpose"
-    },
-    "caseSensitive": true
+  "auditContract": {
+    "supportedModes": ["static", "runtime", "combined"],
+    "targetAccess": "read-only",
+    "targetExecution": "forbidden",
+    "delegation": "forbidden",
+    "outputBoundary": "new-audit-output-directory-only"
   },
   "dualVersionReporting": "支持声明必须同时记录应用壳版本与内嵌 CLI 版本",
   "isolationPolicy": "真实验证必须使用与用户真实 HOME 隔离的运行目录；认证只能显式注入该隔离环境",
-  "logicalMappings": [
-    {
-      "logicalName": "skill-failure-auditor",
-      "physicalName": "skill-failure-auditor",
-      "path": "skill/SKILL.md",
-      "type": "human_entry",
-      "userInvocable": true
-    }
-  ],
+  "logicalMappings": [{
+    "logicalName": "skill-failure-auditor",
+    "physicalName": "skill-failure-auditor",
+    "path": "skill/SKILL.md",
+    "type": "human_entry",
+    "userInvocable": true
+  }],
   "projectionStatus": "projection_complete"
 }

@@ -1,68 +1,30 @@
 {
-  "schemaVersion": "3.0.0",
+  "schemaVersion": "4.0.0",
   "artifactKind": "four-platform-equivalence-contract",
-  "description": "四平台结果等价的静态判定合同，不记录任何候选的当前运行状态或裁决。",
-  "platformSet": [
-    "claude-code",
-    "codex",
-    "kimi-code",
-    "workbuddy"
-  ],
-  "modeSet": [
-    "static",
-    "runtime",
-    "combined"
-  ],
+  "description": "四个平台只读审计的静态等价合同，不记录候选运行状态。",
+  "platformSet": ["claude-code", "codex", "kimi-code", "workbuddy"],
+  "modeSet": ["static", "runtime", "combined"],
   "equivalenceChecks": [
-    {
-      "check": "role_sets_identical",
-      "required": true,
-      "evidenceRequirement": "各平台实际职责集合与同一任务包的 expected_roles 精确相等"
-    },
-    {
-      "check": "all_roles_completed_on_all_platforms",
-      "required": true,
-      "evidenceRequirement": "各平台所有预期职责均有独立、可校验的完成结果"
-    },
-    {
-      "check": "schema_version_identical",
-      "required": true,
-      "evidenceRequirement": "各平台结果集使用相同的结果 Schema 版本"
-    },
-    {
-      "check": "mode_identical",
-      "required": true,
-      "evidenceRequirement": "各平台运行模式与同一任务包一致"
-    },
-    {
-      "check": "acceptance_criteria_identical",
-      "required": true,
-      "evidenceRequirement": "各平台使用同一组预先冻结的验收标准"
-    },
-    {
-      "check": "all_finalized",
-      "required": true,
-      "evidenceRequirement": "各平台均通过同一最终化器且结果摘要可复算"
-    },
-    {
-      "check": "status_matrices_complete",
-      "required": true,
-      "evidenceRequirement": "各平台语义状态矩阵覆盖全部预期职责且状态枚举合法；独立审阅结论可以不同"
-    }
+    {"check": "candidate_identical", "required": true, "evidenceRequirement": "绑定同一候选摘要"},
+    {"check": "core_skill_identical", "required": true, "evidenceRequirement": "安装入口与核心审计资源逐字节同源"},
+    {"check": "mode_identical", "required": true, "evidenceRequirement": "审计模式一致"},
+    {"check": "frozen_input_identical", "required": true, "evidenceRequirement": "冻结输入摘要一致"},
+    {"check": "audit_result_schema_valid", "required": true, "evidenceRequirement": "机器结果通过同一 audit-result Schema"},
+    {"check": "report_present", "required": true, "evidenceRequirement": "每个平台均生成人读报告"},
+    {"check": "target_unchanged", "required": true, "evidenceRequirement": "审计前后目标摘要一致"},
+    {"check": "installation_isolated", "required": true, "evidenceRequirement": "只从本轮隔离安装发现 SFA"}
   ],
   "allowedDifferencesWhitelist": [
-    "task_package.platform 字段",
-    "native_receipt.kind",
-    "平台原生调度语法与角色到原生类型映射",
-    "合法结果摘要数值",
-    "在相同验收标准下形成的不同语义判断、发现与建议"
+    "平台 CLI 版本和原生事件流",
+    "隔离安装路径",
+    "在相同输入与规则下形成的不同语义发现和建议"
   ],
   "adjudicationPolicy": {
     "sameCandidateRequired": true,
     "allChecksRequired": true,
+    "targetExecutionForbidden": true,
     "publicPackageSelfClaimForbidden": true,
     "externalSemanticReviewRequired": true,
-    "historyMigrationForbidden": true,
-    "runtimeEvidenceLocation": "control/ 与 evidence/ 中的包外候选证据"
+    "historyMigrationForbidden": true
   }
 }

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Thin Python transport to the managed Foundation Quickstart runner.
 
-Validation, Task/Result construction, resource closure, and exchange
-verification remain Foundation-owned. This module has no local fallback.
+Schema validation, resource closure, digesting and exclusive publication remain
+Foundation-owned. This module has no local fallback and no target executor.
 """
 from __future__ import annotations
 from functools import lru_cache
@@ -24,9 +24,6 @@ FOUNDATION_SCHEMA_IDS = {
     "continuation-package.schema.json",
     "failure-mode.schema.json",
     "source-manifest.schema.json",
-    "skill-failure-auditor:orchestration:task-package:2.1.0",
-    "skill-failure-auditor:orchestration:result:2.1.0",
-    "skill-failure-auditor:orchestration:role-artifact:1.1.0",
 }
 SCHEMA_NAME_TO_FOUNDATION_ID = {
     "attempt-manifest.schema.json": "attempt-manifest.schema.json",
@@ -34,9 +31,6 @@ SCHEMA_NAME_TO_FOUNDATION_ID = {
     "continuation-package.schema.json": "continuation-package.schema.json",
     "failure-mode.schema.json": "failure-mode.schema.json",
     "source-manifest.schema.json": "source-manifest.schema.json",
-    "task-package.schema.json": "skill-failure-auditor:orchestration:task-package:2.1.0",
-    "result.schema.json": "skill-failure-auditor:orchestration:result:2.1.0",
-    "role-artifact.schema.json": "skill-failure-auditor:orchestration:role-artifact:1.1.0",
 }
 
 
@@ -227,36 +221,12 @@ def foundation_file_sha256(path: Path, *, node: str | None = None) -> str:
         raise ContractError("FOUNDATION_CLOSURE_INVALID: resource-closure returned no usable digest")
     return resources[0]["sha256"]
 
-def foundation_prepare_exchange(workspace_root: str, *, observation_path: str, operation_id: str,
-                                method: str, parameters: dict[str, Any] | None = None,
-                                run: str = "", stage: str = "", attempt: int = 1,
-                                node: str | None = None) -> dict[str, Any]:
-    options = {"observationPath":observation_path,"operationId":operation_id,"method":method,
-               "run":run,"stage":stage,"attempt":attempt}
-    if parameters: options["parameters"] = parameters
-    return _invoke_mechanism("create-task", {"root": workspace_root, **options}, node=node)
-
-def foundation_wrap_result(task: dict[str, Any], *, state: str = "succeeded", summary: str = "",
-                           outputs: list[dict[str, Any]] | None = None,
-                           evidence: list[dict[str, Any]] | None = None,
-                           domain_result: Any = None, errors: list[dict[str, Any]] | None = None,
-                           node: str | None = None) -> dict[str, Any]:
-    options: dict[str, Any] = {"task":task,"state":state}
-    for name,value in (("summary",summary),("outputs",outputs),("evidence",evidence),
-                       ("domainResult",domain_result),("errors",errors)):
-        if value is not None and value != "" and value != []: options[name] = value
-    return _invoke_mechanism("wrap-result", options, node=node)
-
-def foundation_verify_exchange(workspace_root: str, *, task: dict[str, Any],
-                               result: dict[str, Any], node: str | None = None) -> dict[str, Any]:
-    return _invoke_mechanism(
-        "verify-exchange", {"root": workspace_root, "task": task, "result": result}, node=node,
-    )
-
-
 # Inline Node transport that drives the managed publishFileExclusive against
 # the bound bundle runner. The runner URL is spliced in at runtime via
-# json.dumps so the script itself stays free of host-specific paths.
+# json.dumps so the script itself stays free of host-specific paths. Parent
+# directory creation and the exclusive no-replace contract are entirely
+# runner-owned publish-file-exclusive(createParents); this module carries no local fallback
+# semantics.
 _PUBLISH_TRANSPORT = r'''
 import { publishFileExclusive } from __RUNNER_URL__;
 
@@ -266,7 +236,7 @@ async function main() {
   const request = JSON.parse(new TextDecoder("utf-8").decode(Buffer.concat(chunks)));
   const { root, relPath, dataBase64, mode } = request;
   const data = Buffer.from(dataBase64, "base64");
-  const receipt = await publishFileExclusive(root, relPath, data, { mode });
+  const receipt = await publishFileExclusive(root, relPath, data, { createParents: true, mode });
   process.stdout.write(JSON.stringify({ ok: true, receipt }) + "\n");
 }
 
@@ -284,43 +254,47 @@ main().catch((cause) => {
 });
 '''
 
-# Stable kinds the transport may surface from the managed harness (SFC2004
-# details.kind values observed for publishFileExclusive; the full set is kept
-# to fail closed on any path-domain refusal).
-_FOUNDATION_PUBLISH_REFUSED_KINDS = {
-    "exclusive-publish-conflict",
-    "invalid-root",
-    "unsafe-state-entry",
-    "symlink-escape",
-    "realpath-escape",
-    "path-traversal",
-    "invalid-path",
-}
+
+def _raise_root_to_existing_ancestor(target: Path) -> tuple[Path, str]:
+    """Raise the publish root to the nearest existing ancestor of the target.
+
+    The runner's createParents option creates missing directories below the
+    root, but the root itself must already exist (strictTarget realpaths the
+    root). The wrapper therefore walks up to the first existing ancestor and
+    passes the remaining path as a deep relPath; this is pure path
+    computation - no mkdir, no target-existence pre-check, no local kind
+    mapping. The exclusive no-replace contract and all containment checks stay
+    entirely Foundation-owned.
+    """
+    cursor = target.parent
+    relative = target.name
+    while not cursor.exists():
+        relative = f"{cursor.name}/{relative}"
+        cursor = cursor.parent
+    return cursor, relative
 
 
 def foundation_publish_file_exclusive(path: Path, content: bytes, mode: int = 0o600,
                                       *, node: str | None = None) -> None:
-    """Exclusively publish one file with the managed Foundation harness.
+    """Exclusively publish one file through the managed Foundation harness.
 
-    Consumer-retained shell (W4.L3): the wrapper keeps the local contract
-    surface - automatic parent-directory creation and the 0o600 default mode -
-    while the atomic exclusive write, post-commit byte/mode/identity
-    verification, and directory fsync are entirely Foundation-owned. There is
-    no local fallback writer; any transport or harness failure refuses the
-    write (fail-closed). The target is passed as root=parent with a bare
-    filename relPath: the harness canonicalizes the parent (realpath), which
-    reproduces the local writer's behavior for symlinked parents, and its own
-    containment checks cover the target itself.
+    Direct-call shell (D3): the wrapper carries no local semantics anymore -
+    automatic parent-directory creation (createParents: true) and the
+    exclusive no-replace contract are entirely Foundation-owned, and the
+    0o600 default mode is the call-site default passed through explicitly.
+    There is no local fallback writer; any transport or harness failure
+    refuses the write (fail-closed). The target is passed as root=nearest
+    existing ancestor + deep relPath: the harness canonicalizes the root
+    (realpath), creates the missing parent chain below it, and its
+    containment checks cover every component of the target path.
     """
     target = Path(path)
-    if target.exists() or target.is_symlink():
-        raise ContractError(f"refusing to overwrite existing path: {target}")
+    root, relative = _raise_root_to_existing_ancestor(target)
     executable = _resolve_node_executable(node)
-    target.parent.mkdir(parents=True, exist_ok=True)
     script = _PUBLISH_TRANSPORT.replace("__RUNNER_URL__", json.dumps(str(MECHANISMS_CLI.parent / "runner.mjs")))
     payload = json.dumps({
-        "root": str(target.parent),
-        "relPath": target.name,
+        "root": str(root),
+        "relPath": relative,
         "dataBase64": base64.b64encode(content).decode("ascii"),
         "mode": mode,
     }, ensure_ascii=False)
@@ -347,8 +321,7 @@ def foundation_publish_file_exclusive(path: Path, content: bytes, mode: int = 0o
             message = error.get("message") or stderr
             if kind == "exclusive-publish-conflict":
                 raise ContractError(f"refusing to overwrite existing path: {target}")
-            if kind in _FOUNDATION_PUBLISH_REFUSED_KINDS:
-                raise ContractError(f"FOUNDATION_PUBLISH_REFUSED: {kind}: {message}")
+            raise ContractError(f"FOUNDATION_PUBLISH_REFUSED: {message}")
         raise ContractError(f"FOUNDATION_RUNTIME_UNAVAILABLE: {stderr or completed.stdout.strip()}")
     try:
         result = json.loads(completed.stdout)

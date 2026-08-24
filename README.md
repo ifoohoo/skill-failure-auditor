@@ -1,24 +1,26 @@
 # skill-failure-auditor
 
-Audits Skills, Prompts, Agent instructions, workflows, and their real runtime evidence for reliability failure modes — especially “looks completed but the real goal was not achieved” (fake completion, proxy evidence, self-verification, context/evidence/shard/responsibility-isolation failures).
+Audits Skills, Prompts, Agent instructions, workflows, and already-produced runtime evidence for reliability failure modes — especially “looks completed but the real goal was not achieved” (fake completion, proxy evidence, self-verification, and context, evidence, shard, or responsibility-isolation failures).
 
-**One authoritative core, four platform projections:** Claude Code, Codex, Kimi Code, WorkBuddy/CodeBuddy. All platforms run the same business rules (FM-01…FM-28), the same task-package/result contracts, and the same fail-closed semantics; only manifests, dispatch syntax, and receipt normalization differ.
+**One authoritative audit core, four platform projections:** Claude Code, Codex, Kimi Code, and WorkBuddy/CodeBuddy. Every projection carries the same FM-01…FM-28 rules, audit schemas, evidence tools, and fail-closed semantics. Platform differences are limited to installation manifests, discovery paths, and client constraints.
 
 ## Layout
 
-- `plugin-src/core/` — the single platform-independent core: rule registry (`failure-modes.jsonl`), schemas, evidence/attempt/evaluation tools, orchestration engine (`orchestration_engine.py`: prepare-run / write-result / validate-result-set / finalize-run).
-- `plugin-src/platforms/<platform>/` — thin projections: manifests, prompt bindings, dispatch mappings. No business rules live here.
-- `spec/` — support matrix, orchestration protocol and schemas, public-boundary policy, release/Pages/Hub design.
+- `plugin-src/core/` — the platform-independent audit core: rule registry (`failure-modes.jsonl`), audit schemas, evidence indexing, attempt records, result validation, and report rendering.
+- `plugin-src/platforms/<platform>/` — thin platform sources containing manifests, discovery rules, and client constraints. No business rules or execution topology live here.
+- `spec/` — audit equivalence and support contracts, Foundation integration, public-boundary policy, and release/Pages/Hub design.
 - `docs/llm-academy/` — companion static course (17 files, CC BY 4.0). See `README_zh.md` for the chapter index.
-- `tests/`, `scripts/build/` — structural/deterministic build and gate tooling.
+- `scripts/build/` — deterministic projection builders. Workspace-only integration and release tests are intentionally excluded from the public snapshot.
 
-## Orchestration contract (summary)
+## Product boundary
 
-Six semantic roles: `scope-routing`, `static-audit`, `runtime-evidence`, `evaluation-integrity`, `adversarial-challenge`, `result-synthesis`. Modes: `static` (5 roles), `runtime` (5), `combined` (6). The engine is the only writer of result files; missing/duplicated/extra/mismatched outputs, schema failures, non-zero exits and timeouts fail closed. Candidates and implementers may only submit diagnostics (`SELF_AUDIT_SUBMITTED_FOR_EXTERNAL_REVIEW`); formal acceptance requires independent review.
+SFA is an auditor, not an executor. `static` reviews definitions; `runtime` reviews logs, tool output, and receipts that already exist; `combined` reviews both input classes. No mode starts the target Skill, delegates work to subagents, waits for or retries the target task, or joins its live control loop.
+
+An independent evaluator may run active trials and freeze the resulting evidence. SFA can then audit that evidence as ordinary input. No executor or orchestration product has a privileged integration, runtime role, or product-specific interface in SFA; any such system is either ordinary audited input or an external consumer.
 
 <!-- release-skill:external-write-boundary -->
 
-External-write boundary: the audit engine writes only diagnostic evidence under the audited target's evidence directory; the audited source tree is never modified.
+External-write boundary: SFA reads the audited target and writes only to a caller-selected new audit-output directory outside that target. It does not modify the audited source tree.
 
 ## Install
 
@@ -29,7 +31,7 @@ External-write boundary: the audit engine writes only diagnostic evidence under 
 
 <!-- release-skill:safe-first-command -->
 
-Safe first command: a one-shot audit (`/skill-failure-auditor <target> static`) is read-only — it inspects the target and writes only diagnostic evidence; nothing else in the workspace is modified. The release-time state machine (assess/prepare/approve/publish/reconcile/verify) is governed by the release-skill pipeline (`npx release-skill`).
+Safe first command: a one-shot audit (`/skill-failure-auditor <target> static`) reads the target without running it and writes only to a new audit-output directory. The release-time state machine (assess/prepare/approve/publish/reconcile/verify) is governed by the release-skill pipeline (`npx release-skill`).
 
 ## Minimal example
 
@@ -40,7 +42,7 @@ Safe first command: a one-shot audit (`/skill-failure-auditor <target> static`) 
 
 ## Troubleshooting
 
-Audits fail closed: schema violations, missing/duplicated/mismatched outputs, non-zero exits, and timeouts surface as explicit diagnostics (e.g. `GATE_FAILED`-style gate failures) rather than silent success. If an audit fails, inspect the run evidence under the target's evidence directory, re-run with a single role (`static`) to isolate the failing role, then consult `spec/` for the failure-mode registry (FM-01…FM-28).
+Audits fail closed: schema violations, incomplete coverage, missing or duplicate evidence, and digest drift surface as explicit diagnostics rather than silent success. Inspect the caller-selected audit-output directory and the frozen input bindings, then consult the rule registry (FM-01…FM-28). Retrying or repairing the audited target remains the responsibility of its owner or an external evaluator.
 
 ## License
 
@@ -48,4 +50,4 @@ Code: Apache-2.0 (Copyright 2026 skill-failure-auditor contributors; Copyright 2
 
 ## Status
 
-Productization candidate `1.0.0-candidate` — formal status `FORMAL_ACCEPTANCE_BLOCKED` pending independent acceptance (W12) and release authorization (W13). Platform verification: Claude Code / Codex / WorkBuddy black-box passed; Kimi Code pending runtime authentication.
+The source version is defined by `package.json`. Runtime support and verification status are recorded in `spec/platforms/support-matrix.json`; this static README does not claim that an unpublished candidate or an unverified host is available.

@@ -20,7 +20,6 @@ const PROFILE_PREFIX = "packages/skill-failure-auditor/plugin-src/core/foundatio
 const CORE_PIN_PATH = "packages/skill-failure-auditor/plugin-src/core/foundation/foundation-pin.json";
 const SPEC_PIN_PATH = "packages/skill-failure-auditor/spec/foundation-integration/foundation-pin.json";
 const MIGRATION_PATH = "packages/skill-failure-auditor/skill-family.migration.json";
-const ADOPTION_LOCK_PATH = "packages/skill-failure-auditor/.skill-family-audit/adoption-lock.json";
 const HARNESS_RECEIPT_PATH = "packages/skill-failure-auditor/migration/harness-surface-receipt.json";
 const OWNER_ADJUDICATIONS_PATH = "packages/skill-failure-auditor/migration/harness-owner-adjudications.json";
 const OWNER = Object.freeze({ kind: "managed", id: "skill-failure-auditor.foundation-adoption" });
@@ -30,7 +29,6 @@ const HANDWRITTEN_PATTERNS = Object.freeze([
   "packages/skill-failure-auditor/evidence/**", "packages/skill-failure-auditor/tests/**",
   "packages/skill-failure-auditor/plugin-src/core/scripts/**",
   "packages/skill-failure-auditor/plugin-src/core/references/**",
-  "packages/skill-failure-auditor/plugin-src/core/prompts/**",
   "packages/skill-failure-auditor/plugin-src/platforms/**",
 ]);
 
@@ -57,7 +55,6 @@ function parseArgs(argv) {
     else if (flag === "--prepared") values.prepared = value;
     else if (flag === "--tarball") values.tarballs.push(value);
     else if (flag === "--python") values.python = value;
-    else if (flag === "--schema-provider-root") values.schemaProviderRoot = value;
     else fail(`unknown argument: ${flag}`);
   }
   if (!new Set(["prepare", "apply"]).has(values.mode)) fail("--mode must be prepare or apply");
@@ -65,7 +62,7 @@ function parseArgs(argv) {
     if (!path.isAbsolute(values[field] ?? "")) fail(`--${field.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)} must be absolute`);
   }
   if (values.mode === "prepare") {
-    for (const field of ["installRoot", "packageRoot", "preparedOutput", "python", "schemaProviderRoot"]) {
+    for (const field of ["installRoot", "packageRoot", "preparedOutput", "python"]) {
       if (!path.isAbsolute(values[field] ?? "")) fail(`prepare requires absolute --${field.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}`);
     }
     if (values.tarballs.length !== 3 || values.tarballs.some((item) => !path.isAbsolute(item))) {
@@ -182,58 +179,24 @@ async function validateInstall({ installRoot, packageRoot, tarballs, pin }) {
   }
 }
 
-async function loadLoopDeliveryResultSchema({ packageRoot, schemaProviderRoot }) {
-  const rootReal = await realpath(schemaProviderRoot);
-  if (rootReal !== schemaProviderRoot) fail("schema provider root must be canonical");
-  const mapping = await readJson(path.join(packageRoot, "spec/orchestration/platform-adapter-mapping.json"));
-  const binding = mapping.loopOuterContract?.schemaProvider;
-  const expectedKeys = ["deliveryResultRole", "manifestRelativePath", "manifestSha256", "name", "version"];
-  if (!binding || JSON.stringify(Object.keys(binding).sort()) !== JSON.stringify(expectedKeys)) {
-    fail("Loop schema provider binding is incomplete");
-  }
-  const manifestPath = path.join(rootReal, binding.manifestRelativePath);
-  if (await realpath(manifestPath) !== manifestPath) fail("Loop schema provider manifest must be canonical");
-  const manifestBytes = await readFile(manifestPath);
-  if (sha256(manifestBytes) !== binding.manifestSha256) fail("Loop schema provider manifest digest drift");
-  const manifest = JSON.parse(manifestBytes);
-  if (manifest.provider?.name !== binding.name || manifest.provider?.version !== binding.version) {
-    fail("Loop schema provider identity drift");
-  }
-  const entries = manifest.schemas?.filter((entry) => entry.role === binding.deliveryResultRole) ?? [];
-  if (entries.length !== 1) fail("Loop delivery result Schema role is missing or duplicate");
-  const entry = entries[0];
-  const schemaPath = path.join(rootReal, entry.path);
-  const schemaReal = await realpath(schemaPath);
-  if (schemaReal !== schemaPath || !schemaReal.startsWith(`${rootReal}${path.sep}`)) {
-    fail("Loop delivery result Schema escapes its provider root");
-  }
-  const schemaBytes = await readFile(schemaReal);
-  const schema = JSON.parse(schemaBytes);
-  if (sha256(schemaBytes) !== entry.sha256 || schema.$id !== entry.$id || schema.$schema !== entry.dialect) {
-    fail("Loop delivery result Schema bytes, $id or dialect drift");
-  }
-  return {
-    path: "loop-delivery-task-result.schema.json",
-    sourcePath: schemaReal,
-    $id: entry.$id,
-    sha256: entry.sha256,
-  };
-}
-
 async function prepare(values) {
   await assertNewExternalCandidate(values.candidateRoot, values.targetRoot);
   const pinPath = path.join(values.packageRoot, "spec/foundation-integration/foundation-pin.json");
   const pinBytes = await readFile(pinPath);
   const pin = JSON.parse(pinBytes);
   await validateInstall({ ...values, pin });
-  const externalSchema = await loadLoopDeliveryResultSchema(values);
-  const consumerSchemas = [
-    ...pin.consumerSchemas.map((item) => ({ ...item, sourcePath: path.join(values.packageRoot, item.sourcePath) })),
-    externalSchema,
-  ];
+  const consumerSchemas = pin.consumerSchemas.map((item) => ({
+    ...item,
+    sourcePath: path.join(values.packageRoot, item.sourcePath),
+  }));
   const kitRoot = path.join(values.installRoot, "node_modules/skill-family-engineering-kit");
   const candidateApi = await import(pathToFileURL(path.join(kitRoot, "candidate/index.mjs")).href);
   const stableApi = await import(pathToFileURL(path.join(kitRoot, "src/index.mjs")).href);
+  const profileSpi = await import(pathToFileURL(path.join(kitRoot, "profile-spi/index.mjs")).href);
+  const profileResult = await profileSpi.verifyProjectProfile({ projectRoot: values.packageRoot });
+  if (profileResult?.code !== "SPE0000") {
+    fail(`project profile rejected by Foundation verifyProjectProfile: ${profileResult?.code ?? "UNKNOWN"}`);
+  }
   const schemaRoot = path.join(values.candidateRoot, ".consumer-schema-inputs");
   await mkdir(schemaRoot);
   for (const schema of consumerSchemas) {
@@ -296,23 +259,6 @@ async function prepare(values) {
   await removeTemporaryTree(inventorySourceRoot);
   if (inventory.status !== 0) {
     fail(`harness inventory candidate failed: ${inventory.stderr || inventory.stdout}`);
-  }
-
-  const adoptionLock = spawnSync(values.python, [
-    path.join(values.packageRoot, ".skill-family-audit/generate_adoption_lock.py"),
-    "--platform", "codex",
-    "--generated-root", path.join(
-      values.candidateRoot,
-      "packages/skill-failure-auditor/generated/platforms",
-    ),
-    "--truth-root", path.join(values.candidateRoot, "packages/skill-failure-auditor"),
-    "--output", path.join(values.candidateRoot, ADOPTION_LOCK_PATH),
-  ], {
-    encoding: "utf8",
-    env: { SFA_FOUNDATION_NODE: process.execPath, PYTHONUTF8: "1" },
-  });
-  if (adoptionLock.status !== 0) {
-    fail(`adoption lock candidate failed: ${adoptionLock.stderr || adoptionLock.stdout}`);
   }
 
   const candidateResources = await collectFiles(values.candidateRoot);

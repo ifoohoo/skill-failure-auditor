@@ -1,6 +1,6 @@
 {
   "name": "skill-failure-auditor",
-  "version": "1.0.0",
+  "version": "1.1.4",
   "private": true,
   "description": "审计 Skill/Prompt/Agent 指令与工作流中“看似完成但真实目标未达成”的可靠性失效模式；单一权威核心 + Claude Code/Codex/Kimi Code/WorkBuddy 四平台投影。",
   "license": "Apache-2.0",
@@ -10,8 +10,5 @@
   "type": "module",
   "engines": {
     "node": ">=22.0.0"
-  },
-  "scripts": {
-    "test:python": "python3 -m pytest -q -p no:cacheprovider tests"
   }
 }

@@ -5,11 +5,6 @@
   "legacyInfra": [],
   "legacyReferences": [
     {
-      "path": "skill/scripts/orchestration_engine.py",
-      "text": "validate_schema(receipt, receipt_schema_def)",
-      "replacedBy": "Foundation Quickstart assertProfile + computeResourceClosure（Task/Result/Bundle 机制）"
-    },
-    {
       "path": "skill/scripts/foundation_client.py",
       "text": "productionAuthority: legacy-python",
       "replacedBy": "Foundation Bundle production_validate 统一执行（authority: foundation）"
@@ -17,7 +12,7 @@
     {
       "path": "skill/scripts/common.py",
       "text": "read_text(\"foundation-task.json\")",
-      "replacedBy": "Foundation Quickstart prepare-exchange / wrap-result / verify-exchange（Bundle 机制）"
+      "replacedBy": "Foundation Quickstart 结构校验与资源闭包（Bundle 机制）"
     }
   ],
   "exceptions": [],
@@ -25,18 +20,18 @@
   "foundationPackages": [
     {
       "name": "skill-family-contracts",
-      "version": "0.4.0",
-      "digest": "sha256:fcdcd2134b43110d3fc73fa0897794047205c1dae2710454a4bfd8aba469045b"
+      "version": "0.8.3",
+      "digest": "sha256:9166aad37d30a0053ce9de9e7594369404f74123d1b578fec5733b96b7794ee1"
     },
     {
       "name": "skill-family-engineering-kit",
-      "version": "0.4.0",
-      "digest": "sha256:99472ad4a68104483830925bacb11a1f8309348795d7de5c7002abf93aed76f5"
+      "version": "0.8.3",
+      "digest": "sha256:07f14291c81040870c30ffed0842a69f15f01cefe1e7e58d85e5e435a5a2fdb6"
     },
     {
       "name": "skill-family-harness-node",
-      "version": "0.4.0",
-      "digest": "sha256:5cfc000a543f8922c874289b82d31b7491d47521ec08b48754bd001782aa5774"
+      "version": "0.8.3",
+      "digest": "sha256:e112eceed9070e11bceb6d5be5e38edd5951ae1e5fbbe1de3687002f7c795e6d"
     }
   ]
 }

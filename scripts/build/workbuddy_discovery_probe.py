@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""WorkBuddy 真实 discovery + 顶层 Agent 最小派发探针。
+"""WorkBuddy 真实技能发现与适用性门禁探针。
 
 安装位置只从 WorkBuddy platform-manifest.json 的 discovery 规则解析。真实运行的
-prompt 只使用技能名称与自然语言意图，不得给模型绝对 SKILL.md 路径。
+prompt 只使用技能名称与自然语言意图，不得给宿主绝对 SKILL.md 路径。探针不指定
+模型，不派发 Agent，也不执行任何审计目标。
 """
 from __future__ import annotations
 
@@ -21,7 +22,7 @@ PRODUCT = "skill-failure-auditor"
 DEFAULT_CODEBUDDY = Path(
     "/Applications/WorkBuddy.app/Contents/Resources/app.asar.unpacked/cli/bin/codebuddy"
 )
-PROBE_MARKER = "WORKBUDDY_NATIVE_AGENT_DISPATCH_OK"
+PROBE_MARKER = "WORKBUDDY_SFA_DISCOVERY_GATE_OK"
 PACKAGE_ROOT = Path(__file__).resolve().parents[2]
 TRIGGER_POLICY = PACKAGE_ROOT / "plugin-src" / "core" / "trigger-policy.json"
 READ_LINE_PATTERN = re.compile(r"^\s*\d+→(.*)$")
@@ -209,15 +210,14 @@ def load_trigger_policy() -> dict:
     return policy
 
 
-def run_probe(codebuddy: Path, layout: dict[str, Path], model: str,
+def run_probe(codebuddy: Path, layout: dict[str, Path],
               stream_output: Path | None = None,
               stderr_output: Path | None = None) -> dict:
     prompt = """请使用已安装的 skill-failure-auditor 技能判断这个请求是否适用。
-这是 WorkBuddy 技能发现与顶层原生派发探针，内容只有普通安装兼容检查，没有任何
-LLM/Agent 可靠性失效信号。请遵守该技能的适用性门禁，随后回到普通工作流，调用一次
-Agent 工具并使用 Plan 子智能体，让它只返回 WORKBUDDY_NATIVE_AGENT_DISPATCH_OK。
-最后原样返回该标记，以及门禁原文规定退出技能流程后不得做的三件事；不要读取或猜测
-任何绝对技能文件路径。"""
+这是 WorkBuddy 技能发现与适用性门禁探针，内容只有普通安装兼容检查，没有任何
+LLM/Agent 可靠性失效信号。请遵守该技能的适用性门禁，确认本请求不适用后，原样返回
+WORKBUDDY_SFA_DISCOVERY_GATE_OK，并列出门禁原文规定退出技能流程后不得做的三件事。
+不要调用 Agent 或其他委派工具，不要执行任何目标，也不要读取或猜测任何绝对技能文件路径。"""
     entry_path = layout["skill_install"] / "SKILL.md"
     expected_entry_path = entry_path.resolve()
     expected_entry = entry_path.read_text(encoding="utf-8")
@@ -245,9 +245,7 @@ Agent 工具并使用 Plan 子智能体，让它只返回 WORKBUDDY_NATIVE_AGENT
             str(codebuddy), "-p", prompt, "-y",
             "--output-format", "stream-json",
             "--no-session-persistence",
-            "--subagent-permission-mode", "bypassPermissions",
             "--max-turns", "8",
-            "--model", model,
         ],
         capture_output=True,
         text=True,
@@ -278,13 +276,13 @@ Agent 工具并使用 Plan 子智能体，让它只返回 WORKBUDDY_NATIVE_AGENT
         except json.JSONDecodeError:
             invalid_lines.append(line_number)
     combined = completed.stdout + "\n" + completed.stderr
-    dispatched = False
+    delegation_observed = False
     for event in events:
         for item in _walk(event):
-            if item.get("type") == "tool_use" and item.get("name") == "Agent" \
-                    and isinstance(item.get("input"), dict) \
-                    and item["input"].get("subagent_type") == "Plan":
-                dispatched = True
+            if item.get("type") == "tool_use" and item.get("name") in {
+                "Agent", "Task", "collaboration.spawn_agent",
+            }:
+                delegation_observed = True
     discovery = evaluate_discovery_evidence(
         events,
         expected_entry_path=expected_entry_path,
@@ -297,7 +295,7 @@ Agent 工具并使用 Plan 子智能体，让它只返回 WORKBUDDY_NATIVE_AGENT
     auth_blocked = "Authentication required" in combined
     status = "PASS" if (
         completed.returncode == 0 and not invalid_lines
-        and discovery["discovery_evidence_observed"] and dispatched
+        and discovery["discovery_evidence_observed"] and not delegation_observed
         and discovery["applicability_gate_text_observed"] and terminal and not auth_blocked
     ) else "FAIL"
     return {
@@ -314,7 +312,7 @@ Agent 工具并使用 Plan 子智能体，让它只返回 WORKBUDDY_NATIVE_AGENT
             policy["applicability_gate"].encode("utf-8")
         ).hexdigest(),
         **discovery,
-        "native_agent_dispatch_observed": dispatched,
+        "delegation_observed": delegation_observed,
         "terminal_marker_observed": terminal,
         "authentication_blocked": auth_blocked,
         **trace_bindings,
@@ -328,7 +326,6 @@ def main() -> int:
     parser.add_argument("--isolated-home", type=Path, required=True)
     parser.add_argument("--codebuddy", type=Path, default=DEFAULT_CODEBUDDY)
     parser.add_argument("--auth-home", type=Path)
-    parser.add_argument("--model", default="custom-local:mimo-v2.5-pro")
     parser.add_argument("--stream-output", type=Path)
     parser.add_argument("--stderr-output", type=Path)
     parser.add_argument("--run", action="store_true")
@@ -349,7 +346,7 @@ def main() -> int:
             result = {
                 **result,
                 **run_probe(
-                    args.codebuddy.resolve(), layout, args.model,
+                    args.codebuddy.resolve(), layout,
                     args.stream_output.resolve() if args.stream_output else None,
                     args.stderr_output.resolve() if args.stderr_output else None,
                 ),
