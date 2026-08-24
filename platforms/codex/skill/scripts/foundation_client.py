@@ -112,6 +112,102 @@ def _invoke_mechanism(operation: str, params: dict[str, Any], *, node: str | Non
         raise ContractError("FOUNDATION_RUNTIME_UNAVAILABLE: mechanisms CLI returned non-object")
     return result
 
+
+def _validation_failure_message(result: dict[str, Any]) -> str:
+    errors = result["errors"]
+    first = errors[0]
+    instance_path = first.get("instancePath") or "$"
+    if instance_path != "$":
+        instance_path = f"${instance_path}"
+    missing = first.get("params", {}).get("missingProperty")
+    if first.get("keyword") == "required" and missing:
+        instance_path += f"/{missing}"
+    return (
+        f"{instance_path}: "
+        f"{first.get('message') or first.get('keyword') or 'schema validation failed'}"
+    )
+
+
+def _require_validation_result_shape(result: Any, *, label: str) -> dict[str, Any]:
+    if not isinstance(result, dict) or set(result) != {"valid", "errors"}:
+        raise ContractError(f"FOUNDATION_BATCH_RESULT_INVALID: {label} validation result is malformed")
+    if not isinstance(result["valid"], bool) or not isinstance(result["errors"], list):
+        raise ContractError(f"FOUNDATION_BATCH_RESULT_INVALID: {label} validation result is malformed")
+    if result["valid"] is True and result["errors"]:
+        raise ContractError(f"FOUNDATION_BATCH_RESULT_INVALID: {label} valid result carries errors")
+    if result["valid"] is False and not result["errors"]:
+        raise ContractError(f"FOUNDATION_BATCH_RESULT_INVALID: {label} invalid result carries no errors")
+    for error in result["errors"]:
+        if (
+            not isinstance(error, dict)
+            or not isinstance(error.get("keyword"), str)
+            or not isinstance(error.get("instancePath"), str)
+            or not isinstance(error.get("schemaPath"), str)
+            or not isinstance(error.get("message"), str)
+            or not isinstance(error.get("params"), dict)
+        ):
+            raise ContractError(f"FOUNDATION_BATCH_RESULT_INVALID: {label} error entry is malformed")
+    return result
+
+
+def require_production_validate_many(
+    documents: list[Any],
+    schema: dict[str, Any],
+    *,
+    node: str | None = None,
+) -> list[dict[str, Any]]:
+    """Validate an ordered document batch through one Foundation invocation.
+
+    The bridge owns transport binding only. Foundation remains the schema
+    authority; this function verifies that every returned item is bound to its
+    input position and schema id before accepting the batch.
+    """
+    schema_id = schema.get("$id") if isinstance(schema, dict) else None
+    if schema_id not in FOUNDATION_SCHEMA_IDS:
+        raise ContractError(f"FOUNDATION_SCHEMA_NOT_MANAGED: {schema_id}")
+    if not isinstance(documents, list) or not documents:
+        raise ContractError("FOUNDATION_BATCH_REQUEST_INVALID: documents must be a non-empty list")
+    requests = [
+        {"schemaId": schema_id, "document": document}
+        for document in documents
+    ]
+    response = _invoke_mechanism(
+        "validate-many-by-schema-id",
+        {"requests": requests},
+        node=node,
+    )
+    if set(response) != {"results"} or not isinstance(response.get("results"), list):
+        raise ContractError("FOUNDATION_BATCH_RESULT_INVALID: results must be the only array field")
+    results = response["results"]
+    if len(results) != len(requests):
+        raise ContractError(
+            "FOUNDATION_BATCH_RESULT_INVALID: "
+            f"result count {len(results)} does not match input count {len(requests)}"
+        )
+    validated: list[dict[str, Any]] = []
+    for index, (request, item) in enumerate(zip(requests, results)):
+        label = f"result[{index}]"
+        if not isinstance(item, dict) or set(item) != {"inputIndex", "schemaId", "result"}:
+            raise ContractError(f"FOUNDATION_BATCH_RESULT_INVALID: {label} is malformed")
+        if (
+            not isinstance(item["inputIndex"], int)
+            or isinstance(item["inputIndex"], bool)
+            or item["inputIndex"] != index
+        ):
+            raise ContractError(
+                f"FOUNDATION_BATCH_RESULT_INVALID: {label} inputIndex does not bind input order"
+            )
+        if item["schemaId"] != request["schemaId"]:
+            raise ContractError(
+                f"FOUNDATION_BATCH_RESULT_INVALID: {label} schemaId does not bind the request"
+            )
+        validation = _require_validation_result_shape(item["result"], label=label)
+        if validation["valid"] is not True:
+            raise ContractError(f"$[{index}]: {_validation_failure_message(validation)}")
+        validated.append(validation)
+    return validated
+
+
 def production_validate(document: Any, schema: dict[str, Any], *, node: str | None = None) -> dict[str, Any]:
     schema_id = schema.get("$id")
     if schema_id not in FOUNDATION_SCHEMA_IDS:
@@ -133,10 +229,11 @@ def require_production_validate(document: Any, schema: dict[str, Any], *, node: 
     result = production_validate(document, schema, node=node)
     if result["accepted"]:
         return
-    path = result.get("path") or "$"
     details = result.get("details") or []
-    detail = details[0].get("message") if details and isinstance(details[0], dict) else None
-    raise ContractError(f"{path}: {detail or result.get('category') or 'schema validation failed'}")
+    if details and isinstance(details[0], dict):
+        raise ContractError(_validation_failure_message({"valid": False, "errors": details}))
+    path = result.get("path") or "$"
+    raise ContractError(f"{path}: {result.get('category') or 'schema validation failed'}")
 
 
 @lru_cache(maxsize=1)

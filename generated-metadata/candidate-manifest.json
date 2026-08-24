@@ -1,33 +1,33 @@
 {
   "schemaVersion": "1.0",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "product": "skill-failure-auditor",
   "publicRepo": "ifoohoo/skill-failure-auditor",
-  "fileCount": 489,
+  "fileCount": 591,
   "files": [
     {
       "path": ".agents/plugins/marketplace.json",
-      "sha256": "0b738506a04018c9d1fb0aa3890b0eaccad5a12272d0eb26e721d07378afac39",
+      "sha256": "2afbf0a3a6078dd668ab76d553b3dbf5074395f34ae185965f1127eaac153e88",
       "source": "skill-failure-auditor/.agents/plugins/marketplace.json"
     },
     {
       "path": ".claude-plugin/marketplace.json",
-      "sha256": "c24b608fc91d0480756cb6a36c6b18e62ac443f939ad8792a83f60561b3b6e42",
+      "sha256": "7677116bab2b17c4cf5e8682273fa50bc415489a30069ab99a03cc10bc39c01c",
       "source": "skill-failure-auditor/.claude-plugin/marketplace.json"
     },
     {
       "path": ".claude-plugin/plugin.json",
-      "sha256": "1a0dd84d7ad90913e651a40b12c247fa3e31b0f8944a5eebfabfbd38b9dc01d5",
+      "sha256": "599f12aeb579108378bd1f7e7558f9bb0b69572747d5a9cdf247bff2184b72a7",
       "source": "skill-failure-auditor/.claude-plugin/plugin.json"
     },
     {
       "path": ".codebuddy-plugin/plugin.json",
-      "sha256": "76757a797e68c89db2158e541a320af96b817f61ce3c55b03956b2b758e68aa2",
+      "sha256": "6d11c40b4b41f25b3c3b291d501958f5041e7f9f804d14cce0ee15fc57f1f5c7",
       "source": "skill-failure-auditor/.codebuddy-plugin/plugin.json"
     },
     {
       "path": ".codex-plugin/plugin.json",
-      "sha256": "7083ccee6258d568bbda6bfd840fd652643f0f653120806c7ff6f59e2bd6ce21",
+      "sha256": "521b4b7c7c2ae81af75398190a01384fe57c7f2cf5fbbfb9f5692a87b37135c1",
       "source": "skill-failure-auditor/.codex-plugin/plugin.json"
     },
     {
@@ -37,12 +37,12 @@
     },
     {
       "path": ".kimi-plugin/plugin.json",
-      "sha256": "3b96076d9829a6eec3a12236cc23f95c747a7f59c6b191ef5aaeb19b7a59200b",
+      "sha256": "26af6e5f2e8c6ba167becbe5f0009b301a004048de83d65407f5ae18a19bc40f",
       "source": "skill-failure-auditor/.kimi-plugin/plugin.json"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "2fb555c63d332aa76edb36922da690fc94dda6728b51238a5f27b59ff227f5e0",
+      "sha256": "4f2dacb30eeff97f1f14b46704059fd4e02c06cd2b6773bfadb8c2b756e884e6",
       "source": "skill-failure-auditor/CHANGELOG.md"
     },
     {
@@ -167,37 +167,37 @@
     },
     {
       "path": "kimi.plugin.json",
-      "sha256": "e7ad9012a7664f372e2e369e53841b567c08190881a688da7ee6b1fe329d02c5",
+      "sha256": "e49977d1489c28d579f0b21bfb0bd430f0355bd50be171790a7e26bb854b8c87",
       "source": "skill-failure-auditor/kimi.plugin.json"
     },
     {
       "path": "package.json",
-      "sha256": "0a8057b6fe6d9cf278fa5264fae1e043098ee2cfb02e3262492f4717c8c74138",
+      "sha256": "5186a3964fc2821ce70ad6c63a54ece4daad660cc6fd84cddbccd71332b1f435",
       "source": "skill-failure-auditor/package.json"
     },
     {
       "path": "platforms/build-manifest.json",
-      "sha256": "be6226216b77a61fa587dd91eac7874d054f221420f2948feb4e47d6f7a54355",
+      "sha256": "629f779cabcbcdb3f6cdb84a177ec0d9d32de09b573e94e88f0bdd4e9be076e2",
       "source": "skill-failure-auditor/generated/platforms/build-manifest.json"
     },
     {
       "path": "platforms/claude-code/platform-manifest.json",
-      "sha256": "1022ad3de73d07120466e549860958b3dbb4b84759f10b7beaf6de4701fc4f81",
+      "sha256": "d878d6d5827739d084d27a110e2ead74c06ba3de0bef1b6a46d43ea102227f63",
       "source": "skill-failure-auditor/generated/platforms/claude-code/platform-manifest.json"
     },
     {
       "path": "platforms/claude-code/skill-family.migration.json",
-      "sha256": "96b75925ad23b13aa8c94684f5cdca87a37240cbd944ae7c4bcd1a777da8ffc3",
+      "sha256": "e251c202d1c270f530d4b3435b9622e9e5798893f07a3f108735774b3cc68249",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill-family.migration.json"
     },
     {
       "path": "platforms/claude-code/skill/.claude-plugin/marketplace.json",
-      "sha256": "c24b608fc91d0480756cb6a36c6b18e62ac443f939ad8792a83f60561b3b6e42",
+      "sha256": "7677116bab2b17c4cf5e8682273fa50bc415489a30069ab99a03cc10bc39c01c",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/.claude-plugin/marketplace.json"
     },
     {
       "path": "platforms/claude-code/skill/.claude-plugin/plugin.json",
-      "sha256": "1a0dd84d7ad90913e651a40b12c247fa3e31b0f8944a5eebfabfbd38b9dc01d5",
+      "sha256": "599f12aeb579108378bd1f7e7558f9bb0b69572747d5a9cdf247bff2184b72a7",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/.claude-plugin/plugin.json"
     },
     {
@@ -207,7 +207,7 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/foundation-pin.json",
-      "sha256": "98238c967f2eb7dbe77d83505347856de4146a0bbc219b284d5fe49fb6098e3b",
+      "sha256": "fc15df7d4ce88ba4eb9b7dbb87370cb56ac0d91c82ce76f48c72ddcf311814c6",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/foundation-pin.json"
     },
     {
@@ -222,7 +222,7 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "545da262f7f9f9506375176c2929abfcb51672a50dbf146901f58b0b9ee70a76",
+      "sha256": "c7e0078ac5d5066b82d019dd87c3fcb2fb94cd4866f7935a3d3513d5809d6cb5",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -242,12 +242,12 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/mechanisms-cli.mjs",
-      "sha256": "76d8c72a9894282da777fe9b8c548ac754db31999480c859b22eaa86a932ad22",
+      "sha256": "df1896a0231e533d5b0e0488fb771db35ed6c21531e6e9d1f4edd5838aa13cca",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/mechanisms-cli.mjs"
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runner.mjs",
-      "sha256": "b23b664853699e88e3b1845c755151b532675ffb305de7adfa2898d83e302397",
+      "sha256": "40a0fb0c0917cd4542c96d0cf60d988c488d9b3193df9a560f3a34a73ad1f6f4",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runner.mjs"
     },
     {
@@ -262,7 +262,7 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs",
-      "sha256": "6cbd472dd28d4c3813c51e511ae06a945372314f09611a9b2fe94805c338a03e",
+      "sha256": "c62c1207981d5aa6ddf6960a244a32599248bbf9c53fcbff495d0ce804f9b4b4",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs"
     },
     {
@@ -272,7 +272,7 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json",
-      "sha256": "f017e765c3e1d2d3a3fdc49c0df4161143395bde6809d913764a78f32ceeca88",
+      "sha256": "ff04dad27e5e73098683e72a768647c2fb8c87fb6768e5ff2ab612d9608f3568",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json"
     },
     {
@@ -297,12 +297,12 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs",
-      "sha256": "22d4eaded58e5676b7e2ecdd5a6086eda38fc5e24cbeab3a557ff3d50f832ea6",
+      "sha256": "69ef17de14133879a0d81a92c72733ba39931c1ec0bf181d4546f632cf706f98",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs"
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "909dde4327233244b26c0900e08a27659204733882ab3828d2ce006a6f93e7c2",
+      "sha256": "b2c0fbc4aef805855d9df82233b621d6d8370e90ef4bf14688fffadf5744bd09",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -311,14 +311,74 @@
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/atomic.mjs"
     },
     {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs",
+      "sha256": "1800f85a20ff34be1e04ad205952586fee92364f5b92fb060ae88bca76054287",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs"
+    },
+    {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/closure.mjs",
       "sha256": "0cf6ba19a3564efac82be51a0e907b166bc933dc96f04dd9bbe7c34cf0344121",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/closure.mjs"
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/errors.mjs",
-      "sha256": "2815eff3fc9140b8733cd967304c09ce434b2a840727da3a6463fb29d76e034f",
+      "sha256": "8812ead9e6fae705c035a7865c64c004b23413379eb48e69f9fbfd8ab75db860",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/errors.mjs"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs",
+      "sha256": "987f8361b84a876ec6c31196ed8f79b1bc2c515fdfe824403e5c2cfe0c46077b",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs",
+      "sha256": "31a11b01a3ca6c0ab64906b839a8be14fde22f4bc979fb790c1877230c016559",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE",
+      "sha256": "fe60857bea9a506aba4754192d05517b659dc5c8f76adc7f0a5f16727e0a245e",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs",
+      "sha256": "9a69f4affbe2c862186fca0b8b07881b0983794646b909e693aa3c266a118b65",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json",
+      "sha256": "bc944f9a41dbac91d0889967279710ad970acd378ca5809df1f41c31a43e3eb2",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json",
+      "sha256": "f830cbed8a47170035afc029b4e4d7eb56616fafc5fa5f934417e2871b5ce257",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json",
+      "sha256": "3577bb7794921627da9bcd8e0ac143225660fa996f257e1c74778a6ea7005eb9",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node",
+      "sha256": "3172e6f78341502c1455e82a3843730303a2c46f70284c3635885b8f5e1df4b2",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node",
+      "sha256": "ace0bfd36e8ddaaf69a68dc6fa00b77f6920f258a6a0db249f295a131225b27b",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node",
+      "sha256": "dfee29ad477376cc0288970bca5b2da19c3e925409d2eacf8e6ba6325e9e2b7f",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node",
+      "sha256": "c936852191b19a998b1e2ba3b588151f7bf4b3804a30554d2368f25042aaa3be",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node"
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/paths.mjs",
@@ -327,7 +387,7 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs",
-      "sha256": "72debf08cba0b27049d180840be858f6e078ddac9df554aeaeb3043c535b7d0f",
+      "sha256": "f8c9303640c0a02368d917f9a24862612282f16c1fc6b14384d1751a72864113",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs"
     },
     {
@@ -386,6 +446,21 @@
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/consumer-schema-inventory.schema.json"
     },
     {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json",
+      "sha256": "5e54c0febdc6c831fcc94b7d1cfb8f14aef838d718eb5e80a4f1b63bef1e3e61",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json",
+      "sha256": "382bbf8fd1ba99ddefb1e3f6077f379f30cd58cbafbaf3c4191151b3703c2ed2",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json",
+      "sha256": "ed460c723d8a041b4cb9355c251b9c8f78e4dc03cddaa06af21ed8b2b86389a8",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json"
+    },
+    {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json",
       "sha256": "788841d29e38ebcf3c14461bee5b57500caacd11edb54e89b502eb60933934b5",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json"
@@ -419,6 +494,16 @@
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json",
       "sha256": "b17b089293bcedba105120de8187c96ab1957593c2ed74b99a8422ea4780331a",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json",
+      "sha256": "bee6b9b2b6fb5f7f1cf20df41e7f54e7b0e1b0023ebc2bed99e9e8f7a1d065cc",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json"
+    },
+    {
+      "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json",
+      "sha256": "e2156956494cbbf278631f9dcb865dbc6da091950856b135be0e337d21ff45df",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json"
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/task.schema.json",
@@ -507,22 +592,22 @@
     },
     {
       "path": "platforms/claude-code/skill/scripts/evaluation_tool.py",
-      "sha256": "1c643bb6f2405dbc7d7c9e85a98518a8200a6f0e2b66464a569ca59883ebdbd8",
+      "sha256": "3ad5ee1b9bc499eeccb11a20a2dc5b397251a6738896c1bb1941c9f0092ec772",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/evidence_tool.py",
-      "sha256": "e3e354c8187ebdb32e3c8ef4648376dce2ec163e955426efff557a56b0b1950f",
+      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/evidence_tool.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/foundation_client.py",
-      "sha256": "d7383998b09395f133d1f97e76122351672a40fb4f046520bce6374ca02f0c1b",
+      "sha256": "6c86b26faf42a47457e0821c7e3094e33001c14c14d6f402070db4194b4da39f",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/foundation_client.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/registry_tool.py",
-      "sha256": "abd95c109f1120a151076d0447daccc232b5edadd4a80265f56c17810f17cf72",
+      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/registry_tool.py"
     },
     {
@@ -532,22 +617,22 @@
     },
     {
       "path": "platforms/codex/.agents/plugins/marketplace.json",
-      "sha256": "0b738506a04018c9d1fb0aa3890b0eaccad5a12272d0eb26e721d07378afac39",
+      "sha256": "2afbf0a3a6078dd668ab76d553b3dbf5074395f34ae185965f1127eaac153e88",
       "source": "skill-failure-auditor/generated/platforms/codex/.agents/plugins/marketplace.json"
     },
     {
       "path": "platforms/codex/.codex-plugin/plugin.json",
-      "sha256": "7083ccee6258d568bbda6bfd840fd652643f0f653120806c7ff6f59e2bd6ce21",
+      "sha256": "521b4b7c7c2ae81af75398190a01384fe57c7f2cf5fbbfb9f5692a87b37135c1",
       "source": "skill-failure-auditor/generated/platforms/codex/.codex-plugin/plugin.json"
     },
     {
       "path": "platforms/codex/platform-manifest.json",
-      "sha256": "324f78fa121654eea2486eff049477952e72fe203a4056f19559b0f60e1975c1",
+      "sha256": "3cfbcc041a99015445c836c3c1b6b42a5f7b50049bf779fcb916015aa9bc79e5",
       "source": "skill-failure-auditor/generated/platforms/codex/platform-manifest.json"
     },
     {
       "path": "platforms/codex/skill-family.migration.json",
-      "sha256": "96b75925ad23b13aa8c94684f5cdca87a37240cbd944ae7c4bcd1a777da8ffc3",
+      "sha256": "e251c202d1c270f530d4b3435b9622e9e5798893f07a3f108735774b3cc68249",
       "source": "skill-failure-auditor/generated/platforms/codex/skill-family.migration.json"
     },
     {
@@ -557,7 +642,7 @@
     },
     {
       "path": "platforms/codex/skill/foundation/foundation-pin.json",
-      "sha256": "98238c967f2eb7dbe77d83505347856de4146a0bbc219b284d5fe49fb6098e3b",
+      "sha256": "fc15df7d4ce88ba4eb9b7dbb87370cb56ac0d91c82ce76f48c72ddcf311814c6",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/foundation-pin.json"
     },
     {
@@ -572,7 +657,7 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "545da262f7f9f9506375176c2929abfcb51672a50dbf146901f58b0b9ee70a76",
+      "sha256": "c7e0078ac5d5066b82d019dd87c3fcb2fb94cd4866f7935a3d3513d5809d6cb5",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -592,12 +677,12 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/mechanisms-cli.mjs",
-      "sha256": "76d8c72a9894282da777fe9b8c548ac754db31999480c859b22eaa86a932ad22",
+      "sha256": "df1896a0231e533d5b0e0488fb771db35ed6c21531e6e9d1f4edd5838aa13cca",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/mechanisms-cli.mjs"
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runner.mjs",
-      "sha256": "b23b664853699e88e3b1845c755151b532675ffb305de7adfa2898d83e302397",
+      "sha256": "40a0fb0c0917cd4542c96d0cf60d988c488d9b3193df9a560f3a34a73ad1f6f4",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runner.mjs"
     },
     {
@@ -612,7 +697,7 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs",
-      "sha256": "6cbd472dd28d4c3813c51e511ae06a945372314f09611a9b2fe94805c338a03e",
+      "sha256": "c62c1207981d5aa6ddf6960a244a32599248bbf9c53fcbff495d0ce804f9b4b4",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs"
     },
     {
@@ -622,7 +707,7 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json",
-      "sha256": "f017e765c3e1d2d3a3fdc49c0df4161143395bde6809d913764a78f32ceeca88",
+      "sha256": "ff04dad27e5e73098683e72a768647c2fb8c87fb6768e5ff2ab612d9608f3568",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json"
     },
     {
@@ -647,12 +732,12 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs",
-      "sha256": "22d4eaded58e5676b7e2ecdd5a6086eda38fc5e24cbeab3a557ff3d50f832ea6",
+      "sha256": "69ef17de14133879a0d81a92c72733ba39931c1ec0bf181d4546f632cf706f98",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs"
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "909dde4327233244b26c0900e08a27659204733882ab3828d2ce006a6f93e7c2",
+      "sha256": "b2c0fbc4aef805855d9df82233b621d6d8370e90ef4bf14688fffadf5744bd09",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -661,14 +746,74 @@
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/atomic.mjs"
     },
     {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs",
+      "sha256": "1800f85a20ff34be1e04ad205952586fee92364f5b92fb060ae88bca76054287",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs"
+    },
+    {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/closure.mjs",
       "sha256": "0cf6ba19a3564efac82be51a0e907b166bc933dc96f04dd9bbe7c34cf0344121",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/closure.mjs"
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/errors.mjs",
-      "sha256": "2815eff3fc9140b8733cd967304c09ce434b2a840727da3a6463fb29d76e034f",
+      "sha256": "8812ead9e6fae705c035a7865c64c004b23413379eb48e69f9fbfd8ab75db860",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/errors.mjs"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs",
+      "sha256": "987f8361b84a876ec6c31196ed8f79b1bc2c515fdfe824403e5c2cfe0c46077b",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs",
+      "sha256": "31a11b01a3ca6c0ab64906b839a8be14fde22f4bc979fb790c1877230c016559",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE",
+      "sha256": "fe60857bea9a506aba4754192d05517b659dc5c8f76adc7f0a5f16727e0a245e",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs",
+      "sha256": "9a69f4affbe2c862186fca0b8b07881b0983794646b909e693aa3c266a118b65",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json",
+      "sha256": "bc944f9a41dbac91d0889967279710ad970acd378ca5809df1f41c31a43e3eb2",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json",
+      "sha256": "f830cbed8a47170035afc029b4e4d7eb56616fafc5fa5f934417e2871b5ce257",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json",
+      "sha256": "3577bb7794921627da9bcd8e0ac143225660fa996f257e1c74778a6ea7005eb9",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node",
+      "sha256": "3172e6f78341502c1455e82a3843730303a2c46f70284c3635885b8f5e1df4b2",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node",
+      "sha256": "ace0bfd36e8ddaaf69a68dc6fa00b77f6920f258a6a0db249f295a131225b27b",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node",
+      "sha256": "dfee29ad477376cc0288970bca5b2da19c3e925409d2eacf8e6ba6325e9e2b7f",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node",
+      "sha256": "c936852191b19a998b1e2ba3b588151f7bf4b3804a30554d2368f25042aaa3be",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node"
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/paths.mjs",
@@ -677,7 +822,7 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs",
-      "sha256": "72debf08cba0b27049d180840be858f6e078ddac9df554aeaeb3043c535b7d0f",
+      "sha256": "f8c9303640c0a02368d917f9a24862612282f16c1fc6b14384d1751a72864113",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs"
     },
     {
@@ -736,6 +881,21 @@
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/consumer-schema-inventory.schema.json"
     },
     {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json",
+      "sha256": "5e54c0febdc6c831fcc94b7d1cfb8f14aef838d718eb5e80a4f1b63bef1e3e61",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json",
+      "sha256": "382bbf8fd1ba99ddefb1e3f6077f379f30cd58cbafbaf3c4191151b3703c2ed2",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json",
+      "sha256": "ed460c723d8a041b4cb9355c251b9c8f78e4dc03cddaa06af21ed8b2b86389a8",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json"
+    },
+    {
       "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json",
       "sha256": "788841d29e38ebcf3c14461bee5b57500caacd11edb54e89b502eb60933934b5",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json"
@@ -769,6 +929,16 @@
       "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json",
       "sha256": "b17b089293bcedba105120de8187c96ab1957593c2ed74b99a8422ea4780331a",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json",
+      "sha256": "bee6b9b2b6fb5f7f1cf20df41e7f54e7b0e1b0023ebc2bed99e9e8f7a1d065cc",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json"
+    },
+    {
+      "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json",
+      "sha256": "e2156956494cbbf278631f9dcb865dbc6da091950856b135be0e337d21ff45df",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json"
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/foundation/task.schema.json",
@@ -857,22 +1027,22 @@
     },
     {
       "path": "platforms/codex/skill/scripts/evaluation_tool.py",
-      "sha256": "1c643bb6f2405dbc7d7c9e85a98518a8200a6f0e2b66464a569ca59883ebdbd8",
+      "sha256": "3ad5ee1b9bc499eeccb11a20a2dc5b397251a6738896c1bb1941c9f0092ec772",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "platforms/codex/skill/scripts/evidence_tool.py",
-      "sha256": "e3e354c8187ebdb32e3c8ef4648376dce2ec163e955426efff557a56b0b1950f",
+      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/evidence_tool.py"
     },
     {
       "path": "platforms/codex/skill/scripts/foundation_client.py",
-      "sha256": "d7383998b09395f133d1f97e76122351672a40fb4f046520bce6374ca02f0c1b",
+      "sha256": "6c86b26faf42a47457e0821c7e3094e33001c14c14d6f402070db4194b4da39f",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/foundation_client.py"
     },
     {
       "path": "platforms/codex/skill/scripts/registry_tool.py",
-      "sha256": "abd95c109f1120a151076d0447daccc232b5edadd4a80265f56c17810f17cf72",
+      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/registry_tool.py"
     },
     {
@@ -882,22 +1052,22 @@
     },
     {
       "path": "platforms/kimi-code/.kimi-plugin/plugin.json",
-      "sha256": "3b96076d9829a6eec3a12236cc23f95c747a7f59c6b191ef5aaeb19b7a59200b",
+      "sha256": "26af6e5f2e8c6ba167becbe5f0009b301a004048de83d65407f5ae18a19bc40f",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/.kimi-plugin/plugin.json"
     },
     {
       "path": "platforms/kimi-code/kimi.plugin.json",
-      "sha256": "e7ad9012a7664f372e2e369e53841b567c08190881a688da7ee6b1fe329d02c5",
+      "sha256": "e49977d1489c28d579f0b21bfb0bd430f0355bd50be171790a7e26bb854b8c87",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/kimi.plugin.json"
     },
     {
       "path": "platforms/kimi-code/platform-manifest.json",
-      "sha256": "a9e2a9863f8748a67be2063b1abc7778263c801dc6b66094cbd039c7c582af28",
+      "sha256": "87ea5645221d6bf57cea858ff7ad42aacf5a7bb871bd5050069deafdd8d529e5",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/platform-manifest.json"
     },
     {
       "path": "platforms/kimi-code/skill-family.migration.json",
-      "sha256": "96b75925ad23b13aa8c94684f5cdca87a37240cbd944ae7c4bcd1a777da8ffc3",
+      "sha256": "e251c202d1c270f530d4b3435b9622e9e5798893f07a3f108735774b3cc68249",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill-family.migration.json"
     },
     {
@@ -907,7 +1077,7 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/foundation-pin.json",
-      "sha256": "98238c967f2eb7dbe77d83505347856de4146a0bbc219b284d5fe49fb6098e3b",
+      "sha256": "fc15df7d4ce88ba4eb9b7dbb87370cb56ac0d91c82ce76f48c72ddcf311814c6",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/foundation-pin.json"
     },
     {
@@ -922,7 +1092,7 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "545da262f7f9f9506375176c2929abfcb51672a50dbf146901f58b0b9ee70a76",
+      "sha256": "c7e0078ac5d5066b82d019dd87c3fcb2fb94cd4866f7935a3d3513d5809d6cb5",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -942,12 +1112,12 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/mechanisms-cli.mjs",
-      "sha256": "76d8c72a9894282da777fe9b8c548ac754db31999480c859b22eaa86a932ad22",
+      "sha256": "df1896a0231e533d5b0e0488fb771db35ed6c21531e6e9d1f4edd5838aa13cca",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/mechanisms-cli.mjs"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runner.mjs",
-      "sha256": "b23b664853699e88e3b1845c755151b532675ffb305de7adfa2898d83e302397",
+      "sha256": "40a0fb0c0917cd4542c96d0cf60d988c488d9b3193df9a560f3a34a73ad1f6f4",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runner.mjs"
     },
     {
@@ -962,7 +1132,7 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs",
-      "sha256": "6cbd472dd28d4c3813c51e511ae06a945372314f09611a9b2fe94805c338a03e",
+      "sha256": "c62c1207981d5aa6ddf6960a244a32599248bbf9c53fcbff495d0ce804f9b4b4",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs"
     },
     {
@@ -972,7 +1142,7 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json",
-      "sha256": "f017e765c3e1d2d3a3fdc49c0df4161143395bde6809d913764a78f32ceeca88",
+      "sha256": "ff04dad27e5e73098683e72a768647c2fb8c87fb6768e5ff2ab612d9608f3568",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json"
     },
     {
@@ -997,12 +1167,12 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs",
-      "sha256": "22d4eaded58e5676b7e2ecdd5a6086eda38fc5e24cbeab3a557ff3d50f832ea6",
+      "sha256": "69ef17de14133879a0d81a92c72733ba39931c1ec0bf181d4546f632cf706f98",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "909dde4327233244b26c0900e08a27659204733882ab3828d2ce006a6f93e7c2",
+      "sha256": "b2c0fbc4aef805855d9df82233b621d6d8370e90ef4bf14688fffadf5744bd09",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -1011,14 +1181,74 @@
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/atomic.mjs"
     },
     {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs",
+      "sha256": "1800f85a20ff34be1e04ad205952586fee92364f5b92fb060ae88bca76054287",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs"
+    },
+    {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/closure.mjs",
       "sha256": "0cf6ba19a3564efac82be51a0e907b166bc933dc96f04dd9bbe7c34cf0344121",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/closure.mjs"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/errors.mjs",
-      "sha256": "2815eff3fc9140b8733cd967304c09ce434b2a840727da3a6463fb29d76e034f",
+      "sha256": "8812ead9e6fae705c035a7865c64c004b23413379eb48e69f9fbfd8ab75db860",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/errors.mjs"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs",
+      "sha256": "987f8361b84a876ec6c31196ed8f79b1bc2c515fdfe824403e5c2cfe0c46077b",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs",
+      "sha256": "31a11b01a3ca6c0ab64906b839a8be14fde22f4bc979fb790c1877230c016559",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE",
+      "sha256": "fe60857bea9a506aba4754192d05517b659dc5c8f76adc7f0a5f16727e0a245e",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs",
+      "sha256": "9a69f4affbe2c862186fca0b8b07881b0983794646b909e693aa3c266a118b65",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json",
+      "sha256": "bc944f9a41dbac91d0889967279710ad970acd378ca5809df1f41c31a43e3eb2",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json",
+      "sha256": "f830cbed8a47170035afc029b4e4d7eb56616fafc5fa5f934417e2871b5ce257",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json",
+      "sha256": "3577bb7794921627da9bcd8e0ac143225660fa996f257e1c74778a6ea7005eb9",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node",
+      "sha256": "3172e6f78341502c1455e82a3843730303a2c46f70284c3635885b8f5e1df4b2",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node",
+      "sha256": "ace0bfd36e8ddaaf69a68dc6fa00b77f6920f258a6a0db249f295a131225b27b",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node",
+      "sha256": "dfee29ad477376cc0288970bca5b2da19c3e925409d2eacf8e6ba6325e9e2b7f",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node",
+      "sha256": "c936852191b19a998b1e2ba3b588151f7bf4b3804a30554d2368f25042aaa3be",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/paths.mjs",
@@ -1027,7 +1257,7 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs",
-      "sha256": "72debf08cba0b27049d180840be858f6e078ddac9df554aeaeb3043c535b7d0f",
+      "sha256": "f8c9303640c0a02368d917f9a24862612282f16c1fc6b14384d1751a72864113",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs"
     },
     {
@@ -1086,6 +1316,21 @@
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/consumer-schema-inventory.schema.json"
     },
     {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json",
+      "sha256": "5e54c0febdc6c831fcc94b7d1cfb8f14aef838d718eb5e80a4f1b63bef1e3e61",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json",
+      "sha256": "382bbf8fd1ba99ddefb1e3f6077f379f30cd58cbafbaf3c4191151b3703c2ed2",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json",
+      "sha256": "ed460c723d8a041b4cb9355c251b9c8f78e4dc03cddaa06af21ed8b2b86389a8",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json"
+    },
+    {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json",
       "sha256": "788841d29e38ebcf3c14461bee5b57500caacd11edb54e89b502eb60933934b5",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json"
@@ -1119,6 +1364,16 @@
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json",
       "sha256": "b17b089293bcedba105120de8187c96ab1957593c2ed74b99a8422ea4780331a",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json",
+      "sha256": "bee6b9b2b6fb5f7f1cf20df41e7f54e7b0e1b0023ebc2bed99e9e8f7a1d065cc",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json"
+    },
+    {
+      "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json",
+      "sha256": "e2156956494cbbf278631f9dcb865dbc6da091950856b135be0e337d21ff45df",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/foundation/task.schema.json",
@@ -1207,22 +1462,22 @@
     },
     {
       "path": "platforms/kimi-code/skill/scripts/evaluation_tool.py",
-      "sha256": "1c643bb6f2405dbc7d7c9e85a98518a8200a6f0e2b66464a569ca59883ebdbd8",
+      "sha256": "3ad5ee1b9bc499eeccb11a20a2dc5b397251a6738896c1bb1941c9f0092ec772",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/evidence_tool.py",
-      "sha256": "e3e354c8187ebdb32e3c8ef4648376dce2ec163e955426efff557a56b0b1950f",
+      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/evidence_tool.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/foundation_client.py",
-      "sha256": "d7383998b09395f133d1f97e76122351672a40fb4f046520bce6374ca02f0c1b",
+      "sha256": "6c86b26faf42a47457e0821c7e3094e33001c14c14d6f402070db4194b4da39f",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/foundation_client.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/registry_tool.py",
-      "sha256": "abd95c109f1120a151076d0447daccc232b5edadd4a80265f56c17810f17cf72",
+      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/registry_tool.py"
     },
     {
@@ -1232,17 +1487,17 @@
     },
     {
       "path": "platforms/workbuddy/.codebuddy-plugin/plugin.json",
-      "sha256": "76757a797e68c89db2158e541a320af96b817f61ce3c55b03956b2b758e68aa2",
+      "sha256": "6d11c40b4b41f25b3c3b291d501958f5041e7f9f804d14cce0ee15fc57f1f5c7",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/.codebuddy-plugin/plugin.json"
     },
     {
       "path": "platforms/workbuddy/platform-manifest.json",
-      "sha256": "1b76df52b5006c2f4620801c679d7d2cc41572481a69b6dc274d3ca1bd779c4f",
+      "sha256": "d547d3a632242d790c860728ee6eacee99e92edb42b80816026d62b312fe1f8f",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/platform-manifest.json"
     },
     {
       "path": "platforms/workbuddy/skill-family.migration.json",
-      "sha256": "96b75925ad23b13aa8c94684f5cdca87a37240cbd944ae7c4bcd1a777da8ffc3",
+      "sha256": "e251c202d1c270f530d4b3435b9622e9e5798893f07a3f108735774b3cc68249",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill-family.migration.json"
     },
     {
@@ -1252,7 +1507,7 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/foundation-pin.json",
-      "sha256": "98238c967f2eb7dbe77d83505347856de4146a0bbc219b284d5fe49fb6098e3b",
+      "sha256": "fc15df7d4ce88ba4eb9b7dbb87370cb56ac0d91c82ce76f48c72ddcf311814c6",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/foundation-pin.json"
     },
     {
@@ -1267,7 +1522,7 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "545da262f7f9f9506375176c2929abfcb51672a50dbf146901f58b0b9ee70a76",
+      "sha256": "c7e0078ac5d5066b82d019dd87c3fcb2fb94cd4866f7935a3d3513d5809d6cb5",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -1287,12 +1542,12 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/mechanisms-cli.mjs",
-      "sha256": "76d8c72a9894282da777fe9b8c548ac754db31999480c859b22eaa86a932ad22",
+      "sha256": "df1896a0231e533d5b0e0488fb771db35ed6c21531e6e9d1f4edd5838aa13cca",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/mechanisms-cli.mjs"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runner.mjs",
-      "sha256": "b23b664853699e88e3b1845c755151b532675ffb305de7adfa2898d83e302397",
+      "sha256": "40a0fb0c0917cd4542c96d0cf60d988c488d9b3193df9a560f3a34a73ad1f6f4",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runner.mjs"
     },
     {
@@ -1307,7 +1562,7 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs",
-      "sha256": "6cbd472dd28d4c3813c51e511ae06a945372314f09611a9b2fe94805c338a03e",
+      "sha256": "c62c1207981d5aa6ddf6960a244a32599248bbf9c53fcbff495d0ce804f9b4b4",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs"
     },
     {
@@ -1317,7 +1572,7 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json",
-      "sha256": "f017e765c3e1d2d3a3fdc49c0df4161143395bde6809d913764a78f32ceeca88",
+      "sha256": "ff04dad27e5e73098683e72a768647c2fb8c87fb6768e5ff2ab612d9608f3568",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json"
     },
     {
@@ -1342,12 +1597,12 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs",
-      "sha256": "22d4eaded58e5676b7e2ecdd5a6086eda38fc5e24cbeab3a557ff3d50f832ea6",
+      "sha256": "69ef17de14133879a0d81a92c72733ba39931c1ec0bf181d4546f632cf706f98",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "909dde4327233244b26c0900e08a27659204733882ab3828d2ce006a6f93e7c2",
+      "sha256": "b2c0fbc4aef805855d9df82233b621d6d8370e90ef4bf14688fffadf5744bd09",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -1356,14 +1611,74 @@
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/atomic.mjs"
     },
     {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs",
+      "sha256": "1800f85a20ff34be1e04ad205952586fee92364f5b92fb060ae88bca76054287",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs"
+    },
+    {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/closure.mjs",
       "sha256": "0cf6ba19a3564efac82be51a0e907b166bc933dc96f04dd9bbe7c34cf0344121",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/closure.mjs"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/errors.mjs",
-      "sha256": "2815eff3fc9140b8733cd967304c09ce434b2a840727da3a6463fb29d76e034f",
+      "sha256": "8812ead9e6fae705c035a7865c64c004b23413379eb48e69f9fbfd8ab75db860",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/errors.mjs"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs",
+      "sha256": "987f8361b84a876ec6c31196ed8f79b1bc2c515fdfe824403e5c2cfe0c46077b",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs",
+      "sha256": "31a11b01a3ca6c0ab64906b839a8be14fde22f4bc979fb790c1877230c016559",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE",
+      "sha256": "fe60857bea9a506aba4754192d05517b659dc5c8f76adc7f0a5f16727e0a245e",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs",
+      "sha256": "9a69f4affbe2c862186fca0b8b07881b0983794646b909e693aa3c266a118b65",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json",
+      "sha256": "bc944f9a41dbac91d0889967279710ad970acd378ca5809df1f41c31a43e3eb2",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json",
+      "sha256": "f830cbed8a47170035afc029b4e4d7eb56616fafc5fa5f934417e2871b5ce257",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json",
+      "sha256": "3577bb7794921627da9bcd8e0ac143225660fa996f257e1c74778a6ea7005eb9",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node",
+      "sha256": "3172e6f78341502c1455e82a3843730303a2c46f70284c3635885b8f5e1df4b2",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node",
+      "sha256": "ace0bfd36e8ddaaf69a68dc6fa00b77f6920f258a6a0db249f295a131225b27b",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node",
+      "sha256": "dfee29ad477376cc0288970bca5b2da19c3e925409d2eacf8e6ba6325e9e2b7f",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node",
+      "sha256": "c936852191b19a998b1e2ba3b588151f7bf4b3804a30554d2368f25042aaa3be",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/paths.mjs",
@@ -1372,7 +1687,7 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs",
-      "sha256": "72debf08cba0b27049d180840be858f6e078ddac9df554aeaeb3043c535b7d0f",
+      "sha256": "f8c9303640c0a02368d917f9a24862612282f16c1fc6b14384d1751a72864113",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs"
     },
     {
@@ -1431,6 +1746,21 @@
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/consumer-schema-inventory.schema.json"
     },
     {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json",
+      "sha256": "5e54c0febdc6c831fcc94b7d1cfb8f14aef838d718eb5e80a4f1b63bef1e3e61",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json",
+      "sha256": "382bbf8fd1ba99ddefb1e3f6077f379f30cd58cbafbaf3c4191151b3703c2ed2",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json",
+      "sha256": "ed460c723d8a041b4cb9355c251b9c8f78e4dc03cddaa06af21ed8b2b86389a8",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json"
+    },
+    {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json",
       "sha256": "788841d29e38ebcf3c14461bee5b57500caacd11edb54e89b502eb60933934b5",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json"
@@ -1464,6 +1794,16 @@
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json",
       "sha256": "b17b089293bcedba105120de8187c96ab1957593c2ed74b99a8422ea4780331a",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json",
+      "sha256": "bee6b9b2b6fb5f7f1cf20df41e7f54e7b0e1b0023ebc2bed99e9e8f7a1d065cc",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json"
+    },
+    {
+      "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json",
+      "sha256": "e2156956494cbbf278631f9dcb865dbc6da091950856b135be0e337d21ff45df",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/foundation/task.schema.json",
@@ -1552,22 +1892,22 @@
     },
     {
       "path": "platforms/workbuddy/skill/scripts/evaluation_tool.py",
-      "sha256": "1c643bb6f2405dbc7d7c9e85a98518a8200a6f0e2b66464a569ca59883ebdbd8",
+      "sha256": "3ad5ee1b9bc499eeccb11a20a2dc5b397251a6738896c1bb1941c9f0092ec772",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/evidence_tool.py",
-      "sha256": "e3e354c8187ebdb32e3c8ef4648376dce2ec163e955426efff557a56b0b1950f",
+      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/evidence_tool.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/foundation_client.py",
-      "sha256": "d7383998b09395f133d1f97e76122351672a40fb4f046520bce6374ca02f0c1b",
+      "sha256": "6c86b26faf42a47457e0821c7e3094e33001c14c14d6f402070db4194b4da39f",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/foundation_client.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/registry_tool.py",
-      "sha256": "abd95c109f1120a151076d0447daccc232b5edadd4a80265f56c17810f17cf72",
+      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/registry_tool.py"
     },
     {
@@ -1582,7 +1922,7 @@
     },
     {
       "path": "plugin-src/core/foundation/foundation-pin.json",
-      "sha256": "98238c967f2eb7dbe77d83505347856de4146a0bbc219b284d5fe49fb6098e3b",
+      "sha256": "fc15df7d4ce88ba4eb9b7dbb87370cb56ac0d91c82ce76f48c72ddcf311814c6",
       "source": "skill-failure-auditor/plugin-src/core/foundation/foundation-pin.json"
     },
     {
@@ -1597,7 +1937,7 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "545da262f7f9f9506375176c2929abfcb51672a50dbf146901f58b0b9ee70a76",
+      "sha256": "c7e0078ac5d5066b82d019dd87c3fcb2fb94cd4866f7935a3d3513d5809d6cb5",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -1617,12 +1957,12 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/mechanisms-cli.mjs",
-      "sha256": "76d8c72a9894282da777fe9b8c548ac754db31999480c859b22eaa86a932ad22",
+      "sha256": "df1896a0231e533d5b0e0488fb771db35ed6c21531e6e9d1f4edd5838aa13cca",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/mechanisms-cli.mjs"
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runner.mjs",
-      "sha256": "b23b664853699e88e3b1845c755151b532675ffb305de7adfa2898d83e302397",
+      "sha256": "40a0fb0c0917cd4542c96d0cf60d988c488d9b3193df9a560f3a34a73ad1f6f4",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runner.mjs"
     },
     {
@@ -1637,7 +1977,7 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs",
-      "sha256": "6cbd472dd28d4c3813c51e511ae06a945372314f09611a9b2fe94805c338a03e",
+      "sha256": "c62c1207981d5aa6ddf6960a244a32599248bbf9c53fcbff495d0ce804f9b4b4",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs"
     },
     {
@@ -1647,7 +1987,7 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/contracts/error-codes.json",
-      "sha256": "f017e765c3e1d2d3a3fdc49c0df4161143395bde6809d913764a78f32ceeca88",
+      "sha256": "ff04dad27e5e73098683e72a768647c2fb8c87fb6768e5ff2ab612d9608f3568",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/contracts/error-codes.json"
     },
     {
@@ -1672,12 +2012,12 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/generated/standalone-map.mjs",
-      "sha256": "22d4eaded58e5676b7e2ecdd5a6086eda38fc5e24cbeab3a557ff3d50f832ea6",
+      "sha256": "69ef17de14133879a0d81a92c72733ba39931c1ec0bf181d4546f632cf706f98",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/generated/standalone-map.mjs"
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "909dde4327233244b26c0900e08a27659204733882ab3828d2ce006a6f93e7c2",
+      "sha256": "b2c0fbc4aef805855d9df82233b621d6d8370e90ef4bf14688fffadf5744bd09",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -1686,14 +2026,74 @@
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/atomic.mjs"
     },
     {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/bound-read.mjs",
+      "sha256": "1800f85a20ff34be1e04ad205952586fee92364f5b92fb060ae88bca76054287",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/bound-read.mjs"
+    },
+    {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/closure.mjs",
       "sha256": "0cf6ba19a3564efac82be51a0e907b166bc933dc96f04dd9bbe7c34cf0344121",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/closure.mjs"
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/errors.mjs",
-      "sha256": "2815eff3fc9140b8733cd967304c09ce434b2a840727da3a6463fb29d76e034f",
+      "sha256": "8812ead9e6fae705c035a7865c64c004b23413379eb48e69f9fbfd8ab75db860",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/errors.mjs"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs",
+      "sha256": "987f8361b84a876ec6c31196ed8f79b1bc2c515fdfe824403e5c2cfe0c46077b",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs",
+      "sha256": "31a11b01a3ca6c0ab64906b839a8be14fde22f4bc979fb790c1877230c016559",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/NOTICE",
+      "sha256": "fe60857bea9a506aba4754192d05517b659dc5c8f76adc7f0a5f16727e0a245e",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/NOTICE"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/loader.mjs",
+      "sha256": "9a69f4affbe2c862186fca0b8b07881b0983794646b909e693aa3c266a118b65",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/loader.mjs"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json",
+      "sha256": "bc944f9a41dbac91d0889967279710ad970acd378ca5809df1f41c31a43e3eb2",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json",
+      "sha256": "f830cbed8a47170035afc029b4e4d7eb56616fafc5fa5f934417e2871b5ce257",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json",
+      "sha256": "3577bb7794921627da9bcd8e0ac143225660fa996f257e1c74778a6ea7005eb9",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node",
+      "sha256": "3172e6f78341502c1455e82a3843730303a2c46f70284c3635885b8f5e1df4b2",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node",
+      "sha256": "ace0bfd36e8ddaaf69a68dc6fa00b77f6920f258a6a0db249f295a131225b27b",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node",
+      "sha256": "dfee29ad477376cc0288970bca5b2da19c3e925409d2eacf8e6ba6325e9e2b7f",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node",
+      "sha256": "c936852191b19a998b1e2ba3b588151f7bf4b3804a30554d2368f25042aaa3be",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node"
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/paths.mjs",
@@ -1702,7 +2102,7 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs",
-      "sha256": "72debf08cba0b27049d180840be858f6e078ddac9df554aeaeb3043c535b7d0f",
+      "sha256": "f8c9303640c0a02368d917f9a24862612282f16c1fc6b14384d1751a72864113",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs"
     },
     {
@@ -1761,6 +2161,21 @@
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/foundation/consumer-schema-inventory.schema.json"
     },
     {
+      "path": "plugin-src/core/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json",
+      "sha256": "5e54c0febdc6c831fcc94b7d1cfb8f14aef838d718eb5e80a4f1b63bef1e3e61",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json",
+      "sha256": "382bbf8fd1ba99ddefb1e3f6077f379f30cd58cbafbaf3c4191151b3703c2ed2",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json",
+      "sha256": "ed460c723d8a041b4cb9355c251b9c8f78e4dc03cddaa06af21ed8b2b86389a8",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json"
+    },
+    {
       "path": "plugin-src/core/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json",
       "sha256": "788841d29e38ebcf3c14461bee5b57500caacd11edb54e89b502eb60933934b5",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json"
@@ -1794,6 +2209,16 @@
       "path": "plugin-src/core/foundation/quickstart-profile/schemas/foundation/result.schema.json",
       "sha256": "b17b089293bcedba105120de8187c96ab1957593c2ed74b99a8422ea4780331a",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/foundation/result.schema.json"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json",
+      "sha256": "bee6b9b2b6fb5f7f1cf20df41e7f54e7b0e1b0023ebc2bed99e9e8f7a1d065cc",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json"
+    },
+    {
+      "path": "plugin-src/core/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json",
+      "sha256": "e2156956494cbbf278631f9dcb865dbc6da091950856b135be0e337d21ff45df",
+      "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json"
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/schemas/foundation/task.schema.json",
@@ -1882,22 +2307,22 @@
     },
     {
       "path": "plugin-src/core/scripts/evaluation_tool.py",
-      "sha256": "1c643bb6f2405dbc7d7c9e85a98518a8200a6f0e2b66464a569ca59883ebdbd8",
+      "sha256": "3ad5ee1b9bc499eeccb11a20a2dc5b397251a6738896c1bb1941c9f0092ec772",
       "source": "skill-failure-auditor/plugin-src/core/scripts/evaluation_tool.py"
     },
     {
       "path": "plugin-src/core/scripts/evidence_tool.py",
-      "sha256": "e3e354c8187ebdb32e3c8ef4648376dce2ec163e955426efff557a56b0b1950f",
+      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
       "source": "skill-failure-auditor/plugin-src/core/scripts/evidence_tool.py"
     },
     {
       "path": "plugin-src/core/scripts/foundation_client.py",
-      "sha256": "d7383998b09395f133d1f97e76122351672a40fb4f046520bce6374ca02f0c1b",
+      "sha256": "6c86b26faf42a47457e0821c7e3094e33001c14c14d6f402070db4194b4da39f",
       "source": "skill-failure-auditor/plugin-src/core/scripts/foundation_client.py"
     },
     {
       "path": "plugin-src/core/scripts/registry_tool.py",
-      "sha256": "abd95c109f1120a151076d0447daccc232b5edadd4a80265f56c17810f17cf72",
+      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
       "source": "skill-failure-auditor/plugin-src/core/scripts/registry_tool.py"
     },
     {
@@ -1907,7 +2332,7 @@
     },
     {
       "path": "plugin-src/core/scripts/tests/test_evidence_integrity.py",
-      "sha256": "053d186270ff147966db60f499413ea7e0444aec89a27d48bcc315f486eb60b6",
+      "sha256": "b996b212a0cc0cd78514f93448555a6bfd843b4660c72db065e20db0f35a142b",
       "source": "skill-failure-auditor/plugin-src/core/scripts/tests/test_evidence_integrity.py"
     },
     {
@@ -1922,7 +2347,7 @@
     },
     {
       "path": "plugin-src/core/scripts/tests/test_state_boundaries.py",
-      "sha256": "641572610c2eb5c72ee646ca487c8eebb21b3fb11cf99e80a5a2a3a970a04a0a",
+      "sha256": "037402d7659a6c40a47716686692b4aa72ba6cb88e60a89b2bcbbd7562bda1f6",
       "source": "skill-failure-auditor/plugin-src/core/scripts/tests/test_state_boundaries.py"
     },
     {
@@ -1937,57 +2362,57 @@
     },
     {
       "path": "plugin-src/platforms/claude-code/.claude-plugin/marketplace.json",
-      "sha256": "c24b608fc91d0480756cb6a36c6b18e62ac443f939ad8792a83f60561b3b6e42",
+      "sha256": "7677116bab2b17c4cf5e8682273fa50bc415489a30069ab99a03cc10bc39c01c",
       "source": "skill-failure-auditor/plugin-src/platforms/claude-code/.claude-plugin/marketplace.json"
     },
     {
       "path": "plugin-src/platforms/claude-code/.claude-plugin/plugin.json",
-      "sha256": "1a0dd84d7ad90913e651a40b12c247fa3e31b0f8944a5eebfabfbd38b9dc01d5",
+      "sha256": "599f12aeb579108378bd1f7e7558f9bb0b69572747d5a9cdf247bff2184b72a7",
       "source": "skill-failure-auditor/plugin-src/platforms/claude-code/.claude-plugin/plugin.json"
     },
     {
       "path": "plugin-src/platforms/claude-code/platform-manifest.json",
-      "sha256": "d913a7e1b2e326bd7ee0c8ed3e15fa00e46631b569196a7d3109ddad5bac87b1",
+      "sha256": "56f0343d5abb3824504e60a95dc4e860f9f7b326533d91f426be0da82bee8afb",
       "source": "skill-failure-auditor/plugin-src/platforms/claude-code/platform-manifest.json"
     },
     {
       "path": "plugin-src/platforms/codex/.agents/plugins/marketplace.json",
-      "sha256": "0b738506a04018c9d1fb0aa3890b0eaccad5a12272d0eb26e721d07378afac39",
+      "sha256": "2afbf0a3a6078dd668ab76d553b3dbf5074395f34ae185965f1127eaac153e88",
       "source": "skill-failure-auditor/plugin-src/platforms/codex/.agents/plugins/marketplace.json"
     },
     {
       "path": "plugin-src/platforms/codex/.codex-plugin/plugin.json",
-      "sha256": "7083ccee6258d568bbda6bfd840fd652643f0f653120806c7ff6f59e2bd6ce21",
+      "sha256": "521b4b7c7c2ae81af75398190a01384fe57c7f2cf5fbbfb9f5692a87b37135c1",
       "source": "skill-failure-auditor/plugin-src/platforms/codex/.codex-plugin/plugin.json"
     },
     {
       "path": "plugin-src/platforms/codex/platform-manifest.json",
-      "sha256": "89fc09b3d90692931cd6ea913fc320e55244e7066046acf5ae93483696efd30a",
+      "sha256": "6e1aff59754abc2da8f6cbacbe6273961a883c13d20da5220dda60052f2316a6",
       "source": "skill-failure-auditor/plugin-src/platforms/codex/platform-manifest.json"
     },
     {
       "path": "plugin-src/platforms/kimi-code/.kimi-plugin/plugin.json",
-      "sha256": "3b96076d9829a6eec3a12236cc23f95c747a7f59c6b191ef5aaeb19b7a59200b",
+      "sha256": "26af6e5f2e8c6ba167becbe5f0009b301a004048de83d65407f5ae18a19bc40f",
       "source": "skill-failure-auditor/plugin-src/platforms/kimi-code/.kimi-plugin/plugin.json"
     },
     {
       "path": "plugin-src/platforms/kimi-code/kimi.plugin.json",
-      "sha256": "e7ad9012a7664f372e2e369e53841b567c08190881a688da7ee6b1fe329d02c5",
+      "sha256": "e49977d1489c28d579f0b21bfb0bd430f0355bd50be171790a7e26bb854b8c87",
       "source": "skill-failure-auditor/plugin-src/platforms/kimi-code/kimi.plugin.json"
     },
     {
       "path": "plugin-src/platforms/kimi-code/platform-manifest.json",
-      "sha256": "4d7ca7dfeec8bc8a5caa185f5cdff8dc6497cfb1e8b9a50712c780aff440e215",
+      "sha256": "a02b634a3a866df4cfab3d3d14243975a54928b6a7de30e90423c60207dab65a",
       "source": "skill-failure-auditor/plugin-src/platforms/kimi-code/platform-manifest.json"
     },
     {
       "path": "plugin-src/platforms/workbuddy/.codebuddy-plugin/plugin.json",
-      "sha256": "76757a797e68c89db2158e541a320af96b817f61ce3c55b03956b2b758e68aa2",
+      "sha256": "6d11c40b4b41f25b3c3b291d501958f5041e7f9f804d14cce0ee15fc57f1f5c7",
       "source": "skill-failure-auditor/plugin-src/platforms/workbuddy/.codebuddy-plugin/plugin.json"
     },
     {
       "path": "plugin-src/platforms/workbuddy/platform-manifest.json",
-      "sha256": "b04f373bbf6c902006bfb71bac433c85b33a8cdd3ba8600656aee87d0726fe7e",
+      "sha256": "f42c406b23a61158b8d71a70d198ffb14a5c86e3dc80b35d9b94a4b8d7398f35",
       "source": "skill-failure-auditor/plugin-src/platforms/workbuddy/platform-manifest.json"
     },
     {
@@ -2057,7 +2482,7 @@
     },
     {
       "path": "scripts/build/build_foundation_bundle.mjs",
-      "sha256": "6e08d92bddca06c518ddbebede3f27a370990b8daadeab15e65143b8144e825d",
+      "sha256": "dedb2e46cba66d0433e8794a68ac5fbb7c13a5fa9b18ffedac55aae7bc984860",
       "source": "skill-failure-auditor/scripts/build/build_foundation_bundle.mjs"
     },
     {
@@ -2077,12 +2502,12 @@
     },
     {
       "path": "skills/skill-failure-auditor/.claude-plugin/marketplace.json",
-      "sha256": "c24b608fc91d0480756cb6a36c6b18e62ac443f939ad8792a83f60561b3b6e42",
+      "sha256": "7677116bab2b17c4cf5e8682273fa50bc415489a30069ab99a03cc10bc39c01c",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/.claude-plugin/marketplace.json"
     },
     {
       "path": "skills/skill-failure-auditor/.claude-plugin/plugin.json",
-      "sha256": "1a0dd84d7ad90913e651a40b12c247fa3e31b0f8944a5eebfabfbd38b9dc01d5",
+      "sha256": "599f12aeb579108378bd1f7e7558f9bb0b69572747d5a9cdf247bff2184b72a7",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/.claude-plugin/plugin.json"
     },
     {
@@ -2092,7 +2517,7 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/foundation-pin.json",
-      "sha256": "98238c967f2eb7dbe77d83505347856de4146a0bbc219b284d5fe49fb6098e3b",
+      "sha256": "fc15df7d4ce88ba4eb9b7dbb87370cb56ac0d91c82ce76f48c72ddcf311814c6",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/foundation-pin.json"
     },
     {
@@ -2107,7 +2532,7 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "545da262f7f9f9506375176c2929abfcb51672a50dbf146901f58b0b9ee70a76",
+      "sha256": "c7e0078ac5d5066b82d019dd87c3fcb2fb94cd4866f7935a3d3513d5809d6cb5",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -2127,12 +2552,12 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/mechanisms-cli.mjs",
-      "sha256": "76d8c72a9894282da777fe9b8c548ac754db31999480c859b22eaa86a932ad22",
+      "sha256": "df1896a0231e533d5b0e0488fb771db35ed6c21531e6e9d1f4edd5838aa13cca",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/mechanisms-cli.mjs"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runner.mjs",
-      "sha256": "b23b664853699e88e3b1845c755151b532675ffb305de7adfa2898d83e302397",
+      "sha256": "40a0fb0c0917cd4542c96d0cf60d988c488d9b3193df9a560f3a34a73ad1f6f4",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runner.mjs"
     },
     {
@@ -2147,7 +2572,7 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs",
-      "sha256": "6cbd472dd28d4c3813c51e511ae06a945372314f09611a9b2fe94805c338a03e",
+      "sha256": "c62c1207981d5aa6ddf6960a244a32599248bbf9c53fcbff495d0ce804f9b4b4",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/contracts-candidate/index.mjs"
     },
     {
@@ -2157,7 +2582,7 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/contracts/error-codes.json",
-      "sha256": "f017e765c3e1d2d3a3fdc49c0df4161143395bde6809d913764a78f32ceeca88",
+      "sha256": "ff04dad27e5e73098683e72a768647c2fb8c87fb6768e5ff2ab612d9608f3568",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/contracts/error-codes.json"
     },
     {
@@ -2182,12 +2607,12 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/generated/standalone-map.mjs",
-      "sha256": "22d4eaded58e5676b7e2ecdd5a6086eda38fc5e24cbeab3a557ff3d50f832ea6",
+      "sha256": "69ef17de14133879a0d81a92c72733ba39931c1ec0bf181d4546f632cf706f98",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/standalone-map.mjs"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "909dde4327233244b26c0900e08a27659204733882ab3828d2ce006a6f93e7c2",
+      "sha256": "b2c0fbc4aef805855d9df82233b621d6d8370e90ef4bf14688fffadf5744bd09",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -2196,14 +2621,74 @@
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/atomic.mjs"
     },
     {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/bound-read.mjs",
+      "sha256": "1800f85a20ff34be1e04ad205952586fee92364f5b92fb060ae88bca76054287",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/bound-read.mjs"
+    },
+    {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/closure.mjs",
       "sha256": "0cf6ba19a3564efac82be51a0e907b166bc933dc96f04dd9bbe7c34cf0344121",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/closure.mjs"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/errors.mjs",
-      "sha256": "2815eff3fc9140b8733cd967304c09ce434b2a840727da3a6463fb29d76e034f",
+      "sha256": "8812ead9e6fae705c035a7865c64c004b23413379eb48e69f9fbfd8ab75db860",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/errors.mjs"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs",
+      "sha256": "987f8361b84a876ec6c31196ed8f79b1bc2c515fdfe824403e5c2cfe0c46077b",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication-loader.mjs"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs",
+      "sha256": "31a11b01a3ca6c0ab64906b839a8be14fde22f4bc979fb790c1877230c016559",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/fixed-set-publication.mjs"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/NOTICE",
+      "sha256": "fe60857bea9a506aba4754192d05517b659dc5c8f76adc7f0a5f16727e0a245e",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/NOTICE"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/loader.mjs",
+      "sha256": "9a69f4affbe2c862186fca0b8b07881b0983794646b909e693aa3c266a118b65",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/loader.mjs"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json",
+      "sha256": "bc944f9a41dbac91d0889967279710ad970acd378ca5809df1f41c31a43e3eb2",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-manifest.json"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json",
+      "sha256": "f830cbed8a47170035afc029b4e4d7eb56616fafc5fa5f934417e2871b5ce257",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-release-receipt.json"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json",
+      "sha256": "3577bb7794921627da9bcd8e0ac143225660fa996f257e1c74778a6ea7005eb9",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuild-sbom.json"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node",
+      "sha256": "3172e6f78341502c1455e82a3843730303a2c46f70284c3635885b8f5e1df4b2",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node",
+      "sha256": "ace0bfd36e8ddaaf69a68dc6fa00b77f6920f258a6a0db249f295a131225b27b",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node",
+      "sha256": "dfee29ad477376cc0288970bca5b2da19c3e925409d2eacf8e6ba6325e9e2b7f",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node",
+      "sha256": "c936852191b19a998b1e2ba3b588151f7bf4b3804a30554d2368f25042aaa3be",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/paths.mjs",
@@ -2212,7 +2697,7 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs",
-      "sha256": "72debf08cba0b27049d180840be858f6e078ddac9df554aeaeb3043c535b7d0f",
+      "sha256": "f8c9303640c0a02368d917f9a24862612282f16c1fc6b14384d1751a72864113",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/harness/quickstart-profile.mjs"
     },
     {
@@ -2271,6 +2756,21 @@
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/consumer-schema-inventory.schema.json"
     },
     {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json",
+      "sha256": "5e54c0febdc6c831fcc94b7d1cfb8f14aef838d718eb5e80a4f1b63bef1e3e61",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/filesystem-root-binding.schema.json"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json",
+      "sha256": "382bbf8fd1ba99ddefb1e3f6077f379f30cd58cbafbaf3c4191151b3703c2ed2",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-manifest.schema.json"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json",
+      "sha256": "ed460c723d8a041b4cb9355c251b9c8f78e4dc03cddaa06af21ed8b2b86389a8",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/fixed-set-publication-receipt.schema.json"
+    },
+    {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json",
       "sha256": "788841d29e38ebcf3c14461bee5b57500caacd11edb54e89b502eb60933934b5",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/harness-surface-inventory.schema.json"
@@ -2304,6 +2804,16 @@
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/foundation/result.schema.json",
       "sha256": "b17b089293bcedba105120de8187c96ab1957593c2ed74b99a8422ea4780331a",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/result.schema.json"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json",
+      "sha256": "bee6b9b2b6fb5f7f1cf20df41e7f54e7b0e1b0023ebc2bed99e9e8f7a1d065cc",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-request.schema.json"
+    },
+    {
+      "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json",
+      "sha256": "e2156956494cbbf278631f9dcb865dbc6da091950856b135be0e337d21ff45df",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/foundation/schema-validation-batch-result.schema.json"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/foundation/task.schema.json",
@@ -2392,22 +2902,22 @@
     },
     {
       "path": "skills/skill-failure-auditor/scripts/evaluation_tool.py",
-      "sha256": "1c643bb6f2405dbc7d7c9e85a98518a8200a6f0e2b66464a569ca59883ebdbd8",
+      "sha256": "3ad5ee1b9bc499eeccb11a20a2dc5b397251a6738896c1bb1941c9f0092ec772",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/evidence_tool.py",
-      "sha256": "e3e354c8187ebdb32e3c8ef4648376dce2ec163e955426efff557a56b0b1950f",
+      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/evidence_tool.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/foundation_client.py",
-      "sha256": "d7383998b09395f133d1f97e76122351672a40fb4f046520bce6374ca02f0c1b",
+      "sha256": "6c86b26faf42a47457e0821c7e3094e33001c14c14d6f402070db4194b4da39f",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/foundation_client.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/registry_tool.py",
-      "sha256": "abd95c109f1120a151076d0447daccc232b5edadd4a80265f56c17810f17cf72",
+      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/registry_tool.py"
     },
     {
@@ -2422,7 +2932,7 @@
     },
     {
       "path": "spec/foundation-integration/foundation-pin.json",
-      "sha256": "98238c967f2eb7dbe77d83505347856de4146a0bbc219b284d5fe49fb6098e3b",
+      "sha256": "fc15df7d4ce88ba4eb9b7dbb87370cb56ac0d91c82ce76f48c72ddcf311814c6",
       "source": "skill-failure-auditor/spec/foundation-integration/foundation-pin.json"
     },
     {
@@ -2451,5 +2961,5 @@
       "source": "skill-failure-auditor/spec/trigger-policy-cases.json"
     }
   ],
-  "candidateDigest": "7b7e49350b028711b598eca08c8923afc639dd16fa7be0168910b1df98ef2af7"
+  "candidateDigest": "d02082ab367791a48d986892a904ce46276484f00679f25c75ba1982aeac0c9d"
 }

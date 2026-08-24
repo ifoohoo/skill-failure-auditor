@@ -22,7 +22,11 @@ from evidence_tool import (  # noqa: E402
     search_index,
     verify_index,
 )
-from registry_tool import build_selection, validate_registry  # noqa: E402
+from registry_tool import (  # noqa: E402
+    build_selection,
+    validate_registry,
+    validate_selection_artifact,
+)
 
 
 def write_json(path: Path, value: object) -> None:
@@ -107,6 +111,58 @@ def run_coverage(
 
 
 class EvidenceIntegrityTests(unittest.TestCase):
+    def test_public_coverage_cannot_inject_prior_validation_and_fails_closed_on_drift(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "source.bin"
+            source.write_bytes(b"A" * 2048)
+            index = build_index(source, 1024)
+            index_path = root / "index.json"
+            write_json(index_path, index)
+            selection_path, registry_path, selected_ids = selection_fixture(root)
+            records_path = root / "coverage.jsonl"
+            write_jsonl(records_path, audited_records(index, selected_ids))
+            prior_validation = validate_selection_artifact(
+                selection_path,
+                registry_path,
+            )
+
+            with self.assertRaisesRegex(TypeError, "validated_selection"):
+                build_coverage(
+                    source,
+                    index_path,
+                    selection_path,
+                    registry_path,
+                    records_path,
+                    validated_selection=prior_validation,
+                )
+
+            tampered_selection = json.loads(selection_path.read_text(encoding="utf-8"))
+            tampered_selection["selection_context"]["mode"] = "static"
+            tampered_selection_path = root / "tampered-selection.json"
+            write_json(tampered_selection_path, tampered_selection)
+            with self.assertRaisesRegex(ContractError, "digest mismatch"):
+                build_coverage(
+                    source,
+                    index_path,
+                    tampered_selection_path,
+                    registry_path,
+                    records_path,
+                )
+
+            tampered_registry_path = root / "tampered-registry.jsonl"
+            tampered_registry_path.write_text("{}\n", encoding="utf-8")
+            with self.assertRaises(ContractError):
+                build_coverage(
+                    source,
+                    index_path,
+                    selection_path,
+                    tampered_registry_path,
+                    records_path,
+                )
+
     def test_empty_evidence_and_empty_coverage_cannot_vacuously_complete(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

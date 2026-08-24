@@ -13,21 +13,21 @@
   "packages": [
     {
       "name": "skill-family-contracts",
-      "version": "0.8.3",
-      "tarball": "skill-family-contracts-0.8.3.tgz",
-      "sha256": "9166aad37d30a0053ce9de9e7594369404f74123d1b578fec5733b96b7794ee1"
+      "version": "0.9.0",
+      "tarball": "skill-family-contracts-0.9.0.tgz",
+      "sha256": "6ee06816a3124c7adf3d3625461029a8ad78d674c3ab35253129983af4c54ad7"
     },
     {
       "name": "skill-family-engineering-kit",
-      "version": "0.8.3",
-      "tarball": "skill-family-engineering-kit-0.8.3.tgz",
-      "sha256": "07f14291c81040870c30ffed0842a69f15f01cefe1e7e58d85e5e435a5a2fdb6"
+      "version": "0.9.0",
+      "tarball": "skill-family-engineering-kit-0.9.0.tgz",
+      "sha256": "17da1f0b1efb2b31e660719dfe2e8141df48a954caf061b21b15ede909706901"
     },
     {
       "name": "skill-family-harness-node",
-      "version": "0.8.3",
-      "tarball": "skill-family-harness-node-0.8.3.tgz",
-      "sha256": "e112eceed9070e11bceb6d5be5e38edd5951ae1e5fbbe1de3687002f7c795e6d"
+      "version": "0.9.0",
+      "tarball": "skill-family-harness-node-0.9.0.tgz",
+      "sha256": "ed874cb243a3040716bf5a831587d65e1b01a5ace8569c3f141c4e0ffcf82175"
     }
   ],
   "consumerSchemas": [
@@ -64,12 +64,12 @@
   ],
   "source": {
     "repository": "skill-family-foundation-workspace",
-    "baseCommit": "5c887424cb637ace708b34580a63004aaa59c307",
+    "baseCommit": "c3eeb0aeeef2de9001cb75e7783287d96bb1cff9",
     "status": "VERIFIED",
-    "note": "Foundation 0.8.3 已发布并通过发布后验证；字节来自 release-skill 不可变 prepare 计划 9ff82d9e33c93722f56ddf071113f2981da10507acd53ecc02d66820fe67e57c。"
+    "note": "Foundation 0.9.0 已发布并通过发布后验证；字节来自 release-skill 不可变 prepare 计划 c57f63bf07344f46616c7b481c0a47100bd48837fd8e717ff767292092f66a5f。"
   },
   "bundle": {
     "targetPrefix": "quickstart-profile",
-    "payloadSha256": "34eab83dd2471d28b27fe773e9e34a3082310515cebc91f09c3979eb74595085"
+    "payloadSha256": "02771f8b9db2853a9fb4f08ae5fcc54f58543d5a04fba39a52256ab38efb2b69"
   }
 }

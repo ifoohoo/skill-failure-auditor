@@ -3,7 +3,7 @@
   "familyId": "skill-failure-auditor",
   "platformId": "claude-code",
   "product": "skill-failure-auditor",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "minClientVersion": "2.1.220",
   "deliveryMode": "claude_plugin",
   "pluginManifest": ".claude-plugin/plugin.json",
@@ -29,5 +29,5 @@
     }
   ],
   "projectionStatus": "projection_complete",
-  "projectionDigest": "b6b2e833b09979dced79e4b33b4bdf04a740f2c8d5bad094ad57dabbd7afdf26"
+  "projectionDigest": "16f14537c0ba544c0662a8f45eabde20034fe61f5a22393053eac372833bf15c"
 }

@@ -289,15 +289,11 @@ def search_index(input_root: Path, index_path: Path, needle: bytes) -> dict[str,
     return result
 
 
-def build_coverage(
-    input_root: Path,
-    index_path: Path,
-    selection_path: Path,
-    registry_path: Path,
+def _build_coverage_from_verified_inputs(
+    index: dict[str, Any],
+    selection: dict[str, Any],
     records_path: Path,
 ) -> tuple[dict[str, Any], int]:
-    index = verify_index(input_root, index_path)
-    selection, _ = validate_selection_artifact(selection_path, registry_path)
     selected_ids = {
         item["id"] for item in selection["selection_context"]["selected_rules"]
     }
@@ -374,6 +370,18 @@ def build_coverage(
     }
     ledger["ledger_sha256"] = foundation_digest_document(ledger)
     return ledger, 0 if status == "COMPLETE" else 2
+
+
+def build_coverage(
+    input_root: Path,
+    index_path: Path,
+    selection_path: Path,
+    registry_path: Path,
+    records_path: Path,
+) -> tuple[dict[str, Any], int]:
+    index = verify_index(input_root, index_path)
+    selection, _ = validate_selection_artifact(selection_path, registry_path)
+    return _build_coverage_from_verified_inputs(index, selection, records_path)
 
 
 def emit_json(value: dict[str, Any], output: Path | None) -> None:

@@ -40,6 +40,28 @@ function sha256(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
 }
 
+function projectionEntryBytes(entry) {
+  const content = entry?.content;
+  if (!content || typeof content !== "object" || Array.isArray(content)) {
+    fail(`projection entry has invalid content: ${entry?.path ?? "<unknown>"}`);
+  }
+  const keys = Object.keys(content).sort();
+  if (keys.length !== 1) {
+    fail(`projection entry must contain exactly one content encoding: ${entry?.path ?? "<unknown>"}`);
+  }
+  if (keys[0] === "text" && typeof content.text === "string") {
+    return Buffer.from(content.text, "utf8");
+  }
+  if (keys[0] === "base64" && typeof content.base64 === "string") {
+    const bytes = Buffer.from(content.base64, "base64");
+    if (bytes.toString("base64") !== content.base64) {
+      fail(`projection entry has malformed base64 content: ${entry?.path ?? "<unknown>"}`);
+    }
+    return bytes;
+  }
+  fail(`projection entry uses an unsupported content encoding: ${entry?.path ?? "<unknown>"}`);
+}
+
 function parseArgs(argv) {
   const values = { tarballs: [] };
   for (let index = 0; index < argv.length; index += 2) {
@@ -219,7 +241,7 @@ async function prepare(values) {
     fail(`bundle payload digest mismatch: expected ${pin.bundle.payloadSha256}, actual ${built.provenance.payload.digest}`);
   }
   for (const entry of built.manifest.entries) {
-    await writeCandidate(values.candidateRoot, entry.path, Buffer.from(entry.content.text));
+    await writeCandidate(values.candidateRoot, entry.path, projectionEntryBytes(entry));
   }
   await writeCandidate(values.candidateRoot, CORE_PIN_PATH, pinBytes);
   await writeCandidate(values.candidateRoot, SPEC_PIN_PATH, pinBytes);

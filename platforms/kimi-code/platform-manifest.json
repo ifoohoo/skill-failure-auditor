@@ -3,7 +3,7 @@
   "familyId": "skill-failure-auditor",
   "platformId": "kimi-code",
   "product": "skill-failure-auditor",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "minClientVersion": "0.31.0",
   "deliveryMode": "kimi_plugin",
   "authoritativeManifest": "kimi.plugin.json",
@@ -31,5 +31,5 @@
     }
   ],
   "projectionStatus": "projection_complete",
-  "projectionDigest": "6ee7d598d6092a906b284c1a30d1b329123d6d2c5dd23c771b3a9916255743f0"
+  "projectionDigest": "a6b88e040ebeec638c888437a6f75fa5a84e644fc3ae654d0af2d303b4d35a37"
 }

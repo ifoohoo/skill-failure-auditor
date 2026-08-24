@@ -15,7 +15,11 @@ from common import (
     load_jsonl,
     write_json_exclusive,
 )
-from foundation_client import foundation_digest_document, foundation_file_sha256, require_production_validate
+from foundation_client import (
+    foundation_digest_document,
+    foundation_file_sha256,
+    require_production_validate_many,
+)
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -113,13 +117,11 @@ def validate_registry(
     if not entries:
         raise ContractError("registry must contain at least one entry")
 
+    require_production_validate_many(entries, schema)
+
     by_id: dict[str, dict[str, Any]] = {}
     mutation_ids: set[str] = set()
-    for index, entry in enumerate(entries):
-        try:
-            require_production_validate(entry, schema)
-        except ContractError as error:
-            raise ContractError(f"$[{index}]: {error}") from error
+    for entry in entries:
         identifier = entry["id"]
         if identifier in by_id:
             raise ContractError(f"duplicate rule id: {identifier}")

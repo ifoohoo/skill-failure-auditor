@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.5 - 2026-08-24
+
+- Foundation 三包精确升级到 0.9.0，并从冻结发布字节重建 Bundle 与四平台投影。
+- Registry 的 28 条记录改为一次有序批量 Schema 校验；未知 Schema、畸形结果、顺序漂移或任一无效项都会停止处理。
+- 审计结果复验复用同一次 selection/Registry 校验结果，不再重复启动 Foundation 机制；独立调用 coverage 时仍会自行校验。
+- SFA 继续只审阅静态输入与既有运行记录，不新增执行器、常驻进程、缓存事实源或本地 Foundation 替代实现。
+
 ## 1.1.4 - 2026-08-23
 
 - 明确 SFA 是纯审计器：`static`、`runtime`、`combined` 只表示输入范围，不启动或监督目标任务。

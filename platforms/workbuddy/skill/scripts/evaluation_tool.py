@@ -16,7 +16,7 @@ from common import (
     require_sha256,
     write_json_exclusive,
 )
-from evidence_tool import build_coverage, verify_index
+from evidence_tool import _build_coverage_from_verified_inputs, verify_index
 from foundation_client import foundation_digest_document, foundation_file_sha256, require_production_validate
 from registry_tool import DEFAULT_REGISTRY, validate_selection_artifact
 
@@ -94,11 +94,9 @@ def validate_audit_result(
     index = verify_index(subject_path, index_path)
     if result["subject"]["file_set_sha256"] != index["file_set_sha256"]:
         raise ContractError("audit subject file-set digest does not match verified evidence index")
-    recomputed_ledger, coverage_exit = build_coverage(
-        subject_path,
-        index_path,
-        selection_path,
-        registry_path,
+    recomputed_ledger, coverage_exit = _build_coverage_from_verified_inputs(
+        index,
+        selection,
         records_path,
     )
     declared_ledger = load_json(ledger_path)

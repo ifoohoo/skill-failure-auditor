@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 
@@ -527,6 +528,31 @@ class ContinuationBoundaryTests(unittest.TestCase):
 
 
 class EvaluationBoundaryTests(unittest.TestCase):
+    def test_result_validation_reuses_registry_validation_for_coverage(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            subject = root / "subject.txt"
+            subject.write_text("candidate\n", encoding="utf-8")
+            result, selection_path, registry_path = bound_audit_fixture(root, subject)
+            result_path = root / "result.json"
+            write_json(result_path, result)
+
+            import registry_tool
+
+            with patch.object(
+                registry_tool,
+                "validate_registry",
+                wraps=registry_tool.validate_registry,
+            ) as validate_registry_spy:
+                validation = validate_audit_result(
+                    result_path,
+                    selection_path,
+                    registry_path,
+                )
+
+            self.assertEqual(validation["status"], "VALID")
+            self.assertEqual(validate_registry_spy.call_count, 1)
+
     def test_self_audit_identity_covers_descendants_aliases_and_counterparts(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
