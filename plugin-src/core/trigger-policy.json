@@ -1,17 +1,50 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "name": "skill-failure-auditor",
-  "description": "仅当主要审阅对象是 LLM/Agent 的指令、能力定义、执行链或运行证据，并且目标是可靠性失效审计时使用：假完成或自我验收、执行者改写验收标准、冻结输入结论冲突、证据丢失或证据重复、虚假独立审阅、上下文交接丢失关键要求。普通源码、架构或项目审阅，发布与制品链检查，业务工作流评审，技能或提示词编写，对修复建议是否过度设计的复核，例行调试、安装兼容和单次测试失败均不适用；不要仅因项目是 Skill、Prompt 或 Agent，或材料出现工作流、证据、验证器等通用工程词而触发。",
-  "positive_signal_terms": [
-    "可靠性失效审计",
-    "假完成",
-    "自我验收",
-    "改写验收标准",
-    "冻结输入结论冲突",
-    "证据丢失",
-    "证据重复",
-    "虚假独立审阅",
-    "上下文交接"
+  "description": "仅当主要审阅对象是 LLM/Agent 的指令、能力定义、执行链或运行证据，并且用户明确要求可靠性失效审计，或材料中已经出现可引用的具体失效信号时使用。识别假完成或自我验收、执行者改写验收标准、冻结输入结论冲突、证据缺失或重复、虚假独立审阅、上下文交接丢失关键要求。普通源码、架构或项目审阅，发布与制品链检查，业务工作流评审，Skill 或 Prompt 编写，整改方案架构复核，例行调试、安装兼容和单次确定性测试失败均不适用。",
+  "decision_codes": {
+    "ENTER_EXPLICIT": "对象在范围内，用户明确要求可靠性失效审计",
+    "ENTER_OBSERVED_SIGNAL": "对象在范围内，材料中已有可引用的具体失效信号",
+    "EXIT_OBJECT_OUT_OF_SCOPE": "主要审阅对象不在 LLM/Agent 指令、能力定义、执行链或运行证据范围内",
+    "EXIT_AUDIT_INTENT_ABSENT": "对象在范围内，但既无明确审计要求，也无具体失效信号"
+  },
+  "object_scope": [
+    "llm_agent_instruction",
+    "skill_or_agent_capability_definition",
+    "llm_agent_execution_or_acceptance_chain",
+    "llm_agent_runtime_evidence"
   ],
-  "applicability_gate": "## 适用性门禁\n\n只有同时满足以下两项才进入正式审计：\n\n1. 主要审阅对象是 LLM/Agent 的指令、能力定义、执行链或运行证据；\n2. 用户明确要求识别假完成、自我验收、判据改写、证据完整性、职责独立性或上下文交接失效，或者当前材料已经出现至少一个可引用的对应信号。\n\n普通源码、架构或项目审阅，发布与制品链检查，业务工作流评审，技能或提示词编写，对修复建议是否过度设计的复核，例行调试、安装兼容和单次测试失败不满足第一项。立即退出本技能流程并回到普通工作流；不得创建审计运行、选择全部规则或写入审计制品。"
+  "explicit_failure_classes": [
+    "false_completion_or_self_acceptance",
+    "criteria_or_frozen_input_mutation",
+    "evidence_integrity_failure",
+    "role_independence_misclaim",
+    "handoff_requirement_loss"
+  ],
+  "implicit_signal_required_context_fields": [
+    "observed_claim_or_action",
+    "conflicting_observation",
+    "evidence_location"
+  ],
+  "implicit_signal_classes": {
+    "COMPLETION_CONTRADICTION": "已有完成或通过声明，同时存在带位置的权威失败证据",
+    "CRITERIA_MUTATION": "工作开始后，执行职责修改目标或验收标准，并据此宣布通过",
+    "FROZEN_INPUT_CONFLICT": "同一份冻结输入在同一判据下产生互相冲突的终局结论",
+    "EVIDENCE_INTEGRITY_FAILURE": "证据缺失、重复、摘要不匹配或绑定到错误对象",
+    "ROLE_INDEPENDENCE_MISCLAIM": "同源职责或实现者自审被表述为独立终审",
+    "HANDOFF_REQUIREMENT_LOSS": "交接前已冻结的具名要求在交接后消失，并影响完成判断"
+  },
+  "exclusions": {
+    "ordinary_source_or_architecture_review": "普通源码、架构、发布或制品链审查",
+    "skill_prompt_agent_authoring": "Skill、Prompt、Agent 或工作流的编写与改稿",
+    "remediation_architecture_review": "对整改建议是否过度设计的架构复核",
+    "deterministic_or_compatibility_failure": "命令、路径、依赖、安装兼容或单次确定性测试故障",
+    "future_risk_only": "尚未发生失效的风险讨论"
+  },
+  "forbidden_automatic_chain_sources": [
+    "novel_hypotheses",
+    "next_probe",
+    "prior_audit_conclusion"
+  ],
+  "applicability_gate": "## 适用性门禁\n\n按以下顺序判定，范围判断先于审计意图：\n\n1. 主要审阅对象必须是 LLM/Agent 的指令、能力定义、执行链、职责或验收链，或者这些对象已经产生的运行证据。否则返回 `EXIT_OBJECT_OUT_OF_SCOPE`，回到原工作流。\n2. 对象在范围内时，用户明确要求识别假完成、自我验收、判据改写、证据完整性、职责独立性、冻结输入冲突或交接失效，返回 `ENTER_EXPLICIT`。显式要求不扩大对象边界。\n3. 用户未明确要求时，只有材料同时给出已发生的声明或动作、与其冲突的观察、可回读的证据位置，才返回 `ENTER_OBSERVED_SIGNAL`。只有风险猜测、未来可能性或通用工程词时，返回 `EXIT_AUDIT_INTENT_ABSENT`。\n\n两个退出结果都不得创建尝试、规则选择、证据索引、覆盖记录、机器结果或审计报告。`novel_hypotheses`、`next_probe` 和上一次审计结论只提供调查线索，不自动启动下一轮审计、试验、整改或架构复核。"
 }

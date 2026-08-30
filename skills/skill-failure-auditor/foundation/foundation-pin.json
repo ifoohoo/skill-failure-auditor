@@ -13,21 +13,21 @@
   "packages": [
     {
       "name": "skill-family-contracts",
-      "version": "0.9.0",
-      "tarball": "skill-family-contracts-0.9.0.tgz",
-      "sha256": "6ee06816a3124c7adf3d3625461029a8ad78d674c3ab35253129983af4c54ad7"
+      "version": "0.14.0",
+      "tarball": "skill-family-contracts-0.14.0.tgz",
+      "sha256": "a857ac781f545917a3e0237feea6f273e95084f0d8fd1322b61004979175e1d5"
     },
     {
       "name": "skill-family-engineering-kit",
-      "version": "0.9.0",
-      "tarball": "skill-family-engineering-kit-0.9.0.tgz",
-      "sha256": "17da1f0b1efb2b31e660719dfe2e8141df48a954caf061b21b15ede909706901"
+      "version": "0.14.0",
+      "tarball": "skill-family-engineering-kit-0.14.0.tgz",
+      "sha256": "39939f65e655b3164658b64d47b279e5feebf5dfa63925626c66e7d0056c8a67"
     },
     {
       "name": "skill-family-harness-node",
-      "version": "0.9.0",
-      "tarball": "skill-family-harness-node-0.9.0.tgz",
-      "sha256": "ed874cb243a3040716bf5a831587d65e1b01a5ace8569c3f141c4e0ffcf82175"
+      "version": "0.14.0",
+      "tarball": "skill-family-harness-node-0.14.0.tgz",
+      "sha256": "6a6536fa62e5438b1b5d064bdaae91c5d742662cc1252e50c5c4248582bc15a9"
     }
   ],
   "consumerSchemas": [
@@ -64,12 +64,12 @@
   ],
   "source": {
     "repository": "skill-family-foundation-workspace",
-    "baseCommit": "c3eeb0aeeef2de9001cb75e7783287d96bb1cff9",
+    "baseCommit": "8b4c865e6861dccf15d995713fb2bdced9e6159d",
     "status": "VERIFIED",
-    "note": "Foundation 0.9.0 已发布并通过发布后验证；字节来自 release-skill 不可变 prepare 计划 c57f63bf07344f46616c7b481c0a47100bd48837fd8e717ff767292092f66a5f。"
+    "note": "Foundation 0.14.0 已发布并通过发布后验证；verify run 1787975717089 的 sourceRunDigest 为 8703cf38441af21ebdcd16ac75a1411ce4051ba2028d83f6d15466d2496a7bd6。"
   },
   "bundle": {
     "targetPrefix": "quickstart-profile",
-    "payloadSha256": "02771f8b9db2853a9fb4f08ae5fcc54f58543d5a04fba39a52256ab38efb2b69"
+    "payloadSha256": "e2618d2e8d23f587da1633d344173fb49bf96913005b1dd32258b2426d34d05e"
   }
 }

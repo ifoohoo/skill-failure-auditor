@@ -19,6 +19,7 @@ CANDIDATE_DIR = SCRIPTS_DIR.parent
 REFERENCES_DIR = CANDIDATE_DIR / "references"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
+import evaluation_tool  # noqa: E402
 from attempt_tool import (  # noqa: E402
     OUTCOMES,
     create_attempt,
@@ -30,15 +31,19 @@ from attempt_tool import (  # noqa: E402
 from common import ContractError  # noqa: E402
 from evidence_tool import build_coverage, build_index  # noqa: E402
 from evaluation_tool import (  # noqa: E402
+    auditor_core_identity,
+    build_reuse_receipt,
     continuation_create,
     continuation_digest,
     continuation_verify,
     derive_self_audit,
     grade_cases,
+    reuse_check,
     source_manifest_digest,
     validate_audit_result,
 )
 from registry_tool import build_selection, validate_registry  # noqa: E402
+from report_renderer import load_registry_names, render  # noqa: E402
 
 
 def sha256_file(path: Path) -> str:
@@ -233,6 +238,111 @@ def bound_audit_fixture(root: Path, subject: Path) -> tuple[dict, Path, Path]:
         for item in selection["selection_context"]["selected_rules"]
     ]
     return result, selection_path, registry_path
+
+
+def eligible_reuse_fixture(
+    root: Path,
+    *,
+    record_receipt: bool = True,
+    duplicate_receipt: bool = False,
+) -> dict[str, object]:
+    subject = root / "subject.txt"
+    subject.write_text("stable audited subject\n", encoding="utf-8")
+    result, selection_path, registry_path = bound_audit_fixture(root, subject)
+    evidence_ref = copy.deepcopy(result["known_rule_results"][0]["evidence_refs"])
+    result["executable_acceptance"] = {
+        "status": "VERIFIED",
+        "evidence_refs": evidence_ref,
+        "reason": "冻结验收工件已验证",
+    }
+    result["hard_gate_failures"] = []
+    result["conclusion"] = "PASS_WITHIN_FROZEN_SCOPE"
+    result["status"] = "AUDIT_SUBMITTED_FOR_REVIEW"
+    result_path = root / "audit-result.json"
+    write_json(result_path, result)
+    report_path = root / "report.md"
+    report_path.write_text(
+        render(result, load_registry_names(registry_path)),
+        encoding="utf-8",
+    )
+    criteria_path = root / "criteria.json"
+    write_json(
+        criteria_path,
+        {
+            "goal": "audit the frozen subject",
+            "acceptance": "all selected rules checked",
+            "permissions": "read-only audit",
+            "write_scope": "evidence only",
+        },
+    )
+    created = create_attempt(
+        argparse.Namespace(
+            root=root / "attempts",
+            attempt_id="ATTEMPT-REUSE-01",
+            candidate_sha256=result["subject"]["file_set_sha256"],
+            criteria_commitment_sha256=sha256_file(criteria_path),
+            write_path=["evidence/attempts/ATTEMPT-REUSE-01"],
+            created_by="reuse-test",
+            created_at="2026-08-28T00:00:00Z",
+        )
+    )
+    attempt = Path(created["attempt"])
+    for kind, artifact, timestamp in (
+        ("audit_result", result_path, "2026-08-28T00:01:00Z"),
+        ("audit_report", report_path, "2026-08-28T00:02:00Z"),
+    ):
+        record_artifact(
+            argparse.Namespace(
+                attempt=attempt,
+                kind=kind,
+                artifact=artifact,
+                recorded_at=timestamp,
+            )
+        )
+    receipt_path = root / "audit-reuse-receipt.json"
+    receipt = build_reuse_receipt(
+        result_path,
+        report_path,
+        selection_path,
+        attempt,
+    )
+    write_json(receipt_path, receipt)
+    if record_receipt:
+        record_artifact(
+            argparse.Namespace(
+                attempt=attempt,
+                kind="audit_reuse_receipt",
+                artifact=receipt_path,
+                recorded_at="2026-08-28T00:03:00Z",
+            )
+        )
+        if duplicate_receipt:
+            record_artifact(
+                argparse.Namespace(
+                    attempt=attempt,
+                    kind="audit_reuse_receipt",
+                    artifact=receipt_path,
+                    recorded_at="2026-08-28T00:03:30Z",
+                )
+            )
+    sealed = seal_attempt(
+        argparse.Namespace(
+            attempt=attempt,
+            outcome="CANDIDATE_SUBMITTED",
+            reason_code="AUDIT_SUBMITTED",
+            sealed_at="2026-08-28T00:04:00Z",
+        )
+    )
+    return {
+        "subject": subject,
+        "result": result_path,
+        "report": report_path,
+        "selection": selection_path,
+        "criteria": criteria_path,
+        "attempt": attempt,
+        "receipt": receipt_path,
+        "seal_file_sha256": sealed["seal_file_sha256"],
+    }
 
 
 class AttemptBoundaryTests(unittest.TestCase):
@@ -961,6 +1071,327 @@ class EvaluationBoundaryTests(unittest.TestCase):
                     selection_path,
                     registry_path,
                 )
+
+
+class ExactReuseBoundaryTests(unittest.TestCase):
+    def _check(self, fixture: dict[str, object], **overrides: object) -> dict:
+        values = {
+            "subject_path": fixture["subject"],
+            "mode": "combined",
+            "evidence_types": {"text"},
+            "criteria_path": fixture["criteria"],
+            "prior_result_path": fixture["result"],
+            "prior_report_path": fixture["report"],
+            "prior_selection_path": fixture["selection"],
+            "prior_attempt": fixture["attempt"],
+            "prior_reuse_receipt_path": fixture["receipt"],
+            "expected_prior_seal_file_sha256": fixture["seal_file_sha256"],
+        }
+        values.update(overrides)
+        return reuse_check(**values)
+
+    def test_identical_inputs_reuse_without_creating_a_new_attempt(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            fixture = eligible_reuse_fixture(root)
+            before = sorted((root / "attempts").iterdir())
+            decision = self._check(fixture)
+            after = sorted((root / "attempts").iterdir())
+            self.assertEqual(decision["status"], "REUSE_IDENTICAL")
+            self.assertEqual(decision["reason_codes"], ["ALL_IDENTITY_CHECKS_MATCH"])
+            self.assertEqual(decision["reused_conclusion"], "PASS_WITHIN_FROZEN_SCOPE")
+            self.assertFalse(decision["acceptance_eligible"])
+            self.assertEqual(before, after)
+
+    def test_subject_drift_between_identity_reads_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            fixture = eligible_reuse_fixture(Path(temporary))
+            first = build_index(Path(fixture["subject"]), 1024 * 1024)
+            second = copy.deepcopy(first)
+            second["file_set_sha256"] = "0" * 64
+            with patch.object(
+                evaluation_tool,
+                "build_index",
+                side_effect=(first, second),
+            ), self.assertRaisesRegex(ContractError, "INPUT_DRIFT: audit subject"):
+                self._check(fixture)
+
+    def test_criteria_drift_between_identity_reads_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            fixture = eligible_reuse_fixture(Path(temporary))
+            original = evaluation_tool.foundation_file_sha256
+            criteria = Path(fixture["criteria"])
+            reads = 0
+
+            def drift_on_second_criteria_read(path: Path) -> str:
+                nonlocal reads
+                digest = original(path)
+                if Path(path) == criteria:
+                    reads += 1
+                    if reads == 2:
+                        return "0" * 64
+                return digest
+
+            with patch.object(
+                evaluation_tool,
+                "foundation_file_sha256",
+                side_effect=drift_on_second_criteria_read,
+            ), self.assertRaisesRegex(ContractError, "INPUT_DRIFT: criteria commitment"):
+                self._check(fixture)
+
+    def test_auditor_drift_between_identity_reads_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            fixture = eligible_reuse_fixture(Path(temporary))
+            first = auditor_core_identity()
+            second = copy.deepcopy(first)
+            second["auditor_core_sha256"] = "0" * 64
+            with patch.object(
+                evaluation_tool,
+                "auditor_core_identity",
+                side_effect=(first, second),
+            ), self.assertRaisesRegex(ContractError, "INPUT_DRIFT: auditor closure"):
+                self._check(fixture)
+
+    def test_every_legal_identity_change_requires_a_full_audit(self) -> None:
+        cases = (
+            ("mode", {"mode": "runtime"}, {"MODE_CHANGED", "SELECTION_CHANGED"}),
+            (
+                "evidence-type",
+                {"evidence_types": {"runtime-log"}},
+                {"EVIDENCE_TYPE_CHANGED", "SELECTION_CHANGED"},
+            ),
+            (
+                "fresh-evidence",
+                {"fresh_evidence_required": True},
+                {"FRESH_EVIDENCE_REQUIRED"},
+            ),
+        )
+        for name, overrides, expected in cases:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
+                fixture = eligible_reuse_fixture(Path(temporary))
+                decision = self._check(fixture, **overrides)
+                self.assertEqual(decision["status"], "FULL_AUDIT_REQUIRED")
+                self.assertTrue(expected.issubset(set(decision["reason_codes"])))
+                self.assertIsNone(decision["reused_conclusion"])
+
+        with self.subTest(name="criteria"), tempfile.TemporaryDirectory() as temporary:
+            fixture = eligible_reuse_fixture(Path(temporary))
+            Path(fixture["criteria"]).write_text("changed criteria\n", encoding="utf-8")
+            decision = self._check(fixture)
+            self.assertIn("CRITERIA_CHANGED", decision["reason_codes"])
+
+        with self.subTest(name="subject-content"), tempfile.TemporaryDirectory() as temporary:
+            fixture = eligible_reuse_fixture(Path(temporary))
+            Path(fixture["subject"]).write_text("changed subject\n", encoding="utf-8")
+            decision = self._check(fixture)
+            self.assertIn("SUBJECT_CONTENT_CHANGED", decision["reason_codes"])
+
+        with self.subTest(name="subject-path"), tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            fixture = eligible_reuse_fixture(root)
+            copy_path = root / "subject-copy.txt"
+            shutil.copy2(Path(fixture["subject"]), copy_path)
+            decision = self._check(fixture, subject_path=copy_path)
+            self.assertIn("SUBJECT_IDENTITY_CHANGED", decision["reason_codes"])
+            self.assertIn("SUBJECT_CONTENT_CHANGED", decision["reason_codes"])
+
+    def test_each_auditor_closure_area_changes_the_identity_and_blocks_reuse(self) -> None:
+        mutations = (
+            ("skill", Path("SKILL.md"), "\n<!-- identity mutation -->\n"),
+            (
+                "reference",
+                Path("references/report-contract.md"),
+                "\n<!-- identity mutation -->\n",
+            ),
+            ("script", Path("scripts/common.py"), "\n# identity mutation\n"),
+            ("foundation", Path("foundation/foundation-pin.json"), " \n"),
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            fixture = eligible_reuse_fixture(root)
+            original_identity = auditor_core_identity()["auditor_core_sha256"]
+            for name, relative, suffix in mutations:
+                with self.subTest(name=name):
+                    mutated_root = root / f"auditor-{name}"
+                    shutil.copytree(CANDIDATE_DIR, mutated_root)
+                    target = mutated_root / relative
+                    target.chmod(0o600)
+                    target.write_text(
+                        target.read_text(encoding="utf-8") + suffix,
+                        encoding="utf-8",
+                    )
+                    mutated_identity = auditor_core_identity(mutated_root)[
+                        "auditor_core_sha256"
+                    ]
+                    self.assertNotEqual(original_identity, mutated_identity)
+                    decision = self._check(fixture, skill_root=mutated_root)
+                    self.assertEqual(decision["status"], "FULL_AUDIT_REQUIRED")
+                    self.assertIn("AUDITOR_CHANGED", decision["reason_codes"])
+
+    def test_unbound_or_incompletely_recorded_attempt_cannot_reuse(self) -> None:
+        with self.subTest(name="unbound"), tempfile.TemporaryDirectory() as temporary:
+            fixture = eligible_reuse_fixture(Path(temporary))
+            no_receipt = self._check(
+                fixture,
+                prior_reuse_receipt_path=None,
+            )
+            self.assertEqual(no_receipt["status"], "FULL_AUDIT_REQUIRED")
+            self.assertIn("NO_PRIOR_REUSE_RECEIPT", no_receipt["reason_codes"])
+            decision = self._check(
+                fixture,
+                expected_prior_seal_file_sha256=None,
+            )
+            self.assertEqual(decision["status"], "FULL_AUDIT_REQUIRED")
+            self.assertIn("PRIOR_ATTEMPT_NOT_BOUND", decision["reason_codes"])
+
+        with self.subTest(name="missing-record"), tempfile.TemporaryDirectory() as temporary:
+            fixture = eligible_reuse_fixture(Path(temporary), record_receipt=False)
+            decision = self._check(fixture)
+            self.assertEqual(decision["status"], "FULL_AUDIT_REQUIRED")
+            self.assertIn("PRIOR_ATTEMPT_RECORD_MISMATCH", decision["reason_codes"])
+
+        with self.subTest(name="duplicate-record"), tempfile.TemporaryDirectory() as temporary:
+            fixture = eligible_reuse_fixture(Path(temporary), duplicate_receipt=True)
+            with self.assertRaisesRegex(ContractError, "duplicate required records"):
+                self._check(fixture)
+
+    def test_valid_registry_addition_changes_registry_selection_and_auditor(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            fixture = eligible_reuse_fixture(root)
+            mutated_root = root / "auditor-registry"
+            shutil.copytree(CANDIDATE_DIR, mutated_root)
+            registry_path = mutated_root / "references/failure-modes.jsonl"
+            registry_path.chmod(0o600)
+            synthetic = json.loads(
+                registry_path.read_text(encoding="utf-8").splitlines()[0]
+            )
+            synthetic.update(
+                {
+                    "id": "SYN-9999",
+                    "name_zh": "合成登记表变化",
+                    "legacy_definition": "用于证明合法登记表变化会阻止完全同一复用。",
+                    "severity": "low",
+                    "priority": 1,
+                    "modes": ["static"],
+                    "applies_when": {
+                        "target_types": ["prompt"],
+                        "evidence_types": ["text"],
+                        "conditions": ["只用于测试登记表身份变化"],
+                    },
+                    "conflicts_with": [],
+                    "depends_on": [],
+                    "mutation_operators": [
+                        {
+                            "id": "MUT-SYN-9999-01",
+                            "description": "改变登记表但不替换内置规则",
+                            "expected_detection": "must_detect",
+                        }
+                    ],
+                    "core_redline": False,
+                }
+            )
+            with registry_path.open("a", encoding="utf-8") as handle:
+                handle.write(
+                    json.dumps(
+                        synthetic,
+                        ensure_ascii=False,
+                        sort_keys=True,
+                        separators=(",", ":"),
+                    )
+                    + "\n"
+                )
+            decision = self._check(fixture, skill_root=mutated_root)
+            self.assertEqual(decision["status"], "FULL_AUDIT_REQUIRED")
+            self.assertTrue(
+                {"REGISTRY_CHANGED", "SELECTION_CHANGED", "AUDITOR_CHANGED"}.issubset(
+                    set(decision["reason_codes"])
+                )
+            )
+
+    def test_tampered_prior_artifacts_exit_with_contract_error(self) -> None:
+        mutations = ("result", "report", "selection", "receipt", "attempt")
+        for name in mutations:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
+                fixture = eligible_reuse_fixture(Path(temporary))
+                if name == "attempt":
+                    path = Path(fixture["attempt"]) / "seal.json"
+                else:
+                    path = Path(fixture[name])
+                path.chmod(0o600)
+                if path.suffix == ".json":
+                    value = json.loads(path.read_text(encoding="utf-8"))
+                    first_key = next(iter(value))
+                    value[first_key] = "tampered"
+                    write_json(path, value)
+                else:
+                    path.write_text("tampered report\n", encoding="utf-8")
+                with self.assertRaises(ContractError):
+                    self._check(fixture)
+
+    def test_incomplete_blocked_and_high_unchecked_results_cannot_get_receipts(self) -> None:
+        for conclusion, unchecked_high in (
+            ("BLOCKED", False),
+            ("INCOMPLETE", True),
+        ):
+            with self.subTest(conclusion=conclusion), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                subject = root / "subject.txt"
+                subject.write_text("candidate\n", encoding="utf-8")
+                result, selection_path, registry_path = bound_audit_fixture(root, subject)
+                if unchecked_high:
+                    high = next(
+                        item
+                        for item in result["known_rule_results"]
+                        if item["severity"] in {"critical", "high"}
+                    )
+                    high["status"] = "UNCHECKED"
+                    high["evidence_refs"] = []
+                    result["hard_gate_failures"].append("HIGH_SEVERITY_UNCHECKED")
+                result["conclusion"] = conclusion
+                result_path = root / "result.json"
+                write_json(result_path, result)
+                report_path = root / "report.md"
+                report_path.write_text(
+                    render(result, load_registry_names(registry_path)),
+                    encoding="utf-8",
+                )
+                criteria = root / "criteria.json"
+                write_json(criteria, {"goal": "frozen"})
+                created = create_attempt(
+                    argparse.Namespace(
+                        root=root / "attempts",
+                        attempt_id="ATTEMPT-INELIGIBLE",
+                        candidate_sha256=result["subject"]["file_set_sha256"],
+                        criteria_commitment_sha256=sha256_file(criteria),
+                        write_path=["evidence/attempts/ATTEMPT-INELIGIBLE"],
+                        created_by="reuse-test",
+                        created_at="2026-08-28T00:00:00Z",
+                    )
+                )
+                attempt = Path(created["attempt"])
+                for kind, artifact in (
+                    ("audit_result", result_path),
+                    ("audit_report", report_path),
+                ):
+                    record_artifact(
+                        argparse.Namespace(
+                            attempt=attempt,
+                            kind=kind,
+                            artifact=artifact,
+                            recorded_at="2026-08-28T00:01:00Z",
+                        )
+                    )
+                with self.assertRaisesRegex(
+                    ContractError,
+                    "not reusable|unchecked high-severity",
+                ):
+                    build_reuse_receipt(
+                        result_path,
+                        report_path,
+                        selection_path,
+                        attempt,
+                    )
 
 
 if __name__ == "__main__":

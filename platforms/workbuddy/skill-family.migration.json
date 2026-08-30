@@ -2,36 +2,252 @@
   "schemaVersion": 1,
   "kind": "skill-family.migration-manifest",
   "manifestVersion": 1,
-  "legacyInfra": [],
-  "legacyReferences": [
+  "capabilityUseContext": {
+    "scope": "all",
+    "locale": "zh-CN"
+  },
+  "capabilityUses": [
     {
-      "path": "skill/scripts/foundation_client.py",
-      "text": "productionAuthority: legacy-python",
-      "replacedBy": "Foundation Bundle production_validate 统一执行（authority: foundation）"
+      "useId": "published-package-pin",
+      "problemStatement": "把技能失效审计技能使用的三个 Foundation 包从 0.9.0 升级到已发布并通过发布后验证的 0.14.0，同时继续以真实 tarball 字节、SHA-256 和项目采用声明证明精确版本。",
+      "constraints": [
+        "只消费 registry 的 0.14.0 发布字节，不读取相邻 Foundation 开发工作树作为运行依赖",
+        "Node 必须满足 >=22.22.2 <23",
+        "当前 profile.json 与两份 foundation-pin.json 的项目语义保持不变"
+      ],
+      "retainedGuarantees": [
+        "版本选择、tarball 来源和升级批准仍由技能失效审计项目负责",
+        "Foundation 采用证明不能替代消费者真实入口测试"
+      ],
+      "catalogFilters": [
+        "迁移生成 profile 草稿",
+        "声明项目形态差异"
+      ]
     },
     {
-      "path": "skill/scripts/common.py",
-      "text": "read_text(\"foundation-task.json\")",
-      "replacedBy": "Foundation Quickstart 结构校验与资源闭包（Bundle 机制）"
+      "useId": "consumer-schema-batch",
+      "problemStatement": "继续通过离线 Quickstart Profile v2 Bundle 批量校验技能失效审计自有 Schema，并保持输入顺序、Schema ID、失败关闭和单次调用边界。",
+      "constraints": [
+        "三个 Foundation 包锁定同一精确版本",
+        "消费者 Schema 仍由技能失效审计项目持有",
+        "候选 Quickstart API 隔离在内部桥接层之外，不升级为技能的稳定公共 API"
+      ],
+      "retainedGuarantees": [
+        "失效模式、审计结果和证据字段的领域含义仍由技能失效审计项目解释",
+        "Python 调用方继续通过现有内部桥接入口使用一个有序批次"
+      ],
+      "catalogFilters": [
+        "锁定精确版本的接入试验",
+        "候选 Task/Result 交换",
+        "来源、消费者 Schema"
+      ]
+    },
+    {
+      "useId": "resource-closure",
+      "problemStatement": "对审计器资源集合计算确定性、有序、去重的文本闭包和摘要，并把闭包绑定到回执与复用判定。",
+      "constraints": [
+        "资源集合只含受支持的文本文件",
+        "路径选择和资源业务角色仍由技能失效审计项目决定"
+      ],
+      "retainedGuarantees": [
+        "闭包算法由 Foundation 提供",
+        "哪些资源属于审计器闭包仍由技能失效审计项目负责"
+      ],
+      "catalogFilters": [
+        "资源闭包"
+      ]
+    },
+    {
+      "useId": "canonical-digest",
+      "problemStatement": "对结构化回执与绑定对象计算可复算的 canonical JSON 和 SHA-256 摘要，不在技能内维护第二套规范化算法。",
+      "constraints": [
+        "摘要算法固定为 SHA-256",
+        "必须保留当前 0.9.0 与 0.14.0 已验证的一致摘要结果"
+      ],
+      "retainedGuarantees": [
+        "待摘要对象及字段语义仍由技能失效审计项目负责",
+        "摘要一致不代表审计语义通过"
+      ],
+      "catalogFilters": [
+        "可复算摘要"
+      ]
+    },
+    {
+      "useId": "exclusive-file-publication",
+      "problemStatement": "首次发布完全同一复用回执或封印文件时，写入必须完整可见；目标一旦存在就必须拒绝，不能覆盖既有字节。",
+      "constraints": [
+        "不得以允许覆盖的原子替换写入代替独占创建语义",
+        "目标路径必须受根目录收容",
+        "重复发布必须失败并保持原文件字节不变"
+      ],
+      "retainedGuarantees": [
+        "发布时机、目标文件名和冲突后的领域处置仍由技能失效审计项目负责",
+        "Foundation 机制只负责文件系统原子性和不覆盖保证"
+      ],
+      "catalogFilters": [
+        "写入要么完整可见、要么不可见",
+        "不覆盖"
+      ]
+    },
+    {
+      "useId": "managed-platform-projection",
+      "problemStatement": "从 plugin-src 的权威内容重建 Codex、Claude Code、Kimi Code 和 WorkBuddy 四个平台投影，并保持来源、Bundle 和平台 manifest 的摘要可追溯。",
+      "constraints": [
+        "不得覆盖手写权威文件",
+        "四个平台映射和平台专属语义仍由技能失效审计项目持有",
+        "投影失败时不得留下部分新结果"
+      ],
+      "retainedGuarantees": [
+        "Foundation 提供受管投影机制和 Quickstart Bundle provenance",
+        "四平台内容选择、版本号和发布判断仍由技能失效审计项目负责"
+      ],
+      "catalogFilters": [
+        "把权威数据投影到 public 快照或发布镜像",
+        "稳定投影授权边界"
+      ]
+    },
+    {
+      "useId": "entry-budget-gate",
+      "problemStatement": "重建四个平台投影后检查入口文件存在、逻辑名、副作用类别和令牌预算，并解决当前 SKILL.md 估算 2177 tokens 超过 2000-token 预算的问题。",
+      "constraints": [
+        "不得放宽或删除现有 2000-token 预算",
+        "内容压缩不能改变触发准入与完全同一复用语义"
+      ],
+      "retainedGuarantees": [
+        "入口语义与压缩取舍仍由技能失效审计项目负责",
+        "Foundation 入口检查只提供确定性诊断"
+      ],
+      "catalogFilters": [
+        "令牌预算"
+      ]
+    },
+    {
+      "useId": "domain-audit-decisions",
+      "problemStatement": "保持触发准入、失效模式判定、完全同一复用、证据充分性和最终接受或拒绝等审计语义，不把领域 oracle 交给 Foundation。",
+      "constraints": [
+        "Foundation 输出只能作为机制证据，不能自行签发领域审计结论",
+        "当前冻结触发与复用规格的规则强度不变"
+      ],
+      "retainedGuarantees": [
+        "领域审计语义、最终裁决和正式验收状态继续由技能失效审计项目或独立审阅职责持有"
+      ],
+      "catalogFilters": [
+        "领域审计语义"
+      ]
+    },
+    {
+      "useId": "workflow-state-ownership",
+      "problemStatement": "保持尝试、封存、复用、返工和正式验收状态的业务语义，不让 Foundation 的通用状态存储机制成为第二事实源。",
+      "constraints": [
+        "现有状态枚举和状态转移仍以技能失效审计合同为权威",
+        "本次升级不引入新的编排层"
+      ],
+      "retainedGuarantees": [
+        "业务状态机、重试和终态判定继续由技能失效审计项目负责"
+      ],
+      "catalogFilters": [
+        "业务状态机"
+      ]
+    },
+    {
+      "useId": "real-host-existing-user-state",
+      "problemStatement": "四平台真实消费者验证需要复用宿主既有登录态，同时让临时会话、技能发现目录、审计输出和受保护工作区保持隔离；Kimi OAuth 刷新令牌不得复制到临时状态根。",
+      "constraints": [
+        "只消费 Foundation 0.14.0 已发布的宿主合同和行为保证",
+        "认证策略固定为 existing-user-state，凭据变更由 host-managed",
+        "Kimi 使用临时 HOME、既有 KIMI_CODE_HOME 和独立 skills-dir",
+        "技能失效审计继续校验八项领域输出、规则覆盖和四平台等价性"
+      ],
+      "retainedGuarantees": [
+        "Foundation 负责宿主认证与发现接线的通用边界",
+        "技能失效审计负责审计提示词、领域输出、失败关闭和发布判定",
+        "未执行 Foundation 完整宿主资格流程时不得声称取得 Foundation qualification"
+      ],
+      "catalogFilters": [
+        "existing-user-state",
+        "host-managed",
+        "真实宿主验证",
+        "Kimi Code"
+      ]
     }
   ],
+  "capabilityDecisions": [
+    {
+      "useId": "published-package-pin",
+      "disposition": "compatibility-layer",
+      "targetCapability": "foundation.profile.extension-spi",
+      "reason": "保留项目现有的隔离 tarball 校验层，并调用 Foundation Profile SPI 的 verifyProjectProfile 作为采用证明。"
+    },
+    {
+      "useId": "consumer-schema-batch",
+      "disposition": "foundation-gap",
+      "reason": "Foundation 尚未提供可正式采用的稳定消费者 Schema 批量能力；项目继续精确锁定 candidate-only Quickstart 闭包，并通过内部桥接提交一个有序批次。"
+    },
+    {
+      "useId": "resource-closure",
+      "disposition": "direct-adoption",
+      "targetCapability": "foundation.harness.resource-closure",
+      "reason": "审计器资源闭包直接复用 Foundation 的确定性文本闭包和摘要机制。"
+    },
+    {
+      "useId": "canonical-digest",
+      "disposition": "direct-adoption",
+      "targetCapability": "foundation.contracts.audit-surface",
+      "reason": "结构化回执和绑定对象直接复用 Foundation 的 canonical JSON 与 SHA-256 摘要。"
+    },
+    {
+      "useId": "exclusive-file-publication",
+      "disposition": "direct-adoption",
+      "targetCapability": "foundation.harness.atomic-write",
+      "reason": "使用同一稳定 Harness 包根导出的 publishFileExclusive；消费者测试直接证明目标存在时拒绝且原字节不变。"
+    },
+    {
+      "useId": "managed-platform-projection",
+      "disposition": "compatibility-layer",
+      "targetCapability": "foundation.kit.projection",
+      "reason": "Foundation 提供受管投影机制，项目适配层继续持有四平台映射、候选外置和产品写集。"
+    },
+    {
+      "useId": "entry-budget-gate",
+      "disposition": "keep-business",
+      "reason": "2000-token 预算值和现有权威测试属于项目入口合同，本轮不增加第二套入口声明。"
+    },
+    {
+      "useId": "domain-audit-decisions",
+      "disposition": "keep-business",
+      "reason": "触发、失效模式、完全同一复用、证据解释和最终审计裁决继续由技能失效审计项目持有。"
+    },
+    {
+      "useId": "workflow-state-ownership",
+      "disposition": "keep-business",
+      "reason": "尝试、封存、返工和验收状态是技能失效审计领域合同，不进入 Foundation 通用状态机制。"
+    },
+    {
+      "useId": "real-host-existing-user-state",
+      "disposition": "compatibility-layer",
+      "targetCapability": "foundation.kit.host",
+      "reason": "采用 Foundation 0.14.0 的 existing-user-state + host-managed 宿主边界；当前 SFA 黑盒适配层保留八项领域输出、规则覆盖和等价性校验，不宣称已执行 Foundation 完整宿主资格流程。"
+    }
+  ],
+  "legacyInfra": [],
+  "legacyReferences": [],
   "exceptions": [],
   "targetProfile": "quickstart-profile",
   "foundationPackages": [
     {
       "name": "skill-family-contracts",
-      "version": "0.9.0",
-      "digest": "sha256:6ee06816a3124c7adf3d3625461029a8ad78d674c3ab35253129983af4c54ad7"
+      "version": "0.14.0",
+      "digest": "sha256:a857ac781f545917a3e0237feea6f273e95084f0d8fd1322b61004979175e1d5"
     },
     {
       "name": "skill-family-engineering-kit",
-      "version": "0.9.0",
-      "digest": "sha256:17da1f0b1efb2b31e660719dfe2e8141df48a954caf061b21b15ede909706901"
+      "version": "0.14.0",
+      "digest": "sha256:39939f65e655b3164658b64d47b279e5feebf5dfa63925626c66e7d0056c8a67"
     },
     {
       "name": "skill-family-harness-node",
-      "version": "0.9.0",
-      "digest": "sha256:ed874cb243a3040716bf5a831587d65e1b01a5ace8569c3f141c4e0ffcf82175"
+      "version": "0.14.0",
+      "digest": "sha256:6a6536fa62e5438b1b5d064bdaae91c5d742662cc1252e50c5c4248582bc15a9"
     }
   ]
 }

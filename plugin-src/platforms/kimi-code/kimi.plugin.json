@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "name": "skill-failure-auditor",
-  "version": "1.1.5",
+  "version": "1.1.9",
   "description": "审计 Skill、Prompt、Agent 指令与工作流中“看似完成但真实目标未达成”的可靠性失效模式（Kimi Code 投影，唯一手写权威清单）。",
   "author": {
     "name": "广州市风荷科技有限公司"

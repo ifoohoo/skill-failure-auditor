@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://contracts.skill-family.example/candidate/foundation-mechanisms/v1/schema-validation-batch-request.json",
+  "$id": "https://contracts.skill-family.example/foundation-mechanisms/v1/schema-validation-batch-request.json",
   "title": "Candidate ordered schema validation batch request",
   "type": "object",
   "additionalProperties": false,

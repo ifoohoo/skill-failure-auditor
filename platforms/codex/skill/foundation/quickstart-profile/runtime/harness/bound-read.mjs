@@ -161,7 +161,7 @@ export async function createFilesystemRootBinding(root) {
   }
 }
 
-function assertRelativePath(relPath) {
+export function assertRelativePath(relPath) {
   if (typeof relPath !== "string" || relPath.length === 0 || relPath.includes("\0") ||
       relPath.includes("\\") || path.posix.isAbsolute(relPath)) {
     throw mechanismError(HARNESS_ERROR_KINDS.INVALID_PATH, "bound read path is not a contained relative path");
@@ -174,6 +174,31 @@ function assertRelativePath(relPath) {
     throw mechanismError(HARNESS_ERROR_KINDS.WINDOWS_DRIVE_PATH, "bound read path contains a drive path");
   }
   return segments;
+}
+
+// The only closed set of native failure reasons that can prove a static
+// member policy violation. Anything else — unknown reasons, missing root
+// identity, root identity drift, or "native-io" — stays
+// boundary-indeterminate. This set is the stable branching fact between the
+// harness and the Kit; it must never be derived from errno values or error
+// messages.
+const MEMBER_POLICY_FAILURE_REASONS = Object.freeze([
+  "member-missing",
+  "intermediate-not-real-directory",
+  "leaf-symbolic-link",
+  "leaf-not-regular",
+  "leaf-multiple-links",
+]);
+const MEMBER_POLICY_FAILURE_REASON_SET = new Set(MEMBER_POLICY_FAILURE_REASONS);
+
+function nativeBoundReadDisposition(native, captured) {
+  if (native?.rootDevice !== captured.identity.device || native?.rootInode !== captured.identity.inode ||
+      Number(native?.rootMode) !== captured.identity.mode) {
+    return "boundary-indeterminate";
+  }
+  return MEMBER_POLICY_FAILURE_REASON_SET.has(native?.failureReason)
+    ? "member-policy-violation"
+    : "boundary-indeterminate";
 }
 
 export async function readFileBound(root, relPath, { rootBinding, encoding, expectedSha256 } = {}) {
@@ -197,26 +222,36 @@ export async function readFileBound(root, relPath, { rootBinding, encoding, expe
       throw mechanismError(
         HARNESS_ERROR_KINDS.UNSAFE_STATE_ENTRY,
         "approved root binding does not match the current root",
+        { boundReadDisposition: "boundary-indeterminate" },
       );
     }
     const { addon } = await loadNativeBoundReadAddon();
     const native = addon.readFileBoundNative(captured.canonical, segments);
     if (!native?.ok) {
-      const cause = {
-        code: native?.errorCode === (process.platform === "darwin" ? 62 : 40) ? "ELOOP" : native?.errorCode === 2 ? "ENOENT" :
-          native?.errorCode === 20 ? "ENOTDIR" : `errno-${native?.errorCode ?? "unknown"}`,
-      };
-      if (cause.code === "ENOTDIR" && segments.length > 1) {
-        throw mechanismError(HARNESS_ERROR_KINDS.UNSAFE_STATE_ENTRY, "an intermediate component is not a real directory", {
-          input: relPath,
-        });
+      // Disposition is decided only by the two documented conditions: the
+      // native root identity must equal the captured binding, and the native
+      // failureReason must be one of the five closed-set member policy
+      // reasons. The reason also selects the stable details.kind; it is never
+      // derived from errno values or error messages.
+      const boundReadDisposition = nativeBoundReadDisposition(native, captured);
+      const details = { input: relPath, boundReadDisposition };
+      const reason = native?.failureReason;
+      if (reason === "intermediate-not-real-directory") {
+        throw mechanismError(HARNESS_ERROR_KINDS.UNSAFE_STATE_ENTRY, "an intermediate component is not a real directory", details);
       }
-      mapOpenFailure(cause, relPath, segments.length > 1 ? "bound path" : "leaf");
+      if (reason === "leaf-symbolic-link") {
+        throw mechanismError(HARNESS_ERROR_KINDS.UNSAFE_STATE_ENTRY, "bound path became a symbolic link during read", details);
+      }
+      if (reason === "member-missing") {
+        throw mechanismError(HARNESS_ERROR_KINDS.MISSING_RESOURCE, "bound path does not exist during read", details);
+      }
+      throw mechanismError(HARNESS_ERROR_KINDS.READ_FAILED, `bound path could not be read: ${reason ?? "native-io"}`, details);
     }
     if (native.rootDevice !== captured.identity.device || native.rootInode !== captured.identity.inode ||
         Number(native.rootMode) !== captured.identity.mode) {
       throw mechanismError(HARNESS_ERROR_KINDS.UNSAFE_STATE_ENTRY, "root identity changed during bound read", {
         input: relPath,
+        boundReadDisposition: "boundary-indeterminate",
       });
     }
     const bytes = Buffer.from(native.bytes);
@@ -234,6 +269,8 @@ export async function readFileBound(root, relPath, { rootBinding, encoding, expe
       sha256,
       bytes: bytes.length,
       mode: Number(native.leafMode),
+      statMode: Number(native.statMode),
+      rootMode: captured.identity.mode,
     });
   } finally {
     await captured.handle.close().catch(() => {});

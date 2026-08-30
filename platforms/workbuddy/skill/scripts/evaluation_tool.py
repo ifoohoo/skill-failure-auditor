@@ -11,14 +11,34 @@ from typing import Any
 
 from common import (
     ContractError,
+    list_regular_files,
     load_json,
     load_jsonl,
     require_sha256,
     write_json_exclusive,
 )
-from evidence_tool import _build_coverage_from_verified_inputs, verify_index
-from foundation_client import foundation_digest_document, foundation_file_sha256, require_production_validate
-from registry_tool import DEFAULT_REGISTRY, validate_selection_artifact
+from attempt_tool import list_records, verify_attempt, verify_manifest
+from evidence_tool import (
+    DEFAULT_CHUNK_SIZE,
+    _build_coverage_from_verified_inputs,
+    build_index,
+    validate_index_document,
+    verify_index,
+)
+from foundation_client import (
+    foundation_digest_document,
+    foundation_file_sha256,
+    foundation_resource_closure,
+    require_production_validate,
+)
+from registry_tool import (
+    DEFAULT_REGISTRY,
+    DEFAULT_SCHEMA,
+    build_selection,
+    validate_registry,
+    validate_selection_artifact,
+)
+from report_renderer import load_registry_names, render
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -26,6 +46,22 @@ AUDIT_SCHEMA = SCRIPT_DIR.parent / "references" / "audit-result.schema.json"
 CONTINUATION_SCHEMA = SCRIPT_DIR.parent / "references" / "continuation-package.schema.json"
 SOURCE_MANIFEST_SCHEMA = SCRIPT_DIR.parent / "references" / "source-manifest.schema.json"
 FAIL_CLOSED_CONCLUSIONS = {"INCOMPLETE", "BLOCKED"}
+REUSABLE_CONCLUSIONS = {"PASS_WITHIN_FROZEN_SCOPE", "NEEDS_REVISION", "REJECT"}
+REUSE_REASON_ORDER = (
+    "NO_PRIOR_REUSE_RECEIPT",
+    "FRESH_EVIDENCE_REQUIRED",
+    "PRIOR_RESULT_NOT_REUSABLE",
+    "PRIOR_ATTEMPT_NOT_BOUND",
+    "PRIOR_ATTEMPT_RECORD_MISMATCH",
+    "EVIDENCE_TYPE_CHANGED",
+    "MODE_CHANGED",
+    "SUBJECT_IDENTITY_CHANGED",
+    "SUBJECT_CONTENT_CHANGED",
+    "CRITERIA_CHANGED",
+    "REGISTRY_CHANGED",
+    "SELECTION_CHANGED",
+    "AUDITOR_CHANGED",
+)
 SKILL_IDENTITY_ANCHORS = (
     "SKILL.md",
     "scripts/evaluation_tool.py",
@@ -63,15 +99,608 @@ def derive_self_audit(subject_path: Path) -> bool:
     return False
 
 
+def validate_selection_document(path: Path) -> dict[str, Any]:
+    """Validate a frozen selection without consulting a possibly changed registry."""
+    selection = load_json(path)
+    expected_keys = {
+        "schema_version",
+        "status",
+        "registry_sha256",
+        "schema_sha256",
+        "registry_entry_count",
+        "selected_count",
+        "unselected_count",
+        "truncated_count",
+        "selection_context",
+        "selection_context_sha256",
+        "coverage_ledger_sha256",
+        "selection_sha256",
+    }
+    if not isinstance(selection, dict) or set(selection) != expected_keys:
+        raise ContractError("selection artifact has an unexpected field set")
+    unsigned = dict(selection)
+    unsigned.pop("selection_sha256")
+    if selection["selection_sha256"] != foundation_digest_document(unsigned):
+        raise ContractError("selection artifact self digest mismatch")
+    for field in (
+        "registry_sha256",
+        "schema_sha256",
+        "selection_context_sha256",
+        "coverage_ledger_sha256",
+        "selection_sha256",
+    ):
+        require_sha256(selection[field], f"selection {field}")
+    if selection["schema_version"] != "1.0" or selection["status"] not in {
+        "SELECTED",
+        "INCOMPLETE_LOW_CONFIDENCE",
+    }:
+        raise ContractError("selection artifact header is invalid")
+    for field in (
+        "registry_entry_count",
+        "selected_count",
+        "unselected_count",
+        "truncated_count",
+    ):
+        value = selection[field]
+        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+            raise ContractError(f"selection {field} is invalid")
+    if (
+        selection["selected_count"] + selection["unselected_count"]
+        != selection["registry_entry_count"]
+    ):
+        raise ContractError("selection counts do not conserve the registry")
+    context = selection["selection_context"]
+    if not isinstance(context, dict) or set(context) != {
+        "mode",
+        "target_type",
+        "evidence_types",
+        "selected_rules",
+    }:
+        raise ContractError("selection context has an unexpected field set")
+    if context["mode"] not in {"static", "runtime", "combined"}:
+        raise ContractError("selection context mode is invalid")
+    if not isinstance(context["target_type"], str) or not context["target_type"]:
+        raise ContractError("selection context target type is invalid")
+    evidence_types = context["evidence_types"]
+    if (
+        not isinstance(evidence_types, list)
+        or not all(isinstance(item, str) and item for item in evidence_types)
+        or evidence_types != sorted(set(evidence_types))
+    ):
+        raise ContractError("selection context evidence types are not canonical")
+    rules = context["selected_rules"]
+    if not isinstance(rules, list) or not rules:
+        raise ContractError("selection context selected rules are empty")
+    expected_rule_keys = {
+        "id",
+        "revision",
+        "severity",
+        "priority",
+        "core_redline",
+        "selection_reason",
+        "source_sha256",
+        "guidance_ref",
+    }
+    identifiers: list[str] = []
+    for index, rule in enumerate(rules):
+        if not isinstance(rule, dict) or set(rule) != expected_rule_keys:
+            raise ContractError(f"selection rule {index} has an unexpected field set")
+        if not isinstance(rule["id"], str) or not rule["id"]:
+            raise ContractError(f"selection rule {index} has an invalid id")
+        require_sha256(rule["source_sha256"], f"selection rule {rule['id']} source")
+        identifiers.append(rule["id"])
+    if len(identifiers) != len(set(identifiers)):
+        raise ContractError("selection context contains duplicate rule ids")
+    if selection["selected_count"] != len(rules):
+        raise ContractError("selection selected count mismatch")
+    if selection["selection_context_sha256"] != foundation_digest_document(context):
+        raise ContractError("selection context digest mismatch")
+    return selection
+
+
+def canonical_subject_path(path: Path) -> Path:
+    if not path.is_absolute():
+        raise ContractError(f"audit subject path must be absolute: {path}")
+    if path.is_symlink() or not (path.is_file() or path.is_dir()):
+        raise ContractError(f"audit subject must be a real file or directory: {path}")
+    return path.resolve(strict=True)
+
+
+def auditor_core_identity(skill_root: Path = SCRIPT_DIR.parent) -> dict[str, Any]:
+    """Digest the runtime instruction, reference, script, and Foundation closure."""
+    root = skill_root.resolve(strict=True)
+    if skill_root.is_symlink() or not root.is_dir():
+        raise ContractError("auditor skill root must be a real directory")
+    members: list[Path] = []
+    skill_entry = root / "SKILL.md"
+    if skill_entry.is_symlink() or not skill_entry.is_file():
+        raise ContractError("auditor SKILL.md is missing or invalid")
+    members.append(skill_entry)
+    for directory_name in ("references", "foundation"):
+        directory = root / directory_name
+        for path in list_regular_files(directory):
+            relative = path.relative_to(root)
+            if (
+                "__pycache__" in relative.parts
+                or "tests" in relative.parts
+                or path.suffix == ".pyc"
+                or path.name.startswith("test_")
+            ):
+                continue
+            members.append(path)
+    scripts = root / "scripts"
+    if scripts.is_symlink() or not scripts.is_dir():
+        raise ContractError("auditor scripts directory is missing or invalid")
+    for path in scripts.iterdir():
+        if path.is_symlink():
+            raise ContractError(f"symlink is not allowed in auditor closure: {path}")
+        if path.is_file() and path.suffix == ".py" and not path.name.startswith("test_"):
+            members.append(path)
+    unique = {path.relative_to(root).as_posix(): path for path in members}
+    if len(unique) != len(members):
+        raise ContractError("auditor closure contains duplicate paths")
+    relative_paths = sorted(unique, key=lambda item: item.encode("utf-8"))
+    closure = foundation_resource_closure(
+        str(root),
+        [{"path": relative, "role": "input"} for relative in relative_paths],
+    )
+    closure_records = {
+        record["path"]: record
+        for record in closure.get("resources", [])
+        if isinstance(record, dict)
+    }
+    if set(closure_records) != set(relative_paths):
+        raise ContractError("auditor closure did not return the exact requested member set")
+    records = []
+    for relative in relative_paths:
+        path = unique[relative]
+        closure_record = closure_records[relative]
+        if closure_record.get("exists") is not True:
+            raise ContractError(f"auditor closure member is missing: {relative}")
+        require_sha256(closure_record.get("sha256"), f"auditor member {relative}")
+        records.append(
+            {
+                "path": relative,
+                "size": path.stat().st_size,
+                "sha256": closure_record["sha256"],
+            }
+        )
+    return {
+        "members": records,
+        "auditor_core_sha256": foundation_digest_document(records),
+    }
+
+
+def reuse_receipt_digest(receipt: dict[str, Any]) -> str:
+    unsigned = dict(receipt)
+    unsigned.pop("receipt_digest", None)
+    return foundation_digest_document(unsigned)
+
+
+def validate_reuse_receipt(path: Path) -> dict[str, Any]:
+    receipt = load_json(path)
+    expected_keys = {
+        "schema_version",
+        "status",
+        "audit_id",
+        "mode",
+        "subject",
+        "criteria_commitment_sha256",
+        "registry_sha256",
+        "selection_sha256",
+        "auditor_core_sha256",
+        "audit_result_sha256",
+        "audit_report_sha256",
+        "prior_conclusion",
+        "prior_result_status",
+        "self_audit",
+        "attempt_id",
+        "attempt_manifest_sha256",
+        "receipt_digest",
+    }
+    if not isinstance(receipt, dict) or set(receipt) != expected_keys:
+        raise ContractError("reuse receipt has an unexpected field set")
+    if receipt["schema_version"] != "1.0" or receipt["status"] != "REUSE_ELIGIBLE":
+        raise ContractError("reuse receipt header is invalid")
+    if receipt["mode"] not in {"static", "runtime", "combined"}:
+        raise ContractError("reuse receipt mode is invalid")
+    if receipt["prior_conclusion"] not in REUSABLE_CONCLUSIONS:
+        raise ContractError("reuse receipt conclusion is not reusable")
+    if receipt["prior_result_status"] not in {
+        "AUDIT_SUBMITTED_FOR_REVIEW",
+        "SELF_AUDIT_SUBMITTED_FOR_EXTERNAL_REVIEW",
+        "EXTERNALLY_REVIEWED",
+    }:
+        raise ContractError("reuse receipt result status is invalid")
+    if not isinstance(receipt["self_audit"], bool):
+        raise ContractError("reuse receipt self_audit must be boolean")
+    for field in ("audit_id", "attempt_id"):
+        if not isinstance(receipt[field], str) or not receipt[field]:
+            raise ContractError(f"reuse receipt {field} is invalid")
+    subject = receipt["subject"]
+    if not isinstance(subject, dict) or set(subject) != {
+        "canonical_path",
+        "file_set_sha256",
+    }:
+        raise ContractError("reuse receipt subject is invalid")
+    canonical_path = subject["canonical_path"]
+    if not isinstance(canonical_path, str) or not canonical_path:
+        raise ContractError("reuse receipt subject canonical_path is invalid")
+    canonical = Path(canonical_path)
+    if not canonical.is_absolute() or str(canonical) != subject["canonical_path"]:
+        raise ContractError("reuse receipt subject path is not canonical absolute syntax")
+    digest_fields = (
+        "criteria_commitment_sha256",
+        "registry_sha256",
+        "selection_sha256",
+        "auditor_core_sha256",
+        "audit_result_sha256",
+        "audit_report_sha256",
+        "attempt_manifest_sha256",
+        "receipt_digest",
+    )
+    for field in digest_fields:
+        require_sha256(receipt[field], f"reuse receipt {field}")
+    require_sha256(subject["file_set_sha256"], "reuse receipt subject digest")
+    if receipt["receipt_digest"] != reuse_receipt_digest(receipt):
+        raise ContractError("reuse receipt self digest mismatch")
+    return receipt
+
+
+def _require_record_binding(
+    records: list[dict[str, Any]],
+    kind: str,
+    expected_sha256: str,
+    *,
+    required: bool,
+) -> bool:
+    matches = [record for record in records if record["kind"] == kind]
+    if len(matches) > 1:
+        raise ContractError(f"attempt contains duplicate required records: {kind}")
+    if not matches:
+        if required:
+            raise ContractError(f"attempt is missing required record: {kind}")
+        return False
+    if matches[0]["artifact_sha256"] != expected_sha256:
+        raise ContractError(f"attempt {kind} record digest mismatch")
+    return True
+
+
+def build_reuse_receipt(
+    result_path: Path,
+    report_path: Path,
+    selection_path: Path,
+    attempt: Path,
+    *,
+    skill_root: Path = SCRIPT_DIR.parent,
+) -> dict[str, Any]:
+    registry_path = skill_root / "references" / "failure-modes.jsonl"
+    validation = validate_audit_result(result_path, selection_path, registry_path)
+    result = load_json(result_path)
+    selection, _ = validate_selection_artifact(selection_path, registry_path)
+    if selection["status"] != "SELECTED":
+        raise ContractError("only a SELECTED rule set can produce a reuse receipt")
+    if result["coverage_status"] != "COMPLETE":
+        raise ContractError("only COMPLETE coverage can produce a reuse receipt")
+    if validation["unchecked_high_severity"]:
+        raise ContractError("unchecked high-severity rules cannot produce a reuse receipt")
+    if result["conclusion"] not in REUSABLE_CONCLUSIONS:
+        raise ContractError("audit conclusion is not reusable")
+    attempt_verification = verify_attempt(attempt)
+    if attempt_verification["status"] != "VERIFIED_OPEN":
+        raise ContractError("reuse receipt must be created before the attempt is sealed")
+    manifest = verify_manifest(attempt)
+    if manifest["candidate_sha256"] != result["subject"]["file_set_sha256"]:
+        raise ContractError("attempt candidate digest does not bind the audit subject")
+    records = list_records(attempt)
+    result_sha256 = foundation_file_sha256(result_path)
+    report_sha256 = foundation_file_sha256(report_path)
+    _require_record_binding(records, "audit_result", result_sha256, required=True)
+    _require_record_binding(records, "audit_report", report_sha256, required=True)
+    if report_path.is_symlink() or not report_path.is_file():
+        raise ContractError("audit report must be a regular file")
+    expected_report = render(result, load_registry_names(registry_path)).encode("utf-8")
+    if report_path.read_bytes() != expected_report:
+        raise ContractError("audit report does not match deterministic rendering")
+    subject = canonical_subject_path(Path(result["subject"]["path"]))
+    receipt: dict[str, Any] = {
+        "schema_version": "1.0",
+        "status": "REUSE_ELIGIBLE",
+        "audit_id": result["audit_id"],
+        "mode": result["mode"],
+        "subject": {
+            "canonical_path": str(subject),
+            "file_set_sha256": result["subject"]["file_set_sha256"],
+        },
+        "criteria_commitment_sha256": manifest["criteria_commitment_sha256"],
+        "registry_sha256": result["registry_sha256"],
+        "selection_sha256": result["selection_sha256"],
+        "auditor_core_sha256": auditor_core_identity(skill_root)[
+            "auditor_core_sha256"
+        ],
+        "audit_result_sha256": result_sha256,
+        "audit_report_sha256": report_sha256,
+        "prior_conclusion": result["conclusion"],
+        "prior_result_status": result["status"],
+        "self_audit": result["self_audit"],
+        "attempt_id": manifest["attempt_id"],
+        "attempt_manifest_sha256": manifest["manifest_sha256"],
+    }
+    receipt["receipt_digest"] = reuse_receipt_digest(receipt)
+    return receipt
+
+
+def reuse_decision_digest(decision: dict[str, Any]) -> str:
+    unsigned = dict(decision)
+    unsigned.pop("decision_digest", None)
+    return foundation_digest_document(unsigned)
+
+
+def _ordered_reasons(reasons: set[str]) -> list[str]:
+    unknown = reasons - set(REUSE_REASON_ORDER)
+    if unknown:
+        raise ContractError(f"unknown reuse reason codes: {sorted(unknown)}")
+    return [reason for reason in REUSE_REASON_ORDER if reason in reasons]
+
+
+def _build_reuse_decision(
+    reasons: set[str],
+    prior_audit_id: str,
+    prior_result_sha256: str,
+    prior_report_sha256: str,
+    conclusion: str | None,
+) -> dict[str, Any]:
+    identical = not reasons
+    decision: dict[str, Any] = {
+        "schema_version": "1.0",
+        "status": "REUSE_IDENTICAL" if identical else "FULL_AUDIT_REQUIRED",
+        "reason_codes": (
+            ["ALL_IDENTITY_CHECKS_MATCH"] if identical else _ordered_reasons(reasons)
+        ),
+        "prior_audit_id": prior_audit_id,
+        "prior_result_sha256": prior_result_sha256,
+        "prior_report_sha256": prior_report_sha256,
+        "reused_conclusion": conclusion if identical else None,
+        "acceptance_eligible": False,
+    }
+    decision["decision_digest"] = reuse_decision_digest(decision)
+    return decision
+
+
+def _assert_reuse_inputs_stable(
+    subject: Path,
+    first_index: dict[str, Any],
+    criteria_path: Path,
+    first_criteria_sha256: str,
+    skill_root: Path,
+    first_auditor_sha256: str,
+) -> None:
+    second_index = build_index(subject, DEFAULT_CHUNK_SIZE)
+    second_criteria = foundation_file_sha256(criteria_path)
+    second_auditor = auditor_core_identity(skill_root)["auditor_core_sha256"]
+    if second_index["file_set_sha256"] != first_index["file_set_sha256"]:
+        raise ContractError("INPUT_DRIFT: audit subject changed during reuse check")
+    if second_criteria != first_criteria_sha256:
+        raise ContractError("INPUT_DRIFT: criteria commitment changed during reuse check")
+    if second_auditor != first_auditor_sha256:
+        raise ContractError("INPUT_DRIFT: auditor closure changed during reuse check")
+
+
+def reuse_check(
+    subject_path: Path,
+    mode: str,
+    evidence_types: set[str],
+    criteria_path: Path,
+    prior_result_path: Path,
+    prior_report_path: Path,
+    prior_selection_path: Path,
+    prior_attempt: Path,
+    prior_reuse_receipt_path: Path | None,
+    expected_prior_seal_file_sha256: str | None,
+    *,
+    fresh_evidence_required: bool = False,
+    skill_root: Path = SCRIPT_DIR.parent,
+) -> dict[str, Any]:
+    if expected_prior_seal_file_sha256 is not None:
+        require_sha256(
+            expected_prior_seal_file_sha256,
+            "expected prior seal file",
+        )
+    subject = canonical_subject_path(subject_path)
+    if criteria_path.is_symlink() or not criteria_path.is_file():
+        raise ContractError("criteria commitment must be a regular file")
+    current_index = build_index(subject, DEFAULT_CHUNK_SIZE)
+    criteria_sha256 = foundation_file_sha256(criteria_path)
+    auditor_sha256 = auditor_core_identity(skill_root)["auditor_core_sha256"]
+    registry_path = skill_root / "references" / "failure-modes.jsonl"
+    schema_path = skill_root / "references" / "failure-mode.schema.json"
+    current_registry = validate_registry(registry_path, schema_path)
+    current_selection = build_selection(
+        current_registry,
+        mode,
+        "skill",
+        evidence_types,
+        28,
+    )["selection"]
+    prior_result_sha256 = foundation_file_sha256(prior_result_path)
+    prior_report_sha256 = foundation_file_sha256(prior_report_path)
+    prior_result = load_json(prior_result_path)
+    require_production_validate(prior_result, load_json(AUDIT_SCHEMA))
+
+    reasons: set[str] = set()
+    if fresh_evidence_required:
+        reasons.add("FRESH_EVIDENCE_REQUIRED")
+    if prior_reuse_receipt_path is None:
+        reasons.add("NO_PRIOR_REUSE_RECEIPT")
+        _assert_reuse_inputs_stable(
+            subject,
+            current_index,
+            criteria_path,
+            criteria_sha256,
+            skill_root,
+            auditor_sha256,
+        )
+        return _build_reuse_decision(
+            reasons,
+            prior_result["audit_id"],
+            prior_result_sha256,
+            prior_report_sha256,
+            None,
+        )
+
+    receipt = validate_reuse_receipt(prior_reuse_receipt_path)
+    if prior_result_sha256 != receipt["audit_result_sha256"]:
+        raise ContractError("prior audit result digest does not match reuse receipt")
+    if prior_report_sha256 != receipt["audit_report_sha256"]:
+        raise ContractError("prior audit report digest does not match reuse receipt")
+    prior_selection = validate_selection_document(prior_selection_path)
+    if prior_selection["selection_sha256"] != receipt["selection_sha256"]:
+        raise ContractError("prior selection digest does not match reuse receipt")
+    if prior_selection["registry_sha256"] != receipt["registry_sha256"]:
+        raise ContractError("prior selection registry digest does not match reuse receipt")
+
+    prior_subject_path = canonical_subject_path(Path(prior_result["subject"]["path"]))
+    if receipt["subject"]["canonical_path"] != str(prior_subject_path):
+        raise ContractError("prior result subject identity does not match reuse receipt")
+    if (
+        prior_result["subject"]["file_set_sha256"]
+        != receipt["subject"]["file_set_sha256"]
+    ):
+        raise ContractError("prior result subject digest does not match reuse receipt")
+    for result_field, receipt_field in (
+        ("audit_id", "audit_id"),
+        ("mode", "mode"),
+        ("registry_sha256", "registry_sha256"),
+        ("selection_sha256", "selection_sha256"),
+        ("conclusion", "prior_conclusion"),
+        ("status", "prior_result_status"),
+        ("self_audit", "self_audit"),
+    ):
+        if prior_result[result_field] != receipt[receipt_field]:
+            raise ContractError(
+                f"prior result {result_field} does not match reuse receipt"
+            )
+
+    registry_changed = (
+        current_registry["registry_sha256"] != receipt["registry_sha256"]
+    )
+    subject_content_changed = (
+        str(subject) == receipt["subject"]["canonical_path"]
+        and current_index["file_set_sha256"]
+        != receipt["subject"]["file_set_sha256"]
+    )
+    validation = validate_audit_result(
+        prior_result_path,
+        prior_selection_path,
+        registry_path,
+        allow_subject_drift=subject_content_changed,
+        allow_registry_drift=registry_changed,
+    )
+    if (
+        validation["conclusion"] not in REUSABLE_CONCLUSIONS
+        or validation["unchecked_high_severity"]
+        or prior_selection["status"] != "SELECTED"
+    ):
+        reasons.add("PRIOR_RESULT_NOT_REUSABLE")
+
+    current_report_bytes = render(
+        prior_result,
+        load_registry_names(registry_path),
+    ).encode("utf-8")
+    if (
+        auditor_sha256 == receipt["auditor_core_sha256"]
+        and prior_report_path.read_bytes() != current_report_bytes
+    ):
+        raise ContractError("prior report does not match deterministic rendering")
+
+    attempt_verification = verify_attempt(
+        prior_attempt,
+        expected_prior_seal_file_sha256,
+    )
+    manifest = verify_manifest(prior_attempt)
+    if manifest["attempt_id"] != receipt["attempt_id"]:
+        raise ContractError("prior attempt id does not match reuse receipt")
+    if manifest["manifest_sha256"] != receipt["attempt_manifest_sha256"]:
+        raise ContractError("prior attempt manifest does not match reuse receipt")
+    if manifest["candidate_sha256"] != receipt["subject"]["file_set_sha256"]:
+        raise ContractError("prior attempt candidate does not match reuse receipt")
+    if (
+        manifest["criteria_commitment_sha256"]
+        != receipt["criteria_commitment_sha256"]
+    ):
+        raise ContractError("prior attempt criteria does not match reuse receipt")
+    if attempt_verification["status"] != "VERIFIED_SEALED_BOUND":
+        reasons.add("PRIOR_ATTEMPT_NOT_BOUND")
+    expected_outcome = (
+        "SELF_AUDIT_SUBMITTED" if receipt["self_audit"] else "CANDIDATE_SUBMITTED"
+    )
+    if attempt_verification["outcome"] != expected_outcome:
+        reasons.add("PRIOR_RESULT_NOT_REUSABLE")
+    records = list_records(prior_attempt)
+    record_bindings = (
+        ("audit_result", receipt["audit_result_sha256"]),
+        ("audit_report", receipt["audit_report_sha256"]),
+        ("audit_reuse_receipt", foundation_file_sha256(prior_reuse_receipt_path)),
+    )
+    record_statuses = [
+        _require_record_binding(records, kind, digest, required=False)
+        for kind, digest in record_bindings
+    ]
+    if not all(record_statuses):
+        reasons.add("PRIOR_ATTEMPT_RECORD_MISMATCH")
+
+    prior_evidence_types = set(
+        prior_selection["selection_context"]["evidence_types"]
+    )
+    if evidence_types != prior_evidence_types:
+        reasons.add("EVIDENCE_TYPE_CHANGED")
+    if mode != receipt["mode"]:
+        reasons.add("MODE_CHANGED")
+    if str(subject) != receipt["subject"]["canonical_path"]:
+        reasons.add("SUBJECT_IDENTITY_CHANGED")
+    if current_index["file_set_sha256"] != receipt["subject"]["file_set_sha256"]:
+        reasons.add("SUBJECT_CONTENT_CHANGED")
+    if criteria_sha256 != receipt["criteria_commitment_sha256"]:
+        reasons.add("CRITERIA_CHANGED")
+    if registry_changed:
+        reasons.add("REGISTRY_CHANGED")
+    if current_selection["selection_sha256"] != receipt["selection_sha256"]:
+        reasons.add("SELECTION_CHANGED")
+    if auditor_sha256 != receipt["auditor_core_sha256"]:
+        reasons.add("AUDITOR_CHANGED")
+
+    _assert_reuse_inputs_stable(
+        subject,
+        current_index,
+        criteria_path,
+        criteria_sha256,
+        skill_root,
+        auditor_sha256,
+    )
+    return _build_reuse_decision(
+        reasons,
+        receipt["audit_id"],
+        prior_result_sha256,
+        prior_report_sha256,
+        receipt["prior_conclusion"],
+    )
+
+
 def validate_audit_result(
     path: Path,
     selection_path: Path,
     registry_path: Path = DEFAULT_REGISTRY,
+    *,
+    allow_subject_drift: bool = False,
+    allow_registry_drift: bool = False,
 ) -> dict[str, Any]:
     result = load_json(path)
     schema = load_json(AUDIT_SCHEMA)
     require_production_validate(result, schema)
-    selection, _ = validate_selection_artifact(selection_path, registry_path)
+    if allow_registry_drift:
+        selection = validate_selection_document(selection_path)
+    else:
+        selection, _ = validate_selection_artifact(selection_path, registry_path)
     context = selection["selection_context"]
     if result["mode"] != context["mode"]:
         raise ContractError("audit mode does not match the frozen selection")
@@ -85,13 +714,19 @@ def validate_audit_result(
         raise ContractError(f"audit subject path must be absolute: {subject_path}")
     if subject_path.is_symlink() or not (subject_path.is_file() or subject_path.is_dir()):
         raise ContractError(f"audit subject must be a real file or directory: {subject_path}")
-    derived_self_audit = derive_self_audit(subject_path)
+    derived_self_audit = (
+        result["self_audit"] if allow_subject_drift else derive_self_audit(subject_path)
+    )
     if result["self_audit"] is not derived_self_audit:
         raise ContractError("self_audit does not match the verified audit subject")
     index_path = verify_binding(result["evidence_index"], "audit evidence index")
     records_path = verify_binding(result["coverage_records"], "audit coverage records")
     ledger_path = verify_binding(result["coverage_ledger"], "audit coverage ledger")
-    index = verify_index(subject_path, index_path)
+    index = (
+        validate_index_document(load_json(index_path))
+        if allow_subject_drift
+        else verify_index(subject_path, index_path)
+    )
     if result["subject"]["file_set_sha256"] != index["file_set_sha256"]:
         raise ContractError("audit subject file-set digest does not match verified evidence index")
     recomputed_ledger, coverage_exit = _build_coverage_from_verified_inputs(
@@ -540,6 +1175,31 @@ def parser() -> argparse.ArgumentParser:
     verify.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     verify.add_argument("--source-manifest", type=Path, required=True)
     verify.add_argument("--output", type=Path)
+
+    receipt = subcommands.add_parser("reuse-receipt-create")
+    receipt.add_argument("--result", type=Path, required=True)
+    receipt.add_argument("--report", type=Path, required=True)
+    receipt.add_argument("--selection", type=Path, required=True)
+    receipt.add_argument("--attempt", type=Path, required=True)
+    receipt.add_argument("--output", type=Path, required=True)
+
+    reuse = subcommands.add_parser("reuse-check")
+    reuse.add_argument("--subject", type=Path, required=True)
+    reuse.add_argument(
+        "--mode",
+        choices=("static", "runtime", "combined"),
+        required=True,
+    )
+    reuse.add_argument("--evidence-type", action="append", required=True)
+    reuse.add_argument("--criteria-commitment", type=Path, required=True)
+    reuse.add_argument("--prior-result", type=Path, required=True)
+    reuse.add_argument("--prior-report", type=Path, required=True)
+    reuse.add_argument("--prior-selection", type=Path, required=True)
+    reuse.add_argument("--prior-attempt", type=Path, required=True)
+    reuse.add_argument("--prior-reuse-receipt", type=Path)
+    reuse.add_argument("--expected-prior-seal-file-sha256")
+    reuse.add_argument("--fresh-evidence-required", action="store_true")
+    reuse.add_argument("--output", type=Path)
     return root
 
 
@@ -548,6 +1208,28 @@ def emit(value: dict[str, Any], output: Path | None) -> None:
         write_json_exclusive(output, value)
     else:
         print(json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2))
+
+
+def output_inside_subject(subject: Path, output: Path) -> bool:
+    canonical_subject = canonical_subject_path(subject)
+    canonical_output = output.resolve(strict=False)
+    if canonical_subject.is_file():
+        return canonical_output == canonical_subject
+    try:
+        canonical_output.relative_to(canonical_subject)
+        return True
+    except ValueError:
+        return False
+
+
+def output_inside_directory(directory: Path, output: Path) -> bool:
+    canonical_directory = directory.resolve(strict=True)
+    canonical_output = output.resolve(strict=False)
+    try:
+        canonical_output.relative_to(canonical_directory)
+        return True
+    except ValueError:
+        return False
 
 
 def main() -> int:
@@ -575,6 +1257,48 @@ def main() -> int:
                     args.selection,
                     args.registry,
                     args.source_manifest,
+                ),
+                args.output,
+            )
+        elif args.command == "reuse-receipt-create":
+            write_json_exclusive(
+                args.output,
+                build_reuse_receipt(
+                    args.result,
+                    args.report,
+                    args.selection,
+                    args.attempt,
+                ),
+            )
+        elif args.command == "reuse-check":
+            if args.output is not None and output_inside_subject(
+                args.subject,
+                args.output,
+            ):
+                raise ContractError("reuse decision output must be outside the audit subject")
+            if args.output is not None and output_inside_directory(
+                args.prior_attempt,
+                args.output,
+            ):
+                raise ContractError("reuse decision output must be outside the prior attempt")
+            if args.output is not None and output_inside_directory(
+                SCRIPT_DIR.parent,
+                args.output,
+            ):
+                raise ContractError("reuse decision output must be outside the auditor skill root")
+            emit(
+                reuse_check(
+                    args.subject,
+                    args.mode,
+                    set(args.evidence_type),
+                    args.criteria_commitment,
+                    args.prior_result,
+                    args.prior_report,
+                    args.prior_selection,
+                    args.prior_attempt,
+                    args.prior_reuse_receipt,
+                    args.expected_prior_seal_file_sha256,
+                    fresh_evidence_required=args.fresh_evidence_required,
                 ),
                 args.output,
             )

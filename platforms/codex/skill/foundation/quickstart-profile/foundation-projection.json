@@ -4,35 +4,35 @@
   "profile": {
     "id": "quickstart-profile",
     "version": 2,
-    "contractsVersion": "1.9.0"
+    "contractsVersion": "1.14.0"
   },
   "source": {
     "repository": "skill-family-foundation-workspace",
-    "baseCommit": "c3eeb0aeeef2de9001cb75e7783287d96bb1cff9",
+    "baseCommit": "8b4c865e6861dccf15d995713fb2bdced9e6159d",
     "foundation": [
       {
         "path": "packages/skill-family-contracts/candidate/foundation-mechanisms/schema-validation-batch-request.schema.json",
-        "sha256": "bee6b9b2b6fb5f7f1cf20df41e7f54e7b0e1b0023ebc2bed99e9e8f7a1d065cc",
+        "sha256": "83dc977ceee4cb3d320a402f129ddcfe951d65678e00b1d90ea438e4abdc1048",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-contracts/candidate/foundation-mechanisms/schema-validation-batch-result.schema.json",
-        "sha256": "e2156956494cbbf278631f9dcb865dbc6da091950856b135be0e337d21ff45df",
+        "sha256": "5893a76a6bbb0bea1de716b1790d4156843e4610cf122f55efdd3c410d99eae8",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-contracts/candidate/quickstart-profile/consumer-schema-inventory.schema.json",
-        "sha256": "9b03633adc2c260b7b1b29eb8132d6f7c83c16fe8d74569bf90a3eafaa3d780b",
+        "sha256": "e99735c3dc6986253495bfbeeabd9b83ab913b6ad836e46c4c16d1919698ec39",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-contracts/candidate/quickstart-profile/harness-surface-inventory.schema.json",
-        "sha256": "788841d29e38ebcf3c14461bee5b57500caacd11edb54e89b502eb60933934b5",
+        "sha256": "c96044d0279129491b0b461686fc1b21ee521d3306dee6fc61f5eada9122d715",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-contracts/candidate/quickstart-profile/index.mjs",
-        "sha256": "9ed7bdf480f8104f53d15b270c4b0dd1e360644fd4308fd4e5cc9c43b4e099b2",
+        "sha256": "9af7596c9b88d728bbd3f4def6c038cef2fa50d89312512c3a03b271b7e53920",
         "role": "extraction-input"
       },
       {
@@ -42,22 +42,22 @@
       },
       {
         "path": "packages/skill-family-contracts/candidate/quickstart-profile/resource.schema.json",
-        "sha256": "f80fbd27b1f612941ea3c268e07654cefc72b7c55df3f2233de691366312f46c",
+        "sha256": "b0688300453f96e7d5d1007598271328c19a0d13c99356ed58a4a0cb16a21c00",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-contracts/candidate/quickstart-profile/result.schema.json",
-        "sha256": "b17b089293bcedba105120de8187c96ab1957593c2ed74b99a8422ea4780331a",
+        "sha256": "6622f07d90715e4eb58e0c6b05150397c3d8590681cac31f12fd283b52a638c4",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-contracts/candidate/quickstart-profile/task.schema.json",
-        "sha256": "d25a90be7fb23f66ca724eb5c1eec627d99ffe3545707164d4960ccab8077888",
+        "sha256": "38dac0518715411a8b43c9de133e7dedcab9e2ef8ab05f398aca94065f41a8ee",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-contracts/package.json",
-        "sha256": "881696fcba22973597db52a49b454a3a71486b1b9e2eb58ed3c4e2cd4f6b9eae",
+        "sha256": "f6a10e174ebf7deaadc21d80a2a97f7eee329b18490a56ad40863dfd3c79529a",
         "role": "identity"
       },
       {
@@ -67,7 +67,7 @@
       },
       {
         "path": "packages/skill-family-contracts/src/error-codes.json",
-        "sha256": "ff04dad27e5e73098683e72a768647c2fb8c87fb6768e5ff2ab612d9608f3568",
+        "sha256": "04de550d57278d91cf885a07d69e845ec04b81669197a57ef4c56de664fbceb2",
         "role": "projected"
       },
       {
@@ -77,7 +77,7 @@
       },
       {
         "path": "packages/skill-family-contracts/src/index.mjs",
-        "sha256": "5c424ee3754a4842bbde97e924132ec98578e4bd2f72aa5a71b218de60d4152e",
+        "sha256": "cbf9c5464bf37145bff96181d415a5b8b7c588178796bb33019a3a01effd7dc5",
         "role": "imported-surface"
       },
       {
@@ -97,7 +97,7 @@
       },
       {
         "path": "packages/skill-family-contracts/src/schemas/migration-manifest.schema.json",
-        "sha256": "297121243b92f1415b2e72285a9dcea4f9d90e349daf888617595b0845ab7d01",
+        "sha256": "ff5ea2f22c61301b6d30f508d7e2182bc89fe3c340eb64e733e9bebc11120e50",
         "role": "projected"
       },
       {
@@ -117,12 +117,12 @@
       },
       {
         "path": "packages/skill-family-engineering-kit/candidate/adoption-mechanisms.mjs",
-        "sha256": "fa534e9a14a3a59c9b5cac8014fec600bb8031446f5d9f72bc9311645b926802",
+        "sha256": "ca9f2056b878ea8c98e6f2ba76250ea38e9abc6f7e2ac2b638af019280625f7d",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-engineering-kit/candidate/profile-bundle.mjs",
-        "sha256": "863983e3d20609c6d17093c744142c6031eab6fc931cd6161ece6fd68a6d17fd",
+        "sha256": "f200295550cf41d8240b4276dd2d0fdec82044a7f973e045df6a662abbcefcbc",
         "role": "builder"
       },
       {
@@ -132,12 +132,12 @@
       },
       {
         "path": "packages/skill-family-engineering-kit/package.json",
-        "sha256": "5d8e99ff7cee7e19c2e6adeec78b3cfc198736b388bb61a6194d7fa217df9e64",
+        "sha256": "40dd4471a25b1815a8a0e0eaa5dea59125dcc02b2ee9f05de08eb1287295a2fc",
         "role": "identity"
       },
       {
         "path": "packages/skill-family-engineering-kit/src/migration.mjs",
-        "sha256": "ce1dcdc908407baed5a7696490380beb1b7b0554c194fd04a0d128199ee90d76",
+        "sha256": "70f9dcfa9719e223e0ed6acdea29bd289015df91b4121492fd4b56a43d435fdb",
         "role": "projected"
       },
       {
@@ -152,12 +152,12 @@
       },
       {
         "path": "packages/skill-family-harness-node/candidate/quickstart-profile.mjs",
-        "sha256": "45ea800c69e519fdcee8101eeb4f7404d3806392a94597921c05e93d7995d082",
+        "sha256": "32680a6d44039083c839fc5b1077a39a2a8aa6443b5ac06993e2e74ef45daee9",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-harness-node/package.json",
-        "sha256": "5d5b9e77916a1cf3137cd1825171f20b5d22471850249101d8aee1145dbb59d2",
+        "sha256": "6f4eba82cb4e7ae1fbfff48b7f2fde7177302de1aec427da1970dc8bc0db2e8e",
         "role": "identity"
       },
       {
@@ -167,7 +167,7 @@
       },
       {
         "path": "packages/skill-family-harness-node/src/bound-read.mjs",
-        "sha256": "d33af19cb50965c009dcb9bad9dac2a20bfaf8838367304cdb74da81f11cfdde",
+        "sha256": "18b076b6cea239569b9c203308df34569fb917b066580a1c66b86692d661ff5b",
         "role": "projected"
       },
       {
@@ -192,52 +192,52 @@
       },
       {
         "path": "packages/skill-family-harness-node/src/index.mjs",
-        "sha256": "63dffe7b54139d45fa851280f467a33a76014aa48e3b7ecb1fbef22ce6d723f5",
+        "sha256": "77fa30dd4cacb56d4aa4f6af67cfedce0c39dd27cb71205eba8dc822616a7aa8",
         "role": "imported-surface"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/NOTICE",
-        "sha256": "fe60857bea9a506aba4754192d05517b659dc5c8f76adc7f0a5f16727e0a245e",
+        "sha256": "9b5b2aa89db2ad1bfc1971789992160bc0b9ca3cd37411701d11b9a7ff13fac5",
         "role": "identity"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/loader.mjs",
-        "sha256": "9a69f4affbe2c862186fca0b8b07881b0983794646b909e693aa3c266a118b65",
+        "sha256": "f2d1336c08eaea466857626b6db8b30b767301acb5171672eeb9d5b8af9ac1b0",
         "role": "projected"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/prebuild-manifest.json",
-        "sha256": "bc944f9a41dbac91d0889967279710ad970acd378ca5809df1f41c31a43e3eb2",
+        "sha256": "76a1e6f99ef5980043df4f328bbe9623dfc8cbba6655e008a8bb1d53d9e49ace",
         "role": "identity"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/prebuild-release-receipt.json",
-        "sha256": "f830cbed8a47170035afc029b4e4d7eb56616fafc5fa5f934417e2871b5ce257",
+        "sha256": "481cc37dc3e0e58109512d7f8d43001d388061880db67ed482c2f32f69857e59",
         "role": "identity"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/prebuild-sbom.json",
-        "sha256": "3577bb7794921627da9bcd8e0ac143225660fa996f257e1c74778a6ea7005eb9",
+        "sha256": "28552ce6f03d150d34b8fc0c36e49a455664469c48a6f72d793f5a1fb50d5a5e",
         "role": "identity"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node",
-        "sha256": "3172e6f78341502c1455e82a3843730303a2c46f70284c3635885b8f5e1df4b2",
+        "sha256": "19ce71026b737ba6b56da78ffabca4bb25f21249c30b545d68633d4b77547fde",
         "role": "binary"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/prebuilds/darwin-x64/bound_read.darwin-x64.node",
-        "sha256": "ace0bfd36e8ddaaf69a68dc6fa00b77f6920f258a6a0db249f295a131225b27b",
+        "sha256": "e01e4a1df3554da857189f483174d0480eb36063ce17b5857a23fa8a02f4a664",
         "role": "binary"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node",
-        "sha256": "dfee29ad477376cc0288970bca5b2da19c3e925409d2eacf8e6ba6325e9e2b7f",
+        "sha256": "7b7fd1188d2bbf356fe8c44690fd80bc7fb02e9f6f9dc7ee1c10834bf1c519b1",
         "role": "binary"
       },
       {
         "path": "packages/skill-family-harness-node/src/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node",
-        "sha256": "c936852191b19a998b1e2ba3b588151f7bf4b3804a30554d2368f25042aaa3be",
+        "sha256": "749b69ba1b7da3496e59f92f2ca8d04800031b2479c13b3ca63555ee69671acc",
         "role": "binary"
       },
       {
@@ -387,7 +387,7 @@
       },
       {
         "path": "runtime/contracts-candidate/index.mjs",
-        "sha256": "c62c1207981d5aa6ddf6960a244a32599248bbf9c53fcbff495d0ce804f9b4b4"
+        "sha256": "8c7628ff1ca80f9c09dc444f68c334c1dc0dd7a0349b740794315d5d66520a6f"
       },
       {
         "path": "runtime/contracts/canonical.mjs",
@@ -395,7 +395,7 @@
       },
       {
         "path": "runtime/contracts/error-codes.json",
-        "sha256": "ff04dad27e5e73098683e72a768647c2fb8c87fb6768e5ff2ab612d9608f3568"
+        "sha256": "04de550d57278d91cf885a07d69e845ec04b81669197a57ef4c56de664fbceb2"
       },
       {
         "path": "runtime/contracts/errors.mjs",
@@ -415,11 +415,11 @@
       },
       {
         "path": "runtime/generated/standalone-map.mjs",
-        "sha256": "69ef17de14133879a0d81a92c72733ba39931c1ec0bf181d4546f632cf706f98"
+        "sha256": "57e935dab767876129e30f6c6d1f5bc8856d26d46c28193237db04357931a4bb"
       },
       {
         "path": "runtime/generated/validate-2020-12.mjs",
-        "sha256": "b2c0fbc4aef805855d9df82233b621d6d8370e90ef4bf14688fffadf5744bd09"
+        "sha256": "792211878964c1dc4ecf496e8c2e120e7e612ebb142cacd4fc182986e722d8c6"
       },
       {
         "path": "runtime/harness/atomic.mjs",
@@ -427,7 +427,7 @@
       },
       {
         "path": "runtime/harness/bound-read.mjs",
-        "sha256": "1800f85a20ff34be1e04ad205952586fee92364f5b92fb060ae88bca76054287"
+        "sha256": "a48a8671498f4732934181374d2f7428a7d9b763bdf305a964254fffbdd35bdb"
       },
       {
         "path": "runtime/harness/closure.mjs",
@@ -447,39 +447,39 @@
       },
       {
         "path": "runtime/harness/native/NOTICE",
-        "sha256": "fe60857bea9a506aba4754192d05517b659dc5c8f76adc7f0a5f16727e0a245e"
+        "sha256": "9b5b2aa89db2ad1bfc1971789992160bc0b9ca3cd37411701d11b9a7ff13fac5"
       },
       {
         "path": "runtime/harness/native/loader.mjs",
-        "sha256": "9a69f4affbe2c862186fca0b8b07881b0983794646b909e693aa3c266a118b65"
+        "sha256": "f2d1336c08eaea466857626b6db8b30b767301acb5171672eeb9d5b8af9ac1b0"
       },
       {
         "path": "runtime/harness/native/prebuild-manifest.json",
-        "sha256": "bc944f9a41dbac91d0889967279710ad970acd378ca5809df1f41c31a43e3eb2"
+        "sha256": "76a1e6f99ef5980043df4f328bbe9623dfc8cbba6655e008a8bb1d53d9e49ace"
       },
       {
         "path": "runtime/harness/native/prebuild-release-receipt.json",
-        "sha256": "f830cbed8a47170035afc029b4e4d7eb56616fafc5fa5f934417e2871b5ce257"
+        "sha256": "481cc37dc3e0e58109512d7f8d43001d388061880db67ed482c2f32f69857e59"
       },
       {
         "path": "runtime/harness/native/prebuild-sbom.json",
-        "sha256": "3577bb7794921627da9bcd8e0ac143225660fa996f257e1c74778a6ea7005eb9"
+        "sha256": "28552ce6f03d150d34b8fc0c36e49a455664469c48a6f72d793f5a1fb50d5a5e"
       },
       {
         "path": "runtime/harness/native/prebuilds/darwin-arm64/bound_read.darwin-arm64.node",
-        "sha256": "3172e6f78341502c1455e82a3843730303a2c46f70284c3635885b8f5e1df4b2"
+        "sha256": "19ce71026b737ba6b56da78ffabca4bb25f21249c30b545d68633d4b77547fde"
       },
       {
         "path": "runtime/harness/native/prebuilds/darwin-x64/bound_read.darwin-x64.node",
-        "sha256": "ace0bfd36e8ddaaf69a68dc6fa00b77f6920f258a6a0db249f295a131225b27b"
+        "sha256": "e01e4a1df3554da857189f483174d0480eb36063ce17b5857a23fa8a02f4a664"
       },
       {
         "path": "runtime/harness/native/prebuilds/linux-arm64-gnu/bound_read.linux-arm64-gnu.node",
-        "sha256": "dfee29ad477376cc0288970bca5b2da19c3e925409d2eacf8e6ba6325e9e2b7f"
+        "sha256": "7b7fd1188d2bbf356fe8c44690fd80bc7fb02e9f6f9dc7ee1c10834bf1c519b1"
       },
       {
         "path": "runtime/harness/native/prebuilds/linux-x64-gnu/bound_read.linux-x64-gnu.node",
-        "sha256": "c936852191b19a998b1e2ba3b588151f7bf4b3804a30554d2368f25042aaa3be"
+        "sha256": "749b69ba1b7da3496e59f92f2ca8d04800031b2479c13b3ca63555ee69671acc"
       },
       {
         "path": "runtime/harness/paths.mjs",
@@ -503,7 +503,7 @@
       },
       {
         "path": "runtime/kit/migration.mjs",
-        "sha256": "0510989e0485820c7e63c890151053fe31acc642fe040c42f07f422d5508a138"
+        "sha256": "e25dd1738ae0a1b41297e6343a936aa7e7d341d97bd06cc3bbe52cfc11b5dba8"
       },
       {
         "path": "runtime/kit/workspace.mjs",
@@ -531,7 +531,7 @@
       },
       {
         "path": "schemas/foundation/consumer-schema-inventory.schema.json",
-        "sha256": "9b03633adc2c260b7b1b29eb8132d6f7c83c16fe8d74569bf90a3eafaa3d780b"
+        "sha256": "e99735c3dc6986253495bfbeeabd9b83ab913b6ad836e46c4c16d1919698ec39"
       },
       {
         "path": "schemas/foundation/filesystem-root-binding.schema.json",
@@ -547,11 +547,11 @@
       },
       {
         "path": "schemas/foundation/harness-surface-inventory.schema.json",
-        "sha256": "788841d29e38ebcf3c14461bee5b57500caacd11edb54e89b502eb60933934b5"
+        "sha256": "c96044d0279129491b0b461686fc1b21ee521d3306dee6fc61f5eada9122d715"
       },
       {
         "path": "schemas/foundation/migration-manifest.schema.json",
-        "sha256": "297121243b92f1415b2e72285a9dcea4f9d90e349daf888617595b0845ab7d01"
+        "sha256": "ff5ea2f22c61301b6d30f508d7e2182bc89fe3c340eb64e733e9bebc11120e50"
       },
       {
         "path": "schemas/foundation/operation-request.schema.json",
@@ -567,29 +567,29 @@
       },
       {
         "path": "schemas/foundation/resource.schema.json",
-        "sha256": "f80fbd27b1f612941ea3c268e07654cefc72b7c55df3f2233de691366312f46c"
+        "sha256": "b0688300453f96e7d5d1007598271328c19a0d13c99356ed58a4a0cb16a21c00"
       },
       {
         "path": "schemas/foundation/result.schema.json",
-        "sha256": "b17b089293bcedba105120de8187c96ab1957593c2ed74b99a8422ea4780331a"
+        "sha256": "6622f07d90715e4eb58e0c6b05150397c3d8590681cac31f12fd283b52a638c4"
       },
       {
         "path": "schemas/foundation/schema-validation-batch-request.schema.json",
-        "sha256": "bee6b9b2b6fb5f7f1cf20df41e7f54e7b0e1b0023ebc2bed99e9e8f7a1d065cc"
+        "sha256": "83dc977ceee4cb3d320a402f129ddcfe951d65678e00b1d90ea438e4abdc1048"
       },
       {
         "path": "schemas/foundation/schema-validation-batch-result.schema.json",
-        "sha256": "e2156956494cbbf278631f9dcb865dbc6da091950856b135be0e337d21ff45df"
+        "sha256": "5893a76a6bbb0bea1de716b1790d4156843e4610cf122f55efdd3c410d99eae8"
       },
       {
         "path": "schemas/foundation/task.schema.json",
-        "sha256": "d25a90be7fb23f66ca724eb5c1eec627d99ffe3545707164d4960ccab8077888"
+        "sha256": "38dac0518715411a8b43c9de133e7dedcab9e2ef8ab05f398aca94065f41a8ee"
       },
       {
         "path": "validators.mjs",
         "sha256": "361cae9d2c2cfb87e0e0adafd584502121279237a42cbe5ec0987461179d88e7"
       }
     ],
-    "digest": "02771f8b9db2853a9fb4f08ae5fcc54f58543d5a04fba39a52256ab38efb2b69"
+    "digest": "e2618d2e8d23f587da1633d344173fb49bf96913005b1dd32258b2426d34d05e"
   }
 }

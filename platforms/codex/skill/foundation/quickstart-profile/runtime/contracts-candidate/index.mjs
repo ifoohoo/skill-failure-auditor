@@ -4,11 +4,13 @@ import standaloneValidators from "../generated/standalone-map.mjs";
 /**
  * Candidate quickstart profile v2 (unstable).
  *
- * Unlike v1, the collection is registered under its real $ids in one
+ * Unlike v1, the collection is registered under its canonical $ids in one
  * dialect-matching Ajv instance: task and result reference the v2 Resource
- * schema and the stable operation-request/operation-result envelopes by
- * $ref, and no $ref is rewritten into a local $def. The candidate $ids stay
- * absent from the stable registry on purpose.
+ * schema and the stable operation-request/operation-result envelopes by $ref,
+ * and no $ref is rewritten into a local $def. Canonical candidate schemas
+ * stay absent from the stable registry on purpose; the finite migration map
+ * below preserves the historical candidate-labelled identities in projected
+ * Bundle dispatch without copying Schema documents.
  */
 
 const documents = Object.freeze({
@@ -29,8 +31,35 @@ const VALIDATE_KINDS = Object.freeze(["resource", "task", "result"]);
 const INVENTORY_KIND = "inventory";
 const SURFACE_INVENTORY_KIND = "surfaceInventory";
 const SURFACE_DETECTORS_KIND = "surfaceDetectors";
+
+/**
+ * Finite migration map for Schema identities published before 0.10.0.
+ *
+ * Values are the only canonical identities. The keys remain accepted by the
+ * managed Bundle during the compatibility window, but no second Schema copy
+ * or mutable alias registry is created.
+ */
+export const HISTORICAL_CANDIDATE_SCHEMA_ID_MIGRATIONS = Object.freeze({
+  "https://contracts.skill-family.example/candidate/quickstart-profile/v2/resource.json":
+    "https://contracts.skill-family.example/quickstart-profile/v2/resource.json",
+  "https://contracts.skill-family.example/candidate/quickstart-profile/v2/task.json":
+    "https://contracts.skill-family.example/quickstart-profile/v2/task.json",
+  "https://contracts.skill-family.example/candidate/quickstart-profile/v2/result.json":
+    "https://contracts.skill-family.example/quickstart-profile/v2/result.json",
+  "https://contracts.skill-family.example/candidate/quickstart-profile/v2/consumer-schema-inventory.json":
+    "https://contracts.skill-family.example/quickstart-profile/v2/consumer-schema-inventory.json",
+  "https://contracts.skill-family.example/candidate/quickstart-profile/v2/harness-surface-inventory.json":
+    "https://contracts.skill-family.example/quickstart-profile/v2/harness-surface-inventory.json",
+  "https://contracts.skill-family.example/candidate/quickstart-profile/v2/harness-surface-detectors.json":
+    "https://contracts.skill-family.example/quickstart-profile/v2/harness-surface-detectors.json",
+  "https://contracts.skill-family.example/candidate/foundation-mechanisms/v1/schema-validation-batch-request.json":
+    "https://contracts.skill-family.example/foundation-mechanisms/v1/schema-validation-batch-request.json",
+  "https://contracts.skill-family.example/candidate/foundation-mechanisms/v1/schema-validation-batch-result.json":
+    "https://contracts.skill-family.example/foundation-mechanisms/v1/schema-validation-batch-result.json",
+});
+
 const SURFACE_DETECTORS_SCHEMA_ID =
-  "https://contracts.skill-family.example/candidate/quickstart-profile/v2/harness-surface-detectors.json";
+  "https://contracts.skill-family.example/quickstart-profile/v2/harness-surface-detectors.json";
 
 const STABLE_ENVELOPE_IDS = Object.freeze([
   "https://contracts.skill-family.example/v1/operation-request.json",
@@ -61,7 +90,7 @@ export function loadQuickstartProtocol() {
   return structuredClone(documents.protocol);
 }
 
-/** Candidate-only schemas. They are deliberately absent from registry.json. */
+/** Candidate-maturity schemas. They are deliberately absent from registry.json. */
 export function quickstartProfileSchemas() {
   return structuredClone({
     resource: documents.resource,
@@ -79,7 +108,7 @@ export function listQuickstartProfileSchemas() {
   }));
 }
 
-/** Candidate build-time contract; it is not a Quickstart runtime document. */
+/** Candidate-maturity build-time contract; it is not a Quickstart runtime document. */
 export function loadConsumerSchemaInventorySchema() {
   return structuredClone(documents.inventory);
 }

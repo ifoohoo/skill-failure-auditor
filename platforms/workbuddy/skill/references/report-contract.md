@@ -44,3 +44,9 @@
 - `BLOCKED`：缺少权限、独立性或外部状态，无法形成有效结论。
 
 自审时 `status` 必须是 `SELF_AUDIT_SUBMITTED_FOR_EXTERNAL_REVIEW`，且结论不能作为接受依据。
+
+## 复用时的报告边界
+
+`REUSE_IDENTICAL` 表示本轮没有重新运行语义审计。调用方沿用回执绑定的旧机器结果和旧人读报告，不生成新报告，也不改写旧报告中的 `audit_id`、`self_audit`、`status` 或 `conclusion`。
+
+交付说明必须列出被沿用的旧结果、复用判定收据摘要、原结论及其冻结范围。复用判定没有接受资格，不能把 `AUDIT_SUBMITTED_FOR_REVIEW` 升级为外部接受，也不能把自审改称独立审阅。

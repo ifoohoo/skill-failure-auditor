@@ -1,24 +1,261 @@
 {
-  "schema_version": "1.0",
-  "positive": [
-    "请做一次 LLM/Agent 可靠性失效审计，判断是否存在假完成。",
-    "执行者改写验收标准后宣布通过，这是否属于自我验收？",
-    "同一材料出现冻结输入结论冲突，请检查可靠性风险。",
-    "运行记录出现证据丢失和证据重复，需要审计。",
-    "同源子智能体被称为独立终审，请检查虚假独立审阅。",
-    "上下文交接后关键要求消失，判断是否属于有损交接。"
-  ],
-  "negative": [
-    "帮我编写一个普通 SKILL.md。",
-    "优化这段 Prompt 的表达。",
-    "做一次常规代码审查。",
-    "深度审阅这个 release-skill 项目的源码与架构。",
-    "检查发布工作流和制品链是否符合项目约定。",
-    "复核上一轮修复建议有没有过度设计。",
-    "分析 Foundation 复用边界是否需要调整。",
-    "排查这个安装兼容问题。",
-    "修复这一个失败的单元测试。",
-    "设计一个一般的多智能体工作流。",
-    "解释这个 Agent 的参数。"
+  "schema_version": "2.0",
+  "cases": [
+    {
+      "case_id": "EXPLICIT-AGENT-FALSE-COMPLETION",
+      "request": "请审计这份 Agent 运行记录是否存在假完成。",
+      "context": {
+        "primary_object": "llm_agent_runtime_evidence",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": true,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": false,
+        "source": "direct_request",
+        "exclusion_id": null
+      },
+      "expected_decision": "ENTER_EXPLICIT",
+      "signal_class": null
+    },
+    {
+      "case_id": "EXPLICIT-OUT-OF-SCOPE-CODE",
+      "request": "请审计这段普通排序源码有没有假完成。",
+      "context": {
+        "primary_object": "ordinary_source_code",
+        "object_in_scope": false,
+        "explicit_failure_audit_intent": true,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": false,
+        "source": "direct_request",
+        "exclusion_id": "ordinary_source_or_architecture_review"
+      },
+      "expected_decision": "EXIT_OBJECT_OUT_OF_SCOPE",
+      "signal_class": null
+    },
+    {
+      "case_id": "SIGNAL-COMPLETION-CONTRADICTION",
+      "request": "Agent 在报告中宣布全部通过，但日志里的权威门禁退出码是 2。",
+      "context": {
+        "primary_object": "llm_agent_runtime_evidence",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": true,
+        "conflicting_observation": true,
+        "evidence_location": true,
+        "source": "runtime-log:event-184",
+        "exclusion_id": null
+      },
+      "expected_decision": "ENTER_OBSERVED_SIGNAL",
+      "signal_class": "COMPLETION_CONTRADICTION"
+    },
+    {
+      "case_id": "SIGNAL-CRITERIA-MUTATION",
+      "request": "执行者开工后修改了冻结验收文件，并按新标准宣布通过。",
+      "context": {
+        "primary_object": "llm_agent_execution_or_acceptance_chain",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": true,
+        "conflicting_observation": true,
+        "evidence_location": true,
+        "source": "control/criteria.json:14",
+        "exclusion_id": null
+      },
+      "expected_decision": "ENTER_OBSERVED_SIGNAL",
+      "signal_class": "CRITERIA_MUTATION"
+    },
+    {
+      "case_id": "SIGNAL-FROZEN-INPUT-CONFLICT",
+      "request": "同一份冻结输入在同一判据下出现 PASS 和 REJECT 两个终局收据。",
+      "context": {
+        "primary_object": "llm_agent_runtime_evidence",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": true,
+        "conflicting_observation": true,
+        "evidence_location": true,
+        "source": "evidence/receipts/",
+        "exclusion_id": null
+      },
+      "expected_decision": "ENTER_OBSERVED_SIGNAL",
+      "signal_class": "FROZEN_INPUT_CONFLICT"
+    },
+    {
+      "case_id": "SIGNAL-EVIDENCE-INTEGRITY",
+      "request": "覆盖账本把同一个分片重复计数，且摘要与索引记录不一致。",
+      "context": {
+        "primary_object": "llm_agent_runtime_evidence",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": true,
+        "conflicting_observation": true,
+        "evidence_location": true,
+        "source": "evidence/coverage.json:33",
+        "exclusion_id": null
+      },
+      "expected_decision": "ENTER_OBSERVED_SIGNAL",
+      "signal_class": "EVIDENCE_INTEGRITY_FAILURE"
+    },
+    {
+      "case_id": "SIGNAL-ROLE-INDEPENDENCE",
+      "request": "实现者自己的子会话被报告写成了独立终审。",
+      "context": {
+        "primary_object": "llm_agent_execution_or_acceptance_chain",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": true,
+        "conflicting_observation": true,
+        "evidence_location": true,
+        "source": "review/receipt.json:21",
+        "exclusion_id": null
+      },
+      "expected_decision": "ENTER_OBSERVED_SIGNAL",
+      "signal_class": "ROLE_INDEPENDENCE_MISCLAIM"
+    },
+    {
+      "case_id": "SIGNAL-HANDOFF-LOSS",
+      "request": "交接前冻结的离线运行要求在后续任务中消失，后续仍据此宣布完成。",
+      "context": {
+        "primary_object": "llm_agent_execution_or_acceptance_chain",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": true,
+        "conflicting_observation": true,
+        "evidence_location": true,
+        "source": "handoff.md:48",
+        "exclusion_id": null
+      },
+      "expected_decision": "ENTER_OBSERVED_SIGNAL",
+      "signal_class": "HANDOFF_REQUIREMENT_LOSS"
+    },
+    {
+      "case_id": "EXIT-FUTURE-RISK",
+      "request": "讨论一下以后怎样避免 Agent 假完成。",
+      "context": {
+        "primary_object": "skill_or_agent_capability_definition",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": false,
+        "source": "future_risk_discussion",
+        "exclusion_id": "future_risk_only"
+      },
+      "expected_decision": "EXIT_AUDIT_INTENT_ABSENT",
+      "signal_class": null
+    },
+    {
+      "case_id": "EXIT-SKILL-AUTHORING",
+      "request": "帮我编写一个普通 SKILL.md。",
+      "context": {
+        "primary_object": "skill_or_agent_capability_definition",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": false,
+        "source": "authoring_request",
+        "exclusion_id": "skill_prompt_agent_authoring"
+      },
+      "expected_decision": "EXIT_AUDIT_INTENT_ABSENT",
+      "signal_class": null
+    },
+    {
+      "case_id": "EXIT-RELEASE-REVIEW",
+      "request": "检查发布工作流和制品链是否符合项目约定。",
+      "context": {
+        "primary_object": "release_configuration",
+        "object_in_scope": false,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": false,
+        "source": "ordinary_review",
+        "exclusion_id": "ordinary_source_or_architecture_review"
+      },
+      "expected_decision": "EXIT_OBJECT_OUT_OF_SCOPE",
+      "signal_class": null
+    },
+    {
+      "case_id": "EXIT-REMEDIATION-ARCHITECTURE",
+      "request": "复核上一轮整改建议有没有过度设计。",
+      "context": {
+        "primary_object": "remediation_recommendations",
+        "object_in_scope": false,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": false,
+        "source": "architecture_review",
+        "exclusion_id": "remediation_architecture_review"
+      },
+      "expected_decision": "EXIT_OBJECT_OUT_OF_SCOPE",
+      "signal_class": null
+    },
+    {
+      "case_id": "EXIT-DETERMINISTIC-FAILURE",
+      "request": "这条安装测试失败了，帮我排查依赖路径。",
+      "context": {
+        "primary_object": "llm_agent_runtime_evidence",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": true,
+        "conflicting_observation": false,
+        "evidence_location": true,
+        "source": "test-log:event-22",
+        "exclusion_id": "deterministic_or_compatibility_failure"
+      },
+      "expected_decision": "EXIT_AUDIT_INTENT_ABSENT",
+      "signal_class": null
+    },
+    {
+      "case_id": "EXIT-NEXT-PROBE",
+      "request": "上一份报告的 next_probe 建议重新拉取日志。",
+      "context": {
+        "primary_object": "llm_agent_runtime_evidence",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": true,
+        "source": "next_probe",
+        "exclusion_id": null
+      },
+      "expected_decision": "EXIT_AUDIT_INTENT_ABSENT",
+      "signal_class": null
+    },
+    {
+      "case_id": "EXIT-NOVEL-HYPOTHESIS",
+      "request": "上一份报告提出了一个尚未验证的新假设。",
+      "context": {
+        "primary_object": "llm_agent_runtime_evidence",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": true,
+        "source": "novel_hypotheses",
+        "exclusion_id": null
+      },
+      "expected_decision": "EXIT_AUDIT_INTENT_ABSENT",
+      "signal_class": null
+    },
+    {
+      "case_id": "EXIT-PRIOR-CONCLUSION",
+      "request": "这里有上一轮审计结论。",
+      "context": {
+        "primary_object": "llm_agent_runtime_evidence",
+        "object_in_scope": true,
+        "explicit_failure_audit_intent": false,
+        "observed_claim_or_action": false,
+        "conflicting_observation": false,
+        "evidence_location": true,
+        "source": "prior_audit_conclusion",
+        "exclusion_id": null
+      },
+      "expected_decision": "EXIT_AUDIT_INTENT_ABSENT",
+      "signal_class": null
+    }
   ]
 }
