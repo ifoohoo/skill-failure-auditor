@@ -84,19 +84,11 @@ def assemble(platform_id: str, out_root: Path) -> dict:
                    skill / ".claude-plugin" / "plugin.json", mapping,
                    "skill/.claude-plugin/plugin.json",
                    "platforms/claude-code/.claude-plugin/plugin.json")
-        clean_copy(source / ".claude-plugin" / "marketplace.json",
-                   skill / ".claude-plugin" / "marketplace.json", mapping,
-                   "skill/.claude-plugin/marketplace.json",
-                   "platforms/claude-code/.claude-plugin/marketplace.json")
     elif platform_id == "codex":
         clean_copy(source / ".codex-plugin" / "plugin.json",
                    platform_out / ".codex-plugin" / "plugin.json", mapping,
                    ".codex-plugin/plugin.json",
                    "platforms/codex/.codex-plugin/plugin.json")
-        clean_copy(source / ".agents" / "plugins" / "marketplace.json",
-                   platform_out / ".agents" / "plugins" / "marketplace.json", mapping,
-                   ".agents/plugins/marketplace.json",
-                   "platforms/codex/.agents/plugins/marketplace.json")
     elif platform_id == "kimi-code":
         clean_copy(source / "kimi.plugin.json", platform_out / "kimi.plugin.json", mapping,
                    "kimi.plugin.json", "platforms/kimi-code/kimi.plugin.json")

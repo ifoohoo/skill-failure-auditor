@@ -18,11 +18,24 @@ SFA is an auditor, not an executor. `static` reviews definitions; `runtime` revi
 
 An independent evaluator may run active trials and freeze the resulting evidence. SFA can then audit that evidence as ordinary input. No executor or orchestration product has a privileged integration, runtime role, or product-specific interface in SFA; any such system is either ordinary audited input or an external consumer.
 
+## Entry points
+
+The same `skill-failure-auditor` entry point handles four intents:
+
+- Ask for help to learn the purpose, required inputs, three modes, side effects, prerequisites, and shortest invocation. Help ends without creating audit artifacts.
+- Ask for a setup check to inspect Python, the `SFA_FOUNDATION_NODE` binding to a canonical absolute path with no symlink components, its exact match to the pinned Node.js version, input material, and the new output directory. Missing or mismatched prerequisites are reported without installing or changing anything.
+- Ask for adoption analysis to understand what is already satisfied and what is missing. SFA does not install dependencies or create target-project scaffolding.
+- Ask for a reliability failure audit to enter the existing applicability gate and audit flow.
+
+An explicitly requested mode is preserved; if its required material is absent, SFA reports the gap instead of switching modes. When the caller omits the mode, SFA selects `static` for definitions only, `runtime` for already-produced runtime material only, and `combined` for both. Every audit requires a caller-selected output directory that does not yet exist. See [`plugin-src/core/references/usage-guide.md`](plugin-src/core/references/usage-guide.md) for the complete call and delivery boundaries.
+
 <!-- release-skill:external-write-boundary -->
 
 External-write boundary: SFA reads the audited target and writes only to a caller-selected new audit-output directory outside that target. It does not modify the audited source tree.
 
 ## Install
+
+The only public marketplace source is `ifoohoo/skill-family-hub`. Add it with the platform's marketplace manager, then install `skill-failure-auditor@skill-family-hub`. This plugin repository carries platform manifests, but it does not publish a separate marketplace index.
 
 - Claude Code: copy (or symlink) `platforms/claude-code/skill/` into a skills directory (e.g. project `.claude/skills/skill-failure-auditor`), then invoke `/skill-failure-auditor <target> <static|runtime|combined>`.
 - WorkBuddy: copy `platforms/workbuddy/skill/` to `~/.workbuddy/skills/skill-failure-auditor/`. This is the WorkBuddy app's default `<CODEBUDDY_CONFIG_DIR>/skills` discovery root; do not install this projection under `.claude/skills`.
@@ -32,6 +45,8 @@ External-write boundary: SFA reads the audited target and writes only to a calle
 <!-- release-skill:safe-first-command -->
 
 Safe first command: a one-shot audit (`/skill-failure-auditor <target> static`) reads the target without running it and writes only to a new audit-output directory. The release-time state machine (assess/prepare/approve/publish/reconcile/verify) is governed by the release-skill pipeline (`npx release-skill`).
+
+For read-only governance of historical release records, use release-skill 0.9.19 `verify-records`. The caller must explicitly provide plan, approval, target-run, every source-run, the expected unit, and the historical version. The command does not search for records, follow paths embedded in records, run hooks, access the network, or write files. `CONSISTENT`, `CONTRADICTED`, and `INSUFFICIENT` exit with 0, 1, and 2 respectively; `historicalTerminalStatus` remains a separate dimension. A consistent record set does not prove current remote state, installation results, or that the supplied records are globally latest.
 
 ## Minimal example
 

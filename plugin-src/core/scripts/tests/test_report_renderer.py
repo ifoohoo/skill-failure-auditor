@@ -53,7 +53,7 @@ def sample_result() -> dict:
                 "severity": "critical",
                 "status": "HIT",
                 "evidence_refs": [{"chunk_id": "CHUNK-000001", "chunk_sha256": digest}],
-                "reason": "同一个人既写实现又写验收结论。",
+                "reason": "同一个人既写实现又写验收结论，证据中的职责身份相同；最小修改是把最终验收交给独立职责。",
             },
             {
                 "id": "FM-01",
@@ -98,7 +98,7 @@ class ReportRendererTests(unittest.TestCase):
         names = load_registry_names(REGISTRY_PATH)
         report = render(sample_result(), names)
 
-        for section in ("## 总结", "## 结论", "## 逐条发现", "## 清单外的新问题", "## 未完成事项", "## 附录：机器数据"):
+        for section in ("## 总结", "## 结论", "## 结论适用范围", "## 逐条发现", "## 清单外的新问题", "## 未完成事项", "## 附录：机器数据"):
             self.assertIn(section, report)
         self.assertIn("FM-05（自己审自己）", report)
         self.assertIn("FM-01（自己宣布完成就算通过）", report)
@@ -106,6 +106,35 @@ class ReportRendererTests(unittest.TestCase):
         self.assertIn("同一个人既写实现又写验收结论", report)
         for jargon in OLD_JARGON:
             self.assertNotIn(jargon, report)
+
+    def test_three_modes_explain_existing_material_without_running_target(self) -> None:
+        names = load_registry_names(REGISTRY_PATH)
+        expected = {
+            "static": "只审阅静态定义，没有运行受检目标，也没有验证运行表现",
+            "runtime": "只审阅已经产生的运行材料，没有运行受检目标",
+            "combined": "审阅静态定义和已经产生的运行材料，没有运行受检目标",
+        }
+        for mode, phrase in expected.items():
+            with self.subTest(mode=mode):
+                result = sample_result()
+                result["mode"] = mode
+                report = render(result, names)
+                self.assertIn(phrase, report)
+                self.assertIn("材料未记录的信息保持未知", report)
+                self.assertIn("不能推及其他模型或后续运行", report)
+                self.assertNotIn("运行期审计", report)
+
+    def test_render_preserves_domain_reason_and_does_not_invent_model_facts(self) -> None:
+        names = load_registry_names(REGISTRY_PATH)
+        result = sample_result()
+        reason = result["known_rule_results"][0]["reason"]
+        report = render(result, names)
+
+        self.assertIn(reason, report)
+        self.assertEqual(result["conclusion"], "REJECT")
+        self.assertEqual(len(result["known_rule_results"]), 3)
+        for invented in ("GPT-5", "Claude 4", "模型版本已验证"):
+            self.assertNotIn(invented, report)
 
     def test_cli_writes_report_exclusively(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

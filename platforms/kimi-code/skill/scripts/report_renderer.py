@@ -46,9 +46,15 @@ ACCEPTANCE_EXPLANATIONS = {
 }
 
 MODE_EXPLANATIONS = {
-    "static": "静态审计",
-    "runtime": "运行期审计",
-    "combined": "静态加运行期联合审计",
+    "static": "静态定义审阅",
+    "runtime": "已有运行材料审阅",
+    "combined": "静态定义与已有运行材料联合审阅",
+}
+
+MODE_SCOPE_EXPLANATIONS = {
+    "static": "本次只审阅静态定义，没有运行受检目标，也没有验证运行表现。",
+    "runtime": "本次只审阅已经产生的运行材料，没有运行受检目标。",
+    "combined": "本次审阅静态定义和已经产生的运行材料，没有运行受检目标。",
 }
 
 
@@ -117,6 +123,16 @@ def render(result: dict[str, Any], names: dict[str, str]) -> str:
     if result.get("self_audit"):
         lines.append("")
         lines.append("注意：这是技能对自身的一次审计，结论只能提交外部复核，不能作为接受依据。")
+    lines.append("")
+
+    lines.append("## 结论适用范围")
+    lines.append("")
+    lines.append(MODE_SCOPE_EXPLANATIONS.get(result["mode"], "本次没有运行受检目标。"))
+    lines.append("")
+    lines.append(
+        "结论只适用于本结果绑定的冻结材料。运行观察只适用于材料实际记录的模型、版本、"
+        "配置、任务、时间和环境；材料未记录的信息保持未知，不能推及其他模型或后续运行。"
+    )
     lines.append("")
 
     lines.append("## 逐条发现")

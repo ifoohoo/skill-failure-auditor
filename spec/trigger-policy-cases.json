@@ -1,5 +1,91 @@
 {
   "schema_version": "2.0",
+  "entry_cases": [
+    {
+      "case_id": "ENTRY-HELP",
+      "request": "只说明 skill-failure-auditor 的用途和最短调用。",
+      "requested_intent": "help",
+      "expected_service": "HELP",
+      "expected_terminal": true,
+      "expected_audit_artifacts": false
+    },
+    {
+      "case_id": "ENTRY-SETUP-CHECK",
+      "request": "检查当前 skill-failure-auditor 的使用前提，不要安装。",
+      "requested_intent": "setup_check",
+      "expected_service": "SETUP_CHECK",
+      "expected_terminal": true,
+      "expected_audit_artifacts": false
+    },
+    {
+      "case_id": "ENTRY-ADOPTION-ANALYSIS",
+      "request": "分析当前项目接入 skill-failure-auditor 还缺什么，不要改项目。",
+      "requested_intent": "adoption_analysis",
+      "expected_service": "ADOPTION_ANALYSIS",
+      "expected_terminal": true,
+      "expected_audit_artifacts": false
+    },
+    {
+      "case_id": "ENTRY-AUDIT-STATIC",
+      "request": "审阅这份 Agent 指令的可靠性失效，只有静态定义。",
+      "requested_intent": "audit",
+      "requested_mode": null,
+      "available_materials": ["static-definition"],
+      "expected_service": "AUDIT",
+      "expected_mode": "static",
+      "expected_missing_materials": [],
+      "expected_terminal": false,
+      "expected_audit_artifacts": true
+    },
+    {
+      "case_id": "ENTRY-AUDIT-RUNTIME",
+      "request": "审阅这份已有 Agent 日志的可靠性失效。",
+      "requested_intent": "audit",
+      "requested_mode": null,
+      "available_materials": ["runtime-evidence"],
+      "expected_service": "AUDIT",
+      "expected_mode": "runtime",
+      "expected_missing_materials": [],
+      "expected_terminal": false,
+      "expected_audit_artifacts": true
+    },
+    {
+      "case_id": "ENTRY-AUDIT-COMBINED",
+      "request": "审阅这份 Agent 指令和已有日志的可靠性失效。",
+      "requested_intent": "audit",
+      "requested_mode": null,
+      "available_materials": ["static-definition", "runtime-evidence"],
+      "expected_service": "AUDIT",
+      "expected_mode": "combined",
+      "expected_missing_materials": [],
+      "expected_terminal": false,
+      "expected_audit_artifacts": true
+    },
+    {
+      "case_id": "ENTRY-AUDIT-EXPLICIT-STATIC-WITH-BOTH",
+      "request": "材料同时包含 Agent 指令和已有日志，本次只做 static 可靠性失效审计。",
+      "requested_intent": "audit",
+      "requested_mode": "static",
+      "available_materials": ["static-definition", "runtime-evidence"],
+      "expected_service": "AUDIT",
+      "expected_mode": "static",
+      "expected_missing_materials": [],
+      "expected_terminal": false,
+      "expected_audit_artifacts": true
+    },
+    {
+      "case_id": "ENTRY-AUDIT-EXPLICIT-RUNTIME-MISSING-EVIDENCE",
+      "request": "只有静态定义，本次明确请求 runtime 可靠性失效审计。",
+      "requested_intent": "audit",
+      "requested_mode": "runtime",
+      "available_materials": ["static-definition"],
+      "expected_service": "AUDIT",
+      "expected_mode": "runtime",
+      "expected_missing_materials": ["runtime-evidence"],
+      "expected_terminal": false,
+      "expected_audit_artifacts": false
+    }
+  ],
   "cases": [
     {
       "case_id": "EXPLICIT-AGENT-FALSE-COMPLETION",

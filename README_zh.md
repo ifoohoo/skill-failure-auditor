@@ -6,6 +6,17 @@ SFA 是审计器，不是执行器。`static` 审阅静态定义，`runtime` 审
 
 任何执行或编排产品在 SFA 中都没有特殊地位。这类系统只能作为普通被审对象或外部消费者；SFA 不为它们提供专用接口，也不依赖它们完成开发、发布验证或运行。
 
+## 同一入口的四种职能
+
+`skill-failure-auditor` 按请求意图进入四个分支：
+
+- 帮助：说明用途、输入、三种模式、副作用、使用前提和最短调用，说明后结束，不生成审计材料。
+- 使用前提检查：只读检查当前 Python、`SFA_FOUNDATION_NODE` 绑定的无软链绝对实路径、pin 中的 Node.js 精确版本、必要材料和新输出目录。缺失或不匹配时说明继续条件，不安装或修改环境。
+- 接入分析：说明当前项目已经满足什么、还缺什么，以及保持现状或采用有来源方案的影响，不创建目标脚手架。
+- 可靠性失效诊断：通过原有适用性门禁后，进入规则选择、证据覆盖、结果校验和报告流程。
+
+用户显式指定模式时保留该模式；材料不匹配时报告缺项，不自行换成另一模式。只有用户没有指定模式时，才按材料选择：只有静态定义时使用 `static`，只有已有运行材料时使用 `runtime`，两类材料都有时使用 `combined`。正式诊断还需要调用方指定一个尚不存在的输出目录。完整调用和交付边界见 [`plugin-src/core/references/usage-guide.md`](plugin-src/core/references/usage-guide.md)。
+
 ## 配套课程文档：LLM Academy
 
 `docs/llm-academy/` 是与本技能配套的公开静态课程（17 个文件，按 CC BY 4.0 授权，见 NOTICE）。从 [index.html](docs/llm-academy/index.html) 进入，或按章节阅读：
@@ -49,10 +60,18 @@ python3 -m http.server 8000
 
 ## 安装
 
+唯一的公开插件市场来源是 `ifoohoo/skill-family-hub`。通过平台的插件市场管理器添加该来源，再安装 `skill-failure-auditor@skill-family-hub`。本插件仓保留各平台的插件清单，但不再发布单独的市场索引。
+
 - Claude Code：把 `platforms/claude-code/skill/` 复制（或软链）到技能目录（如项目 `.claude/skills/skill-failure-auditor`），然后调用 `/skill-failure-auditor <目标> <static|runtime|combined>`。
 - WorkBuddy：把 `platforms/workbuddy/skill/` 复制到 `~/.workbuddy/skills/skill-failure-auditor/`。这是 WorkBuddy 应用默认的 `<CODEBUDDY_CONFIG_DIR>/skills` 发现根；不要把该投影安装到 `.claude/skills`。
 - Kimi Code：使用 `kimi.plugin.json`（权威清单）；`.kimi-plugin/plugin.json` 为机械生成的 Hub 兼容投影（字段完全相等）。
 - Codex / WorkBuddy（CodeBuddy）：安装对应 `platforms/<id>/` 投影；已验证运行时与诚实状态见 `spec/platforms/support-matrix.json`。
+
+## 历史发布记录核对
+
+治理场景如需只读核对已有发布记录，使用 release-skill 0.9.19 的 `verify-records`。调用方必须显式提供 plan、approval、target-run、每一份 source-run、期望 unit 和历史版本。该命令不搜索记录，不跟随记录里保存的路径，不联网，不运行 hooks，也不写文件。
+
+`CONSISTENT`、`CONTRADICTED`、`INSUFFICIENT` 的退出码分别为 0、1、2；`historicalTerminalStatus` 是独立维度。记录一致只说明显式输入彼此相容，不能证明当前远端状态、安装效果或这些记录是全局最新。缺少必需记录时先向调用方索取，不能搜索或编造输入。
 
 ## 许可证
 

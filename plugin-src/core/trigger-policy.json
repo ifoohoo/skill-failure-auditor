@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "name": "skill-failure-auditor",
-  "description": "仅当主要审阅对象是 LLM/Agent 的指令、能力定义、执行链或运行证据，并且用户明确要求可靠性失效审计，或材料中已经出现可引用的具体失效信号时使用。识别假完成或自我验收、执行者改写验收标准、冻结输入结论冲突、证据缺失或重复、虚假独立审阅、上下文交接丢失关键要求。普通源码、架构或项目审阅，发布与制品链检查，业务工作流评审，Skill 或 Prompt 编写，整改方案架构复核，例行调试、安装兼容和单次确定性测试失败均不适用。",
+  "description": "用于针对 skill-failure-auditor（SFA）自身的帮助、准备度检查或接入分析。实际审计仅当主要审阅对象是 LLM/Agent 的指令、能力定义、执行链或运行证据，并且用户明确要求可靠性失效审计，或材料中已经出现可引用的具体失效信号时使用。识别假完成或自我验收、执行者改写验收标准、冻结输入结论冲突、证据缺失或重复、虚假独立审阅、上下文交接丢失关键要求。普通源码、架构或项目审阅，发布与制品链检查，业务工作流评审，Skill 或 Prompt 编写，整改方案架构复核，例行调试、安装兼容和单次确定性测试失败均不适用。",
   "decision_codes": {
     "ENTER_EXPLICIT": "对象在范围内，用户明确要求可靠性失效审计",
     "ENTER_OBSERVED_SIGNAL": "对象在范围内，材料中已有可引用的具体失效信号",
@@ -46,5 +46,28 @@
     "next_probe",
     "prior_audit_conclusion"
   ],
+  "service_intents": {
+    "HELP": {
+      "description": "说明用途、输入、三种审计模式、副作用、使用前提和下一入口",
+      "terminal": true,
+      "creates_audit_artifacts": false
+    },
+    "SETUP_CHECK": {
+      "description": "只读检查当前 SFA 的 Python、SFA_FOUNDATION_NODE 无软链绝对实路径、Node pin 精确版本、必要材料和新输出目录前提",
+      "terminal": true,
+      "creates_audit_artifacts": false
+    },
+    "ADOPTION_ANALYSIS": {
+      "description": "说明当前环境已满足的前提、真实缺项和可选处理，不执行安装或创建目标脚手架",
+      "terminal": true,
+      "creates_audit_artifacts": false
+    },
+    "AUDIT": {
+      "description": "经过适用性门禁后，按 static、runtime 或 combined 模式进入同一审计流程",
+      "terminal": false,
+      "creates_audit_artifacts": true
+    }
+  },
+  "service_gate": "## 使用入口\n\n先判断用户要说明、检查前提、分析接入，还是开始诊断。详细按 [使用说明](references/usage-guide.md) 给出。\n\n1. 只问用途、能力或最短调用时，返回 `HELP`。\n2. 只检查当前 SFA 使用前提时，返回 `SETUP_CHECK`。只读 Foundation pin、Python、已有材料和 `SFA_FOUNDATION_NODE`：必须存在，且为路径链无软链的绝对实路径，`--version` 精确匹配 pin；否则列为继续条件。然后结束；不得安装依赖、创建目标脚手架或生成审计材料。\n3. 分析怎样接入或还缺什么时，返回 `ADOPTION_ANALYSIS`；不得实施安装、修改目标或手写通过证明。\n4. 审阅可靠性失效时，返回 `AUDIT` 并继续适用性门禁。已显式指定的模式必须保留；缺材料时报告缺项与继续条件，不改写模式。仅未指定模式时：只有静态定义选 `static`，只有既有运行材料选 `runtime`，两类都有选 `combined`；不足以区分时只询问这一必要差异。\n\n前三个分支的成功不构成审计成功，也不得创建尝试、规则选择、证据索引、覆盖记录、机器结果或报告。只传业务目标不得误走说明分支。",
   "applicability_gate": "## 适用性门禁\n\n按以下顺序判定，范围判断先于审计意图：\n\n1. 主要审阅对象必须是 LLM/Agent 的指令、能力定义、执行链、职责或验收链，或者这些对象已经产生的运行证据。否则返回 `EXIT_OBJECT_OUT_OF_SCOPE`，回到原工作流。\n2. 对象在范围内时，用户明确要求识别假完成、自我验收、判据改写、证据完整性、职责独立性、冻结输入冲突或交接失效，返回 `ENTER_EXPLICIT`。显式要求不扩大对象边界。\n3. 用户未明确要求时，只有材料同时给出已发生的声明或动作、与其冲突的观察、可回读的证据位置，才返回 `ENTER_OBSERVED_SIGNAL`。只有风险猜测、未来可能性或通用工程词时，返回 `EXIT_AUDIT_INTENT_ABSENT`。\n\n两个退出结果都不得创建尝试、规则选择、证据索引、覆盖记录、机器结果或审计报告。`novel_hypotheses`、`next_probe` 和上一次审计结论只提供调查线索，不自动启动下一轮审计、试验、整改或架构复核。"
 }

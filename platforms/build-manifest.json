@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "builder": "scripts/build/build_platforms.py",
-  "builderSha256": "53856a1b31c52cd622dd082898b63f877cf3e694953244aadf09de2df0095a70",
+  "builderSha256": "e5dbf0fea16caaf46b75d520832fb8773bf7bce0bbe9f98c24a8fb56db32c595",
   "units": {
     "claude-code": {
       "platformId": "claude-code",
@@ -10,7 +10,7 @@
       "files": [
         {
           "path": "platform-manifest.json",
-          "sha256": "06723e8dfc232ad0fb9585d883a9c3f2fd134f847c145f44d2cc689ee8553275",
+          "sha256": "659224113008d1f9caf0e43966bd251001e7143911971f4a08c3ddc9a58c120e",
           "source": "platforms/claude-code/platform-manifest.json"
         },
         {
@@ -19,18 +19,13 @@
           "source": "skill-family.migration.json"
         },
         {
-          "path": "skill/.claude-plugin/marketplace.json",
-          "sha256": "a47c8c49903a09952139803e3484b05fd3637fdaf3e50426ac562bfc5b237917",
-          "source": "platforms/claude-code/.claude-plugin/marketplace.json"
-        },
-        {
           "path": "skill/.claude-plugin/plugin.json",
-          "sha256": "7a48f85b5f2d7cd25b7f2f88602534e53322c273b853e8e442554f245ba967a9",
+          "sha256": "3e9e43ad150078b4013ca179083a999e30c79c979702ff6c89ccdb7689936d1f",
           "source": "platforms/claude-code/.claude-plugin/plugin.json"
         },
         {
           "path": "skill/SKILL.md",
-          "sha256": "8954d3586854f9105903c6928248af9f230e82d3bfb4fda8b1792b53be2e4cc4",
+          "sha256": "32a18804d3717165dfcd6550bcd6814ff9f968e4ffbbd2d3c48e5bad7195803c",
           "source": "core/SKILL.md"
         },
         {
@@ -385,12 +380,12 @@
         },
         {
           "path": "skill/references/report-contract.md",
-          "sha256": "7ca97d4615dba1ae843abea3620f3ffd9e5911f4f7cb2ff920a249d7c3914943",
+          "sha256": "c82b476d5d4869287f2a79b98384f34181f7a343fd70a027d609a42804c2f20a",
           "source": "core/references/report-contract.md"
         },
         {
           "path": "skill/references/runtime-supervision.md",
-          "sha256": "764d70fa5889359eeb5be707ca342dd2558d0709ef5eeac0e20c5cf650a8c654",
+          "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
           "source": "core/references/runtime-supervision.md"
         },
         {
@@ -407,6 +402,11 @@
           "path": "skill/references/taxonomy-index.md",
           "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
           "source": "core/references/taxonomy-index.md"
+        },
+        {
+          "path": "skill/references/usage-guide.md",
+          "sha256": "97228091045c82413ea1818c17654f5943c1557a42199e748f2567f1c7a7cada",
+          "source": "core/references/usage-guide.md"
         },
         {
           "path": "skill/scripts/attempt_tool.py",
@@ -440,12 +440,12 @@
         },
         {
           "path": "skill/scripts/report_renderer.py",
-          "sha256": "ec6b613d9f33e9ac00095d05244b94088b360e5eee53a6de3d9cbade6d65f868",
+          "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
           "source": "core/scripts/report_renderer.py"
         }
       ],
-      "treeDigest": "26e4ae7ecf84a40de77b3156e1027a415d6ef23b791ec33db494f1564a27ccd5",
-      "projectionDigest": "aa94e5126671afb4f12e92e0b450a827ac2c5f4c99d532a3832a0aad6d303794"
+      "treeDigest": "17500dde64c28fb9c4c94c3af44c430e8377ceb77bf7c5dfb40d41491321539d",
+      "projectionDigest": "2d0a22ba4dc1cea53a66926c13d57a464901f318b7740d294d5a4a5918c32987"
     },
     "codex": {
       "platformId": "codex",
@@ -453,18 +453,13 @@
       "fileCount": 87,
       "files": [
         {
-          "path": ".agents/plugins/marketplace.json",
-          "sha256": "bde8d742c6c167bd9b469555746f4f6cffa66203d187ba6297ae7482b9205d34",
-          "source": "platforms/codex/.agents/plugins/marketplace.json"
-        },
-        {
           "path": ".codex-plugin/plugin.json",
-          "sha256": "a114f350cc5dec25935ed785ec03ce625d6316365f71f54853ca5deb62d00269",
+          "sha256": "5d1b9efc32da9d4dd40b8f48310bea82e642d14da639f76cadd38fc28ec4e755",
           "source": "platforms/codex/.codex-plugin/plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "79c269aba035ca6c48c6e9086140e8164b13d5355061b1d1adc2944213bfa5ea",
+          "sha256": "e4987572ded79bd1a2c6c95ca44a78e06acd1938c66e0549f9d556da01c240e1",
           "source": "platforms/codex/platform-manifest.json"
         },
         {
@@ -474,7 +469,7 @@
         },
         {
           "path": "skill/SKILL.md",
-          "sha256": "8954d3586854f9105903c6928248af9f230e82d3bfb4fda8b1792b53be2e4cc4",
+          "sha256": "32a18804d3717165dfcd6550bcd6814ff9f968e4ffbbd2d3c48e5bad7195803c",
           "source": "core/SKILL.md"
         },
         {
@@ -829,12 +824,12 @@
         },
         {
           "path": "skill/references/report-contract.md",
-          "sha256": "7ca97d4615dba1ae843abea3620f3ffd9e5911f4f7cb2ff920a249d7c3914943",
+          "sha256": "c82b476d5d4869287f2a79b98384f34181f7a343fd70a027d609a42804c2f20a",
           "source": "core/references/report-contract.md"
         },
         {
           "path": "skill/references/runtime-supervision.md",
-          "sha256": "764d70fa5889359eeb5be707ca342dd2558d0709ef5eeac0e20c5cf650a8c654",
+          "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
           "source": "core/references/runtime-supervision.md"
         },
         {
@@ -851,6 +846,11 @@
           "path": "skill/references/taxonomy-index.md",
           "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
           "source": "core/references/taxonomy-index.md"
+        },
+        {
+          "path": "skill/references/usage-guide.md",
+          "sha256": "97228091045c82413ea1818c17654f5943c1557a42199e748f2567f1c7a7cada",
+          "source": "core/references/usage-guide.md"
         },
         {
           "path": "skill/scripts/attempt_tool.py",
@@ -884,31 +884,31 @@
         },
         {
           "path": "skill/scripts/report_renderer.py",
-          "sha256": "ec6b613d9f33e9ac00095d05244b94088b360e5eee53a6de3d9cbade6d65f868",
+          "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
           "source": "core/scripts/report_renderer.py"
         }
       ],
-      "treeDigest": "9814f6ba4be45ccf896a19656e26ac81fb33641856fda886ebb567bebefcc457",
-      "projectionDigest": "671441bc9f094d60db9aadac1acc1b6997192de1e38ced8b91eeb8ed590690a4"
+      "treeDigest": "f59931c35cf7064b404092b26363ec6886156807bb4d4e7176a39dd2a57a2c8a",
+      "projectionDigest": "3b2da4ff8b048aca5f89dfe28ad893c775c8460f1a5d8b457ea25da0ae365e38"
     },
     "kimi-code": {
       "platformId": "kimi-code",
       "status": "assembled",
-      "fileCount": 87,
+      "fileCount": 88,
       "files": [
         {
           "path": ".kimi-plugin/plugin.json",
-          "sha256": "d6c77279cca52a3136a5322f5815db4dc8c24844e0d64630287db9e89d112084",
+          "sha256": "818617d6e12124071a0572a644201c7203eb70939859c80b321e5de8cb2977d1",
           "source": "generated-from:kimi.plugin.json"
         },
         {
           "path": "kimi.plugin.json",
-          "sha256": "fe4f752491447df97d272ed45983cdd22bf71fef1520afb1a2f91aa72ae8dc3f",
+          "sha256": "3b23a97b31ab27efd1de6c03c6922b505633d9d894a0285af3fc4e299725d671",
           "source": "platforms/kimi-code/kimi.plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "307363171d58aaeca092d2a2963b6d4bc4f2c60c0ba16a74509d7a97294ba95d",
+          "sha256": "9910715fb17d5cbbdd60bb58d9f559bd7c01c1cf5594eb53b1bd268542cca7d9",
           "source": "platforms/kimi-code/platform-manifest.json"
         },
         {
@@ -918,7 +918,7 @@
         },
         {
           "path": "skill/SKILL.md",
-          "sha256": "8954d3586854f9105903c6928248af9f230e82d3bfb4fda8b1792b53be2e4cc4",
+          "sha256": "32a18804d3717165dfcd6550bcd6814ff9f968e4ffbbd2d3c48e5bad7195803c",
           "source": "core/SKILL.md"
         },
         {
@@ -1273,12 +1273,12 @@
         },
         {
           "path": "skill/references/report-contract.md",
-          "sha256": "7ca97d4615dba1ae843abea3620f3ffd9e5911f4f7cb2ff920a249d7c3914943",
+          "sha256": "c82b476d5d4869287f2a79b98384f34181f7a343fd70a027d609a42804c2f20a",
           "source": "core/references/report-contract.md"
         },
         {
           "path": "skill/references/runtime-supervision.md",
-          "sha256": "764d70fa5889359eeb5be707ca342dd2558d0709ef5eeac0e20c5cf650a8c654",
+          "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
           "source": "core/references/runtime-supervision.md"
         },
         {
@@ -1295,6 +1295,11 @@
           "path": "skill/references/taxonomy-index.md",
           "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
           "source": "core/references/taxonomy-index.md"
+        },
+        {
+          "path": "skill/references/usage-guide.md",
+          "sha256": "97228091045c82413ea1818c17654f5943c1557a42199e748f2567f1c7a7cada",
+          "source": "core/references/usage-guide.md"
         },
         {
           "path": "skill/scripts/attempt_tool.py",
@@ -1328,26 +1333,26 @@
         },
         {
           "path": "skill/scripts/report_renderer.py",
-          "sha256": "ec6b613d9f33e9ac00095d05244b94088b360e5eee53a6de3d9cbade6d65f868",
+          "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
           "source": "core/scripts/report_renderer.py"
         }
       ],
-      "treeDigest": "04fe2781d4a4b7ec8651e8007ee7a3960c0ad8c9a3275e8e141648fd595f1075",
-      "projectionDigest": "243a4331e8a192069737833759a6befbe5355cbb6a6ffb270a0604c9c9aebdab"
+      "treeDigest": "de596b4d3eb815c15cb3124a8720fd06e6180907326711eb7b6fb5d9a670b524",
+      "projectionDigest": "40a2b40ac840864caafe04a911eeae0b1c4020500383d911e5a51b04607db5f9"
     },
     "workbuddy": {
       "platformId": "workbuddy",
       "status": "assembled",
-      "fileCount": 86,
+      "fileCount": 87,
       "files": [
         {
           "path": ".codebuddy-plugin/plugin.json",
-          "sha256": "577d52caae65ff4e4398fb380310fad180543a671bf2d724c4526906c2348214",
+          "sha256": "fb5ee1cff62ef98bb1a2359052c720981bd827bc6f06e57279c3f4b35d24a693",
           "source": "platforms/workbuddy/.codebuddy-plugin/plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "c8d2d160a7e74485f758e5b0a430cbd372554a187ac16bab4cd9e5f9e67d8309",
+          "sha256": "8a1924346eb1cbd426ce63b1fc2f13443c24e51b077568d20ef7fc7c48c192fb",
           "source": "platforms/workbuddy/platform-manifest.json"
         },
         {
@@ -1357,7 +1362,7 @@
         },
         {
           "path": "skill/SKILL.md",
-          "sha256": "8954d3586854f9105903c6928248af9f230e82d3bfb4fda8b1792b53be2e4cc4",
+          "sha256": "32a18804d3717165dfcd6550bcd6814ff9f968e4ffbbd2d3c48e5bad7195803c",
           "source": "core/SKILL.md"
         },
         {
@@ -1712,12 +1717,12 @@
         },
         {
           "path": "skill/references/report-contract.md",
-          "sha256": "7ca97d4615dba1ae843abea3620f3ffd9e5911f4f7cb2ff920a249d7c3914943",
+          "sha256": "c82b476d5d4869287f2a79b98384f34181f7a343fd70a027d609a42804c2f20a",
           "source": "core/references/report-contract.md"
         },
         {
           "path": "skill/references/runtime-supervision.md",
-          "sha256": "764d70fa5889359eeb5be707ca342dd2558d0709ef5eeac0e20c5cf650a8c654",
+          "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
           "source": "core/references/runtime-supervision.md"
         },
         {
@@ -1734,6 +1739,11 @@
           "path": "skill/references/taxonomy-index.md",
           "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
           "source": "core/references/taxonomy-index.md"
+        },
+        {
+          "path": "skill/references/usage-guide.md",
+          "sha256": "97228091045c82413ea1818c17654f5943c1557a42199e748f2567f1c7a7cada",
+          "source": "core/references/usage-guide.md"
         },
         {
           "path": "skill/scripts/attempt_tool.py",
@@ -1767,12 +1777,12 @@
         },
         {
           "path": "skill/scripts/report_renderer.py",
-          "sha256": "ec6b613d9f33e9ac00095d05244b94088b360e5eee53a6de3d9cbade6d65f868",
+          "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
           "source": "core/scripts/report_renderer.py"
         }
       ],
-      "treeDigest": "5268b9ed61905678569f014915f826620ac86a2c93c62c4b4d8a577e4b1d83fe",
-      "projectionDigest": "034eb50cf021abc497fcf29cf47a9cdf81f6cb797277ca056a48709ac1965bfa"
+      "treeDigest": "99ff72c1efdd6ffda25eefcdff29d0b11673cdc0950d446ebed61cb208714b74",
+      "projectionDigest": "47c1eb93848f89cedf3ce91c0eb18bea8d85c7c7d5e58da84f3bb79e3746e9a7"
     }
   }
 }
