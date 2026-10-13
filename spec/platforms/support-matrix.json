@@ -20,7 +20,7 @@
     {"platformId": "claude-code", "platformName": "Claude Code", "supportLevel": "supported", "minClientVersion": "2.1.220", "deliveryMode": "claude_plugin", "manifestPath": ".claude-plugin/plugin.json"},
     {"platformId": "codex", "platformName": "Codex", "supportLevel": "supported", "versionPolicy": "运行前探测客户端版本并写入包外证据", "deliveryMode": "codex_plugin_or_skill", "manifestPath": ".codex-plugin/plugin.json"},
     {"platformId": "kimi-code", "platformName": "Kimi Code", "supportLevel": "supported", "minClientVersion": "0.31.0", "deliveryMode": "kimi_plugin", "manifestPath": "kimi.plugin.json", "hubCompatProjection": ".kimi-plugin/plugin.json"},
-    {"platformId": "workbuddy", "platformName": "WorkBuddy/CodeBuddy", "supportLevel": "supported", "versionPolicy": "运行前同时探测应用壳版本与内嵌 CLI 版本并写入包外证据", "deliveryMode": "workbuddy_plugin", "manifestPath": ".codebuddy-plugin/plugin.json", "skillsRootRule": "<CODEBUDDY_CONFIG_DIR>/skills", "isolationPolicy": "真实验证使用专用认证 HOME"}
+    {"platformId": "workbuddy", "platformName": "WorkBuddy/CodeBuddy", "supportLevel": "supported", "versionPolicy": "运行前同时探测应用壳版本与内嵌 CLI 版本并写入包外证据", "deliveryMode": "workbuddy_plugin", "manifestPath": ".codebuddy-plugin/plugin.json", "skillsRootRule": "<CODEBUDDY_CONFIG_DIR>/skills", "isolationPolicy": "真实验证复用本机正常 HOME 和官方客户端既有认证；测试技能、候选、输入与输出保持隔离；不读取、打印、复制、解密或归档凭据，不修改用户日常配置。既有认证能否供当前 CLI 使用仍须真实证据验证，应用账户界面可见不代表 CLI 已可用。"}
   ],
   "claimPolicy": {
     "fourPlatformVerified": "四个平台必须审阅同一冻结输入并形成绑定同一候选的成功证据",

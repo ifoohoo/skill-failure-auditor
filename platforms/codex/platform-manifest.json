@@ -3,7 +3,7 @@
   "familyId": "skill-failure-auditor",
   "platformId": "codex",
   "product": "skill-failure-auditor",
-  "version": "1.1.10",
+  "version": "1.1.14",
   "versionPolicy": "运行前探测客户端版本并写入包外证据",
   "deliveryMode": "codex_plugin_or_skill",
   "pluginManifest": ".codex-plugin/plugin.json",
@@ -20,7 +20,9 @@
     "outputBoundary": "new-audit-output-directory-only"
   },
   "constraints": [
-    "真实验证使用隔离 CODEX_HOME，rollout 不得落入用户 ~/.codex",
+    "真实验证以正常 HOME 和 ~/.codex 认证根读取既有认证，不读取、复制、投影或软链凭据；--ignore-user-config 使用 CLI 默认模型配置",
+    "候选技能从本轮项目 .agents/skills 发现并按精确冻结路径选用，不得回落到用户旧安装；输入、安装和输出仍独立隔离",
+    "--ephemeral 不持久化会话；客户端必要的原生缓存、日志或状态仍可能写入正常 ~/.codex，不能宣称认证根完全无写入",
     "审计不得启动目标技能或派生执行职责"
   ],
   "logicalMappings": [
@@ -33,5 +35,5 @@
     }
   ],
   "projectionStatus": "projection_complete",
-  "projectionDigest": "3b2da4ff8b048aca5f89dfe28ad893c775c8460f1a5d8b457ea25da0ae365e38"
+  "projectionDigest": "78a377165454c10693e91b4508141f1244ff715516c8c193c98b4eac8c70d491"
 }

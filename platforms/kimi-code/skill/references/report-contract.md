@@ -1,6 +1,6 @@
 # 审计报告要求
 
-报告分两部分：**人读报告**和**机器结果**。人读报告是最终交付物；机器结果是附录，必须先通过 `audit-result.schema.json` 和 `evaluation_tool.py validate-result` 校验，再由 `report_renderer.py` 渲染成人读报告的附录部分。
+报告分两部分：**人读报告**和**机器结果**。人读报告是最终交付物；机器结果是附录，必须先通过 `audit-result.schema.json` 和 `evaluation_tool.py validate-result` 校验，再由 `report_renderer.py` 渲染成人读报告的附录部分。可选的共同证明是另一份交换文件，不能代替这份原生机器结果，也不能把读取共同证明写成精确复用或重新诊断。
 
 ## 人读报告（必需）
 
@@ -26,6 +26,20 @@
 
 `known_rule_results[].reason` 是领域判断原文。命中项必须在这个字符串中写清故障、证据理由和最小建议；无法判断怎样修正时说明缺少的事实。renderer 只呈现原文，不根据规则名称补写建议。
 
+## 判断纪律
+
+逐条判断时先执行下列各项，再给出状态。渲染人读报告不代替本节。
+
+1. 先核对本条登记表的 `applies_when` 和 `required_evidence`。
+2. 再依据报告合同判断状态。
+3. 不得仅凭规则标题或另一条规则命中作结论。
+4. 材料中的限制须引用原文说明其约束对象。
+5. 区分夹具或当前审计器的使用边界与被审流程的约束条件。
+6. 不得否认已出现的限制文字。
+7. 也不得以本轮审计边界证明目标已有保证。
+8. 适用性不明或证据不足时保留 `UNCHECKED`。
+9. 不预设 `HIT`。
+
 ## 判定用词
 
 - `HIT`：有绑定证据证明问题存在。
@@ -46,6 +60,17 @@
 - `BLOCKED`：缺少权限、独立性或外部状态，无法形成有效结论。
 
 自审时 `status` 必须是 `SELF_AUDIT_SUBMITTED_FOR_EXTERNAL_REVIEW`，且结论不能作为接受依据。
+
+## 可选共同证明
+
+共同证明只从已通过 `validate-result` 的原生结果投影。产证入口必填相对于结果根的 `--selection`；原生结果不内嵌选择路径。领域码为：
+
+- `FAILURE_DIAGNOSIS_CLEAR`：原生 `PASS_WITHIN_FROZEN_SCOPE` 且 `coverage_status=COMPLETE`
+- `FAILURE_DIAGNOSIS_FINDINGS`：原生 `NEEDS_REVISION` 或 `REJECT`
+- `FAILURE_DIAGNOSIS_INCOMPLETE`：原生 `INCOMPLETE`，或覆盖不足
+- `FAILURE_DIAGNOSIS_UNAVAILABLE`：原生 `BLOCKED`
+
+材料不够不能写成 CLEAR。`validate-result` 拒绝的矛盾结果不得出具新证明。读取共同证明返回 `pass`、`not_pass` 或 `unavailable`，不重跑 `reuse-check`，也不鉴定作者。人读报告仍按上面的原生结论渲染；renderer 不把共同证明领域码写成接受决定。
 
 ## 结论适用范围
 

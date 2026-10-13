@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.14 - 2026-10-13
+
+- 将审计入口正文压缩至 2000 词元预算内。压缩前该正文超出预算 90 词元。
+- 九条报告契约命题移入 `references/report-contract.md`，第 6 步仍须先读其中的判断纪律。
+- `trigger-policy.json` 的 `description`、`service_gate`、`applicability_gate` 三键与入口正文同步。
+- Claude Code、Codex、Kimi Code 与 WorkBuddy 四平台投影随构建重建。
+- 结构测试新增断言，确认上述九条命题存在于报告合同。
+- 本版不改变审计行为语义。
+
 ## 1.1.10 - 2026-09-17
 
 - 将同一入口分成帮助、使用前提检查、接入分析和可靠性失效诊断四种职能。用户显式指定审计模式后，材料不足时只说明缺项与继续条件。

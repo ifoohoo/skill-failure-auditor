@@ -13,21 +13,21 @@
   "packages": [
     {
       "name": "skill-family-contracts",
-      "version": "0.14.0",
-      "tarball": "skill-family-contracts-0.14.0.tgz",
-      "sha256": "a857ac781f545917a3e0237feea6f273e95084f0d8fd1322b61004979175e1d5"
+      "version": "0.22.0",
+      "tarball": "skill-family-contracts-0.22.0.tgz",
+      "sha256": "e7d8569b2b5d547c5ab4c08222448ff137d1e0f9bea34889d878d0c6da316c77"
     },
     {
       "name": "skill-family-engineering-kit",
-      "version": "0.14.0",
-      "tarball": "skill-family-engineering-kit-0.14.0.tgz",
-      "sha256": "39939f65e655b3164658b64d47b279e5feebf5dfa63925626c66e7d0056c8a67"
+      "version": "0.22.0",
+      "tarball": "skill-family-engineering-kit-0.22.0.tgz",
+      "sha256": "9c680ea6bc5a357733f249edcd18fe533f260c7958a1e7a0a70bbd5ff01cae00"
     },
     {
       "name": "skill-family-harness-node",
-      "version": "0.14.0",
-      "tarball": "skill-family-harness-node-0.14.0.tgz",
-      "sha256": "6a6536fa62e5438b1b5d064bdaae91c5d742662cc1252e50c5c4248582bc15a9"
+      "version": "0.22.0",
+      "tarball": "skill-family-harness-node-0.22.0.tgz",
+      "sha256": "a1bd014a5863d8e9cf3e3e07c6baefbf8bb4c42ad2458c2cd9649929b49f93fb"
     }
   ],
   "consumerSchemas": [
@@ -66,10 +66,10 @@
     "repository": "skill-family-foundation-workspace",
     "baseCommit": "8b4c865e6861dccf15d995713fb2bdced9e6159d",
     "status": "VERIFIED",
-    "note": "Foundation 0.14.0 已发布并通过发布后验证；verify run 1787975717089 的 sourceRunDigest 为 8703cf38441af21ebdcd16ac75a1411ce4051ba2028d83f6d15466d2496a7bd6。"
+    "note": "Foundation 0.22.0 官方 tarball 已与 npm registry SHA-512 integrity 核对。payloadSha256 取自本轮原生成入口 prepare 的实际输出，旧 0.14.0 包保留。"
   },
   "bundle": {
     "targetPrefix": "quickstart-profile",
-    "payloadSha256": "e2618d2e8d23f587da1633d344173fb49bf96913005b1dd32258b2426d34d05e"
+    "payloadSha256": "9b202cf0093b3338acc2bec685ffb742c7872fe138d4a2d518fc5ae052c97920"
   }
 }

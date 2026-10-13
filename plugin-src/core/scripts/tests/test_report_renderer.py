@@ -161,6 +161,24 @@ class ReportRendererTests(unittest.TestCase):
             second = subprocess.run(command, capture_output=True, text=True)
             self.assertNotEqual(second.returncode, 0)
 
+    def test_renderer_keeps_native_conclusion_and_does_not_treat_proof_codes_as_acceptance(self) -> None:
+        names = load_registry_names(REGISTRY_PATH)
+        result = sample_result()
+        report = render(result, names)
+        self.assertIn("REJECT", report)
+        self.assertIn("命中红线组合或存在结构性缺陷", report)
+        for code in (
+            "FAILURE_DIAGNOSIS_CLEAR",
+            "FAILURE_DIAGNOSIS_FINDINGS",
+            "FAILURE_DIAGNOSIS_INCOMPLETE",
+            "FAILURE_DIAGNOSIS_UNAVAILABLE",
+        ):
+            self.assertNotIn(code, report)
+        contract = (CANDIDATE_DIR / "references" / "report-contract.md").read_text(encoding="utf-8")
+        self.assertIn("可选的共同证明是另一份交换文件", contract)
+        self.assertIn("renderer 不把共同证明领域码写成接受决定", contract)
+        self.assertIn("产证入口必填相对于结果根的 `--selection`", contract)
+
 
 if __name__ == "__main__":
     unittest.main()

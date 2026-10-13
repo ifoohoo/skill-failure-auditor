@@ -9,9 +9,9 @@
   "capabilityUses": [
     {
       "useId": "published-package-pin",
-      "problemStatement": "把技能失效审计技能使用的三个 Foundation 包从 0.9.0 升级到已发布并通过发布后验证的 0.14.0，同时继续以真实 tarball 字节、SHA-256 和项目采用声明证明精确版本。",
+      "problemStatement": "把技能失效审计技能使用的三个 Foundation 包精确采用已发布的 0.22.0，同时继续以真实 tarball 字节、SHA-256 和项目采用声明证明精确版本；0.22.0 夹具副本与 Bundle 派生等待生成窗口。",
       "constraints": [
-        "只消费 registry 的 0.14.0 发布字节，不读取相邻 Foundation 开发工作树作为运行依赖",
+        "只消费 registry 的 0.22.0 发布字节，不读取相邻 Foundation 开发工作树作为运行依赖",
         "Node 必须满足 >=22.22.2 <23",
         "当前 profile.json 与两份 foundation-pin.json 的项目语义保持不变"
       ],
@@ -62,7 +62,7 @@
       "problemStatement": "对结构化回执与绑定对象计算可复算的 canonical JSON 和 SHA-256 摘要，不在技能内维护第二套规范化算法。",
       "constraints": [
         "摘要算法固定为 SHA-256",
-        "必须保留当前 0.9.0 与 0.14.0 已验证的一致摘要结果"
+        "必须保留当前已验证的一致摘要结果；0.22.0 Bundle payload 摘要在生成前不得填造"
       ],
       "retainedGuarantees": [
         "待摘要对象及字段语义仍由技能失效审计项目负责",
@@ -153,7 +153,7 @@
       "useId": "real-host-existing-user-state",
       "problemStatement": "四平台真实消费者验证需要复用宿主既有登录态，同时让临时会话、技能发现目录、审计输出和受保护工作区保持隔离；Kimi OAuth 刷新令牌不得复制到临时状态根。",
       "constraints": [
-        "只消费 Foundation 0.14.0 已发布的宿主合同和行为保证",
+        "只消费 Foundation 已发布的宿主合同和行为保证",
         "认证策略固定为 existing-user-state，凭据变更由 host-managed",
         "Kimi 使用临时 HOME、既有 KIMI_CODE_HOME 和独立 skills-dir",
         "技能失效审计继续校验八项领域输出、规则覆盖和四平台等价性"
@@ -168,6 +168,24 @@
         "host-managed",
         "真实宿主验证",
         "Kimi Code"
+      ]
+    },
+    {
+      "useId": "professional-conclusion-bridge",
+      "problemStatement": "从已通过 validate-result 的原生诊断投影共同证明，并只读解释本族共同证明；结构校验使用 Foundation 0.22.0 按 Schema 标识的 validate-by-schema-id，路径读取和排他写入使用已有 Harness 机制。",
+      "constraints": [
+        "不得复制上游校验或路径算法",
+        "professional-conclusion-create 必填相对于 result-root 的 --selection，随后交原 validate_audit_result；不得接受手填通过",
+        "官方 professional-conclusion Schema 原字节经既有 consumerSchema 投影纳入 Bundle，运行时只走按标识桥，不得自制 Schema 引擎或专用传输"
+      ],
+      "retainedGuarantees": [
+        "原生诊断判据、精确复用和最终接受权仍由技能失效审计项目持有",
+        "共同证明读取不重查当前目标，也不自动运行 reuse-check"
+      ],
+      "catalogFilters": [
+        "对象结构校验",
+        "严格读取",
+        "不覆盖"
       ]
     }
   ],
@@ -226,7 +244,13 @@
       "useId": "real-host-existing-user-state",
       "disposition": "compatibility-layer",
       "targetCapability": "foundation.kit.host",
-      "reason": "采用 Foundation 0.14.0 的 existing-user-state + host-managed 宿主边界；当前 SFA 黑盒适配层保留八项领域输出、规则覆盖和等价性校验，不宣称已执行 Foundation 完整宿主资格流程。"
+      "reason": "采用 Foundation 已发布的 existing-user-state + host-managed 宿主边界；当前 SFA 黑盒适配层保留八项领域输出、规则覆盖和等价性校验，不宣称已执行 Foundation 完整宿主资格流程。"
+    },
+    {
+      "useId": "professional-conclusion-bridge",
+      "disposition": "compatibility-layer",
+      "targetCapability": "foundation.contracts.object-validation",
+      "reason": "共同证明结构校验复用 Bundle 已有的 validate-by-schema-id；官方 professional-conclusion Schema 由精确 Contracts 0.22.0 原字节经 Kit 投影纳入。路径读取和排他写入继续使用已有 readFileStrict、resolveContained、publishFileExclusive。"
     }
   ],
   "legacyInfra": [],
@@ -236,18 +260,18 @@
   "foundationPackages": [
     {
       "name": "skill-family-contracts",
-      "version": "0.14.0",
-      "digest": "sha256:a857ac781f545917a3e0237feea6f273e95084f0d8fd1322b61004979175e1d5"
+      "version": "0.22.0",
+      "digest": "sha256:e7d8569b2b5d547c5ab4c08222448ff137d1e0f9bea34889d878d0c6da316c77"
     },
     {
       "name": "skill-family-engineering-kit",
-      "version": "0.14.0",
-      "digest": "sha256:39939f65e655b3164658b64d47b279e5feebf5dfa63925626c66e7d0056c8a67"
+      "version": "0.22.0",
+      "digest": "sha256:9c680ea6bc5a357733f249edcd18fe533f260c7958a1e7a0a70bbd5ff01cae00"
     },
     {
       "name": "skill-family-harness-node",
-      "version": "0.14.0",
-      "digest": "sha256:6a6536fa62e5438b1b5d064bdaae91c5d742662cc1252e50c5c4248582bc15a9"
+      "version": "0.22.0",
+      "digest": "sha256:a1bd014a5863d8e9cf3e3e07c6baefbf8bb4c42ad2458c2cd9649929b49f93fb"
     }
   ]
 }

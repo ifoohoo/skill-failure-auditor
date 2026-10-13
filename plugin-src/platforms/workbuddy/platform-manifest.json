@@ -3,7 +3,7 @@
   "familyId": "skill-failure-auditor",
   "platformId": "workbuddy",
   "product": "skill-failure-auditor",
-  "version": "1.1.10",
+  "version": "1.1.14",
   "versionPolicy": "运行前同时探测应用壳版本与内嵌 CLI 版本并写入包外证据",
   "deliveryMode": "workbuddy_plugin",
   "pluginManifest": ".codebuddy-plugin/plugin.json",
@@ -24,7 +24,7 @@
     "outputBoundary": "new-audit-output-directory-only"
   },
   "dualVersionReporting": "支持声明必须同时记录应用壳版本与内嵌 CLI 版本",
-  "isolationPolicy": "真实验证必须使用与用户真实 HOME 隔离的运行目录；认证只能显式注入该隔离环境",
+  "isolationPolicy": "真实验证复用本机正常 HOME 和官方客户端既有认证；测试技能、候选、输入与输出保持隔离；不读取、打印、复制、解密或归档凭据，不修改用户日常配置。既有认证能否供当前 CLI 使用仍须真实证据验证，应用账户界面可见不代表 CLI 已可用。",
   "logicalMappings": [{
     "logicalName": "skill-failure-auditor",
     "physicalName": "skill-failure-auditor",

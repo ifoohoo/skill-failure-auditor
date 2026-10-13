@@ -426,3 +426,69 @@ def foundation_publish_file_exclusive(path: Path, content: bytes, mode: int = 0o
         raise ContractError("FOUNDATION_RUNTIME_UNAVAILABLE: transport stdout is not JSON") from error
     if not isinstance(result, dict) or result.get("ok") is not True:
         raise ContractError("FOUNDATION_RUNTIME_UNAVAILABLE: transport returned non-ok")
+
+
+def foundation_read_file_strict(
+    root: str,
+    rel_path: str,
+    *,
+    node: str | None = None,
+) -> dict[str, Any]:
+    """Read one contained file through the managed Harness readFileStrict."""
+    return _invoke_mechanism(
+        "read-file-strict",
+        {"root": root, "path": rel_path, "encoding": "utf8"},
+        node=node,
+    )
+
+
+def foundation_resolve_contained(
+    root: str,
+    rel_path: str,
+    *,
+    node: str | None = None,
+) -> dict[str, Any]:
+    """Reject paths that escape the caller-supplied root via resolveContained."""
+    return _invoke_mechanism(
+        "resolve-contained",
+        {"root": root, "path": rel_path},
+        node=node,
+    )
+
+
+PROFESSIONAL_CONCLUSION_SCHEMA_ID = (
+    "https://contracts.skill-family.example/v1/professional-conclusion.json"
+)
+
+
+def foundation_validate_professional_conclusion(
+    document: Any,
+    *,
+    node: str | None = None,
+) -> dict[str, Any]:
+    """Validate a common proof through the Bundle's validate-by-schema-id bridge.
+
+    The official professional-conclusion Schema is admitted at Bundle build time.
+    This function only names that $id; it does not copy Ajv or return Node-rewritten
+    document bytes.
+    """
+    foundation_schema_provenance(PROFESSIONAL_CONCLUSION_SCHEMA_ID)
+    result = _invoke_mechanism(
+        "validate-by-schema-id",
+        {"schemaId": PROFESSIONAL_CONCLUSION_SCHEMA_ID, "document": document},
+        node=node,
+    )
+    return _require_validation_result_shape(result, label="professional-conclusion")
+
+
+def require_professional_conclusion(document: Any, *, node: str | None = None) -> dict[str, Any]:
+    """Reject a common proof unless Foundation accepts the public schema.
+
+    On success return the caller-supplied Python object, not validator output.
+    """
+    result = foundation_validate_professional_conclusion(document, node=node)
+    if result["valid"] is True:
+        if not isinstance(document, dict):
+            raise ContractError("professional-conclusion rejected: document is not an object")
+        return document
+    raise ContractError(f"professional-conclusion rejected: {_validation_failure_message(result)}")

@@ -3,28 +3,36 @@
   "familyId": "skill-failure-auditor",
   "platformId": "codex",
   "product": "skill-failure-auditor",
-  "version": "1.1.10",
+  "version": "1.1.14",
   "versionPolicy": "运行前探测客户端版本并写入包外证据",
   "deliveryMode": "codex_plugin_or_skill",
   "pluginManifest": ".codex-plugin/plugin.json",
   "entry": "SKILL.md",
   "auditContract": {
-    "supportedModes": ["static", "runtime", "combined"],
+    "supportedModes": [
+      "static",
+      "runtime",
+      "combined"
+    ],
     "targetAccess": "read-only",
     "targetExecution": "forbidden",
     "delegation": "forbidden",
     "outputBoundary": "new-audit-output-directory-only"
   },
   "constraints": [
-    "真实验证使用隔离 CODEX_HOME，rollout 不得落入用户 ~/.codex",
+    "真实验证以正常 HOME 和 ~/.codex 认证根读取既有认证，不读取、复制、投影或软链凭据；--ignore-user-config 使用 CLI 默认模型配置",
+    "候选技能从本轮项目 .agents/skills 发现并按精确冻结路径选用，不得回落到用户旧安装；输入、安装和输出仍独立隔离",
+    "--ephemeral 不持久化会话；客户端必要的原生缓存、日志或状态仍可能写入正常 ~/.codex，不能宣称认证根完全无写入",
     "审计不得启动目标技能或派生执行职责"
   ],
-  "logicalMappings": [{
-    "logicalName": "skill-failure-auditor",
-    "physicalName": "skill-failure-auditor",
-    "path": "skill/SKILL.md",
-    "type": "human_entry",
-    "userInvocable": true
-  }],
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
   "projectionStatus": "projection_complete"
 }

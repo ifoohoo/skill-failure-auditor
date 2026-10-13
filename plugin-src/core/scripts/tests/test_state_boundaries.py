@@ -4,6 +4,7 @@ import argparse
 import copy
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -16,6 +17,7 @@ from pathlib import Path
 TEST_DIR = Path(__file__).resolve().parent
 SCRIPTS_DIR = TEST_DIR.parent
 CANDIDATE_DIR = SCRIPTS_DIR.parent
+PRODUCT_PACKAGE = CANDIDATE_DIR.parents[1] / "package.json"
 REFERENCES_DIR = CANDIDATE_DIR / "references"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
@@ -38,6 +40,10 @@ from evaluation_tool import (  # noqa: E402
     continuation_verify,
     derive_self_audit,
     grade_cases,
+    professional_conclusion_create,
+    professional_proof_read,
+    project_professional_conclusion,
+    provider_package_version,
     reuse_check,
     source_manifest_digest,
     validate_audit_result,
@@ -1392,6 +1398,381 @@ class ExactReuseBoundaryTests(unittest.TestCase):
                         selection_path,
                         attempt,
                     )
+
+
+NODE22 = "/opt/homebrew/Cellar/node@22/22.23.2/bin/node"
+
+
+def _native_for_projection(conclusion: str, coverage: str, statuses: list[str]) -> dict:
+    return {
+        "audit_id": "AUDIT-PROOF-01",
+        "conclusion": conclusion,
+        "coverage_status": coverage,
+        "self_audit": False,
+        "subject": {"path": "/tmp/subject", "file_set_sha256": "a" * 64},
+        "known_rule_results": [
+            {
+                "id": f"FM-0{index}",
+                "revision": 1,
+                "severity": "high",
+                "status": status,
+                "evidence_refs": [],
+                "reason": "projection fixture",
+            }
+            for index, status in enumerate(statuses, 1)
+        ],
+        "hard_gate_failures": ["EXECUTABLE_ACCEPTANCE_UNCHECKED"],
+        "executable_acceptance": {
+            "status": "UNCHECKED",
+            "evidence_refs": [],
+            "reason": "projection fixture",
+        },
+        "novel_hypotheses": [
+            {
+                "id": "HYP-01",
+                "hypothesis": "外部状态可能漂移",
+                "observable_signal": "摘要不同",
+                "falsifier": "外部重算一致",
+                "next_probe": "请求外部重算",
+            }
+        ],
+    }
+
+
+class ProfessionalProofTests(unittest.TestCase):
+    def setUp(self) -> None:
+        os.environ["SFA_FOUNDATION_NODE"] = NODE22
+
+    def test_native_states_project_to_public_professional_codes(self) -> None:
+        validation = {"status": "VALID"}
+        cases = (
+            (
+                "PASS_WITHIN_FROZEN_SCOPE",
+                "COMPLETE",
+                ["NOT_HIT", "NOT_APPLICABLE"],
+                "FAILURE_DIAGNOSIS_CLEAR",
+                "complete",
+            ),
+            (
+                "REJECT",
+                "COMPLETE",
+                ["HIT", "NOT_HIT"],
+                "FAILURE_DIAGNOSIS_FINDINGS",
+                "complete",
+            ),
+            (
+                "NEEDS_REVISION",
+                "COMPLETE",
+                ["HIT", "NOT_HIT"],
+                "FAILURE_DIAGNOSIS_FINDINGS",
+                "complete",
+            ),
+            (
+                "INCOMPLETE",
+                "COMPLETE",
+                ["NOT_HIT", "UNCHECKED"],
+                "FAILURE_DIAGNOSIS_INCOMPLETE",
+                "partial",
+            ),
+            (
+                "PASS_WITHIN_FROZEN_SCOPE",
+                "INCOMPLETE",
+                ["NOT_HIT", "UNCHECKED"],
+                "FAILURE_DIAGNOSIS_INCOMPLETE",
+                "partial",
+            ),
+            (
+                "BLOCKED",
+                "COMPLETE",
+                ["NOT_HIT", "UNCHECKED"],
+                "FAILURE_DIAGNOSIS_UNAVAILABLE",
+                "partial",
+            ),
+            (
+                "BLOCKED",
+                "COMPLETE",
+                ["NOT_HIT", "NOT_APPLICABLE"],
+                "FAILURE_DIAGNOSIS_UNAVAILABLE",
+                "complete",
+            ),
+            (
+                "BLOCKED",
+                "INCOMPLETE",
+                ["UNCHECKED", "UNCHECKED"],
+                "FAILURE_DIAGNOSIS_UNAVAILABLE",
+                "not-performed",
+            ),
+        )
+        for conclusion, coverage, statuses, code, completion in cases:
+            with self.subTest(conclusion=conclusion, coverage=coverage, statuses=statuses):
+                native = _native_for_projection(conclusion, coverage, statuses)
+                projected = project_professional_conclusion(native, validation)
+                self.assertEqual(projected["outcome"]["code"], code)
+                self.assertEqual(projected["outcome"]["completion"], completion)
+                self.assertEqual(projected["provider"]["id"], "skill-failure-auditor")
+                self.assertEqual(projected["details"]["known_rule_results"], native["known_rule_results"])
+                self.assertEqual(projected["details"]["hard_gate_failures"], native["hard_gate_failures"])
+                self.assertEqual(projected["details"]["executable_acceptance"], native["executable_acceptance"])
+                self.assertEqual(projected["details"]["novel_hypotheses"], native["novel_hypotheses"])
+                if completion == "not-performed":
+                    self.assertEqual(projected["scope"]["checked"], [])
+                    self.assertTrue(projected["scope"]["limitations"])
+                else:
+                    self.assertTrue(projected["scope"]["checked"])
+                if conclusion == "BLOCKED" and completion != "not-performed":
+                    self.assertIn("FM-01", projected["scope"]["checked"])
+
+    def test_rejected_native_validation_cannot_issue_a_proof(self) -> None:
+        with self.assertRaisesRegex(ContractError, "contradictory native result"):
+            project_professional_conclusion(
+                _native_for_projection("REJECT", "COMPLETE", ["HIT", "NOT_HIT"]),
+                {"status": "INVALID"},
+            )
+
+    def test_source_and_platform_layouts_read_existing_version(self) -> None:
+        expected_version = json.loads(PRODUCT_PACKAGE.read_text(encoding="utf-8"))["version"]
+        self.assertEqual(provider_package_version(), expected_version)
+        with tempfile.TemporaryDirectory() as temporary:
+            platform_root = Path(temporary) / "claude-code"
+            skill = platform_root / "skill"
+            scripts = skill / "scripts"
+            scripts.mkdir(parents=True)
+            write_json(
+                platform_root / "platform-manifest.json",
+                {"schemaVersion": "3.0", "version": "9.9.9", "platformId": "claude-code"},
+            )
+            write_json(
+                platform_root / "package.json",
+                {"name": "user-parent", "version": "8.8.8"},
+            )
+            shutil.copyfile(PRODUCT_PACKAGE, skill / "package.json")
+            self.assertEqual(provider_package_version(scripts), expected_version)
+
+    def test_missing_or_invalid_known_layout_rejects_version_read(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill = Path(temporary) / "skill"
+            scripts = skill / "scripts"
+            scripts.mkdir(parents=True)
+            with self.assertRaisesRegex(ContractError, "provider package version is missing"):
+                provider_package_version(scripts)
+            (skill / "package.json").write_text("{", encoding="utf-8")
+            with self.assertRaises(ContractError):
+                provider_package_version(scripts)
+            write_json(skill / "package.json", {"name": "skill-failure-auditor"})
+            with self.assertRaisesRegex(ContractError, "provider package version is missing"):
+                provider_package_version(scripts)
+            write_json(
+                skill / "package.json",
+                {"name": "other-family", "version": "1.1.10"},
+            )
+            with self.assertRaisesRegex(ContractError, "provider package identity is invalid"):
+                provider_package_version(scripts)
+            write_json(
+                skill / "package.json",
+                {"name": "skill-failure-auditor", "version": ""},
+            )
+            with self.assertRaisesRegex(ContractError, "provider package version is missing"):
+                provider_package_version(scripts)
+            write_json(
+                skill / "package.json",
+                {"name": "skill-failure-auditor", "version": 1},
+            )
+            with self.assertRaisesRegex(ContractError, "provider package version is missing"):
+                provider_package_version(scripts)
+
+    def test_parent_directory_package_is_not_used_for_version(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            parent = Path(temporary)
+            skill = parent / "skills" / "skill-failure-auditor"
+            scripts = skill / "scripts"
+            scripts.mkdir(parents=True)
+            write_json(
+                parent / "package.json",
+                {"name": "skill-failure-auditor", "version": "9.9.9"},
+            )
+            write_json(
+                parent / "skills" / "package.json",
+                {"name": "skill-failure-auditor", "version": "8.8.8"},
+            )
+            write_json(
+                parent / "platform-manifest.json",
+                {"schemaVersion": "3.0", "version": "7.7.7", "platformId": "workbuddy"},
+            )
+            with self.assertRaisesRegex(ContractError, "provider package version is missing"):
+                provider_package_version(scripts)
+            write_json(
+                skill / "package.json",
+                {"name": "skill-failure-auditor", "version": "1.1.10"},
+            )
+            self.assertEqual(provider_package_version(scripts), "1.1.10")
+
+    def test_create_refuses_missing_or_escaped_selection(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            outside = Path(temporary).resolve().parent / "escaped-selection.json"
+            write_json(root / "audit-result.json", _native_for_projection("REJECT", "COMPLETE", ["HIT", "NOT_HIT"]))
+            output = root / "proof.json"
+            with self.assertRaisesRegex(ContractError, "native selection is unreadable"):
+                professional_conclusion_create(
+                    str(root),
+                    "audit-result.json",
+                    "missing-selection.json",
+                    str(root),
+                    "proof.json",
+                )
+            self.assertFalse(output.exists())
+            write_json(outside, {"schema_version": "1.0"})
+            with self.assertRaises(ContractError):
+                professional_conclusion_create(
+                    str(root),
+                    "audit-result.json",
+                    "../escaped-selection.json",
+                    str(root),
+                    "proof.json",
+                )
+            self.assertFalse(output.exists())
+
+    def test_create_cli_rejects_hand_filled_pass(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            command = [
+                sys.executable,
+                str(SCRIPTS_DIR / "evaluation_tool.py"),
+                "professional-conclusion-create",
+                "--result-root",
+                str(root),
+                "--result",
+                "audit-result.json",
+                "--selection",
+                "selection.json",
+                "--conclusion-root",
+                str(root),
+                "--conclusion-output",
+                "proof.json",
+                "--pass",
+            ]
+            completed = subprocess.run(command, check=False, capture_output=True, text=True)
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertFalse((root / "proof.json").exists())
+
+    def test_create_then_read_valid_native_result(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            fixture = eligible_reuse_fixture(root)
+            proof_relative = "proof.json"
+            created = professional_conclusion_create(
+                str(root),
+                "audit-result.json",
+                "selection.json",
+                str(root),
+                proof_relative,
+            )
+            self.assertEqual(created["outcome"]["code"], "FAILURE_DIAGNOSIS_CLEAR")
+            self.assertEqual(created["details"]["known_rule_results"], json.loads(Path(fixture["result"]).read_text())["known_rule_results"])
+            self.assertTrue((root / proof_relative).is_file())
+            payload, exit_code = professional_proof_read(str(root), proof_relative)
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(payload["status"], "pass")
+            self.assertEqual(payload["conclusion"]["details"]["known_rule_results"], created["details"]["known_rule_results"])
+            original = (root / proof_relative).read_bytes()
+            with self.assertRaisesRegex(ContractError, "refusing to overwrite|exclusive"):
+                professional_conclusion_create(
+                    str(root),
+                    "audit-result.json",
+                    "selection.json",
+                    str(root),
+                    proof_relative,
+                )
+            self.assertEqual((root / proof_relative).read_bytes(), original)
+
+    def test_create_refuses_selection_digest_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            eligible_reuse_fixture(root)
+            other = root / "other-selection.json"
+            write_json(other, json.loads((root / "selection.json").read_text()))
+            tampered = json.loads(other.read_text())
+            tampered["selection_sha256"] = "0" * 64
+            write_json(other, tampered)
+            with self.assertRaises(ContractError):
+                professional_conclusion_create(
+                    str(root),
+                    "audit-result.json",
+                    "other-selection.json",
+                    str(root),
+                    "proof.json",
+                )
+            self.assertFalse((root / "proof.json").exists())
+
+    def test_read_missing_or_damaged_proof_is_unavailable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            payload, exit_code = professional_proof_read(str(root), "missing.json")
+            self.assertEqual(exit_code, 2)
+            self.assertEqual(payload["status"], "unavailable")
+            self.assertIsNone(payload["conclusion"])
+            damaged = root / "broken.json"
+            damaged.write_text("{", encoding="utf-8")
+            payload, exit_code = professional_proof_read(str(root), "broken.json")
+            self.assertEqual(exit_code, 2)
+            self.assertEqual(payload["status"], "unavailable")
+            self.assertIsNone(payload["conclusion"])
+
+    def test_readable_but_invalid_structure_keeps_provider_and_original(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            document = {
+                "schemaVersion": 1,
+                "kind": "skill-family.professional-conclusion",
+                "provider": {
+                    "id": "skill-failure-auditor",
+                    "version": "1.1.10",
+                    "entry": "evaluation_tool.py professional-conclusion-create",
+                },
+                "subject": {"ref": "/tmp/subject"},
+            }
+            write_json(root / "bad-proof.json", document)
+            payload, exit_code = professional_proof_read(str(root), "bad-proof.json")
+            self.assertEqual(exit_code, 2)
+            self.assertEqual(payload["status"], "unavailable")
+            self.assertEqual(payload["provider"]["id"], "skill-failure-auditor")
+            self.assertEqual(payload["provider"]["version"], "1.1.10")
+            self.assertEqual(payload["conclusion"], document)
+
+    def test_structure_validation_accepts_official_schema_and_preserves_large_integers(self) -> None:
+        from foundation_client import require_professional_conclusion
+
+        document = {
+            "schemaVersion": 1,
+            "kind": "skill-family.professional-conclusion",
+            "provider": {
+                "id": "skill-failure-auditor",
+                "version": "1.1.10",
+                "entry": "evaluation_tool.py professional-conclusion-create",
+            },
+            "subject": {"ref": "/tmp/subject", "revision": "a" * 64},
+            "scope": {"checked": ["FM-01"], "limitations": []},
+            "outcome": {
+                "completion": "complete",
+                "code": "FAILURE_DIAGNOSIS_FINDINGS",
+                "summary": "Native diagnosis completed with findings.",
+            },
+            "details": {"audit_id": "AUDIT-01", "large": 9007199254740993},
+        }
+        accepted = require_professional_conclusion(document)
+        self.assertIs(accepted, document)
+        self.assertEqual(accepted["details"]["large"], 9007199254740993)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            write_json(root / "proof.json", document)
+            payload, exit_code = professional_proof_read(str(root), "proof.json")
+            self.assertEqual(exit_code, 1)
+            self.assertEqual(payload["status"], "not_pass")
+            self.assertEqual(payload["conclusion"]["details"]["large"], 9007199254740993)
+            invalid = dict(document)
+            invalid.pop("outcome")
+            with self.assertRaisesRegex(ContractError, "professional-conclusion rejected"):
+                require_professional_conclusion(invalid)
 
 
 if __name__ == "__main__":

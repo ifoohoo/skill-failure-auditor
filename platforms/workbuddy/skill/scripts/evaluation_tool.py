@@ -14,7 +14,9 @@ from common import (
     list_regular_files,
     load_json,
     load_jsonl,
+    normalize_relative_path,
     require_sha256,
+    strict_json_loads,
     write_json_exclusive,
 )
 from attempt_tool import list_records, verify_attempt, verify_manifest
@@ -28,8 +30,11 @@ from evidence_tool import (
 from foundation_client import (
     foundation_digest_document,
     foundation_file_sha256,
+    foundation_read_file_strict,
+    foundation_resolve_contained,
     foundation_resource_closure,
     require_production_validate,
+    require_professional_conclusion,
 )
 from registry_tool import (
     DEFAULT_REGISTRY,
@@ -46,6 +51,14 @@ AUDIT_SCHEMA = SCRIPT_DIR.parent / "references" / "audit-result.schema.json"
 CONTINUATION_SCHEMA = SCRIPT_DIR.parent / "references" / "continuation-package.schema.json"
 SOURCE_MANIFEST_SCHEMA = SCRIPT_DIR.parent / "references" / "source-manifest.schema.json"
 FAIL_CLOSED_CONCLUSIONS = {"INCOMPLETE", "BLOCKED"}
+PROVIDER_ID = "skill-failure-auditor"
+PROVIDER_ENTRY = "evaluation_tool.py professional-conclusion-create"
+PROFESSIONAL_CODES = {
+    "FAILURE_DIAGNOSIS_CLEAR",
+    "FAILURE_DIAGNOSIS_FINDINGS",
+    "FAILURE_DIAGNOSIS_INCOMPLETE",
+    "FAILURE_DIAGNOSIS_UNAVAILABLE",
+}
 REUSABLE_CONCLUSIONS = {"PASS_WITHIN_FROZEN_SCOPE", "NEEDS_REVISION", "REJECT"}
 REUSE_REASON_ORDER = (
     "NO_PRIOR_REUSE_RECEIPT",
@@ -1147,6 +1160,267 @@ def continuation_verify(
     }
 
 
+def _regular_package_file(path: Path) -> bool:
+    return path.is_file() and not path.is_symlink()
+
+
+def _family_package_version(package_path: Path) -> str:
+    document = load_json(package_path)
+    if not isinstance(document, dict) or document.get("name") != PROVIDER_ID:
+        raise ContractError("provider package identity is invalid")
+    version = document.get("version")
+    if not isinstance(version, str) or not version:
+        raise ContractError("provider package version is missing")
+    return version
+
+
+def _known_provider_package_path(script_dir: Path) -> Path | None:
+    """Resolve package.json only from the installed skill or source layouts."""
+    if script_dir.name != "scripts":
+        return None
+    skill_package = script_dir.parent / "package.json"
+    if _regular_package_file(skill_package):
+        return skill_package
+    parents = script_dir.parents
+    if (
+        len(parents) >= 3
+        and parents[0].name == "core"
+        and parents[1].name == "plugin-src"
+        and _regular_package_file(parents[2] / "package.json")
+    ):
+        return parents[2] / "package.json"
+    return None
+
+
+def provider_package_version(script_dir: Path | None = None) -> str:
+    """Read the family version from the known skill or source package layout."""
+    base = script_dir if script_dir is not None else SCRIPT_DIR
+    package_path = _known_provider_package_path(base)
+    if package_path is None:
+        raise ContractError("provider package version is missing")
+    return _family_package_version(package_path)
+
+
+def _require_absolute_root(raw: str, label: str) -> str:
+    if not isinstance(raw, str) or not raw:
+        raise ContractError(f"{label} is required")
+    path = Path(raw)
+    if not path.is_absolute():
+        raise ContractError(f"{label} must be an absolute directory: {raw}")
+    if path.is_symlink() or not path.is_dir():
+        raise ContractError(f"{label} must be a real directory: {raw}")
+    return str(path.resolve(strict=True))
+
+
+def _read_contained_json(root: str, relative: str, label: str) -> tuple[dict[str, Any], str]:
+    relative_path = normalize_relative_path(relative)
+    foundation_resolve_contained(root, relative_path)
+    try:
+        receipt = foundation_read_file_strict(root, relative_path)
+    except ContractError as error:
+        raise ContractError(f"{label} is unreadable: {error}") from error
+    content = receipt.get("content")
+    if not isinstance(content, str):
+        raise ContractError(f"{label} did not return utf8 text")
+    document = strict_json_loads(content, label)
+    if not isinstance(document, dict):
+        raise ContractError(f"{label} must be a JSON object")
+    absolute = receipt.get("path")
+    if not isinstance(absolute, str) or not absolute:
+        raise ContractError(f"{label} did not return a contained path")
+    return document, absolute
+
+
+def project_professional_conclusion(
+    result: dict[str, Any],
+    validation: dict[str, Any],
+) -> dict[str, Any]:
+    """Project an accepted native result onto the public professional codes."""
+    if validation.get("status") != "VALID":
+        raise ContractError("contradictory native result cannot issue a professional conclusion")
+    conclusion = result["conclusion"]
+    coverage = result["coverage_status"]
+    rule_results = result.get("known_rule_results")
+    if not isinstance(rule_results, list):
+        raise ContractError("native result known_rule_results is missing")
+    checked = [
+        item["id"]
+        for item in rule_results
+        if isinstance(item, dict) and item.get("status") != "UNCHECKED" and item.get("id")
+    ]
+    has_unchecked = any(
+        isinstance(item, dict) and item.get("status") == "UNCHECKED" for item in rule_results
+    )
+    limitations: list[str] = []
+    if conclusion == "PASS_WITHIN_FROZEN_SCOPE" and coverage == "COMPLETE":
+        code = "FAILURE_DIAGNOSIS_CLEAR"
+        summary = "Native diagnosis completed within the frozen scope without findings."
+    elif conclusion in {"NEEDS_REVISION", "REJECT"}:
+        code = "FAILURE_DIAGNOSIS_FINDINGS"
+        summary = "Native diagnosis completed with findings."
+    elif conclusion == "BLOCKED":
+        code = "FAILURE_DIAGNOSIS_UNAVAILABLE"
+        summary = "Native diagnosis was blocked and cannot be treated as a reliable check."
+        limitations.append("native conclusion is BLOCKED")
+    elif conclusion == "INCOMPLETE" or coverage != "COMPLETE":
+        code = "FAILURE_DIAGNOSIS_INCOMPLETE"
+        summary = "Native diagnosis did not complete the declared scope."
+    else:
+        raise ContractError(f"unmapped native conclusion: {conclusion}")
+    if coverage == "COMPLETE" and checked and not has_unchecked:
+        completion = "complete"
+    elif checked:
+        completion = "partial"
+    else:
+        completion = "not-performed"
+        checked = []
+    if coverage != "COMPLETE":
+        limitations.append("native coverage_status is not COMPLETE")
+    if conclusion == "INCOMPLETE":
+        limitations.append("native conclusion is INCOMPLETE")
+    if has_unchecked and completion != "not-performed":
+        limitations.append("some selected rules remain UNCHECKED")
+    if code == "FAILURE_DIAGNOSIS_FINDINGS" and completion == "partial":
+        summary = "Native diagnosis recorded findings before coverage completed."
+    if completion == "complete" and not checked:
+        raise ContractError("complete professional conclusion requires at least one checked item")
+    if completion == "partial" and (not checked or not limitations):
+        raise ContractError("partial professional conclusion requires checked items and limitations")
+    if completion == "not-performed" and not limitations:
+        raise ContractError("unavailable professional conclusion requires limitations")
+    details: dict[str, Any] = {
+        "audit_id": result["audit_id"],
+        "native_conclusion": conclusion,
+        "coverage_status": coverage,
+        "validation_status": validation["status"],
+        "self_audit": result["self_audit"],
+        "known_rule_results": rule_results,
+    }
+    for field in ("hard_gate_failures", "executable_acceptance", "novel_hypotheses"):
+        if field in result:
+            details[field] = result[field]
+    return {
+        "schemaVersion": 1,
+        "kind": "skill-family.professional-conclusion",
+        "provider": {
+            "id": PROVIDER_ID,
+            "version": provider_package_version(),
+            "entry": PROVIDER_ENTRY,
+        },
+        "subject": {
+            "ref": result["subject"]["path"],
+            "revision": result["subject"]["file_set_sha256"],
+        },
+        "scope": {
+            "checked": checked,
+            "limitations": limitations,
+        },
+        "outcome": {
+            "completion": completion,
+            "code": code,
+            "summary": summary,
+        },
+        "details": details,
+    }
+
+
+def professional_conclusion_create(
+    result_root: str,
+    result_relative: str,
+    selection_relative: str,
+    conclusion_root: str,
+    conclusion_relative: str,
+) -> dict[str, Any]:
+    """Project one validate-result-accepted native result to a common proof."""
+    root = _require_absolute_root(result_root, "--result-root")
+    output_root = _require_absolute_root(conclusion_root, "--conclusion-root")
+    output_relative = normalize_relative_path(conclusion_relative)
+    foundation_resolve_contained(output_root, output_relative)
+    result, result_path = _read_contained_json(root, result_relative, "native result")
+    _, selection_path = _read_contained_json(root, selection_relative, "native selection")
+    validation = validate_audit_result(Path(result_path), Path(selection_path))
+    projected = project_professional_conclusion(result, validation)
+    require_professional_conclusion(projected)
+    write_json_exclusive(Path(output_root) / output_relative, projected)
+    return projected
+
+
+def interpret_professional_proof(document: dict[str, Any] | None, *, reason: str | None = None) -> tuple[dict[str, Any], int]:
+    if document is None:
+        payload = {
+            "status": "unavailable",
+            "reason": reason or "the professional proof cannot be read",
+            "provider": {"id": PROVIDER_ID, "version": provider_package_version(), "entry": PROVIDER_ENTRY},
+            "conclusion": None,
+        }
+        return payload, 2
+    provider = document.get("provider") if isinstance(document.get("provider"), dict) else {}
+    provider_id = provider.get("id") if isinstance(provider.get("id"), str) else None
+    retained = {
+        "id": provider_id or PROVIDER_ID,
+        "version": provider.get("version") if isinstance(provider.get("version"), str) else provider_package_version(),
+        "entry": provider.get("entry") if isinstance(provider.get("entry"), str) else PROVIDER_ENTRY,
+    }
+    if provider_id != PROVIDER_ID:
+        return {
+            "status": "unavailable",
+            "reason": "proof provider is not skill-failure-auditor",
+            "provider": retained,
+            "conclusion": document,
+        }, 2
+    outcome = document.get("outcome") if isinstance(document.get("outcome"), dict) else {}
+    code = outcome.get("code")
+    completion = outcome.get("completion")
+    if code not in PROFESSIONAL_CODES:
+        return {
+            "status": "unavailable",
+            "reason": f"unknown same-family professional code: {code!r}",
+            "provider": retained,
+            "conclusion": document,
+        }, 2
+    if code == "FAILURE_DIAGNOSIS_CLEAR" and completion == "complete":
+        return {
+            "status": "pass",
+            "reason": "native diagnosis completed without findings",
+            "provider": retained,
+            "conclusion": document,
+        }, 0
+    return {
+        "status": "not_pass",
+        "reason": f"professional proof records {code}",
+        "provider": retained,
+        "conclusion": document,
+    }, 1
+
+
+def _retained_provider(document: dict[str, Any] | None) -> dict[str, str]:
+    provider = document.get("provider") if isinstance(document, dict) and isinstance(document.get("provider"), dict) else {}
+    return {
+        "id": provider.get("id") if isinstance(provider.get("id"), str) else PROVIDER_ID,
+        "version": provider.get("version") if isinstance(provider.get("version"), str) else provider_package_version(),
+        "entry": provider.get("entry") if isinstance(provider.get("entry"), str) else PROVIDER_ENTRY,
+    }
+
+
+def professional_proof_read(proof_root: str, proof_relative: str) -> tuple[dict[str, Any], int]:
+    """Read one common proof. This does not rerun reuse-check or native diagnosis."""
+    try:
+        root = _require_absolute_root(proof_root, "--proof-root")
+        document, _ = _read_contained_json(root, proof_relative, "professional proof")
+    except ContractError as error:
+        return interpret_professional_proof(None, reason=str(error))
+    try:
+        require_professional_conclusion(document)
+    except ContractError as error:
+        return {
+            "status": "unavailable",
+            "reason": str(error),
+            "provider": _retained_provider(document),
+            "conclusion": document,
+        }, 2
+    return interpret_professional_proof(document)
+
+
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser(description=__doc__)
     subcommands = root.add_subparsers(dest="command", required=True)
@@ -1200,6 +1474,17 @@ def parser() -> argparse.ArgumentParser:
     reuse.add_argument("--expected-prior-seal-file-sha256")
     reuse.add_argument("--fresh-evidence-required", action="store_true")
     reuse.add_argument("--output", type=Path)
+
+    conclusion = subcommands.add_parser("professional-conclusion-create")
+    conclusion.add_argument("--result-root", required=True)
+    conclusion.add_argument("--result", required=True)
+    conclusion.add_argument("--selection", required=True)
+    conclusion.add_argument("--conclusion-root", required=True)
+    conclusion.add_argument("--conclusion-output", required=True)
+
+    proof = subcommands.add_parser("professional-proof-read")
+    proof.add_argument("--proof-root", required=True)
+    proof.add_argument("--proof", required=True)
     return root
 
 
@@ -1302,6 +1587,21 @@ def main() -> int:
                 ),
                 args.output,
             )
+        elif args.command == "professional-conclusion-create":
+            emit(
+                professional_conclusion_create(
+                    args.result_root,
+                    args.result,
+                    args.selection,
+                    args.conclusion_root,
+                    args.conclusion_output,
+                ),
+                None,
+            )
+        elif args.command == "professional-proof-read":
+            payload, exit_code = professional_proof_read(args.proof_root, args.proof)
+            print(json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2))
+            return exit_code
         else:
             raise ContractError(f"unsupported command: {args.command}")
         return 0

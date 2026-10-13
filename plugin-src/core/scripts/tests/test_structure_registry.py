@@ -91,7 +91,7 @@ class SkillStructureTests(unittest.TestCase):
 
         for mode in ("static", "runtime", "combined"):
             self.assertIn(f"`{mode}`", body)
-        for channel in ("对照清单逐条查", "主动找清单外的问题"):
+        for channel in ("对照清单逐条检查", "主动寻找清单外问题"):
             self.assertIn(channel, body)
         self.assertIn("SELF_AUDIT_SUBMITTED_FOR_EXTERNAL_REVIEW", body)
         self.assertIn("只有外部终审方可以给出接受决定", body)
@@ -108,6 +108,21 @@ class SkillStructureTests(unittest.TestCase):
             2000,
             "SKILL.md exceeds the frozen 2000-token routing-entry budget",
         )
+
+    def test_report_contract_keeps_the_nine_judgment_clauses(self) -> None:
+        contract = (REFERENCES_DIR / "report-contract.md").read_text(encoding="utf-8")
+        for clause in (
+            "先核对本条登记表的 `applies_when` 和 `required_evidence`",
+            "再依据报告合同判断状态",
+            "不得仅凭规则标题或另一条规则命中作结论",
+            "材料中的限制须引用原文说明其约束对象",
+            "区分夹具或当前审计器的使用边界与被审流程的约束条件",
+            "不得否认已出现的限制文字",
+            "也不得以本轮审计边界证明目标已有保证",
+            "适用性不明或证据不足时保留 `UNCHECKED`",
+            "不预设 `HIT`",
+        ):
+            self.assertIn(clause, contract)
 
 class RegistryContractTests(unittest.TestCase):
     def test_schema_validation_uniqueness_dependencies_and_conflicts(self) -> None:

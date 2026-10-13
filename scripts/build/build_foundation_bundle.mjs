@@ -211,6 +211,19 @@ async function prepare(values) {
     ...item,
     sourcePath: path.join(values.packageRoot, item.sourcePath),
   }));
+  const officialProfessionalConclusion = {
+    path: "professional-conclusion.schema.json",
+    sourcePath: path.join(
+      values.installRoot,
+      "node_modules/skill-family-contracts/src/schemas/professional-conclusion.schema.json",
+    ),
+  };
+  const officialBytes = await readFile(officialProfessionalConclusion.sourcePath);
+  const officialDocument = JSON.parse(officialBytes);
+  if (officialDocument.$id !== "https://contracts.skill-family.example/v1/professional-conclusion.json") {
+    fail("official professional-conclusion schema $id mismatch");
+  }
+  consumerSchemas.push(officialProfessionalConclusion);
   const kitRoot = path.join(values.installRoot, "node_modules/skill-family-engineering-kit");
   const candidateApi = await import(pathToFileURL(path.join(kitRoot, "candidate/index.mjs")).href);
   const stableApi = await import(pathToFileURL(path.join(kitRoot, "src/index.mjs")).href);

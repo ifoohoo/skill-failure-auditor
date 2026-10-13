@@ -75,6 +75,8 @@ def assemble(platform_id: str, out_root: Path) -> dict:
 
     clean_copy(CORE / "SKILL.md", skill / "SKILL.md", mapping,
                "skill/SKILL.md", "core/SKILL.md")
+    clean_copy(PACKAGE_ROOT / "package.json", skill / "package.json", mapping,
+               "skill/package.json", "package.json")
     _copy_core_scripts(skill, mapping)
     _copy_core_references(skill, mapping)
     _copy_foundation_bundle(skill, mapping)
