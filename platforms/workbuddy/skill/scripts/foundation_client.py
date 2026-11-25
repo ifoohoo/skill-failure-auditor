@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Thin Python transport to the managed Foundation Quickstart runner.
+"""连接受管 Foundation Quickstart 运行时的薄传输桥接层。
 
-Schema validation, resource closure, digesting and exclusive publication remain
-Foundation-owned. This module has no local fallback and no target executor.
+Schema 结构校验、资源闭包、规范化摘要与独占文件发布完全由锁定的 Foundation Bundle 承担；
+本模块不携带本地回退校验器或目标技能执行器，遇到软链接或版本漂移的 Node 路径直接拒绝。
 """
 from __future__ import annotations
 from functools import lru_cache
@@ -10,6 +10,7 @@ import base64
 import json
 import os
 import re
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -34,15 +35,66 @@ SCHEMA_NAME_TO_FOUNDATION_ID = {
 }
 
 
-def _required_node_version() -> str:
+_RANGE_CLAUSE_RE = re.compile(r"^(>=|<=|>|<|=)?v?(\d+)(?:\.(\d+))?(?:\.(\d+))?$")
+_EXACT_VERSION_RE = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)$")
+
+
+def _parse_node_version(raw: str) -> tuple[int, int, int] | None:
+    match = _EXACT_VERSION_RE.fullmatch(raw.strip())
+    if match is None:
+        return None
+    return tuple(int(part) for part in match.groups())  # type: ignore[return-value]
+
+
+def _parse_node_range(expr: str) -> tuple[tuple[str, tuple[int, int, int]], ...]:
+    if not isinstance(expr, str) or not expr.strip():
+        raise ContractError(f"FOUNDATION_RUNTIME_PIN_INVALID: empty nodeRange {expr!r}")
+    clauses: list[tuple[str, tuple[int, int, int]]] = []
+    for token in expr.strip().split():
+        match = _RANGE_CLAUSE_RE.fullmatch(token)
+        if match is None:
+            raise ContractError(f"FOUNDATION_RUNTIME_PIN_INVALID: invalid nodeRange clause {token!r}")
+        op = match.group(1) or "="
+        bound = (
+            int(match.group(2)),
+            int(match.group(3) or 0),
+            int(match.group(4) or 0),
+        )
+        clauses.append((op, bound))
+    return tuple(clauses)
+
+
+def _satisfies_range(
+    version: tuple[int, int, int],
+    clauses: tuple[tuple[str, tuple[int, int, int]], ...],
+) -> bool:
+    for op, bound in clauses:
+        if op == ">=" and not (version >= bound):
+            return False
+        if op == "<=" and not (version <= bound):
+            return False
+        if op == ">" and not (version > bound):
+            return False
+        if op == "<" and not (version < bound):
+            return False
+        if op == "=" and not (version == bound):
+            return False
+    return True
+
+
+def _required_node_range() -> str:
     try:
         pin = json.loads(FOUNDATION_PIN.read_text(encoding="utf-8"))
-        version = pin["runtime"]["node"]
+        runtime = pin["runtime"]
+        node_range = runtime.get("nodeRange")
     except (OSError, KeyError, TypeError, json.JSONDecodeError) as error:
         raise ContractError(f"FOUNDATION_RUNTIME_PIN_INVALID: {error}") from error
-    if not isinstance(version, str) or re.fullmatch(r"v22\.\d+\.\d+", version) is None:
-        raise ContractError(f"FOUNDATION_RUNTIME_PIN_INVALID: expected an exact Node 22 version, got {version!r}")
-    return version
+    if not isinstance(node_range, str) or not node_range.strip():
+        raise ContractError(
+            f"FOUNDATION_RUNTIME_PIN_INVALID: expected runtime.nodeRange, got {node_range!r}"
+        )
+    _parse_node_range(node_range)
+    return node_range.strip()
 
 
 def _assert_absolute_real_file(raw: str) -> Path:
@@ -65,8 +117,9 @@ def _assert_absolute_real_file(raw: str) -> Path:
     return resolved
 
 
-@lru_cache(maxsize=4)
-def _validate_node_runtime(raw: str, required_version: str) -> str:
+@lru_cache(maxsize=8)
+def _validate_node_runtime(raw: str, required_range: str) -> str:
+    clauses = _parse_node_range(required_range)
     executable = _assert_absolute_real_file(raw)
     try:
         completed = subprocess.run(
@@ -79,17 +132,50 @@ def _validate_node_runtime(raw: str, required_version: str) -> str:
     except (OSError, subprocess.TimeoutExpired) as error:
         raise ContractError(f"FOUNDATION_RUNTIME_UNAVAILABLE: {error}") from error
     actual = completed.stdout.strip()
-    if completed.returncode != 0 or actual != required_version:
+    parsed = _parse_node_version(actual) if completed.returncode == 0 else None
+    if parsed is None or not _satisfies_range(parsed, clauses):
         detail = completed.stderr.strip() or actual or f"exit {completed.returncode}"
         raise ContractError(
-            f"FOUNDATION_RUNTIME_UNAVAILABLE: Node version must be {required_version}; got {detail}"
+            f"FOUNDATION_RUNTIME_UNAVAILABLE: Node version must satisfy {required_range}; got {detail}"
         )
     return str(executable)
 
 
-def _resolve_node_executable(node: str | None = None) -> str:
-    raw = node if node is not None else os.environ.get("SFA_FOUNDATION_NODE")
-    return _validate_node_runtime(raw or "", _required_node_version())
+def _discover_node_from_path(required_range: str) -> str:
+    seen: set[str] = set()
+    for entry in os.environ.get("PATH", "").split(os.pathsep):
+        if not entry:
+            continue
+        candidate_raw = shutil.which("node", path=entry)
+        if not candidate_raw:
+            continue
+        try:
+            resolved = str(Path(candidate_raw).resolve(strict=True))
+        except OSError:
+            continue
+        if resolved in seen:
+            continue
+        seen.add(resolved)
+        try:
+            return _validate_node_runtime(resolved, required_range)
+        except ContractError:
+            continue
+    raise ContractError(
+        f"FOUNDATION_RUNTIME_UNAVAILABLE: SFA_FOUNDATION_NODE is unset and no node on PATH satisfies {required_range}"
+    )
+
+
+def resolve_node_executable(node: str | None = None) -> str:
+    required_range = _required_node_range()
+    if node is not None:
+        return _validate_node_runtime(node, required_range)
+    env_node = os.environ.get("SFA_FOUNDATION_NODE")
+    if env_node is not None:
+        return _validate_node_runtime(env_node, required_range)
+    return _discover_node_from_path(required_range)
+
+
+_resolve_node_executable = resolve_node_executable
 
 
 def _invoke_mechanism(operation: str, params: dict[str, Any], *, node: str | None = None) -> dict[str, Any]:

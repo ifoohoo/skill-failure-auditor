@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "continuation-package.schema.json",
   "title": "Structured Continuation Package",
+  "description": "长程审计或跨会话切换时使用的结构化上下文交接包契约，保证新会话仅凭冻结文件即可无损接续。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -23,21 +24,23 @@
     "package_digest"
   ],
   "properties": {
-    "schema_version": {"const": "1.0"},
-    "package_id": {"type": "string", "pattern": "^CONT-[A-Z0-9][A-Z0-9._-]+$"},
-    "task_id": {"type": "string", "minLength": 1},
-    "current_node": {"type": "string", "minLength": 1},
-    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "selection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "source_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "schema_version": {"const": "1.0", "description": "交接包结构版本号，固定为 1.0。"},
+    "package_id": {"type": "string", "pattern": "^CONT-[A-Z0-9][A-Z0-9._-]+$", "description": "交接包唯一编号（以 CONT- 开头）。"},
+    "task_id": {"type": "string", "minLength": 1, "description": "任务唯一标识，必须与冻结来源清单一致。"},
+    "current_node": {"type": "string", "minLength": 1, "description": "当前所处的审计或验证阶段节点名称。"},
+    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "失效模式规则表文件 SHA-256。"},
+    "selection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "本轮规则选择制品 SHA-256。"},
+    "source_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "冻结来源清单文件 SHA-256。"},
     "source_bindings": {
       "type": "array",
       "minItems": 1,
-      "items": {"$ref": "#/$defs/binding"}
+      "items": {"$ref": "#/$defs/binding"},
+      "description": "与来源清单顺序和摘要逐项一致的输入文件绑定列表。"
     },
     "selected_rules": {
       "type": "array",
       "minItems": 1,
+      "description": "本轮选中的失效模式规则标识、修订号及规则条目摘要。",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -54,30 +57,36 @@
     },
     "accepted_artifacts": {
       "type": "array",
-      "items": {"$ref": "#/$defs/binding"}
+      "items": {"$ref": "#/$defs/binding"},
+      "description": "已完成校验并冻结留存的阶段产物绑定列表。"
     },
     "remaining_tasks": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "items": {"type": "string", "minLength": 1},
+      "description": "尚未完成的最小可验证任务列表。"
     },
     "disproved_paths": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "items": {"type": "string", "minLength": 1},
+      "description": "已证伪且新会话禁止重复尝试的方案列表。"
     },
     "open_questions": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "items": {"type": "string", "minLength": 1},
+      "description": "待外部确认或补充证据的未决问题。"
     },
-    "next_action": {"type": "string", "minLength": 1},
+    "next_action": {"type": "string", "minLength": 1, "description": "新会话恢复后应立即执行的唯一下一步动作。"},
     "context_state": {
       "type": "string",
-      "enum": ["HEALTHY", "WARNING", "HANDOFF_REQUIRED", "SAFETY_STOPPED"]
+      "enum": ["HEALTHY", "WARNING", "HANDOFF_REQUIRED", "SAFETY_STOPPED"],
+      "description": "触发交接时的上下文水位与安全状态。"
     },
-    "package_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    "package_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "剔除本字段后计算的规范 JSON SHA-256 摘要。"}
   },
   "$defs": {
     "binding": {
       "type": "object",
+      "description": "文件路径与原始字节 SHA-256 绑定对。",
       "additionalProperties": false,
       "required": ["path", "sha256"],
       "properties": {

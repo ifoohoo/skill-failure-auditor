@@ -1,27 +1,45 @@
 # skill-failure-auditor（技能失效审计）
 
-审计 Skill、Prompt、Agent 指令、工作流及其已经产生的运行证据，识别“看似完成但真实目标未达成”的可靠性失效模式。Claude Code、Codex、Kimi Code 和 WorkBuddy/CodeBuddy 共用同一份审计核心。
+面向大语言模型与智能体技能族的只读可靠性失效审计与跨仓报错归因工具。Claude Code、Codex、Kimi Code 与 WorkBuddy/CodeBuddy 四个宿主平台共享同一套规则核心与校验脚本。
 
-SFA 是审计器，不是执行器。`static` 审阅静态定义，`runtime` 审阅已有日志和回执，`combined` 同时审阅两类材料。任何模式都不会启动目标 Skill、派发子智能体、等待或重试目标任务，也不会接入目标任务的实时控制过程。主动试验由独立评测器执行，SFA 只审阅其冻结证据。
+本项目集中解决两类工程问题：
 
-任何执行或编排产品在 SFA 中都没有特殊地位。这类系统只能作为普通被审对象或外部消费者；SFA 不为它们提供专用接口，也不依赖它们完成开发、发布验证或运行。
+1. **识别“看似完成、实则未达标”的可靠性失效（`US-075`）**：审阅 Skill、Prompt、Agent 指令、工作流定义及其已经产生的运行日志和回执，排查把退出码 `0`、表面痕迹、同源职责自审或弱化断言当成验收通过的假完成问题。
+2. **跨仓报错快速定责（`US-074`）**：当报错跨越宿主插件发现、`agent-method-registry`、`skill-family-foundation`、`artifact-graph`、`release-skill`、`skill-family-test`、外部领域技能插件（`domain-skill-plugin`）或具体业务技能时，通过只读 CLI `triage-symptom` 定位主责仓库并导出脱敏后的最小复现诊断包。
 
-## 同一入口的四种职能
+## 只读审计边界
 
-`skill-failure-auditor` 按请求意图进入四个分支：
+SFA 是审计器，不是执行器。`static` 模式审阅静态定义，`runtime` 模式审阅已经产生的运行日志与回执，`combined` 模式联合审阅两类材料。任何模式都不会启动受检技能、派发子智能体、等待或重试目标任务，也不会介入目标任务的实时控制。主动运行试验由独立评测器先行完成并冻结证据，SFA 只把冻结后的材料当作普通数据审阅；任何执行或编排系统在 SFA 中都不享有专用接口或特殊豁免。
 
-- 帮助：说明用途、输入、三种模式、副作用、使用前提和最短调用，说明后结束，不生成审计材料。
-- 使用前提检查：只读检查当前 Python、`SFA_FOUNDATION_NODE` 绑定的无软链绝对实路径、pin 中的 Node.js 精确版本、必要材料和新输出目录。缺失或不匹配时说明继续条件，不安装或修改环境。
-- 接入分析：说明当前项目已经满足什么、还缺什么，以及保持现状或采用有来源方案的影响，不创建目标脚手架。
-- 可靠性失效诊断：通过原有适用性门禁后，进入规则选择、证据覆盖、结果校验和报告流程。
+## 同一入口的四种服务分支
 
-用户显式指定模式时保留该模式；材料不匹配时报告缺项，不自行换成另一模式。只有用户没有指定模式时，才按材料选择：只有静态定义时使用 `static`，只有已有运行材料时使用 `runtime`，两类材料都有时使用 `combined`。正式诊断还需要调用方指定一个尚不存在的输出目录。完整调用和交付边界见 [`plugin-src/core/references/usage-guide.md`](plugin-src/core/references/usage-guide.md)。
+调用 `skill-failure-auditor` 时，入口按请求意图分流：
+
+- **帮助说明（`HELP`）**：介绍用途、输入要求、三种审计模式、跨仓归因入口、只读边界与最短调用方式，答复后直接结束，不创建审计文件。
+- **使用前提检查（`SETUP_CHECK`）**：只读核对当前 Python 3、`SFA_FOUNDATION_NODE` 绑定的无软链绝对实路径、与 `foundation-pin.json` 精确匹配的 Node.js 版本、输入材料可读性及尚不存在的新输出目录；如有缺失直接列出继续条件，不安装依赖或改动环境。
+- **接入分析（`ADOPTION_ANALYSIS`）**：梳理当前工程已满足的条件、真实缺项及后续可选方案，不生成目标工程脚手架。
+- **可靠性失效诊断（`AUDIT`）**：通过适用性门禁后，依次完成规则锁校验、28 条规则路由、证据分片全覆盖核验、机器结果校验与中文报告渲染。
+
+用户显式指定的模式一律保留；若现有材料不满足该模式，直接说明缺项，不私自切换模式。仅当未指定模式时才按现有材料匹配（仅定义用 `static`、仅运行材料用 `runtime`、两类齐全用 `combined`）。详见 [`plugin-src/core/references/usage-guide.md`](plugin-src/core/references/usage-guide.md)。
+
+## 跨仓故障归因只读诊断（`triage-symptom`）
+
+遇到包含 `SFC*`/`SFH*`/`SFEK*`（`skill-family-foundation`）、`ACA*`/`AG_*`/`STALE_REVIEW`（`artifact-graph`）、`AMR*`（`agent-method-registry`）、`SFT*`（`skill-family-test`）、`RS_*`/`HOOK_SIDE_EFFECT`（`release-skill`）、`SFA*`（`skill-failure-auditor`）、`PYTHON_OVERRIDE_INVALID`（`domain-skill-plugin`，支持经 `SFA_CUSTOM_TRIAGE_PREFIXES` 扩展外部前缀）或宿主清单缺失/遮蔽的确定性故障时，直接运行只读归因脚本（详见 [`plugin-src/core/references/cross-repo-triage.md`](plugin-src/core/references/cross-repo-triage.md)）：
+
+```bash
+node scripts/triage-symptom.mjs \
+  --symptom "prepare failed: STALE_REVIEW in traceability-version-lock.json" \
+  --workspace /absolute/project/path \
+  --output-bundle /absolute/path/to/new-triage-bundle
+```
+
+命令只读取运行时版本、插件清单、Git HEAD 提交号及内部依赖解析版本，默认打印结论前置的中文诊断单（加 `--json` 输出结构化 JSON），对目标工作区零写入。
 
 ## 配套课程文档：LLM Academy
 
-`docs/llm-academy/` 是与本技能配套的公开静态课程（17 个文件，按 CC BY 4.0 授权，见 NOTICE）。从 [index.html](docs/llm-academy/index.html) 进入，或按章节阅读：
+`docs/llm-academy/` 是随包提供的公开静态课程（共 17 个文件，采用 CC BY 4.0 许可，详见 [NOTICE](NOTICE)）。可从首页 [index.html](docs/llm-academy/index.html) 进入，或按章节直接查阅：
 
-| 章节 | 文件 |
+| 章节主题 | 页面链接 |
 |---|---|
 | 全景矩阵 | [00-matrix.html](docs/llm-academy/00-matrix.html) |
 | LLM 到底是怎么工作的 | [01-llm-basics.html](docs/llm-academy/01-llm-basics.html) |
@@ -38,41 +56,28 @@ SFA 是审计器，不是执行器。`static` 审阅静态定义，`runtime` 审
 | 实战装备包 | [12-recipes.html](docs/llm-academy/12-recipes.html) |
 | 报文解剖 | [13-protocol.html](docs/llm-academy/13-protocol.html) |
 
-### 本地预览
-
-以下命令在本机启动静态文件服务器，供开发者预览课程页面：
+本地预览静态课程：
 
 ```bash
-cd packages/skill-failure-auditor/docs/llm-academy
-python3 -m http.server 8000
-# 打开 http://127.0.0.1:8000/
+cd docs/llm-academy && python3 -m http.server 8000
+# 浏览器访问 http://127.0.0.1:8000/
 ```
 
-### GitHub Pages
+公开仓库 `ifoohoo/skill-failure-auditor` 的 GitHub Pages 部署工作流定义在 `.github/workflows/deploy-pages.yml`，仅使用最小只读仓库权限上传 `docs/llm-academy/` 静态制品。
 
-公开仓 `ifoohoo/skill-failure-auditor` 创建并批准后，Pages 将由 `.github/workflows/deploy-pages.yml` 从本包 `docs/llm-academy/` 部署。当前状态：**待激活**（W13 外部批准点之前不宣称在线）。
+## 四平台安装说明
 
-## 平台与安装
+公开插件统一通过市场源 `ifoohoo/skill-family-hub` 分发：先在对应宿主中添加该市场来源，再安装 `skill-failure-auditor@skill-family-hub`。各宿主支持状态与最低客户端版本以 `spec/platforms/support-matrix.json` 为唯一事实源：
 
-四平台清单位于 `plugin-src/platforms/<platform>/`。支持状态以 `spec/platforms/support-matrix.json` 为唯一事实源。每个平台只保留安装清单、发现路径和客户端约束，不承载调度或目标执行能力。
+- **Claude Code**：将 `platforms/claude-code/skill/` 复制或软链到技能目录（如项目 `.claude/skills/skill-failure-auditor`），调用 `/skill-failure-auditor <目标路径> <static|runtime|combined>`。
+- **WorkBuddy**：将 `platforms/workbuddy/skill/` 复制到 `~/.workbuddy/skills/skill-failure-auditor/`（对应 `<CODEBUDDY_CONFIG_DIR>/skills` 默认发现目录，勿放入 `.claude/skills`）。
+- **Kimi Code**：以 `kimi.plugin.json` 为权威清单，`.kimi-plugin/plugin.json` 为字段完全一致的自动生成兼容投影。
+- **Codex / WorkBuddy（CodeBuddy）**：安装对应的 `platforms/<id>/` 投影目录。
 
-平台验证从隔离安装调用 SFA，审阅同一份冻结样例。验证必须证明候选摘要、输入摘要、审计结果、人读报告和目标前后摘要；任何一项缺失，都不能宣称该平台已经验证。
+## 历史发布记录离线核对
 
-## 安装
-
-唯一的公开插件市场来源是 `ifoohoo/skill-family-hub`。通过平台的插件市场管理器添加该来源，再安装 `skill-failure-auditor@skill-family-hub`。本插件仓保留各平台的插件清单，但不再发布单独的市场索引。
-
-- Claude Code：把 `platforms/claude-code/skill/` 复制（或软链）到技能目录（如项目 `.claude/skills/skill-failure-auditor`），然后调用 `/skill-failure-auditor <目标> <static|runtime|combined>`。
-- WorkBuddy：把 `platforms/workbuddy/skill/` 复制到 `~/.workbuddy/skills/skill-failure-auditor/`。这是 WorkBuddy 应用默认的 `<CODEBUDDY_CONFIG_DIR>/skills` 发现根；不要把该投影安装到 `.claude/skills`。
-- Kimi Code：使用 `kimi.plugin.json`（权威清单）；`.kimi-plugin/plugin.json` 为机械生成的 Hub 兼容投影（字段完全相等）。
-- Codex / WorkBuddy（CodeBuddy）：安装对应 `platforms/<id>/` 投影；已验证运行时与诚实状态见 `spec/platforms/support-matrix.json`。
-
-## 历史发布记录核对
-
-治理场景如需只读核对已有发布记录，使用 release-skill 0.9.19 的 `verify-records`。调用方必须显式提供 plan、approval、target-run、每一份 source-run、期望 unit 和历史版本。该命令不搜索记录，不跟随记录里保存的路径，不联网，不运行 hooks，也不写文件。
-
-`CONSISTENT`、`CONTRADICTED`、`INSUFFICIENT` 的退出码分别为 0、1、2；`historicalTerminalStatus` 是独立维度。记录一致只说明显式输入彼此相容，不能证明当前远端状态、安装效果或这些记录是全局最新。缺少必需记录时先向调用方索取，不能搜索或编造输入。
+如需在治理审阅中只读核对既有发布记录，使用 `release-skill` 的 `verify-records` 命令，并由调用方显式提供 `plan`、`approval`、`target-run`、全部 `source-run`、期望 `unit` 与历史版本号。该命令不搜索磁盘、不跟随记录内嵌路径、不联网、不运行钩子且不写文件；`CONSISTENT`、`CONTRADICTED`、`INSUFFICIENT` 的退出码分别为 `0`、`1`、`2`，`historicalTerminalStatus` 独立报告。记录一致仅说明所给记录内部相容，不代表远端实时状态或全局最新安装结果。
 
 ## 许可证
 
-代码：Apache-2.0（见 [LICENSE](LICENSE)）。课程内容：CC BY 4.0（见 [NOTICE](NOTICE)）。
+代码部分采用 Apache-2.0 许可（见 [LICENSE](LICENSE)）；`docs/llm-academy/` 课程内容采用 CC BY 4.0 许可（见 [NOTICE](NOTICE)）。

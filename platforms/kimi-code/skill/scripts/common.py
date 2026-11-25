@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Shared deterministic helpers for skill-failure-auditor tools."""
+"""技能失效审计工具链共享的严格解析与路径规范化辅助函数。
+
+所有输入读取均拒绝软链接与重复 JSON 键，文件发布统一委托给 Foundation 受管独占写入，
+确保损坏输入或路径越界在入口即报错，绝不静默降级。
+"""
 
 from __future__ import annotations
 

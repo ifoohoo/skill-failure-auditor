@@ -464,31 +464,33 @@ def emit(value: dict[str, Any], output: Path | None) -> None:
 
 
 def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(description=__doc__)
+    root = argparse.ArgumentParser(
+        description="校验失效模式规则表（FM-01..FM-28）并按审计模式与目标类型确定性路由规则集合。"
+    )
     subcommands = root.add_subparsers(dest="command", required=True)
 
-    validate = subcommands.add_parser("validate")
-    validate.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
-    validate.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA)
-    validate.add_argument("--allow-missing-builtins", action="store_true")
-    validate.add_argument("--output", type=Path)
+    validate = subcommands.add_parser("validate", help="校验规则表 Schema、依赖对称性与内置规则锁。")
+    validate.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="待校验的 failure-modes.jsonl 路径。")
+    validate.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA, help="failure-mode.schema.json 路径。")
+    validate.add_argument("--allow-missing-builtins", action="store_true", help="仅测试场景允许跳过内置规则锁核对。")
+    validate.add_argument("--output", type=Path, help="可选：将校验结果独占写入指定新文件。")
 
-    select = subcommands.add_parser("select")
-    select.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
-    select.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA)
-    select.add_argument("--mode", choices=["static", "runtime", "combined"], required=True)
-    select.add_argument("--target-type", required=True)
-    select.add_argument("--evidence-type", action="append", default=[])
-    select.add_argument("--max-selected", type=int, default=28)
-    select.add_argument("--output", type=Path, required=True)
-    select.add_argument("--coverage-output", type=Path, required=True)
+    select = subcommands.add_parser("select", help="按模式、目标类型与证据类型生成确定性规则选择与覆盖清单。")
+    select.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="failure-modes.jsonl 路径。")
+    select.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA, help="failure-mode.schema.json 路径。")
+    select.add_argument("--mode", choices=["static", "runtime", "combined"], required=True, help="审计模式：static、runtime 或 combined。")
+    select.add_argument("--target-type", required=True, help="受审目标类型（审计技能时传 skill）。")
+    select.add_argument("--evidence-type", action="append", default=[], help="可用证据类型（可多次传入）。")
+    select.add_argument("--max-selected", type=int, default=28, help="最大可选规则数（不得低于必查闭包数 28）。")
+    select.add_argument("--output", type=Path, required=True, help="规则选择制品输出路径（新文件）。")
+    select.add_argument("--coverage-output", type=Path, required=True, help="规则路由覆盖清单输出路径（新文件）。")
 
-    verify = subcommands.add_parser("verify-selection")
-    verify.add_argument("--selection", type=Path, required=True)
-    verify.add_argument("--coverage", type=Path, required=True)
-    verify.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
-    verify.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA)
-    verify.add_argument("--output", type=Path)
+    verify = subcommands.add_parser("verify-selection", help="重算并核对已有规则选择制品与覆盖清单的一致性。")
+    verify.add_argument("--selection", type=Path, required=True, help="已生成的 selection.json 路径。")
+    verify.add_argument("--coverage", type=Path, required=True, help="已生成的 rule-coverage.json 路径。")
+    verify.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="failure-modes.jsonl 路径。")
+    verify.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA, help="failure-mode.schema.json 路径。")
+    verify.add_argument("--output", type=Path, help="可选：校验回执输出路径（新文件）。")
     return root
 
 

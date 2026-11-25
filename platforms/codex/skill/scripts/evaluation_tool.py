@@ -95,8 +95,71 @@ def stable_skill_identity(root: Path) -> tuple[tuple[str, str], ...] | None:
     return tuple(identity)
 
 
+def _read_regular_json_if_present(path: Path) -> dict[str, Any] | None:
+    if path.is_symlink() or not path.is_file():
+        return None
+    try:
+        data = strict_json_loads(path.read_text(encoding="utf-8"), str(path))
+    except (ContractError, OSError, UnicodeDecodeError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _skill_frontmatter_name(skill_md: Path) -> str | None:
+    if skill_md.is_symlink() or not skill_md.is_file():
+        return None
+    try:
+        text = skill_md.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError):
+        return None
+    if not text.startswith("---\n"):
+        return None
+    end_idx = text.find("\n---", 4)
+    if end_idx < 0:
+        return None
+    for line in text[4:end_idx].splitlines():
+        if line.startswith("name:"):
+            return line.split(":", 1)[1].strip().strip("\"'")
+    return None
+
+
+def _matches_canonical_sfa_identity(root: Path) -> bool:
+    if root.is_symlink() or not root.is_dir():
+        return False
+    manifest_checks: tuple[tuple[str, tuple[str, ...]], ...] = (
+        ("package.json", ("name",)),
+        ("candidate-manifest.json", ("product", "name")),
+        ("platform-manifest.json", ("product", "name")),
+        ("plugin.json", ("name",)),
+        (".claude-plugin/plugin.json", ("name",)),
+        (".codex-plugin/plugin.json", ("name",)),
+        (".codebuddy-plugin/plugin.json", ("name",)),
+        (".kimi-plugin/plugin.json", ("name",)),
+        (".qoder-plugin/plugin.json", ("name",)),
+        ("kimi.plugin.json", ("name",)),
+        ("trigger-policy.json", ("name",)),
+    )
+    for rel, keys in manifest_checks:
+        data = _read_regular_json_if_present(root / rel)
+        if data is not None and any(data.get(key) == PROVIDER_ID for key in keys):
+            return True
+
+    if _skill_frontmatter_name(root / "SKILL.md") == PROVIDER_ID:
+        lock_path = root / "references" / "builtin-registry-lock.json"
+        if lock_path.exists() or lock_path.is_symlink():
+            lock_data = _read_regular_json_if_present(lock_path)
+            if not (
+                isinstance(lock_data, dict)
+                and isinstance(lock_data.get("entries"), list)
+                and len(lock_data["entries"]) > 0
+            ):
+                return False
+        return True
+    return False
+
+
 def derive_self_audit(subject_path: Path) -> bool:
-    """Fail closed for runtime descendants and byte-identical skill copies."""
+    """Fail closed for runtime descendants, byte-identical copies, and evolved SFA candidates."""
     subject = subject_path.resolve(strict=True)
     runtime_root = SCRIPT_DIR.parent.resolve(strict=True)
     if subject == runtime_root or subject.is_relative_to(runtime_root):
@@ -108,6 +171,8 @@ def derive_self_audit(subject_path: Path) -> bool:
     start = subject if subject.is_dir() else subject.parent
     for candidate_root in (start, *start.parents):
         if stable_skill_identity(candidate_root) == runtime_identity:
+            return True
+        if _matches_canonical_sfa_identity(candidate_root):
             return True
     return False
 
@@ -1422,69 +1487,72 @@ def professional_proof_read(proof_root: str, proof_relative: str) -> tuple[dict[
 
 
 def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(description=__doc__)
+    root = argparse.ArgumentParser(
+        description="校验审计机器结果、评判冻结用例、管理上下文交接包、核对完全同一复用与共同证明投影。"
+    )
     subcommands = root.add_subparsers(dest="command", required=True)
 
-    validate = subcommands.add_parser("validate-result")
-    validate.add_argument("--input", type=Path, required=True)
-    validate.add_argument("--selection", type=Path, required=True)
-    validate.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
-    validate.add_argument("--output", type=Path)
+    validate = subcommands.add_parser("validate-result", help="校验 audit-result.json 的 Schema、分片覆盖守恒、红线上限与自审状态。")
+    validate.add_argument("--input", type=Path, required=True, help="待校验的 audit-result.json 路径。")
+    validate.add_argument("--selection", type=Path, required=True, help="本轮冻结的 selection.json 路径。")
+    validate.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="failure-modes.jsonl 路径。")
+    validate.add_argument("--output", type=Path, help="可选：校验结果独占输出路径。")
 
-    grade = subcommands.add_parser("grade")
-    grade.add_argument("--cases", type=Path, required=True)
-    grade.add_argument("--results", type=Path, required=True)
-    grade.add_argument("--output", type=Path, required=True)
+    grade = subcommands.add_parser("grade", help="对冻结评测用例集与实际检出结果做精确集合比对评分。")
+    grade.add_argument("--cases", type=Path, required=True, help="冻结用例定义 JSONL 路径。")
+    grade.add_argument("--results", type=Path, required=True, help="待评分结果 JSONL 路径。")
+    grade.add_argument("--output", type=Path, required=True, help="评分报告独占输出路径。")
 
-    create = subcommands.add_parser("continuation-create")
-    create.add_argument("--template", type=Path, required=True)
-    create.add_argument("--output", type=Path, required=True)
-    create.add_argument("--selection", type=Path, required=True)
-    create.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
-    create.add_argument("--source-manifest", type=Path, required=True)
+    create = subcommands.add_parser("continuation-create", help="基于冻结来源清单与规则选择生成跨会话交接包。")
+    create.add_argument("--template", type=Path, required=True, help="交接模板 JSON 路径。")
+    create.add_argument("--output", type=Path, required=True, help="交接包独占输出路径。")
+    create.add_argument("--selection", type=Path, required=True, help="selection.json 路径。")
+    create.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="failure-modes.jsonl 路径。")
+    create.add_argument("--source-manifest", type=Path, required=True, help="冻结来源清单 JSON 路径。")
 
-    verify = subcommands.add_parser("continuation-verify")
-    verify.add_argument("--input", type=Path, required=True)
-    verify.add_argument("--selection", type=Path, required=True)
-    verify.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
-    verify.add_argument("--source-manifest", type=Path, required=True)
-    verify.add_argument("--output", type=Path)
+    verify = subcommands.add_parser("continuation-verify", help="核对交接包自摘要、来源文件集合及规则选择未发生漂移。")
+    verify.add_argument("--input", type=Path, required=True, help="待验证的交接包 JSON 路径。")
+    verify.add_argument("--selection", type=Path, required=True, help="selection.json 路径。")
+    verify.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="failure-modes.jsonl 路径。")
+    verify.add_argument("--source-manifest", type=Path, required=True, help="冻结来源清单 JSON 路径。")
+    verify.add_argument("--output", type=Path, help="可选：验证回执输出路径。")
 
-    receipt = subcommands.add_parser("reuse-receipt-create")
-    receipt.add_argument("--result", type=Path, required=True)
-    receipt.add_argument("--report", type=Path, required=True)
-    receipt.add_argument("--selection", type=Path, required=True)
-    receipt.add_argument("--attempt", type=Path, required=True)
-    receipt.add_argument("--output", type=Path, required=True)
+    receipt = subcommands.add_parser("reuse-receipt-create", help="在尝试封存前为已完成全覆盖的审计结果生成精确复用回执。")
+    receipt.add_argument("--result", type=Path, required=True, help="已通过校验的 audit-result.json 路径。")
+    receipt.add_argument("--report", type=Path, required=True, help="已渲染的审计报告 Markdown 路径。")
+    receipt.add_argument("--selection", type=Path, required=True, help="selection.json 路径。")
+    receipt.add_argument("--attempt", type=Path, required=True, help="尚未封存的尝试目录路径。")
+    receipt.add_argument("--output", type=Path, required=True, help="复用回执独占输出路径。")
 
-    reuse = subcommands.add_parser("reuse-check")
-    reuse.add_argument("--subject", type=Path, required=True)
+    reuse = subcommands.add_parser("reuse-check", help="核对目标文件集、判据、规则表、审计器闭包与封存尝试是否完全同一可复用。")
+    reuse.add_argument("--subject", type=Path, required=True, help="当前受审目标绝对路径。")
     reuse.add_argument(
         "--mode",
         choices=("static", "runtime", "combined"),
         required=True,
+        help="当前请求的审计模式。",
     )
-    reuse.add_argument("--evidence-type", action="append", required=True)
-    reuse.add_argument("--criteria-commitment", type=Path, required=True)
-    reuse.add_argument("--prior-result", type=Path, required=True)
-    reuse.add_argument("--prior-report", type=Path, required=True)
-    reuse.add_argument("--prior-selection", type=Path, required=True)
-    reuse.add_argument("--prior-attempt", type=Path, required=True)
-    reuse.add_argument("--prior-reuse-receipt", type=Path)
-    reuse.add_argument("--expected-prior-seal-file-sha256")
-    reuse.add_argument("--fresh-evidence-required", action="store_true")
-    reuse.add_argument("--output", type=Path)
+    reuse.add_argument("--evidence-type", action="append", required=True, help="当前证据类型（可多次传入）。")
+    reuse.add_argument("--criteria-commitment", type=Path, required=True, help="当前验收标准承诺文件路径。")
+    reuse.add_argument("--prior-result", type=Path, required=True, help="上一轮 audit-result.json 路径。")
+    reuse.add_argument("--prior-report", type=Path, required=True, help="上一轮审计报告 Markdown 路径。")
+    reuse.add_argument("--prior-selection", type=Path, required=True, help="上一轮 selection.json 路径。")
+    reuse.add_argument("--prior-attempt", type=Path, required=True, help="上一轮已封存的尝试目录路径。")
+    reuse.add_argument("--prior-reuse-receipt", type=Path, help="上一轮生成的 audit-reuse-receipt.json 路径。")
+    reuse.add_argument("--expected-prior-seal-file-sha256", help="外部冻结的上一轮 seal.json 原始字节 SHA-256。")
+    reuse.add_argument("--fresh-evidence-required", action="store_true", help="显式要求刷新证据时强制返回 FULL_AUDIT_REQUIRED。")
+    reuse.add_argument("--output", type=Path, help="可选：复用判定结果输出路径（须在受审目标、旧尝试和技能目录之外）。")
 
-    conclusion = subcommands.add_parser("professional-conclusion-create")
-    conclusion.add_argument("--result-root", required=True)
-    conclusion.add_argument("--result", required=True)
-    conclusion.add_argument("--selection", required=True)
-    conclusion.add_argument("--conclusion-root", required=True)
-    conclusion.add_argument("--conclusion-output", required=True)
+    conclusion = subcommands.add_parser("professional-conclusion-create", help="将已通过原生校验的结果投影为技能族共同证明文件。")
+    conclusion.add_argument("--result-root", required=True, help="包含原生结果与选择文件的绝对根目录。")
+    conclusion.add_argument("--result", required=True, help="相对于 --result-root 的 audit-result.json 路径。")
+    conclusion.add_argument("--selection", required=True, help="必填：相对于 --result-root 的 selection.json 路径。")
+    conclusion.add_argument("--conclusion-root", required=True, help="共同证明输出所在的绝对根目录。")
+    conclusion.add_argument("--conclusion-output", required=True, help="相对于 --conclusion-root 的新输出文件路径。")
 
-    proof = subcommands.add_parser("professional-proof-read")
-    proof.add_argument("--proof-root", required=True)
-    proof.add_argument("--proof", required=True)
+    proof = subcommands.add_parser("professional-proof-read", help="只读校验并解释本技能出具的共同证明文件（不重查目标，不跑 reuse-check）。")
+    proof.add_argument("--proof-root", required=True, help="共同证明所在的绝对根目录。")
+    proof.add_argument("--proof", required=True, help="相对于 --proof-root 的共同证明文件路径。")
     return root
 
 

@@ -35,31 +35,31 @@
       "path": "attempt-manifest.schema.json",
       "sourcePath": "plugin-src/core/references/attempt-manifest.schema.json",
       "$id": "attempt-manifest.schema.json",
-      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6"
+      "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e"
     },
     {
       "path": "audit-result.schema.json",
       "sourcePath": "plugin-src/core/references/audit-result.schema.json",
       "$id": "audit-result.schema.json",
-      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b"
+      "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc"
     },
     {
       "path": "continuation-package.schema.json",
       "sourcePath": "plugin-src/core/references/continuation-package.schema.json",
       "$id": "continuation-package.schema.json",
-      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc"
+      "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813"
     },
     {
       "path": "failure-mode.schema.json",
       "sourcePath": "plugin-src/core/references/failure-mode.schema.json",
       "$id": "failure-mode.schema.json",
-      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3"
+      "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c"
     },
     {
       "path": "source-manifest.schema.json",
       "sourcePath": "plugin-src/core/references/source-manifest.schema.json",
       "$id": "source-manifest.schema.json",
-      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa"
+      "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2"
     }
   ],
   "source": {
@@ -70,6 +70,6 @@
   },
   "bundle": {
     "targetPrefix": "quickstart-profile",
-    "payloadSha256": "9b202cf0093b3338acc2bec685ffb742c7872fe138d4a2d518fc5ae052c97920"
+    "payloadSha256": "c214913ef3b8d2b7f837142e844b94c62f744a2cfa6b9d6fda028c91ca652df0"
   }
 }

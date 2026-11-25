@@ -23,6 +23,8 @@
     { "id": "abs-user-path", "pattern": "/Users/[A-Za-z0-9._-]+/" },
     { "id": "abs-home-path", "pattern": "/home/[A-Za-z0-9._-]+/" },
     { "id": "abs-win-path", "pattern": "[A-Za-z]:\\\\Users\\\\[A-Za-z0-9._-]+\\\\" },
+    { "id": "abs-volume-samsung", "pattern": "/Volumes/\\u0053amsung" },
+    { "id": "proprietary-project", "pattern": "(?i)\\u0067laf4" },
     { "id": "private-key", "pattern": "BEGIN [A-Z ]*PRIVATE KEY" },
     { "id": "authority-material", "pattern": "authority-\u0070rivate|oracle-(\u0076ault|commitment)" },
     { "id": "internal-task-id", "pattern": "skill-failure-auditor-refactor-202607\u00328" }

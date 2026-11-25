@@ -1,23 +1,23 @@
 {
   "schemaVersion": "1.0",
-  "version": "1.1.14",
+  "version": "1.1.18",
   "product": "skill-failure-auditor",
   "publicRepo": "ifoohoo/skill-failure-auditor",
-  "fileCount": 620,
+  "fileCount": 636,
   "files": [
     {
       "path": ".claude-plugin/plugin.json",
-      "sha256": "e28dec7aedaac51b21226cecc8b66479b0c12f68e59baf7c5dd015e88e260549",
+      "sha256": "6b1658d0a4ad9faaf9c94d3e9f51fba72d2f34c52583d8bf5c976adefe19501d",
       "source": "skill-failure-auditor/.claude-plugin/plugin.json"
     },
     {
       "path": ".codebuddy-plugin/plugin.json",
-      "sha256": "a5b9a46775f742008fd15077cf8f370ed86b6e0cda1fde1fd02262d8923a4038",
+      "sha256": "d3dbb8ba5720c8522528b533e4ffaa1f35dadd054060bb4d0d311293a62d38ca",
       "source": "skill-failure-auditor/.codebuddy-plugin/plugin.json"
     },
     {
       "path": ".codex-plugin/plugin.json",
-      "sha256": "0044898dcd4f76e2d185808f89b05971e1c59a251f7791e1a636384651b925d6",
+      "sha256": "df09efefab948df94332f1c804ea6a3fd6b9c0166ce29c19f0affbec6b7ede28",
       "source": "skill-failure-auditor/.codex-plugin/plugin.json"
     },
     {
@@ -27,12 +27,12 @@
     },
     {
       "path": ".kimi-plugin/plugin.json",
-      "sha256": "f394d21b818d6bba511b6245deecbfb3fc3757e622319fde1c8af105aff7b909",
+      "sha256": "32d8f49f4a1180ae33afa36e32a01415c5751d8af075c20cbaa79739303a7170",
       "source": "skill-failure-auditor/.kimi-plugin/plugin.json"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "c79b794c5cc16a145a39ea86930059e7962c9eabc51ed4b6250b2d0c71cdebe8",
+      "sha256": "1d28814e8d121d4ecb977f958a78ab8942bd327ceb127c491b23b133e6db5bcc",
       "source": "skill-failure-auditor/CHANGELOG.md"
     },
     {
@@ -52,12 +52,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "1d9682137cedde35a99a62fbd9eb20f8f84ab76e14b24e5b4cfdde84d5b5e727",
+      "sha256": "1a511d81854938d872c8f34049e0a95e168921dd08beac4f1a56c138cd4411fc",
       "source": "skill-failure-auditor/README.md"
     },
     {
       "path": "README_zh.md",
-      "sha256": "bab845c830b09a346d7b7de8dda51309a36ee3f040e20c132ea119bca044c731",
+      "sha256": "3997ff62734d2a9d97305e09ad9f10b37f947c0ea7eec015d8dc45ed61599101",
       "source": "skill-failure-auditor/README_zh.md"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+      "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/SKILL.md"
     },
     {
@@ -157,22 +157,22 @@
     },
     {
       "path": "kimi.plugin.json",
-      "sha256": "c444d4d51fa9d58a8d36f7992d01bd6c9e349266b4e21f0d80d64b2db65889a9",
+      "sha256": "769188a08c99cdaa625515f023545ca17dd4f9f402de64c4c25ccb7b9077db1f",
       "source": "skill-failure-auditor/kimi.plugin.json"
     },
     {
       "path": "package.json",
-      "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+      "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
       "source": "skill-failure-auditor/package.json"
     },
     {
       "path": "platforms/build-manifest.json",
-      "sha256": "28ac2986f8a099c36e31acf095bf176d5894581bbc11e58674364c11f8a3bb40",
+      "sha256": "e9694762667e4fcd5af638f894d4a031d6886fd70e45fb4d6e1bb527f404de37",
       "source": "skill-failure-auditor/generated/platforms/build-manifest.json"
     },
     {
       "path": "platforms/claude-code/platform-manifest.json",
-      "sha256": "3cfcefb9e21d951a7fa8a4fba2a7a552ff0bb15516e46d2c5508ce5bb11b2884",
+      "sha256": "00e857c99620f509558a21118270ade2fb654bd01c5472f8e7f8a098605ab6f5",
       "source": "skill-failure-auditor/generated/platforms/claude-code/platform-manifest.json"
     },
     {
@@ -182,17 +182,17 @@
     },
     {
       "path": "platforms/claude-code/skill/.claude-plugin/plugin.json",
-      "sha256": "e28dec7aedaac51b21226cecc8b66479b0c12f68e59baf7c5dd015e88e260549",
+      "sha256": "6b1658d0a4ad9faaf9c94d3e9f51fba72d2f34c52583d8bf5c976adefe19501d",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/.claude-plugin/plugin.json"
     },
     {
       "path": "platforms/claude-code/skill/SKILL.md",
-      "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+      "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/SKILL.md"
     },
     {
       "path": "platforms/claude-code/skill/foundation/foundation-pin.json",
-      "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+      "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/foundation-pin.json"
     },
     {
@@ -207,7 +207,7 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+      "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -287,7 +287,7 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+      "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -402,22 +402,22 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-      "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+      "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-      "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+      "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-      "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+      "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-      "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+      "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
     },
     {
@@ -427,7 +427,7 @@
     },
     {
       "path": "platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-      "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+      "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
     },
     {
@@ -522,17 +522,17 @@
     },
     {
       "path": "platforms/claude-code/skill/package.json",
-      "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+      "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/package.json"
     },
     {
       "path": "platforms/claude-code/skill/references/attempt-manifest.schema.json",
-      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/attempt-manifest.schema.json"
     },
     {
       "path": "platforms/claude-code/skill/references/audit-result.schema.json",
-      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/audit-result.schema.json"
     },
     {
@@ -542,22 +542,27 @@
     },
     {
       "path": "platforms/claude-code/skill/references/context-continuation.md",
-      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/context-continuation.md"
     },
     {
       "path": "platforms/claude-code/skill/references/continuation-package.schema.json",
-      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/continuation-package.schema.json"
     },
     {
+      "path": "platforms/claude-code/skill/references/cross-repo-triage.md",
+      "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/cross-repo-triage.md"
+    },
+    {
       "path": "platforms/claude-code/skill/references/evaluation-integrity.md",
-      "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+      "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/evaluation-integrity.md"
     },
     {
       "path": "platforms/claude-code/skill/references/failure-mode.schema.json",
-      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/failure-mode.schema.json"
     },
     {
@@ -567,77 +572,87 @@
     },
     {
       "path": "platforms/claude-code/skill/references/report-contract.md",
-      "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+      "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/report-contract.md"
     },
     {
       "path": "platforms/claude-code/skill/references/runtime-supervision.md",
-      "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+      "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/runtime-supervision.md"
     },
     {
       "path": "platforms/claude-code/skill/references/self-iteration-protocol.md",
-      "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+      "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/self-iteration-protocol.md"
     },
     {
       "path": "platforms/claude-code/skill/references/source-manifest.schema.json",
-      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/source-manifest.schema.json"
     },
     {
       "path": "platforms/claude-code/skill/references/taxonomy-index.md",
-      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/taxonomy-index.md"
     },
     {
       "path": "platforms/claude-code/skill/references/usage-guide.md",
-      "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+      "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/usage-guide.md"
     },
     {
       "path": "platforms/claude-code/skill/scripts/attempt_tool.py",
-      "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+      "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/attempt_tool.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/common.py",
-      "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+      "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/common.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/evaluation_tool.py",
-      "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+      "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/evidence_tool.py",
-      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+      "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/evidence_tool.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/foundation_client.py",
-      "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+      "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/foundation_client.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/registry_tool.py",
-      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+      "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/registry_tool.py"
     },
     {
       "path": "platforms/claude-code/skill/scripts/report_renderer.py",
-      "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+      "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/report_renderer.py"
     },
     {
+      "path": "platforms/claude-code/skill/scripts/triage-symptom.mjs",
+      "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/triage-symptom.mjs"
+    },
+    {
+      "path": "platforms/claude-code/skill/scripts/triage_symptom.py",
+      "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/triage_symptom.py"
+    },
+    {
       "path": "platforms/codex/.codex-plugin/plugin.json",
-      "sha256": "0044898dcd4f76e2d185808f89b05971e1c59a251f7791e1a636384651b925d6",
+      "sha256": "df09efefab948df94332f1c804ea6a3fd6b9c0166ce29c19f0affbec6b7ede28",
       "source": "skill-failure-auditor/generated/platforms/codex/.codex-plugin/plugin.json"
     },
     {
       "path": "platforms/codex/platform-manifest.json",
-      "sha256": "05d1909cd2869dae14c51033c5ea856387b713790222ba9a192adcafd12df5ba",
+      "sha256": "24084ba0819442ed520dbf6939d59a8e4e5ee57991893485f634e654c8a25ba9",
       "source": "skill-failure-auditor/generated/platforms/codex/platform-manifest.json"
     },
     {
@@ -647,12 +662,12 @@
     },
     {
       "path": "platforms/codex/skill/SKILL.md",
-      "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+      "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/SKILL.md"
     },
     {
       "path": "platforms/codex/skill/foundation/foundation-pin.json",
-      "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+      "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/foundation-pin.json"
     },
     {
@@ -667,7 +682,7 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+      "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -747,7 +762,7 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+      "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -862,22 +877,22 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-      "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+      "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-      "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+      "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-      "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+      "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-      "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+      "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
     },
     {
@@ -887,7 +902,7 @@
     },
     {
       "path": "platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-      "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+      "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
     },
     {
@@ -982,17 +997,17 @@
     },
     {
       "path": "platforms/codex/skill/package.json",
-      "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+      "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/package.json"
     },
     {
       "path": "platforms/codex/skill/references/attempt-manifest.schema.json",
-      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/attempt-manifest.schema.json"
     },
     {
       "path": "platforms/codex/skill/references/audit-result.schema.json",
-      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/audit-result.schema.json"
     },
     {
@@ -1002,22 +1017,27 @@
     },
     {
       "path": "platforms/codex/skill/references/context-continuation.md",
-      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/context-continuation.md"
     },
     {
       "path": "platforms/codex/skill/references/continuation-package.schema.json",
-      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/continuation-package.schema.json"
     },
     {
+      "path": "platforms/codex/skill/references/cross-repo-triage.md",
+      "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/references/cross-repo-triage.md"
+    },
+    {
       "path": "platforms/codex/skill/references/evaluation-integrity.md",
-      "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+      "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/evaluation-integrity.md"
     },
     {
       "path": "platforms/codex/skill/references/failure-mode.schema.json",
-      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/failure-mode.schema.json"
     },
     {
@@ -1027,82 +1047,92 @@
     },
     {
       "path": "platforms/codex/skill/references/report-contract.md",
-      "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+      "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/report-contract.md"
     },
     {
       "path": "platforms/codex/skill/references/runtime-supervision.md",
-      "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+      "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/runtime-supervision.md"
     },
     {
       "path": "platforms/codex/skill/references/self-iteration-protocol.md",
-      "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+      "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/self-iteration-protocol.md"
     },
     {
       "path": "platforms/codex/skill/references/source-manifest.schema.json",
-      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/source-manifest.schema.json"
     },
     {
       "path": "platforms/codex/skill/references/taxonomy-index.md",
-      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/taxonomy-index.md"
     },
     {
       "path": "platforms/codex/skill/references/usage-guide.md",
-      "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+      "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/references/usage-guide.md"
     },
     {
       "path": "platforms/codex/skill/scripts/attempt_tool.py",
-      "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+      "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/attempt_tool.py"
     },
     {
       "path": "platforms/codex/skill/scripts/common.py",
-      "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+      "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/common.py"
     },
     {
       "path": "platforms/codex/skill/scripts/evaluation_tool.py",
-      "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+      "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "platforms/codex/skill/scripts/evidence_tool.py",
-      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+      "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/evidence_tool.py"
     },
     {
       "path": "platforms/codex/skill/scripts/foundation_client.py",
-      "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+      "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/foundation_client.py"
     },
     {
       "path": "platforms/codex/skill/scripts/registry_tool.py",
-      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+      "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/registry_tool.py"
     },
     {
       "path": "platforms/codex/skill/scripts/report_renderer.py",
-      "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+      "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
       "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/report_renderer.py"
     },
     {
+      "path": "platforms/codex/skill/scripts/triage-symptom.mjs",
+      "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/triage-symptom.mjs"
+    },
+    {
+      "path": "platforms/codex/skill/scripts/triage_symptom.py",
+      "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+      "source": "skill-failure-auditor/generated/platforms/codex/skill/scripts/triage_symptom.py"
+    },
+    {
       "path": "platforms/kimi-code/.kimi-plugin/plugin.json",
-      "sha256": "f394d21b818d6bba511b6245deecbfb3fc3757e622319fde1c8af105aff7b909",
+      "sha256": "32d8f49f4a1180ae33afa36e32a01415c5751d8af075c20cbaa79739303a7170",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/.kimi-plugin/plugin.json"
     },
     {
       "path": "platforms/kimi-code/kimi.plugin.json",
-      "sha256": "c444d4d51fa9d58a8d36f7992d01bd6c9e349266b4e21f0d80d64b2db65889a9",
+      "sha256": "769188a08c99cdaa625515f023545ca17dd4f9f402de64c4c25ccb7b9077db1f",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/kimi.plugin.json"
     },
     {
       "path": "platforms/kimi-code/platform-manifest.json",
-      "sha256": "bd3a0dbafaf0ba84604f057c42b59eb2f5ee6bd505d2152418c5e541e4dc1fce",
+      "sha256": "66cb5741ce6b0896e31e96785d729d35070eb1c671853658d7f74139ecd489a0",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/platform-manifest.json"
     },
     {
@@ -1112,12 +1142,12 @@
     },
     {
       "path": "platforms/kimi-code/skill/SKILL.md",
-      "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+      "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/SKILL.md"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/foundation-pin.json",
-      "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+      "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/foundation-pin.json"
     },
     {
@@ -1132,7 +1162,7 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+      "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -1212,7 +1242,7 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+      "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -1327,22 +1357,22 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-      "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+      "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-      "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+      "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-      "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+      "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-      "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+      "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
     },
     {
@@ -1352,7 +1382,7 @@
     },
     {
       "path": "platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-      "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+      "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
     },
     {
@@ -1447,17 +1477,17 @@
     },
     {
       "path": "platforms/kimi-code/skill/package.json",
-      "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+      "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/package.json"
     },
     {
       "path": "platforms/kimi-code/skill/references/attempt-manifest.schema.json",
-      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/attempt-manifest.schema.json"
     },
     {
       "path": "platforms/kimi-code/skill/references/audit-result.schema.json",
-      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/audit-result.schema.json"
     },
     {
@@ -1467,22 +1497,27 @@
     },
     {
       "path": "platforms/kimi-code/skill/references/context-continuation.md",
-      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/context-continuation.md"
     },
     {
       "path": "platforms/kimi-code/skill/references/continuation-package.schema.json",
-      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/continuation-package.schema.json"
     },
     {
+      "path": "platforms/kimi-code/skill/references/cross-repo-triage.md",
+      "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/cross-repo-triage.md"
+    },
+    {
       "path": "platforms/kimi-code/skill/references/evaluation-integrity.md",
-      "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+      "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/evaluation-integrity.md"
     },
     {
       "path": "platforms/kimi-code/skill/references/failure-mode.schema.json",
-      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/failure-mode.schema.json"
     },
     {
@@ -1492,77 +1527,87 @@
     },
     {
       "path": "platforms/kimi-code/skill/references/report-contract.md",
-      "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+      "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/report-contract.md"
     },
     {
       "path": "platforms/kimi-code/skill/references/runtime-supervision.md",
-      "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+      "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/runtime-supervision.md"
     },
     {
       "path": "platforms/kimi-code/skill/references/self-iteration-protocol.md",
-      "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+      "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/self-iteration-protocol.md"
     },
     {
       "path": "platforms/kimi-code/skill/references/source-manifest.schema.json",
-      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/source-manifest.schema.json"
     },
     {
       "path": "platforms/kimi-code/skill/references/taxonomy-index.md",
-      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/taxonomy-index.md"
     },
     {
       "path": "platforms/kimi-code/skill/references/usage-guide.md",
-      "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+      "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/usage-guide.md"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/attempt_tool.py",
-      "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+      "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/attempt_tool.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/common.py",
-      "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+      "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/common.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/evaluation_tool.py",
-      "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+      "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/evidence_tool.py",
-      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+      "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/evidence_tool.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/foundation_client.py",
-      "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+      "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/foundation_client.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/registry_tool.py",
-      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+      "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/registry_tool.py"
     },
     {
       "path": "platforms/kimi-code/skill/scripts/report_renderer.py",
-      "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+      "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/report_renderer.py"
     },
     {
+      "path": "platforms/kimi-code/skill/scripts/triage-symptom.mjs",
+      "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/triage-symptom.mjs"
+    },
+    {
+      "path": "platforms/kimi-code/skill/scripts/triage_symptom.py",
+      "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/scripts/triage_symptom.py"
+    },
+    {
       "path": "platforms/workbuddy/.codebuddy-plugin/plugin.json",
-      "sha256": "a5b9a46775f742008fd15077cf8f370ed86b6e0cda1fde1fd02262d8923a4038",
+      "sha256": "d3dbb8ba5720c8522528b533e4ffaa1f35dadd054060bb4d0d311293a62d38ca",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/.codebuddy-plugin/plugin.json"
     },
     {
       "path": "platforms/workbuddy/platform-manifest.json",
-      "sha256": "c13186f9070d7fa8090764d858c05bc46564821a68f97bca009225409cbc0e54",
+      "sha256": "2ef02bf4b03282a2303f2848257b672acd507607a129023bf8fe18309244e671",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/platform-manifest.json"
     },
     {
@@ -1572,12 +1617,12 @@
     },
     {
       "path": "platforms/workbuddy/skill/SKILL.md",
-      "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+      "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/SKILL.md"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/foundation-pin.json",
-      "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+      "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/foundation-pin.json"
     },
     {
@@ -1592,7 +1637,7 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+      "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -1672,7 +1717,7 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+      "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -1787,22 +1832,22 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-      "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+      "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-      "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+      "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-      "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+      "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-      "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+      "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
     },
     {
@@ -1812,7 +1857,7 @@
     },
     {
       "path": "platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-      "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+      "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
     },
     {
@@ -1907,17 +1952,17 @@
     },
     {
       "path": "platforms/workbuddy/skill/package.json",
-      "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+      "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/package.json"
     },
     {
       "path": "platforms/workbuddy/skill/references/attempt-manifest.schema.json",
-      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/attempt-manifest.schema.json"
     },
     {
       "path": "platforms/workbuddy/skill/references/audit-result.schema.json",
-      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/audit-result.schema.json"
     },
     {
@@ -1927,22 +1972,27 @@
     },
     {
       "path": "platforms/workbuddy/skill/references/context-continuation.md",
-      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/context-continuation.md"
     },
     {
       "path": "platforms/workbuddy/skill/references/continuation-package.schema.json",
-      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/continuation-package.schema.json"
     },
     {
+      "path": "platforms/workbuddy/skill/references/cross-repo-triage.md",
+      "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/cross-repo-triage.md"
+    },
+    {
       "path": "platforms/workbuddy/skill/references/evaluation-integrity.md",
-      "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+      "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/evaluation-integrity.md"
     },
     {
       "path": "platforms/workbuddy/skill/references/failure-mode.schema.json",
-      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/failure-mode.schema.json"
     },
     {
@@ -1952,77 +2002,87 @@
     },
     {
       "path": "platforms/workbuddy/skill/references/report-contract.md",
-      "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+      "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/report-contract.md"
     },
     {
       "path": "platforms/workbuddy/skill/references/runtime-supervision.md",
-      "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+      "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/runtime-supervision.md"
     },
     {
       "path": "platforms/workbuddy/skill/references/self-iteration-protocol.md",
-      "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+      "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/self-iteration-protocol.md"
     },
     {
       "path": "platforms/workbuddy/skill/references/source-manifest.schema.json",
-      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/source-manifest.schema.json"
     },
     {
       "path": "platforms/workbuddy/skill/references/taxonomy-index.md",
-      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/taxonomy-index.md"
     },
     {
       "path": "platforms/workbuddy/skill/references/usage-guide.md",
-      "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+      "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/references/usage-guide.md"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/attempt_tool.py",
-      "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+      "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/attempt_tool.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/common.py",
-      "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+      "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/common.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/evaluation_tool.py",
-      "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+      "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/evidence_tool.py",
-      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+      "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/evidence_tool.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/foundation_client.py",
-      "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+      "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/foundation_client.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/registry_tool.py",
-      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+      "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/registry_tool.py"
     },
     {
       "path": "platforms/workbuddy/skill/scripts/report_renderer.py",
-      "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+      "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
       "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/report_renderer.py"
     },
     {
+      "path": "platforms/workbuddy/skill/scripts/triage-symptom.mjs",
+      "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/triage-symptom.mjs"
+    },
+    {
+      "path": "platforms/workbuddy/skill/scripts/triage_symptom.py",
+      "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+      "source": "skill-failure-auditor/generated/platforms/workbuddy/skill/scripts/triage_symptom.py"
+    },
+    {
       "path": "plugin-src/core/SKILL.md",
-      "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+      "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
       "source": "skill-failure-auditor/plugin-src/core/SKILL.md"
     },
     {
       "path": "plugin-src/core/foundation/foundation-pin.json",
-      "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+      "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
       "source": "skill-failure-auditor/plugin-src/core/foundation/foundation-pin.json"
     },
     {
@@ -2037,7 +2097,7 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+      "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -2117,7 +2177,7 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+      "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -2232,22 +2292,22 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-      "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+      "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-      "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+      "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-      "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+      "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-      "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+      "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
     },
     {
@@ -2257,7 +2317,7 @@
     },
     {
       "path": "plugin-src/core/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-      "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+      "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
       "source": "skill-failure-auditor/plugin-src/core/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
     },
     {
@@ -2352,12 +2412,12 @@
     },
     {
       "path": "plugin-src/core/references/attempt-manifest.schema.json",
-      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
       "source": "skill-failure-auditor/plugin-src/core/references/attempt-manifest.schema.json"
     },
     {
       "path": "plugin-src/core/references/audit-result.schema.json",
-      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
       "source": "skill-failure-auditor/plugin-src/core/references/audit-result.schema.json"
     },
     {
@@ -2367,22 +2427,27 @@
     },
     {
       "path": "plugin-src/core/references/context-continuation.md",
-      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
       "source": "skill-failure-auditor/plugin-src/core/references/context-continuation.md"
     },
     {
       "path": "plugin-src/core/references/continuation-package.schema.json",
-      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
       "source": "skill-failure-auditor/plugin-src/core/references/continuation-package.schema.json"
     },
     {
+      "path": "plugin-src/core/references/cross-repo-triage.md",
+      "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+      "source": "skill-failure-auditor/plugin-src/core/references/cross-repo-triage.md"
+    },
+    {
       "path": "plugin-src/core/references/evaluation-integrity.md",
-      "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+      "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
       "source": "skill-failure-auditor/plugin-src/core/references/evaluation-integrity.md"
     },
     {
       "path": "plugin-src/core/references/failure-mode.schema.json",
-      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
       "source": "skill-failure-auditor/plugin-src/core/references/failure-mode.schema.json"
     },
     {
@@ -2392,152 +2457,142 @@
     },
     {
       "path": "plugin-src/core/references/report-contract.md",
-      "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+      "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
       "source": "skill-failure-auditor/plugin-src/core/references/report-contract.md"
     },
     {
       "path": "plugin-src/core/references/runtime-supervision.md",
-      "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+      "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
       "source": "skill-failure-auditor/plugin-src/core/references/runtime-supervision.md"
     },
     {
       "path": "plugin-src/core/references/self-iteration-protocol.md",
-      "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+      "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
       "source": "skill-failure-auditor/plugin-src/core/references/self-iteration-protocol.md"
     },
     {
       "path": "plugin-src/core/references/source-manifest.schema.json",
-      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
       "source": "skill-failure-auditor/plugin-src/core/references/source-manifest.schema.json"
     },
     {
       "path": "plugin-src/core/references/taxonomy-index.md",
-      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
       "source": "skill-failure-auditor/plugin-src/core/references/taxonomy-index.md"
     },
     {
       "path": "plugin-src/core/references/usage-guide.md",
-      "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+      "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
       "source": "skill-failure-auditor/plugin-src/core/references/usage-guide.md"
     },
     {
       "path": "plugin-src/core/scripts/attempt_tool.py",
-      "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+      "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
       "source": "skill-failure-auditor/plugin-src/core/scripts/attempt_tool.py"
     },
     {
       "path": "plugin-src/core/scripts/common.py",
-      "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+      "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
       "source": "skill-failure-auditor/plugin-src/core/scripts/common.py"
     },
     {
       "path": "plugin-src/core/scripts/evaluation_tool.py",
-      "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+      "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
       "source": "skill-failure-auditor/plugin-src/core/scripts/evaluation_tool.py"
     },
     {
       "path": "plugin-src/core/scripts/evidence_tool.py",
-      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+      "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
       "source": "skill-failure-auditor/plugin-src/core/scripts/evidence_tool.py"
     },
     {
       "path": "plugin-src/core/scripts/foundation_client.py",
-      "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+      "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
       "source": "skill-failure-auditor/plugin-src/core/scripts/foundation_client.py"
     },
     {
       "path": "plugin-src/core/scripts/registry_tool.py",
-      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+      "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
       "source": "skill-failure-auditor/plugin-src/core/scripts/registry_tool.py"
     },
     {
       "path": "plugin-src/core/scripts/report_renderer.py",
-      "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+      "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
       "source": "skill-failure-auditor/plugin-src/core/scripts/report_renderer.py"
     },
     {
-      "path": "plugin-src/core/scripts/tests/test_evidence_integrity.py",
-      "sha256": "b996b212a0cc0cd78514f93448555a6bfd843b4660c72db065e20db0f35a142b",
-      "source": "skill-failure-auditor/plugin-src/core/scripts/tests/test_evidence_integrity.py"
+      "path": "plugin-src/core/scripts/triage-symptom.mjs",
+      "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+      "source": "skill-failure-auditor/plugin-src/core/scripts/triage-symptom.mjs"
     },
     {
-      "path": "plugin-src/core/scripts/tests/test_exclusive_publish.py",
-      "sha256": "57ebdf7c07478390488840902f3660b1bd2c4c65a9e9ed9dfe3d308708aaaf2a",
-      "source": "skill-failure-auditor/plugin-src/core/scripts/tests/test_exclusive_publish.py"
-    },
-    {
-      "path": "plugin-src/core/scripts/tests/test_report_renderer.py",
-      "sha256": "d16a581ca538b39cc7bfa91fb0eabd90dfc4084feb641bf20d324a98de826a73",
-      "source": "skill-failure-auditor/plugin-src/core/scripts/tests/test_report_renderer.py"
-    },
-    {
-      "path": "plugin-src/core/scripts/tests/test_state_boundaries.py",
-      "sha256": "c4516027ee46e2136be127a67df61c33a7d9b690af187631914da3ad2fa3fbf7",
-      "source": "skill-failure-auditor/plugin-src/core/scripts/tests/test_state_boundaries.py"
-    },
-    {
-      "path": "plugin-src/core/scripts/tests/test_structure_registry.py",
-      "sha256": "8a290bccb7070431c3c34830d2edb6990a229ab4d77f506636394b5e62887677",
-      "source": "skill-failure-auditor/plugin-src/core/scripts/tests/test_structure_registry.py"
+      "path": "plugin-src/core/scripts/triage_symptom.py",
+      "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+      "source": "skill-failure-auditor/plugin-src/core/scripts/triage_symptom.py"
     },
     {
       "path": "plugin-src/core/trigger-policy.json",
-      "sha256": "44b8c6751b83e60e7d69059013c04ccccfa2e62f68acfd2b0c8d11d4506c8e33",
+      "sha256": "8d175511e0c17d9a0023ca5297d83a479efcc6efb55eceebd16010515ebd431d",
       "source": "skill-failure-auditor/plugin-src/core/trigger-policy.json"
     },
     {
       "path": "plugin-src/platforms/claude-code/.claude-plugin/plugin.json",
-      "sha256": "e28dec7aedaac51b21226cecc8b66479b0c12f68e59baf7c5dd015e88e260549",
+      "sha256": "6b1658d0a4ad9faaf9c94d3e9f51fba72d2f34c52583d8bf5c976adefe19501d",
       "source": "skill-failure-auditor/plugin-src/platforms/claude-code/.claude-plugin/plugin.json"
     },
     {
       "path": "plugin-src/platforms/claude-code/platform-manifest.json",
-      "sha256": "e4373f247753f323806864f00b487ca3ef45660b8b7e47ba5c865310be2e9ee2",
+      "sha256": "76821e53ce528b9308d012a699c28eb8204682b3921401158316da7a8d2e8b4f",
       "source": "skill-failure-auditor/plugin-src/platforms/claude-code/platform-manifest.json"
     },
     {
       "path": "plugin-src/platforms/codex/.codex-plugin/plugin.json",
-      "sha256": "0044898dcd4f76e2d185808f89b05971e1c59a251f7791e1a636384651b925d6",
+      "sha256": "df09efefab948df94332f1c804ea6a3fd6b9c0166ce29c19f0affbec6b7ede28",
       "source": "skill-failure-auditor/plugin-src/platforms/codex/.codex-plugin/plugin.json"
     },
     {
       "path": "plugin-src/platforms/codex/platform-manifest.json",
-      "sha256": "d66781ab8dc36e25d9bd02048f8dad7281d18882845e1c23d79365e10f943612",
+      "sha256": "b8c343007179201e7208823dbda03b4deddf5c933851f6a78a17527db85775dc",
       "source": "skill-failure-auditor/plugin-src/platforms/codex/platform-manifest.json"
     },
     {
       "path": "plugin-src/platforms/kimi-code/.kimi-plugin/plugin.json",
-      "sha256": "f394d21b818d6bba511b6245deecbfb3fc3757e622319fde1c8af105aff7b909",
+      "sha256": "32d8f49f4a1180ae33afa36e32a01415c5751d8af075c20cbaa79739303a7170",
       "source": "skill-failure-auditor/plugin-src/platforms/kimi-code/.kimi-plugin/plugin.json"
     },
     {
       "path": "plugin-src/platforms/kimi-code/kimi.plugin.json",
-      "sha256": "c444d4d51fa9d58a8d36f7992d01bd6c9e349266b4e21f0d80d64b2db65889a9",
+      "sha256": "769188a08c99cdaa625515f023545ca17dd4f9f402de64c4c25ccb7b9077db1f",
       "source": "skill-failure-auditor/plugin-src/platforms/kimi-code/kimi.plugin.json"
     },
     {
       "path": "plugin-src/platforms/kimi-code/platform-manifest.json",
-      "sha256": "19a2c126b74c8883b5b5c60f0117b380a02e2a84db27bf3d829ab85990ed67c8",
+      "sha256": "e64fadf0d24823ff335b9e6d59b301f5fec9adbc704851d5d54374ddfe18ffcf",
       "source": "skill-failure-auditor/plugin-src/platforms/kimi-code/platform-manifest.json"
     },
     {
       "path": "plugin-src/platforms/workbuddy/.codebuddy-plugin/plugin.json",
-      "sha256": "a5b9a46775f742008fd15077cf8f370ed86b6e0cda1fde1fd02262d8923a4038",
+      "sha256": "d3dbb8ba5720c8522528b533e4ffaa1f35dadd054060bb4d0d311293a62d38ca",
       "source": "skill-failure-auditor/plugin-src/platforms/workbuddy/.codebuddy-plugin/plugin.json"
     },
     {
       "path": "plugin-src/platforms/workbuddy/platform-manifest.json",
-      "sha256": "87e8bcf37c04b032464145358a2f34b5484973861d55487fb00cb2fe55dec490",
+      "sha256": "6c5ca469b05063900d2727e314bb9d63dc44063555d9ed397d347f221dc2af62",
       "source": "skill-failure-auditor/plugin-src/platforms/workbuddy/platform-manifest.json"
     },
     {
+      "path": "plugin.json",
+      "sha256": "9e2c864671c8a993708983ec26b6054509689d679e590960248dd6ecf85915b2",
+      "source": "skill-failure-auditor/plugin.json"
+    },
+    {
       "path": "references/attempt-manifest.schema.json",
-      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/attempt-manifest.schema.json"
     },
     {
       "path": "references/audit-result.schema.json",
-      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/audit-result.schema.json"
     },
     {
@@ -2547,22 +2602,27 @@
     },
     {
       "path": "references/context-continuation.md",
-      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/context-continuation.md"
     },
     {
       "path": "references/continuation-package.schema.json",
-      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/continuation-package.schema.json"
     },
     {
+      "path": "references/cross-repo-triage.md",
+      "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+      "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/cross-repo-triage.md"
+    },
+    {
       "path": "references/evaluation-integrity.md",
-      "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+      "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/evaluation-integrity.md"
     },
     {
       "path": "references/failure-mode.schema.json",
-      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/failure-mode.schema.json"
     },
     {
@@ -2572,37 +2632,37 @@
     },
     {
       "path": "references/report-contract.md",
-      "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+      "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/report-contract.md"
     },
     {
       "path": "references/runtime-supervision.md",
-      "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+      "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/runtime-supervision.md"
     },
     {
       "path": "references/self-iteration-protocol.md",
-      "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+      "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/self-iteration-protocol.md"
     },
     {
       "path": "references/source-manifest.schema.json",
-      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/source-manifest.schema.json"
     },
     {
       "path": "references/taxonomy-index.md",
-      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/taxonomy-index.md"
     },
     {
       "path": "references/usage-guide.md",
-      "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+      "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
       "source": "skill-failure-auditor/generated/platforms/kimi-code/skill/references/usage-guide.md"
     },
     {
       "path": "scripts/build/build_foundation_bundle.mjs",
-      "sha256": "a98328c63ceadab1326c4f13ceba61365035336544362949072aa34476374168",
+      "sha256": "e8f006997b410dfd6c14e2030676363ccdd5494bc8eb6cd409211c4cb3e8641e",
       "source": "skill-failure-auditor/scripts/build/build_foundation_bundle.mjs"
     },
     {
@@ -2622,17 +2682,17 @@
     },
     {
       "path": "skills/skill-failure-auditor/.claude-plugin/plugin.json",
-      "sha256": "e28dec7aedaac51b21226cecc8b66479b0c12f68e59baf7c5dd015e88e260549",
+      "sha256": "6b1658d0a4ad9faaf9c94d3e9f51fba72d2f34c52583d8bf5c976adefe19501d",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/.claude-plugin/plugin.json"
     },
     {
       "path": "skills/skill-failure-auditor/SKILL.md",
-      "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+      "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/SKILL.md"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/foundation-pin.json",
-      "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+      "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/foundation-pin.json"
     },
     {
@@ -2647,7 +2707,7 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/foundation-projection.json",
-      "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+      "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/foundation-projection.json"
     },
     {
@@ -2727,7 +2787,7 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-      "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+      "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
     },
     {
@@ -2842,22 +2902,22 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-      "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+      "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-      "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+      "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-      "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+      "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-      "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+      "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
     },
     {
@@ -2867,7 +2927,7 @@
     },
     {
       "path": "skills/skill-failure-auditor/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-      "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+      "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
     },
     {
@@ -2962,17 +3022,17 @@
     },
     {
       "path": "skills/skill-failure-auditor/package.json",
-      "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+      "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/package.json"
     },
     {
       "path": "skills/skill-failure-auditor/references/attempt-manifest.schema.json",
-      "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+      "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/attempt-manifest.schema.json"
     },
     {
       "path": "skills/skill-failure-auditor/references/audit-result.schema.json",
-      "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+      "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/audit-result.schema.json"
     },
     {
@@ -2982,22 +3042,27 @@
     },
     {
       "path": "skills/skill-failure-auditor/references/context-continuation.md",
-      "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+      "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/context-continuation.md"
     },
     {
       "path": "skills/skill-failure-auditor/references/continuation-package.schema.json",
-      "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+      "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/continuation-package.schema.json"
     },
     {
+      "path": "skills/skill-failure-auditor/references/cross-repo-triage.md",
+      "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/cross-repo-triage.md"
+    },
+    {
       "path": "skills/skill-failure-auditor/references/evaluation-integrity.md",
-      "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+      "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/evaluation-integrity.md"
     },
     {
       "path": "skills/skill-failure-auditor/references/failure-mode.schema.json",
-      "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+      "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/failure-mode.schema.json"
     },
     {
@@ -3007,68 +3072,78 @@
     },
     {
       "path": "skills/skill-failure-auditor/references/report-contract.md",
-      "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+      "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/report-contract.md"
     },
     {
       "path": "skills/skill-failure-auditor/references/runtime-supervision.md",
-      "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+      "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/runtime-supervision.md"
     },
     {
       "path": "skills/skill-failure-auditor/references/self-iteration-protocol.md",
-      "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+      "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/self-iteration-protocol.md"
     },
     {
       "path": "skills/skill-failure-auditor/references/source-manifest.schema.json",
-      "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+      "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/source-manifest.schema.json"
     },
     {
       "path": "skills/skill-failure-auditor/references/taxonomy-index.md",
-      "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+      "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/taxonomy-index.md"
     },
     {
       "path": "skills/skill-failure-auditor/references/usage-guide.md",
-      "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+      "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/references/usage-guide.md"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/attempt_tool.py",
-      "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+      "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/attempt_tool.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/common.py",
-      "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+      "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/common.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/evaluation_tool.py",
-      "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+      "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/evaluation_tool.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/evidence_tool.py",
-      "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+      "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/evidence_tool.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/foundation_client.py",
-      "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+      "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/foundation_client.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/registry_tool.py",
-      "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+      "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/registry_tool.py"
     },
     {
       "path": "skills/skill-failure-auditor/scripts/report_renderer.py",
-      "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+      "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
       "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/report_renderer.py"
+    },
+    {
+      "path": "skills/skill-failure-auditor/scripts/triage-symptom.mjs",
+      "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/triage-symptom.mjs"
+    },
+    {
+      "path": "skills/skill-failure-auditor/scripts/triage_symptom.py",
+      "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+      "source": "skill-failure-auditor/generated/platforms/claude-code/skill/scripts/triage_symptom.py"
     },
     {
       "path": "spec/foundation-integration/bridge-protocol.schema.json",
@@ -3077,7 +3152,7 @@
     },
     {
       "path": "spec/foundation-integration/foundation-pin.json",
-      "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+      "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
       "source": "skill-failure-auditor/spec/foundation-integration/foundation-pin.json"
     },
     {
@@ -3092,7 +3167,7 @@
     },
     {
       "path": "spec/release/public-boundary.json",
-      "sha256": "f5ba96eae5f09cbe3c3386fbc6b3b82ea9a56b92c94f15075ac6ef97c37a42cb",
+      "sha256": "0be73079fe107b3637d4bad992a151150ec231fe3ddbe11482dad02952c119bf",
       "source": "skill-failure-auditor/spec/release/public-boundary.json"
     },
     {
@@ -3101,10 +3176,15 @@
       "source": "skill-failure-auditor/spec/release/release-pages-hub-design.md"
     },
     {
+      "path": "spec/triage/symptom-triage-bundle.schema.json",
+      "sha256": "d5dc9dba0292726127b228955ebe31024e54c9c1f4a6cb7d4e5381e36fd74dcf",
+      "source": "skill-failure-auditor/spec/triage/symptom-triage-bundle.schema.json"
+    },
+    {
       "path": "spec/trigger-policy-cases.json",
       "sha256": "be1d26c82f38dcf36cf5db7a07baa7b370f7be6ef4a3ff989955a06cc4fecac7",
       "source": "skill-failure-auditor/spec/trigger-policy-cases.json"
     }
   ],
-  "candidateDigest": "74bd7432f2f4f35630ed03e8200f6fabea5135f5ba02c7944c6061e9a59ae94d"
+  "candidateDigest": "d9b88c24b07628c20dab0ed9ed9cf83dcd9753922129facb272888c625e5b839"
 }

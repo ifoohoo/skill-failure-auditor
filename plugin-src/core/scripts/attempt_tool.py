@@ -315,34 +315,36 @@ def seal_attempt(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(description=__doc__)
+    root = argparse.ArgumentParser(
+        description="创建、追记、封存与校验只追加审计尝试目录（禁止覆盖已封存尝试）。"
+    )
     subcommands = root.add_subparsers(dest="command", required=True)
 
-    create = subcommands.add_parser("create")
-    create.add_argument("--root", type=Path, required=True)
-    create.add_argument("--attempt-id", required=True)
-    create.add_argument("--candidate-sha256", required=True)
-    create.add_argument("--criteria-commitment-sha256", required=True)
-    create.add_argument("--write-path", action="append", required=True)
-    create.add_argument("--created-by", required=True)
-    create.add_argument("--created-at")
+    create = subcommands.add_parser("create", help="创建绑定候选摘要与验收承诺的新尝试目录。")
+    create.add_argument("--root", type=Path, required=True, help="存放各次尝试的父目录路径。")
+    create.add_argument("--attempt-id", required=True, help="唯一尝试编号（匹配 ATTEMPT-[A-Z0-9][A-Z0-9._-]+）。")
+    create.add_argument("--candidate-sha256", required=True, help="受审目标文件集 64 位小写 SHA-256。")
+    create.add_argument("--criteria-commitment-sha256", required=True, help="验收标准承诺文件 64 位小写 SHA-256。")
+    create.add_argument("--write-path", action="append", required=True, help="允许写入的相对路径（可多次传入）。")
+    create.add_argument("--created-by", required=True, help="创建职责标识。")
+    create.add_argument("--created-at", help="可选 ISO 8601 UTC 时间戳。")
 
-    record = subcommands.add_parser("record")
-    record.add_argument("--attempt", type=Path, required=True)
-    record.add_argument("--kind", required=True)
-    record.add_argument("--artifact", type=Path, required=True)
-    record.add_argument("--recorded-at")
+    record = subcommands.add_parser("record", help="向尚未封存的尝试追记一项内容寻址证据文件。")
+    record.add_argument("--attempt", type=Path, required=True, help="目标尝试目录路径。")
+    record.add_argument("--kind", required=True, help="证据类别标识（小写字母数字与 _/-）。")
+    record.add_argument("--artifact", type=Path, required=True, help="待记录的普通证据文件路径。")
+    record.add_argument("--recorded-at", help="可选记录时间戳。")
 
-    seal = subcommands.add_parser("seal")
-    seal.add_argument("--attempt", type=Path, required=True)
-    seal.add_argument("--outcome", required=True)
-    seal.add_argument("--reason-code", required=True)
-    seal.add_argument("--sealed-at")
+    seal = subcommands.add_parser("seal", help="封存当前尝试并输出待外部冻结绑定的 seal_file_sha256。")
+    seal.add_argument("--attempt", type=Path, required=True, help="目标尝试目录路径。")
+    seal.add_argument("--outcome", required=True, help="封存结局（FAILED/BLOCKED/CANDIDATE_SUBMITTED/SELF_AUDIT_SUBMITTED）。")
+    seal.add_argument("--reason-code", required=True, help="大写下划线格式的原因码。")
+    seal.add_argument("--sealed-at", help="可选封存时间戳。")
 
-    verify = subcommands.add_parser("verify")
-    verify.add_argument("--attempt", type=Path, required=True)
-    verify.add_argument("--expected-seal-file-sha256")
-    verify.add_argument("--output", type=Path)
+    verify = subcommands.add_parser("verify", help="回读并校验尝试清单、证据集合及可选的外部封存文件摘要。")
+    verify.add_argument("--attempt", type=Path, required=True, help="目标尝试目录路径。")
+    verify.add_argument("--expected-seal-file-sha256", help="外部控制方预先冻结的 seal.json 原始字节 SHA-256。")
+    verify.add_argument("--output", type=Path, help="可选：校验结果输出路径。")
     return root
 
 

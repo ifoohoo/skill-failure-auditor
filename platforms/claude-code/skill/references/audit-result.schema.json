@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "audit-result.schema.json",
   "title": "Skill Failure Audit Result",
+  "description": "技能可靠性失效审计的机器结果契约，绑定受审目标摘要、证据分片覆盖、逐规则判定、清单外假设与最终结论。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -24,19 +25,20 @@
     "status"
   ],
   "properties": {
-    "schema_version": {"const": "1.0"},
-    "audit_id": {"type": "string", "pattern": "^AUDIT-[A-Z0-9][A-Z0-9._-]+$"},
-    "mode": {"type": "string", "enum": ["static", "runtime", "combined"]},
-    "subject": {"$ref": "#/$defs/subject_binding"},
-    "evidence_index": {"$ref": "#/$defs/binding"},
-    "coverage_records": {"$ref": "#/$defs/binding"},
-    "coverage_ledger": {"$ref": "#/$defs/binding"},
-    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "selection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "coverage_status": {"type": "string", "enum": ["COMPLETE", "INCOMPLETE", "INVALID"]},
+    "schema_version": {"const": "1.0", "description": "审计结果结构版本号，固定为 1.0。"},
+    "audit_id": {"type": "string", "pattern": "^AUDIT-[A-Z0-9][A-Z0-9._-]+$", "description": "本次审计唯一编号（以 AUDIT- 开头）。"},
+    "mode": {"type": "string", "enum": ["static", "runtime", "combined"], "description": "审计输入范围模式：静态定义、既有运行材料或联合审阅。"},
+    "subject": {"$ref": "#/$defs/subject_binding", "description": "受审目标绝对路径及其完整文件集摘要。"},
+    "evidence_index": {"$ref": "#/$defs/binding", "description": "内容寻址分片索引文件绑定。"},
+    "coverage_records": {"$ref": "#/$defs/binding", "description": "逐分片审计覆盖记录 JSONL 文件绑定。"},
+    "coverage_ledger": {"$ref": "#/$defs/binding", "description": "分片覆盖守恒核对结果文件绑定。"},
+    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "失效模式规则表文件原始字节 SHA-256。"},
+    "selection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "规则选择制品自校验 SHA-256。"},
+    "coverage_status": {"type": "string", "enum": ["COMPLETE", "INCOMPLETE", "INVALID"], "description": "输入分片覆盖完整性状态。"},
     "known_rule_results": {
       "type": "array",
       "minItems": 1,
+      "description": "本轮全部已选失效模式规则的逐条审阅判定及分片证据引用。",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -53,13 +55,14 @@
             "type": "array",
             "items": {"$ref": "#/$defs/evidence_ref"}
           },
-          "reason": {"type": "string", "minLength": 1}
+          "reason": {"type": "string", "minLength": 1, "description": "领域判定理由；命中时须写明故障现象、证据依据与最小修复建议。"}
         }
       }
     },
     "novel_hypotheses": {
       "type": "array",
       "minItems": 1,
+      "description": "规则清单之外主动提出的可靠性失效假设、迹象、证伪条件与下一步验证方式。",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -75,6 +78,7 @@
     },
     "executable_acceptance": {
       "type": "object",
+      "description": "受审目标是否具备可验证的可执行验收工件及其证据状态。",
       "additionalProperties": false,
       "required": ["status", "evidence_refs", "reason"],
       "properties": {
@@ -91,19 +95,22 @@
     },
     "hard_gate_failures": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "items": {"type": "string", "minLength": 1},
+      "description": "触发结论降级或否决的必过检查失败项列表。"
     },
     "conclusion": {
       "type": "string",
-      "enum": ["PASS_WITHIN_FROZEN_SCOPE", "NEEDS_REVISION", "REJECT", "INCOMPLETE", "BLOCKED"]
+      "enum": ["PASS_WITHIN_FROZEN_SCOPE", "NEEDS_REVISION", "REJECT", "INCOMPLETE", "BLOCKED"],
+      "description": "受冻结范围与必过检查约束的审计总体结论。"
     },
-    "self_audit": {"type": "boolean"},
+    "self_audit": {"type": "boolean", "description": "受审目标是否为当前审计技能自身或其同源副本。"},
     "status": {
       "type": "string",
       "enum": [
         "AUDIT_SUBMITTED_FOR_REVIEW",
         "SELF_AUDIT_SUBMITTED_FOR_EXTERNAL_REVIEW"
-      ]
+      ],
+      "description": "结果提交状态；审计器自身不签发外部终审接受状态。"
     }
   },
   "$defs": {

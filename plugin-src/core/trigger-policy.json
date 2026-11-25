@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "name": "skill-failure-auditor",
-  "description": "针对 skill-failure-auditor（SFA）自身的帮助、准备度检查或接入分析。实际审计仅当主要审阅对象是 LLM/Agent 指令、能力定义、执行链或运行证据，且用户明确要求可靠性失效审计，或材料已有可引用具体失效信号。识别假完成或自我验收、执行者改写验收标准、冻结输入结论冲突、证据缺失或重复、虚假独立审阅、上下文交接丢失关键要求。普通源码、架构或项目审阅，发布与制品链检查，业务工作流评审，Skill 或 Prompt 编写，整改方案架构复核，例行调试、安装兼容和单次确定性测试失败均不适用。",
+  "description": "针对 skill-failure-auditor（SFA）自身的帮助、准备度检查、接入分析或跨仓报错归因。实际审计仅当主要审阅对象是 LLM/Agent 指令、能力定义、执行链或已有运行证据，且用户明确要求可靠性失效审计，或材料中已有可引用的具体失效信号。识别假完成或自我验收、篡改验收标准、冻结输入结论冲突、证据缺失或重复、虚假独立审阅及交接丢要求；普通源码或架构评审、技能编写与单次确定性报错均不进入失效审计。",
   "decision_codes": {
     "ENTER_EXPLICIT": "对象在范围内，用户明确要求可靠性失效审计",
     "ENTER_OBSERVED_SIGNAL": "对象在范围内，材料中已有可引用的具体失效信号",
@@ -48,12 +48,12 @@
   ],
   "service_intents": {
     "HELP": {
-      "description": "说明用途、输入、三种审计模式、副作用、使用前提和下一入口",
+      "description": "说明用途、输入、三种审计模式、副作用、跨仓报错归因工具与最短调用方式",
       "terminal": true,
       "creates_audit_artifacts": false
     },
     "SETUP_CHECK": {
-      "description": "只读检查当前 SFA 的 Python、SFA_FOUNDATION_NODE 无软链绝对实路径、Node pin 精确版本、必要材料和新输出目录前提",
+      "description": "只读检查当前 SFA 的 Python、SFA_FOUNDATION_NODE 无软链绝对实路径（或 PATH 动态发现）、foundation-pin.json 的 nodeRange、必要材料和新输出目录前提",
       "terminal": true,
       "creates_audit_artifacts": false
     },
@@ -63,11 +63,11 @@
       "creates_audit_artifacts": false
     },
     "AUDIT": {
-      "description": "经过适用性门禁后，按 static、runtime 或 combined 模式进入同一审计流程",
+      "description": "经过适用性门禁后，按 static、runtime 或 combined 模式进入同一只读审计流程",
       "terminal": false,
       "creates_audit_artifacts": true
     }
   },
-  "service_gate": "## 使用入口\n\n先判用户要说明、检查前提、分析接入或开始诊断。按 [使用说明](references/usage-guide.md) 给出。\n\n1. 只问用途、能力或最短调用，返回 `HELP`。\n2. 只检查当前 SFA 使用前提，返回 `SETUP_CHECK`。只读 Foundation pin、Python、已有材料和 `SFA_FOUNDATION_NODE`：须存在，且为路径链无软链绝对实路径，`--version` 精确匹配 pin；否则列为继续条件。后结束；不得安装依赖、创建目标脚手架或生成审计材料。\n3. 分析怎样接入或还缺什么，返回 `ADOPTION_ANALYSIS`；不得实施安装、修改目标或手写通过证明。\n4. 审阅可靠性失效，返回 `AUDIT` 并继续适用性门禁。已显式指定模式须保留；缺材料时报告缺项与继续条件，不改写模式。仅未指定模式：只有静态定义选 `static`，只有既有运行材料选 `runtime`，两类都有选 `combined`；不足以区分时只问这一必要差异。\n\n前三个分支成功不构成审计成功，不得创建尝试、规则选择、证据索引、覆盖记录、机器结果或报告。只传业务目标不得误走说明分支。",
-  "applicability_gate": "## 适用性门禁\n\n按序判定，范围判断先于审计意图：\n\n1. 主要审阅对象须是 LLM/Agent 指令、能力定义、执行链、职责或验收链，或这些对象已产生运行证据。否则返回 `EXIT_OBJECT_OUT_OF_SCOPE`，回到原工作流。\n2. 对象在范围内，用户明确要求识别假完成、自我验收、判据改写、证据完整性、职责独立性、冻结输入冲突或交接失效，返回 `ENTER_EXPLICIT`。显式要求不扩大对象边界。\n3. 用户未明确要求，只有材料同时给出已发生声明或动作、与其冲突观察、可回读证据位置，才返回 `ENTER_OBSERVED_SIGNAL`。只有风险猜测、未来可能性或通用工程词，返回 `EXIT_AUDIT_INTENT_ABSENT`。\n\n两个退出结果不得创建尝试、规则选择、证据索引、覆盖记录、机器结果或审计报告。`novel_hypotheses`、`next_probe` 与上次审计结论只供调查线索，不自动启动下一轮审计、试验、整改或架构复核。"
+  "service_gate": "## 使用入口\n\n先按意图分流，回复要求见 [使用说明](references/usage-guide.md)：\n\n1. 询问用途、边界或最短调用，返回 `HELP` 后结束。遇到跨宿主、注册表、Foundation、制品图谱或发布门禁报错，按 [跨仓归因](references/cross-repo-triage.md) 用 `triage_symptom.py` 只读定责。\n2. 检查环境能否运行 SFA，返回 `SETUP_CHECK`。只读核对 Python、材料及 Node.js（优先核对 `SFA_FOUNDATION_NODE` 无软链绝对实路径，未设置时从 `PATH` 动态发现匹配 `foundation-pin.json` 的 `nodeRange`（`>=22.22.2 <23`），不符列为继续条件），随后结束；不得安装依赖、建脚手架或写审计材料。\n3. 评估接入现状与缺口，返回 `ADOPTION_ANALYSIS`；不得实施安装、改目标或手写通过证明。\n4. 请求失效诊断，返回 `AUDIT` 并进入适用性门禁。显式指定的模式须保留，缺材料报缺项与继续条件，不换模式；未指定模式时，仅静态定义选 `static`，仅运行材料选 `runtime`，两类都有选 `combined`，难区分只问这一项差异。\n\n前三个分支完成不代表审计通过，不得创建尝试、规则选择、证据索引、覆盖记录、机器结果或报告；只传待审目标不得误入说明分支。",
+  "applicability_gate": "## 适用性门禁\n\n先判对象范围，再判审计意图：\n\n1. 主要审阅对象须是 LLM/Agent 指令、能力定义、执行与验收链，或它们已产生的运行证据；否则返回 `EXIT_OBJECT_OUT_OF_SCOPE` 并退回原流程。\n2. 对象在范围内，且用户明确要求查假完成、自我验收、标准改写、证据完整、职责独立、冻结输入冲突或交接丢要求，返回 `ENTER_EXPLICIT`。显式要求不扩大对象范围。\n3. 未明确要求时，仅当材料同时含“已发生声明或动作、冲突观察、可回读证据位置”三要素才返回 `ENTER_OBSERVED_SIGNAL`；仅有风险猜测返回 `EXIT_AUDIT_INTENT_ABSENT`。\n\n两个退出分支不得创建尝试、规则选择、证据索引、覆盖记录、机器结果或审计报告。历史结论、`novel_hypotheses` 与 `next_probe` 只供排查线索，不自动启动下一轮审计、试验或复核。"
 }

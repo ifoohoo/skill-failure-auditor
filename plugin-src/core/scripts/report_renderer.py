@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
-"""Render a validated audit-result JSON into a human-readable Markdown report."""
+"""将已通过 validate-result 校验的机器审计结果渲染为结论前置的中文报告。"""
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
+import stat
 import sys
 from pathlib import Path
 from typing import Any
 
-from common import ContractError, load_json
-from foundation_client import foundation_publish_file_exclusive
+from common import ContractError, load_json, strict_json_loads
+from foundation_client import foundation_publish_file_exclusive, require_production_validate
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_REGISTRY = SCRIPT_DIR.parent / "references" / "failure-modes.jsonl"
+AUDIT_SCHEMA = SCRIPT_DIR.parent / "references" / "audit-result.schema.json"
 
 CONCLUSION_EXPLANATIONS = {
     "PASS_WITHIN_FROZEN_SCOPE": "冻结范围内的必过检查全部通过（不代表普遍正确）",
@@ -22,6 +25,24 @@ CONCLUSION_EXPLANATIONS = {
     "REJECT": "命中红线组合或存在结构性缺陷，需要重写",
     "INCOMPLETE": "证据、覆盖或检查不完整，无法下最终结论",
     "BLOCKED": "缺少权限、独立性或外部状态，无法形成有效结论",
+}
+
+NEXT_ACTION_BY_CONCLUSION = {
+    "PASS_WITHIN_FROZEN_SCOPE": (
+        "审计器只负责诊断，不直接签发接受决定；请将本报告与冻结证据交由外部独立终审职责完成最终验收。"
+    ),
+    "NEEDS_REVISION": (
+        "请受审目标维护者对照下文「逐条发现」完成最小必要修改，随后使用新的输出目录与尝试编号重新送审。"
+    ),
+    "REJECT": (
+        "请受审目标维护者先重构命中红线或结构缺陷的验收与职责设计，补齐可执行验收工件后再重新送审。"
+    ),
+    "INCOMPLETE": (
+        "请调用方补齐下文「未完成事项」列出的缺失证据或未覆盖分片后，在新的输出目录重新发起审计。"
+    ),
+    "BLOCKED": (
+        "请调用方先解除权限、独立审阅职责或外部绑定前置条件，再由具备相应条件的职责继续处理。"
+    ),
 }
 
 STATUS_EXPLANATIONS = {
@@ -59,14 +80,31 @@ MODE_SCOPE_EXPLANATIONS = {
 
 
 def load_registry_names(registry_path: Path) -> dict[str, str]:
+    if registry_path.is_symlink() or not registry_path.is_file():
+        raise ContractError(f"registry path must be a regular non-symlink file: {registry_path}")
+    flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        fd = os.open(registry_path, flags)
+    except OSError as error:
+        raise ContractError(f"unable to open registry safely: {registry_path}: {error}") from error
     names: dict[str, str] = {}
-    with registry_path.open("r", encoding="utf-8") as handle:
-        for line in handle:
-            line = line.strip()
-            if not line:
-                continue
-            entry = json.loads(line)
-            names[entry["id"]] = entry.get("name_zh", entry["id"])
+    try:
+        st = os.fstat(fd)
+        if not stat.S_ISREG(st.st_mode):
+            raise ContractError(f"registry path must be a regular file: {registry_path}")
+        with os.fdopen(fd, "r", encoding="utf-8", closefd=True) as handle:
+            fd = -1
+            for line_number, line in enumerate(handle, 1):
+                physical = line.rstrip("\r\n")
+                if not physical.strip():
+                    raise ContractError(f"{registry_path}:{line_number}: blank JSONL line")
+                entry = strict_json_loads(physical, f"{registry_path}:{line_number}")
+                if not isinstance(entry, dict) or not isinstance(entry.get("id"), str) or not entry["id"]:
+                    raise ContractError(f"{registry_path}:{line_number}: invalid registry entry")
+                names[entry["id"]] = entry.get("name_zh", entry["id"])
+    finally:
+        if fd >= 0:
+            os.close(fd)
     return names
 
 
@@ -83,8 +121,6 @@ def format_ref(ref: Any) -> str:
     if isinstance(ref, dict):
         return f"分片 {ref.get('chunk_id', '?')}"
     return str(ref)
-
-
 def render(result: dict[str, Any], names: dict[str, str]) -> str:
     lines: list[str] = []
     rule_results = result["known_rule_results"]
@@ -97,6 +133,7 @@ def render(result: dict[str, Any], names: dict[str, str]) -> str:
     ]
     conclusion = result["conclusion"]
     conclusion_text = CONCLUSION_EXPLANATIONS.get(conclusion, conclusion)
+    next_action = NEXT_ACTION_BY_CONCLUSION.get(conclusion, "请结合下文核查明细由对应职责继续处理。")
 
     lines.append("# 审计报告")
     lines.append("")
@@ -119,10 +156,12 @@ def render(result: dict[str, Any], names: dict[str, str]) -> str:
 
     lines.append("## 结论")
     lines.append("")
-    lines.append(f"**{conclusion}** —— {conclusion_text}。")
+    lines.append(f"- **总体结论**：**{conclusion}** —— {conclusion_text}。")
+    lines.append(f"- **责任归属与下一步**：{next_action}")
     if result.get("self_audit"):
-        lines.append("")
-        lines.append("注意：这是技能对自身的一次审计，结论只能提交外部复核，不能作为接受依据。")
+        lines.append(
+            "- **自审声明**：本次审阅对象为审计技能自身或其同源副本，结论仅用于提交外部复核，不能作为接受依据。"
+        )
     lines.append("")
 
     lines.append("## 结论适用范围")
@@ -144,7 +183,7 @@ def render(result: dict[str, Any], names: dict[str, str]) -> str:
         severity = SEVERITY_EXPLANATIONS.get(item["severity"], item["severity"])
         lines.append(f"### {index}. {rule_label(item, names)}（严重度：{severity}）")
         lines.append("")
-        lines.append(f"- 问题：{item['reason']}")
+        lines.append(f"- 故障与修复建议：{item['reason']}")
         refs = item.get("evidence_refs", [])
         if refs:
             rendered_refs = "、".join(format_ref(ref) for ref in refs)
@@ -214,14 +253,29 @@ def render(result: dict[str, Any], names: dict[str, str]) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, required=True, help="validated audit-result JSON")
-    parser.add_argument("--output", type=Path, required=True, help="human-readable Markdown report path")
-    parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
+    parser.add_argument(
+        "--input",
+        type=Path,
+        required=True,
+        help="已通过 evaluation_tool.py validate-result 校验的 audit-result.json 文件路径。",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        required=True,
+        help="待新建的中文审计报告输出路径（目标文件不得预先存在）。",
+    )
+    parser.add_argument(
+        "--registry",
+        type=Path,
+        default=DEFAULT_REGISTRY,
+        help="用于映射中文规则名称的 failure-modes.jsonl 路径。",
+    )
     args = parser.parse_args()
     try:
         result = load_json(args.input)
-        if not isinstance(result, dict) or "known_rule_results" not in result:
-            raise ContractError("input is not an audit-result JSON object")
+        schema = load_json(AUDIT_SCHEMA)
+        require_production_validate(result, schema)
         names = load_registry_names(args.registry)
         report = render(result, names)
         foundation_publish_file_exclusive(args.output, report.encode("utf-8"), mode=0o644)

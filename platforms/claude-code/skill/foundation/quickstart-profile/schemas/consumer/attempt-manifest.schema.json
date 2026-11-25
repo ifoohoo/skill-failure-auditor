@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "attempt-manifest.schema.json",
   "title": "Technical Attempt Manifest",
+  "description": "单次审计或评测尝试的只读追记清单契约，绑定候选输入摘要、验收标准承诺摘要与允许写入范围。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -16,19 +17,23 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "1.0"
+      "const": "1.0",
+      "description": "尝试清单结构版本号，固定为 1.0。"
     },
     "attempt_id": {
       "type": "string",
-      "pattern": "^ATTEMPT-[A-Z0-9][A-Z0-9._-]+$"
+      "pattern": "^ATTEMPT-[A-Z0-9][A-Z0-9._-]+$",
+      "description": "唯一尝试编号（形如 ATTEMPT-001），失败封存后重试必须换用新编号。"
     },
     "candidate_sha256": {
       "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "受审目标文件集在创建尝试时的 64 位小写 SHA-256 摘要。"
     },
     "criteria_commitment_sha256": {
       "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "实现或审阅开始前冻结的验收标准承诺文件 SHA-256 摘要。"
     },
     "allowed_write_set": {
       "type": "array",
@@ -37,19 +42,23 @@
       "items": {
         "type": "string",
         "minLength": 1
-      }
+      },
+      "description": "本次尝试允许写入的规范化相对路径集合，禁止越界写入受审目标。"
     },
     "created_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "尝试创建时间戳（ISO 8601 UTC 格式）。"
     },
     "created_by": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "创建本次尝试的执行者或审阅职责标识。"
     },
     "manifest_sha256": {
       "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "剔除本字段后对规范 JSON 计算的自校验 SHA-256 摘要。"
     }
   }
 }

@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "failure-mode.schema.json",
   "title": "Failure Mode Registry Entry",
+  "description": "失效模式规则表（failure-modes.jsonl）单条规则契约，定义适用范围、可观察信号、必查证据、证伪条件与变异算子。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -26,19 +27,23 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^(FM-(0[1-9]|1[0-9]|2[0-8])|SYN-[0-9]{4})$"
+      "pattern": "^(FM-(0[1-9]|1[0-9]|2[0-8])|SYN-[0-9]{4})$",
+      "description": "失效模式唯一编号：内置规则为 FM-01 至 FM-28，扩展合成规则为 SYN-XXXX。"
     },
     "revision": {
       "type": "integer",
-      "minimum": 1
+      "minimum": 1,
+      "description": "规则定义修订号；内置规则修订号受 builtin-registry-lock.json 锁定。"
     },
     "name_zh": {
       "type": "string",
-      "minLength": 2
+      "minLength": 2,
+      "description": "面向人类报告展示的中文直观名称。"
     },
     "legacy_definition": {
       "type": "string",
-      "minLength": 4
+      "minLength": 4,
+      "description": "规则核心失效机理的一句话中文定义。"
     },
     "category": {
       "type": "string",
@@ -51,16 +56,19 @@
         "runtime_governance",
         "evidence_integrity",
         "meta_governance"
-      ]
+      ],
+      "description": "所属八大可靠性失效维度枚举。"
     },
     "severity": {
       "type": "string",
-      "enum": ["critical", "high", "medium", "low"]
+      "enum": ["critical", "high", "medium", "low"],
+      "description": "严重度等级；critical 与 high 未检查时禁止给出通过结论。"
     },
     "priority": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 100
+      "maximum": 100,
+      "description": "容量受限时的规则路由优先级（1-100，数值越大越优先）。"
     },
     "modes": {
       "type": "array",
@@ -69,10 +77,12 @@
       "items": {
         "type": "string",
         "enum": ["static", "runtime", "combined"]
-      }
+      },
+      "description": "可检查该规则的审计模式集合。"
     },
     "applies_when": {
       "type": "object",
+      "description": "规则生效的目标类型、证据类型与触发前提。",
       "additionalProperties": false,
       "required": ["target_types", "evidence_types", "conditions"],
       "properties": {
@@ -98,17 +108,20 @@
     "falsifiers": {
       "type": "array",
       "minItems": 1,
-      "items": {"type": "string", "minLength": 2}
+      "items": {"type": "string", "minLength": 2},
+      "description": "足以排除该失效模式存在的反证条件。"
     },
     "required_evidence": {
       "type": "array",
       "minItems": 1,
-      "items": {"type": "string", "minLength": 2}
+      "items": {"type": "string", "minLength": 2},
+      "description": "做出命中或未命中判定前必须核实的材料。"
     },
     "observable_signals": {
       "type": "array",
       "minItems": 1,
-      "items": {"type": "string", "minLength": 2}
+      "items": {"type": "string", "minLength": 2},
+      "description": "提示可能发生该失效模式的具体可观察迹象。"
     },
     "conflicts_with": {
       "type": "array",
@@ -116,7 +129,8 @@
       "items": {
         "type": "string",
         "pattern": "^(FM-(0[1-9]|1[0-9]|2[0-8])|SYN-[0-9]{4})$"
-      }
+      },
+      "description": "互斥规则编号列表（必须双向对称声明）。"
     },
     "depends_on": {
       "type": "array",
@@ -124,11 +138,13 @@
       "items": {
         "type": "string",
         "pattern": "^(FM-(0[1-9]|1[0-9]|2[0-8])|SYN-[0-9]{4})$"
-      }
+      },
+      "description": "选中本规则时必须一并纳入闭包的前置规则列表。"
     },
     "mutation_operators": {
       "type": "array",
       "minItems": 1,
+      "description": "用于回归验证审计器检出能力的缺陷注入算子。",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -144,11 +160,13 @@
       }
     },
     "core_redline": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "是否属于任何审计都不得裁掉的 11 条核心必查红线。"
     },
     "guidance_ref": {
       "type": "string",
-      "pattern": "^references/[a-z0-9-]+\\.md$"
+      "pattern": "^references/[a-z0-9-]+\\.md$",
+      "description": "关联的判断指南相对路径。"
     }
   }
 }

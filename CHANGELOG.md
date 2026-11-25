@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.1.18 - 2026-11-25
+
+- 清退公开包与 `triage_symptom.py`、`symptom-triage-bundle.schema.json`、跨仓归因文档及中英文 README 中的专有仓库名称字面量：将 `PYTHON_OVERRIDE_INVALID` 及通用领域插件错误码收敛至中立的 `domain-skill-plugin` 归属层，并支持通过环境变量 `SFA_CUSTOM_TRIAGE_PREFIXES` 无侵入注入自定义错误码前缀映射。
+- 从 `build_public_candidate.py` 公开候选载荷中排除内部单元测试目录 `plugin-src/core/scripts/tests/`，并在 `leakage-scan`、`public-boundary.json` 与候选构建器中新增专有项目名与本机外置卷路径阻断规则。
+
+## 1.1.17 - 2026-11-24
+
+- 修复 `triage_symptom.py` 中 Foundation 版本落后提示（`versionUpgradeHint`）的触发盲区并细化因果措辞：补充 `skill-family-(contracts|harness-node|engineering-kit|kit)` 信号与主责仓 `skill-family-foundation` 触发路径，按宿主信号与 CLI/`SFC*`/契约/漂移信号分别提示新宿主适配支持或 `0.39.0 四顶层 CLI 收敛与新版契约校验支持`。
+- 修正 `triage_symptom.py` 在 `agent-method-registry` 归因下推荐的只读排查命令为公开 CLI `npx agent-method-registry resolve --index <index.json> --ref <id> --host codex`。
+
+## 1.1.16 - 2026-11-24
+
+- 在 `triage_symptom.py` 跨仓归因诊断中新增底座版本落后因果提醒（`versionUpgradeHint`）：当目标工作区 `package.json` 锁定的 Foundation（`< 0.39.0`）、`artifact-graph`（`< 1.2.0`）或 `agent-method-registry`（`< 0.3.0`）低于修复新宿主或双向血缘对齐能力的版本且症状命中宿主/清单/对齐信号时，在 JSON 报告与中文诊断单中给出精准版本升级建议。
+
+## 1.1.15 - 2026-11-24
+
+- `foundation_client.py` 与测试改按 `foundation-pin.json` 的 `nodeRange`（`>=22.22.2 <23`）校验并支持从 `PATH` 动态发现匹配 Node.js，取消硬编码路径与单一补丁版本锁定。
+- 加固 `triage_symptom.py`：`bundle_files` 落盘与标准输出完全对齐，扩充十宿主环境探测、新增四类生态仓库归因、强化口令/含空格主目录脱敏，并向外部工作区输出通用只读排查建议。
+- 修复 `evaluation_tool.py` 演进候选自审识别与 `report_renderer.py` 输入 Schema 前置校验及规则表软链接防御；将包根 `plugin.json` 纳入 `version_source.mjs` 一致性核对，并在 `verify.mjs` 增设源码与当前候选一致性检查。
+
 ## 1.1.14 - 2026-10-13
 
 - 将审计入口正文压缩至 2000 词元预算内。压缩前该正文超出预算 90 词元。

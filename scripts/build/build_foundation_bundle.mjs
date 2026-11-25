@@ -170,8 +170,42 @@ function migrationFromPin(current, pin) {
   };
 }
 
+function parseSemverTuple(raw) {
+  const match = String(raw).trim().match(/^v?(\d+)\.(\d+)\.(\d+)$/u);
+  if (!match) return null;
+  return [Number(match[1]), Number(match[2]), Number(match[3])];
+}
+
+function cmpSemverTuple(left, right) {
+  for (let i = 0; i < 3; i += 1) {
+    if (left[i] !== right[i]) return left[i] - right[i];
+  }
+  return 0;
+}
+
+function satisfiesNodeRange(versionString, rangeExpr) {
+  const actual = parseSemverTuple(versionString);
+  if (!actual || typeof rangeExpr !== "string" || !rangeExpr.trim()) return false;
+  for (const token of rangeExpr.trim().split(/\s+/u)) {
+    const m = token.match(/^(>=|<=|>|<|=)?v?(\d+)(?:\.(\d+))?(?:\.(\d+))?$/u);
+    if (!m) return false;
+    const op = m[1] || "=";
+    const bound = [Number(m[2]), Number(m[3] || 0), Number(m[4] || 0)];
+    const cmp = cmpSemverTuple(actual, bound);
+    if (op === ">=" && cmp < 0) return false;
+    if (op === "<=" && cmp > 0) return false;
+    if (op === ">" && cmp <= 0) return false;
+    if (op === "<" && cmp >= 0) return false;
+    if (op === "=" && cmp !== 0) return false;
+  }
+  return true;
+}
+
 async function validateInstall({ installRoot, packageRoot, tarballs, pin }) {
-  if (process.version !== pin.runtime.node) fail(`Node ${process.version} does not match ${pin.runtime.node}`);
+  const requiredRange = pin?.runtime?.nodeRange;
+  if (!satisfiesNodeRange(process.version, requiredRange)) {
+    fail(`Node ${process.version} does not satisfy ${requiredRange ?? pin?.runtime?.node ?? "pin"}`);
+  }
   const installManifest = await readJson(path.join(installRoot, "package.json"));
   if (installManifest.packageManager !== `pnpm@${pin.runtime.pnpm}`) fail("isolated pnpm pin mismatch");
   const pinnedByTarball = new Map(pin.packages.map((item) => [item.tarball, item]));

@@ -6,11 +6,11 @@
     "claude-code": {
       "platformId": "claude-code",
       "status": "assembled",
-      "fileCount": 92,
+      "fileCount": 95,
       "files": [
         {
           "path": "platform-manifest.json",
-          "sha256": "3cfcefb9e21d951a7fa8a4fba2a7a552ff0bb15516e46d2c5508ce5bb11b2884",
+          "sha256": "00e857c99620f509558a21118270ade2fb654bd01c5472f8e7f8a098605ab6f5",
           "source": "platforms/claude-code/platform-manifest.json"
         },
         {
@@ -20,17 +20,17 @@
         },
         {
           "path": "skill/.claude-plugin/plugin.json",
-          "sha256": "e28dec7aedaac51b21226cecc8b66479b0c12f68e59baf7c5dd015e88e260549",
+          "sha256": "6b1658d0a4ad9faaf9c94d3e9f51fba72d2f34c52583d8bf5c976adefe19501d",
           "source": "platforms/claude-code/.claude-plugin/plugin.json"
         },
         {
           "path": "skill/SKILL.md",
-          "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+          "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
           "source": "core/SKILL.md"
         },
         {
           "path": "skill/foundation/foundation-pin.json",
-          "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+          "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
           "source": "core/foundation/foundation-pin.json"
         },
         {
@@ -45,7 +45,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/foundation-projection.json",
-          "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+          "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
           "source": "core/foundation/quickstart-profile/foundation-projection.json"
         },
         {
@@ -125,7 +125,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-          "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+          "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
           "source": "core/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
         },
         {
@@ -240,22 +240,22 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-          "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+          "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
           "source": "core/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-          "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+          "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
           "source": "core/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-          "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+          "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
           "source": "core/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-          "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+          "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
           "source": "core/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
         },
         {
@@ -265,7 +265,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-          "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+          "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
           "source": "core/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
         },
         {
@@ -360,17 +360,17 @@
         },
         {
           "path": "skill/package.json",
-          "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+          "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
           "source": "package.json"
         },
         {
           "path": "skill/references/attempt-manifest.schema.json",
-          "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+          "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
           "source": "core/references/attempt-manifest.schema.json"
         },
         {
           "path": "skill/references/audit-result.schema.json",
-          "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+          "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
           "source": "core/references/audit-result.schema.json"
         },
         {
@@ -380,22 +380,27 @@
         },
         {
           "path": "skill/references/context-continuation.md",
-          "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+          "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
           "source": "core/references/context-continuation.md"
         },
         {
           "path": "skill/references/continuation-package.schema.json",
-          "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+          "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
           "source": "core/references/continuation-package.schema.json"
         },
         {
+          "path": "skill/references/cross-repo-triage.md",
+          "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+          "source": "core/references/cross-repo-triage.md"
+        },
+        {
           "path": "skill/references/evaluation-integrity.md",
-          "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+          "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
           "source": "core/references/evaluation-integrity.md"
         },
         {
           "path": "skill/references/failure-mode.schema.json",
-          "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+          "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
           "source": "core/references/failure-mode.schema.json"
         },
         {
@@ -405,86 +410,96 @@
         },
         {
           "path": "skill/references/report-contract.md",
-          "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+          "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
           "source": "core/references/report-contract.md"
         },
         {
           "path": "skill/references/runtime-supervision.md",
-          "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+          "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
           "source": "core/references/runtime-supervision.md"
         },
         {
           "path": "skill/references/self-iteration-protocol.md",
-          "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+          "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
           "source": "core/references/self-iteration-protocol.md"
         },
         {
           "path": "skill/references/source-manifest.schema.json",
-          "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+          "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
           "source": "core/references/source-manifest.schema.json"
         },
         {
           "path": "skill/references/taxonomy-index.md",
-          "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+          "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
           "source": "core/references/taxonomy-index.md"
         },
         {
           "path": "skill/references/usage-guide.md",
-          "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+          "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
           "source": "core/references/usage-guide.md"
         },
         {
           "path": "skill/scripts/attempt_tool.py",
-          "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+          "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
           "source": "core/scripts/attempt_tool.py"
         },
         {
           "path": "skill/scripts/common.py",
-          "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+          "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
           "source": "core/scripts/common.py"
         },
         {
           "path": "skill/scripts/evaluation_tool.py",
-          "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+          "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
           "source": "core/scripts/evaluation_tool.py"
         },
         {
           "path": "skill/scripts/evidence_tool.py",
-          "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+          "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
           "source": "core/scripts/evidence_tool.py"
         },
         {
           "path": "skill/scripts/foundation_client.py",
-          "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+          "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
           "source": "core/scripts/foundation_client.py"
         },
         {
           "path": "skill/scripts/registry_tool.py",
-          "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+          "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
           "source": "core/scripts/registry_tool.py"
         },
         {
           "path": "skill/scripts/report_renderer.py",
-          "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+          "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
           "source": "core/scripts/report_renderer.py"
+        },
+        {
+          "path": "skill/scripts/triage-symptom.mjs",
+          "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+          "source": "core/scripts/triage-symptom.mjs"
+        },
+        {
+          "path": "skill/scripts/triage_symptom.py",
+          "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+          "source": "core/scripts/triage_symptom.py"
         }
       ],
-      "treeDigest": "5d2cba25c8613a189553cc3618c50e09c8b0944df667b217dd36772a5fa383a8",
-      "projectionDigest": "95484c13edae7dcfcf842c15ee5ccdc03e4694f5e6fd272bccca7ae44e74054e"
+      "treeDigest": "a696c85cf32fcc474f4e6d12ccb8b9216feae5bd8402a1652f4653a69820b78c",
+      "projectionDigest": "515b843d599191f7e0885f2eb22b9908cc9c9f207216daa30ce813cc364cdbec"
     },
     "codex": {
       "platformId": "codex",
       "status": "assembled",
-      "fileCount": 92,
+      "fileCount": 95,
       "files": [
         {
           "path": ".codex-plugin/plugin.json",
-          "sha256": "0044898dcd4f76e2d185808f89b05971e1c59a251f7791e1a636384651b925d6",
+          "sha256": "df09efefab948df94332f1c804ea6a3fd6b9c0166ce29c19f0affbec6b7ede28",
           "source": "platforms/codex/.codex-plugin/plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "05d1909cd2869dae14c51033c5ea856387b713790222ba9a192adcafd12df5ba",
+          "sha256": "24084ba0819442ed520dbf6939d59a8e4e5ee57991893485f634e654c8a25ba9",
           "source": "platforms/codex/platform-manifest.json"
         },
         {
@@ -494,12 +509,12 @@
         },
         {
           "path": "skill/SKILL.md",
-          "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+          "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
           "source": "core/SKILL.md"
         },
         {
           "path": "skill/foundation/foundation-pin.json",
-          "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+          "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
           "source": "core/foundation/foundation-pin.json"
         },
         {
@@ -514,7 +529,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/foundation-projection.json",
-          "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+          "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
           "source": "core/foundation/quickstart-profile/foundation-projection.json"
         },
         {
@@ -594,7 +609,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-          "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+          "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
           "source": "core/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
         },
         {
@@ -709,22 +724,22 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-          "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+          "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
           "source": "core/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-          "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+          "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
           "source": "core/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-          "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+          "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
           "source": "core/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-          "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+          "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
           "source": "core/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
         },
         {
@@ -734,7 +749,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-          "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+          "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
           "source": "core/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
         },
         {
@@ -829,17 +844,17 @@
         },
         {
           "path": "skill/package.json",
-          "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+          "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
           "source": "package.json"
         },
         {
           "path": "skill/references/attempt-manifest.schema.json",
-          "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+          "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
           "source": "core/references/attempt-manifest.schema.json"
         },
         {
           "path": "skill/references/audit-result.schema.json",
-          "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+          "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
           "source": "core/references/audit-result.schema.json"
         },
         {
@@ -849,22 +864,27 @@
         },
         {
           "path": "skill/references/context-continuation.md",
-          "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+          "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
           "source": "core/references/context-continuation.md"
         },
         {
           "path": "skill/references/continuation-package.schema.json",
-          "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+          "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
           "source": "core/references/continuation-package.schema.json"
         },
         {
+          "path": "skill/references/cross-repo-triage.md",
+          "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+          "source": "core/references/cross-repo-triage.md"
+        },
+        {
           "path": "skill/references/evaluation-integrity.md",
-          "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+          "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
           "source": "core/references/evaluation-integrity.md"
         },
         {
           "path": "skill/references/failure-mode.schema.json",
-          "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+          "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
           "source": "core/references/failure-mode.schema.json"
         },
         {
@@ -874,91 +894,101 @@
         },
         {
           "path": "skill/references/report-contract.md",
-          "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+          "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
           "source": "core/references/report-contract.md"
         },
         {
           "path": "skill/references/runtime-supervision.md",
-          "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+          "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
           "source": "core/references/runtime-supervision.md"
         },
         {
           "path": "skill/references/self-iteration-protocol.md",
-          "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+          "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
           "source": "core/references/self-iteration-protocol.md"
         },
         {
           "path": "skill/references/source-manifest.schema.json",
-          "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+          "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
           "source": "core/references/source-manifest.schema.json"
         },
         {
           "path": "skill/references/taxonomy-index.md",
-          "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+          "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
           "source": "core/references/taxonomy-index.md"
         },
         {
           "path": "skill/references/usage-guide.md",
-          "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+          "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
           "source": "core/references/usage-guide.md"
         },
         {
           "path": "skill/scripts/attempt_tool.py",
-          "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+          "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
           "source": "core/scripts/attempt_tool.py"
         },
         {
           "path": "skill/scripts/common.py",
-          "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+          "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
           "source": "core/scripts/common.py"
         },
         {
           "path": "skill/scripts/evaluation_tool.py",
-          "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+          "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
           "source": "core/scripts/evaluation_tool.py"
         },
         {
           "path": "skill/scripts/evidence_tool.py",
-          "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+          "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
           "source": "core/scripts/evidence_tool.py"
         },
         {
           "path": "skill/scripts/foundation_client.py",
-          "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+          "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
           "source": "core/scripts/foundation_client.py"
         },
         {
           "path": "skill/scripts/registry_tool.py",
-          "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+          "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
           "source": "core/scripts/registry_tool.py"
         },
         {
           "path": "skill/scripts/report_renderer.py",
-          "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+          "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
           "source": "core/scripts/report_renderer.py"
+        },
+        {
+          "path": "skill/scripts/triage-symptom.mjs",
+          "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+          "source": "core/scripts/triage-symptom.mjs"
+        },
+        {
+          "path": "skill/scripts/triage_symptom.py",
+          "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+          "source": "core/scripts/triage_symptom.py"
         }
       ],
-      "treeDigest": "5ebc7f00d0bcd114e0922011efb81811ec8b81f1ada1773bda126db0fc3a74c2",
-      "projectionDigest": "78a377165454c10693e91b4508141f1244ff715516c8c193c98b4eac8c70d491"
+      "treeDigest": "c512cbc4a687e121af72362337943e709ebc834381a1213fdc195e5f3d072063",
+      "projectionDigest": "e881bd1cbfd214a0f84e98305d4a47a4f64468e0ee14defb9d71efde8e44e3a0"
     },
     "kimi-code": {
       "platformId": "kimi-code",
       "status": "assembled",
-      "fileCount": 93,
+      "fileCount": 96,
       "files": [
         {
           "path": ".kimi-plugin/plugin.json",
-          "sha256": "f394d21b818d6bba511b6245deecbfb3fc3757e622319fde1c8af105aff7b909",
+          "sha256": "32d8f49f4a1180ae33afa36e32a01415c5751d8af075c20cbaa79739303a7170",
           "source": "generated-from:kimi.plugin.json"
         },
         {
           "path": "kimi.plugin.json",
-          "sha256": "c444d4d51fa9d58a8d36f7992d01bd6c9e349266b4e21f0d80d64b2db65889a9",
+          "sha256": "769188a08c99cdaa625515f023545ca17dd4f9f402de64c4c25ccb7b9077db1f",
           "source": "platforms/kimi-code/kimi.plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "bd3a0dbafaf0ba84604f057c42b59eb2f5ee6bd505d2152418c5e541e4dc1fce",
+          "sha256": "66cb5741ce6b0896e31e96785d729d35070eb1c671853658d7f74139ecd489a0",
           "source": "platforms/kimi-code/platform-manifest.json"
         },
         {
@@ -968,12 +998,12 @@
         },
         {
           "path": "skill/SKILL.md",
-          "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+          "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
           "source": "core/SKILL.md"
         },
         {
           "path": "skill/foundation/foundation-pin.json",
-          "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+          "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
           "source": "core/foundation/foundation-pin.json"
         },
         {
@@ -988,7 +1018,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/foundation-projection.json",
-          "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+          "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
           "source": "core/foundation/quickstart-profile/foundation-projection.json"
         },
         {
@@ -1068,7 +1098,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-          "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+          "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
           "source": "core/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
         },
         {
@@ -1183,22 +1213,22 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-          "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+          "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
           "source": "core/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-          "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+          "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
           "source": "core/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-          "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+          "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
           "source": "core/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-          "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+          "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
           "source": "core/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
         },
         {
@@ -1208,7 +1238,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-          "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+          "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
           "source": "core/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
         },
         {
@@ -1303,17 +1333,17 @@
         },
         {
           "path": "skill/package.json",
-          "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+          "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
           "source": "package.json"
         },
         {
           "path": "skill/references/attempt-manifest.schema.json",
-          "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+          "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
           "source": "core/references/attempt-manifest.schema.json"
         },
         {
           "path": "skill/references/audit-result.schema.json",
-          "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+          "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
           "source": "core/references/audit-result.schema.json"
         },
         {
@@ -1323,22 +1353,27 @@
         },
         {
           "path": "skill/references/context-continuation.md",
-          "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+          "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
           "source": "core/references/context-continuation.md"
         },
         {
           "path": "skill/references/continuation-package.schema.json",
-          "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+          "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
           "source": "core/references/continuation-package.schema.json"
         },
         {
+          "path": "skill/references/cross-repo-triage.md",
+          "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+          "source": "core/references/cross-repo-triage.md"
+        },
+        {
           "path": "skill/references/evaluation-integrity.md",
-          "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+          "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
           "source": "core/references/evaluation-integrity.md"
         },
         {
           "path": "skill/references/failure-mode.schema.json",
-          "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+          "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
           "source": "core/references/failure-mode.schema.json"
         },
         {
@@ -1348,86 +1383,96 @@
         },
         {
           "path": "skill/references/report-contract.md",
-          "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+          "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
           "source": "core/references/report-contract.md"
         },
         {
           "path": "skill/references/runtime-supervision.md",
-          "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+          "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
           "source": "core/references/runtime-supervision.md"
         },
         {
           "path": "skill/references/self-iteration-protocol.md",
-          "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+          "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
           "source": "core/references/self-iteration-protocol.md"
         },
         {
           "path": "skill/references/source-manifest.schema.json",
-          "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+          "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
           "source": "core/references/source-manifest.schema.json"
         },
         {
           "path": "skill/references/taxonomy-index.md",
-          "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+          "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
           "source": "core/references/taxonomy-index.md"
         },
         {
           "path": "skill/references/usage-guide.md",
-          "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+          "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
           "source": "core/references/usage-guide.md"
         },
         {
           "path": "skill/scripts/attempt_tool.py",
-          "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+          "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
           "source": "core/scripts/attempt_tool.py"
         },
         {
           "path": "skill/scripts/common.py",
-          "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+          "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
           "source": "core/scripts/common.py"
         },
         {
           "path": "skill/scripts/evaluation_tool.py",
-          "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+          "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
           "source": "core/scripts/evaluation_tool.py"
         },
         {
           "path": "skill/scripts/evidence_tool.py",
-          "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+          "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
           "source": "core/scripts/evidence_tool.py"
         },
         {
           "path": "skill/scripts/foundation_client.py",
-          "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+          "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
           "source": "core/scripts/foundation_client.py"
         },
         {
           "path": "skill/scripts/registry_tool.py",
-          "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+          "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
           "source": "core/scripts/registry_tool.py"
         },
         {
           "path": "skill/scripts/report_renderer.py",
-          "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+          "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
           "source": "core/scripts/report_renderer.py"
+        },
+        {
+          "path": "skill/scripts/triage-symptom.mjs",
+          "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+          "source": "core/scripts/triage-symptom.mjs"
+        },
+        {
+          "path": "skill/scripts/triage_symptom.py",
+          "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+          "source": "core/scripts/triage_symptom.py"
         }
       ],
-      "treeDigest": "df06be3819bf714c70469a32c3099f2da4b54211cc6a9e4d659d316167a9fd7f",
-      "projectionDigest": "ec7d21f0c89cb71e167c9e856d279e17c12d0810e1d2a96a408467a976ac7a4a"
+      "treeDigest": "3e5d2c115c84e35db18947e2fe4688c9786c3b0dc42660f45af9b731e660521a",
+      "projectionDigest": "f4feb77e9b6a6cfe7d889185a5ca0be2d5caa5f8ae1aac380cc41d996a9f5173"
     },
     "workbuddy": {
       "platformId": "workbuddy",
       "status": "assembled",
-      "fileCount": 92,
+      "fileCount": 95,
       "files": [
         {
           "path": ".codebuddy-plugin/plugin.json",
-          "sha256": "a5b9a46775f742008fd15077cf8f370ed86b6e0cda1fde1fd02262d8923a4038",
+          "sha256": "d3dbb8ba5720c8522528b533e4ffaa1f35dadd054060bb4d0d311293a62d38ca",
           "source": "platforms/workbuddy/.codebuddy-plugin/plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "c13186f9070d7fa8090764d858c05bc46564821a68f97bca009225409cbc0e54",
+          "sha256": "2ef02bf4b03282a2303f2848257b672acd507607a129023bf8fe18309244e671",
           "source": "platforms/workbuddy/platform-manifest.json"
         },
         {
@@ -1437,12 +1482,12 @@
         },
         {
           "path": "skill/SKILL.md",
-          "sha256": "0a1f96e10c4fa950083f40d825bb431e100aeb6de8bb5349ee4b965c89fd76a0",
+          "sha256": "c8a5b22f59e500fa32c9e1d958ddb236f90135443b608d2ba1114554f1f5a218",
           "source": "core/SKILL.md"
         },
         {
           "path": "skill/foundation/foundation-pin.json",
-          "sha256": "cc56f0c81ba3112a8704940831e3f15dd8b7f25a89a628de1a65a1996f9c2480",
+          "sha256": "8d29aaf91ce878bf99bb29bd40f344979ed2c979343073428b2b27f6c21cb638",
           "source": "core/foundation/foundation-pin.json"
         },
         {
@@ -1457,7 +1502,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/foundation-projection.json",
-          "sha256": "c147acb5d688cb4cbd68fd9120ed46633d454ef3f4a8269f84d35a2d6de82010",
+          "sha256": "4563a8139480f1f0ec769f3e851c14eb254756db114a3efad6fce0341cefd3ce",
           "source": "core/foundation/quickstart-profile/foundation-projection.json"
         },
         {
@@ -1537,7 +1582,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs",
-          "sha256": "0815f3b2add5be9ea603ecccd8ac7883f5f6edeb959c94b9f7206174024baad6",
+          "sha256": "7b32236a22a3f97d8cfefeceba60da78e2fa27acc0ae7d6b5e4c555cb275034c",
           "source": "core/foundation/quickstart-profile/runtime/generated/validate-2020-12.mjs"
         },
         {
@@ -1652,22 +1697,22 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json",
-          "sha256": "d65d63ba615e46960d862c1147d19156597c1d41361c4e7bebac7b3581e82e8a",
+          "sha256": "10ace40299595966e50ca2939937faad9fab6550871523b31120b9a01739b2b9",
           "source": "core/foundation/quickstart-profile/schemas/consumer/attempt-manifest.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json",
-          "sha256": "ee76c62cc390fe41f0363f313aad7dce08f06548a4e727c7296fc77f21ed3fbe",
+          "sha256": "2c308ef5de6e2acc5c3c153a71251e3044fca0a524bd3c421f9f2a6be33519c1",
           "source": "core/foundation/quickstart-profile/schemas/consumer/audit-result.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json",
-          "sha256": "874e61b88dcd22d028e51946d73f42991edba76f74e449b3eff733e298ea0a68",
+          "sha256": "951fa81ff0610e78743d6d0283a5f98e34da396bad6a0f013c441521c96f5780",
           "source": "core/foundation/quickstart-profile/schemas/consumer/continuation-package.schema.json"
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json",
-          "sha256": "ed6e1374bb0846febf708e8fc63cb17561bc546397a8b74bbc9ab538a6474818",
+          "sha256": "957ecc6ac9a803d0b64028c500366a1d8994e0f38e369395b1f722ed8da13c9e",
           "source": "core/foundation/quickstart-profile/schemas/consumer/failure-mode.schema.json"
         },
         {
@@ -1677,7 +1722,7 @@
         },
         {
           "path": "skill/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json",
-          "sha256": "0f73dae666b9fbbd82b7df2de133ae423398ed882d967ec5c579ed6654ac18a0",
+          "sha256": "c45045b836db351473f4b81dc2d75c2784112ea39cf291848e2e5d2712fd87a3",
           "source": "core/foundation/quickstart-profile/schemas/consumer/source-manifest.schema.json"
         },
         {
@@ -1772,17 +1817,17 @@
         },
         {
           "path": "skill/package.json",
-          "sha256": "165301cbfec80c887ddb792d6625b7035c4e2ccd1afd7eeb0a021fab060f3965",
+          "sha256": "89f27eaee1427b978e225791039bbec12432d5d24017b27a28fa3af7a52f66fc",
           "source": "package.json"
         },
         {
           "path": "skill/references/attempt-manifest.schema.json",
-          "sha256": "0f1a8d95fc57b88f9a85ff7001b0e4083e22172403c637bd43a2578b4af205c6",
+          "sha256": "d4799acd4f4dc65cf87a6f3a2179d89e1361e3595dbbdbc8496a604c763a0a5e",
           "source": "core/references/attempt-manifest.schema.json"
         },
         {
           "path": "skill/references/audit-result.schema.json",
-          "sha256": "a37b57ee402db32690b40daaa637eb438b1c4b14fbf03d41df94c41d6333173b",
+          "sha256": "d0afc3653837f20cd9410ec2080e413c3f352b6030d4994810382053d10b92bc",
           "source": "core/references/audit-result.schema.json"
         },
         {
@@ -1792,22 +1837,27 @@
         },
         {
           "path": "skill/references/context-continuation.md",
-          "sha256": "d5c42008a474303636885466992d87b326e8b4c91a007f2271b20fdc5ca86ed3",
+          "sha256": "44cc0ac0fe4453782bc1a044177e1ab9b29c5fe2f058c07846709fef68596871",
           "source": "core/references/context-continuation.md"
         },
         {
           "path": "skill/references/continuation-package.schema.json",
-          "sha256": "31964ad29a1c8d782a29322c852dbaef825db4bab12d938a91bd1f7ca8e024cc",
+          "sha256": "47770df71777eddb27fec7792c16b9210d30954dd446c047ecb9a5fc76162813",
           "source": "core/references/continuation-package.schema.json"
         },
         {
+          "path": "skill/references/cross-repo-triage.md",
+          "sha256": "20164a160b5b84ac6da58fe99e478701b2c9019614b2dfd6e483a71062c66bf2",
+          "source": "core/references/cross-repo-triage.md"
+        },
+        {
           "path": "skill/references/evaluation-integrity.md",
-          "sha256": "77d5cd52a52006f092b4c61d185da6d3ed45b6b6b6dc20cdc4dd9a837ca45018",
+          "sha256": "68ba30b7cd8a31a7609ee87856612ba90b312dcc954cfbde81c9e1173fce51f8",
           "source": "core/references/evaluation-integrity.md"
         },
         {
           "path": "skill/references/failure-mode.schema.json",
-          "sha256": "3242ef00423a2d8cc92aeb726d6e6ab07b6a16ffb543c2a3446a6b04d5ab7ad3",
+          "sha256": "3f62e0e4f5bb023b0e8fc5923cd5fed2b69d8c33e0558ecf546c723b519dd80c",
           "source": "core/references/failure-mode.schema.json"
         },
         {
@@ -1817,72 +1867,82 @@
         },
         {
           "path": "skill/references/report-contract.md",
-          "sha256": "fdcd7a9873f0d66f48b87afb53c2e9d134762027248c664d32533f7241d584c5",
+          "sha256": "7fb5a5187c409a48aa1d44a0f708fb121c7c8e02f197bd75d60c76d5d52d2f52",
           "source": "core/references/report-contract.md"
         },
         {
           "path": "skill/references/runtime-supervision.md",
-          "sha256": "fbd136a70ab9b81d9c4b72438d3b51f3a643272717d4af128483a7482ec2abc4",
+          "sha256": "87f2f94cb0d2b51e5f80a9a4a376a5722e98352990f93582a25dac75a8df9bc0",
           "source": "core/references/runtime-supervision.md"
         },
         {
           "path": "skill/references/self-iteration-protocol.md",
-          "sha256": "648c8c1dd202abef37f3a191b2477565f09bbb27ac9ce4725ee2ac580ce2f551",
+          "sha256": "3ff9343e48389f90a55f052d5481fbedc9c98ca50ea49b5b6ed37e5507883917",
           "source": "core/references/self-iteration-protocol.md"
         },
         {
           "path": "skill/references/source-manifest.schema.json",
-          "sha256": "2f502159b50aeb9639b3ce54dbead70a7d909cc973d93accad9603c73a7fd2aa",
+          "sha256": "e02e44ed88c73a23492862150b42d190a5f45eb54862b518adf7b4c102deffa2",
           "source": "core/references/source-manifest.schema.json"
         },
         {
           "path": "skill/references/taxonomy-index.md",
-          "sha256": "fc4d6280a58fc93e588a0f64e8f5bdd64fe037c4839f993d2a6d30ec767c5d16",
+          "sha256": "a19ea33d70355fcfc14883344b48e22ff98bdeaa5810347a7d5fb53e5f3bd9ac",
           "source": "core/references/taxonomy-index.md"
         },
         {
           "path": "skill/references/usage-guide.md",
-          "sha256": "678b90fe8d64d094c933d629d3fe11c99fa8850d9090c96fbcbe6aa4b7a972b8",
+          "sha256": "7c371d2877d1664715261ea9644c62c1c493580c60def020ffbb42e81bc6a272",
           "source": "core/references/usage-guide.md"
         },
         {
           "path": "skill/scripts/attempt_tool.py",
-          "sha256": "f72d7f12891a9bfa80a5b8ca96550ce0126400b3fd8dac3a8fc6575c4345a7aa",
+          "sha256": "a1d1cb2219132c8f27c6c2ab2e236b9a9d0fdb83d8e141e9700f39bb20444ccb",
           "source": "core/scripts/attempt_tool.py"
         },
         {
           "path": "skill/scripts/common.py",
-          "sha256": "96579ecd8c3406238a6bb30a4b7c730dc85ad72904dec73273430462ff47667b",
+          "sha256": "6dea73a0ba26f281e240c9c93f608c6589efa46a05b5d12a96606d2fe1d2e65f",
           "source": "core/scripts/common.py"
         },
         {
           "path": "skill/scripts/evaluation_tool.py",
-          "sha256": "c43502358d4dd20f9f0be25066f824adac111d0d34f43bbda7763334fef05632",
+          "sha256": "b806df51db21c76d803fa56110c77a23c045a60fd9c016c5059458ffec41ddaa",
           "source": "core/scripts/evaluation_tool.py"
         },
         {
           "path": "skill/scripts/evidence_tool.py",
-          "sha256": "3e1ab894d411bc80a68bef7cf031cf085e6594ccb562e23dcf29977be0db462c",
+          "sha256": "45497a5d72d5de8f93482dc4b744e420a2627ade7496ee914b46e15d4996e121",
           "source": "core/scripts/evidence_tool.py"
         },
         {
           "path": "skill/scripts/foundation_client.py",
-          "sha256": "c54456f59011b1c59182dba01ab1c532bd4c89d722b57659d228f034de3f4b8c",
+          "sha256": "90951aa92d689f5b8baf6539fb705e27d7961a7acf1511735c079535374e65c5",
           "source": "core/scripts/foundation_client.py"
         },
         {
           "path": "skill/scripts/registry_tool.py",
-          "sha256": "1872e5876f4e259fc3fdf1c3c926c1834d8dd8525278f7d7dff893664a059d89",
+          "sha256": "4469e71843e686e5f6bd9400e90681dba17e84f4b3d9eebf0a4b4e15bdf0b144",
           "source": "core/scripts/registry_tool.py"
         },
         {
           "path": "skill/scripts/report_renderer.py",
-          "sha256": "e1970d6ce627be922cd2e1a0b107bfc72bbe6fba99d7df7e97152309ef88045f",
+          "sha256": "eab6da72edec6c79ee3cf18fd83b57fb731143f6447349bc8966ac41892fd4ed",
           "source": "core/scripts/report_renderer.py"
+        },
+        {
+          "path": "skill/scripts/triage-symptom.mjs",
+          "sha256": "9345781a4c3332403b11705bab0a8b3a5c0b3e1fd420eb36fc586b662380710a",
+          "source": "core/scripts/triage-symptom.mjs"
+        },
+        {
+          "path": "skill/scripts/triage_symptom.py",
+          "sha256": "d9796de2d7164a30ce066c64ff4e420c4836729bd34a0346093d8d264df2f310",
+          "source": "core/scripts/triage_symptom.py"
         }
       ],
-      "treeDigest": "a115a494d57aa5ef9d02e3d672b750707168b08a98f290cd220370f96921479d",
-      "projectionDigest": "66cba5c7c2ca423c768b5793b65b047b06e2f2a45b8c8d2ef997bc0ecc6f9d1a"
+      "treeDigest": "4944031f363ba3fd074d93d581adec503fffc779ad90226e2275fbe0d33a1852",
+      "projectionDigest": "1d077b25ed048ed8766eaa6011866c6264e14c42fc65f0f464aee6c8a6fe7381"
     }
   }
 }

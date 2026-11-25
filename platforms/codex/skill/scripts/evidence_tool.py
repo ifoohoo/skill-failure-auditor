@@ -392,41 +392,43 @@ def emit_json(value: dict[str, Any], output: Path | None) -> None:
 
 
 def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(description=__doc__)
+    root = argparse.ArgumentParser(
+        description="构建并校验内容寻址证据分片索引、分片提取与全量覆盖守恒记录。"
+    )
     subcommands = root.add_subparsers(dest="command", required=True)
 
-    index = subcommands.add_parser("index")
-    index.add_argument("--input", type=Path, required=True)
-    index.add_argument("--output", type=Path, required=True)
-    index.add_argument("--chunk-size", type=int, default=DEFAULT_CHUNK_SIZE)
+    index = subcommands.add_parser("index", help="为受审目标生成固定字节大小的内容寻址分片索引。")
+    index.add_argument("--input", type=Path, required=True, help="受审文件或目录路径（只读，拒绝软链接）。")
+    index.add_argument("--output", type=Path, required=True, help="索引输出路径（必须位于 --input 之外且尚不存在）。")
+    index.add_argument("--chunk-size", type=int, default=DEFAULT_CHUNK_SIZE, help="单分片字节数（1024..1048576）。")
 
-    verify = subcommands.add_parser("verify")
-    verify.add_argument("--input", type=Path, required=True)
-    verify.add_argument("--index", type=Path, required=True)
-    verify.add_argument("--output", type=Path)
+    verify = subcommands.add_parser("verify", help="重算输入文件集并校验与既有分片索引逐字节一致。")
+    verify.add_argument("--input", type=Path, required=True, help="受审文件或目录路径。")
+    verify.add_argument("--index", type=Path, required=True, help="待核对的 evidence-index.json 路径。")
+    verify.add_argument("--output", type=Path, help="可选：核验回执输出路径。")
 
-    extract = subcommands.add_parser("extract")
-    extract.add_argument("--input", type=Path, required=True)
-    extract.add_argument("--index", type=Path, required=True)
-    extract.add_argument("--chunk-id", required=True)
+    extract = subcommands.add_parser("extract", help="在验证索引未漂移后按分片编号提取原始字节。")
+    extract.add_argument("--input", type=Path, required=True, help="受审文件或目录路径。")
+    extract.add_argument("--index", type=Path, required=True, help="evidence-index.json 路径。")
+    extract.add_argument("--chunk-id", required=True, help="目标分片标识（如 CHUNK-000000）。")
 
-    search = subcommands.add_parser("search")
-    search.add_argument("--input", type=Path, required=True)
-    search.add_argument("--index", type=Path, required=True)
-    search.add_argument("--needle", required=True)
-    search.add_argument("--output", type=Path)
+    search = subcommands.add_parser("search", help="在已索引材料中检索关键字并返回命中的分片编号。")
+    search.add_argument("--input", type=Path, required=True, help="受审文件或目录路径。")
+    search.add_argument("--index", type=Path, required=True, help="evidence-index.json 路径。")
+    search.add_argument("--needle", required=True, help="待检索的非空 UTF-8 字符串。")
+    search.add_argument("--output", type=Path, help="可选：检索结果输出路径。")
 
-    coverage = subcommands.add_parser("coverage")
-    coverage.add_argument("--input", type=Path, required=True)
-    coverage.add_argument("--index", type=Path, required=True)
-    coverage.add_argument("--selection", type=Path, required=True)
-    coverage.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
-    coverage.add_argument("--records", type=Path, required=True)
-    coverage.add_argument("--output", type=Path, required=True)
+    coverage = subcommands.add_parser("coverage", help="核对逐分片审计记录是否无遗漏、无重复覆盖全部输入分片与已选规则。")
+    coverage.add_argument("--input", type=Path, required=True, help="受审文件或目录路径。")
+    coverage.add_argument("--index", type=Path, required=True, help="evidence-index.json 路径。")
+    coverage.add_argument("--selection", type=Path, required=True, help="selection.json 路径。")
+    coverage.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="failure-modes.jsonl 路径。")
+    coverage.add_argument("--records", type=Path, required=True, help="逐分片审计覆盖记录 JSONL 路径。")
+    coverage.add_argument("--output", type=Path, required=True, help="覆盖守恒核对结果输出路径。")
 
-    strict = subcommands.add_parser("strict-jsonl")
-    strict.add_argument("--input", type=Path, required=True)
-    strict.add_argument("--output", type=Path)
+    strict = subcommands.add_parser("strict-jsonl", help="严格校验 JSONL 文件无空行、无重复键且逐行合法。")
+    strict.add_argument("--input", type=Path, required=True, help="待校验的 JSONL 文件路径。")
+    strict.add_argument("--output", type=Path, help="可选：校验结果输出路径。")
     return root
 
 

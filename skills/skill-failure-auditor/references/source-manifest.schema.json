@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "source-manifest.schema.json",
   "title": "Frozen Continuation Source Manifest",
+  "description": "跨上下文交接前冻结的输入来源全集清单契约，用于校验交接包未遗漏、未重排且未篡改原始文件。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,24 +13,41 @@
     "manifest_digest"
   ],
   "properties": {
-    "schema_version": {"const": "1.0"},
-    "manifest_id": {"type": "string", "pattern": "^SOURCE-[A-Z0-9][A-Z0-9._-]+$"},
-    "task_id": {"type": "string", "minLength": 1},
+    "schema_version": {
+      "const": "1.0",
+      "description": "来源清单结构版本号，固定为 1.0。"
+    },
+    "manifest_id": {
+      "type": "string",
+      "pattern": "^SOURCE-[A-Z0-9][A-Z0-9._-]+$",
+      "description": "来源清单唯一标识（以 SOURCE- 开头）。"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "所属审计或评测任务标识，须与交接包中的 task_id 一致。"
+    },
     "bindings": {
       "type": "array",
       "minItems": 1,
-      "items": {"$ref": "#/$defs/binding"}
+      "items": {"$ref": "#/$defs/binding"},
+      "description": "按 UTF-8 字节序排列的冻结输入文件路径与 SHA-256 绑定列表。"
     },
-    "manifest_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    "manifest_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "剔除本字段后对规范 JSON 计算的清单自校验 SHA-256 摘要。"
+    }
   },
   "$defs": {
     "binding": {
       "type": "object",
+      "description": "单个真实普通文件的绝对路径及其原始字节 SHA-256 绑定。",
       "additionalProperties": false,
       "required": ["path", "sha256"],
       "properties": {
-        "path": {"type": "string", "minLength": 1},
-        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        "path": {"type": "string", "minLength": 1, "description": "真实普通文件的绝对路径。"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "文件原始字节的 64 位小写 SHA-256。"}
       }
     }
   }
