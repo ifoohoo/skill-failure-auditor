@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.19 - 2026-11-26
+
+- 升级对齐 `Foundation 0.39.2`（`Contracts 1.23.0`），新增 `audit-stb` 只读离线核验入口：支持对密封 `SessionTraceBundle`（`STB`）校验规范化摘要与“声明完成但验证失败/跳过”红牌伪造模式，并签发标准 `professional-conclusion`（`FAILURE_DIAGNOSIS_CLEAR` / `SUSPECTED_FABRICATION` / `STB_SEAL_INVALID`）。
+- 同步重建 Claude Code、Codex、Kimi Code 与 WorkBuddy 四平台投影清单。
+
 ## 1.1.18 - 2026-11-25
 
 - 清退公开包与 `triage_symptom.py`、`symptom-triage-bundle.schema.json`、跨仓归因文档及中英文 README 中的专有仓库名称字面量：将 `PYTHON_OVERRIDE_INVALID` 及通用领域插件错误码收敛至中立的 `domain-skill-plugin` 归属层，并支持通过环境变量 `SFA_CUSTOM_TRIAGE_PREFIXES` 无侵入注入自定义错误码前缀映射。

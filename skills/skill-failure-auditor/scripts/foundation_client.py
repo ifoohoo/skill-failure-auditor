@@ -545,6 +545,77 @@ def foundation_resolve_contained(
 PROFESSIONAL_CONCLUSION_SCHEMA_ID = (
     "https://contracts.skill-family.example/v1/professional-conclusion.json"
 )
+SESSION_TRACE_BUNDLE_SCHEMA_ID = (
+    "https://contracts.skill-family.example/v1/session-trace-bundle.json"
+)
+
+
+def foundation_validate_session_trace_bundle(
+    document: Any,
+    *,
+    node: str | None = None,
+) -> dict[str, Any]:
+    """Validate a SessionTraceBundle (2020-12 schema + cross-field invariants) via Foundation."""
+    result = _invoke_mechanism(
+        "validate-session-trace-bundle",
+        {"document": document},
+        node=node,
+    )
+    if not isinstance(result, dict) or not isinstance(result.get("valid"), bool) or not isinstance(result.get("errors"), list):
+        raise ContractError("FOUNDATION_BATCH_RESULT_INVALID: session-trace-bundle validation result is malformed")
+    return result
+
+
+def foundation_verify_session_trace_bundle_seal(
+    document: Any,
+    *,
+    node: str | None = None,
+) -> dict[str, Any]:
+    """Verify SessionTraceBundle schema, cross-field invariants, and canonical seal digest via Foundation."""
+    result = _invoke_mechanism(
+        "verify-session-trace-bundle-seal",
+        {"document": document},
+        node=node,
+    )
+    if not isinstance(result, dict) or not isinstance(result.get("valid"), bool) or not isinstance(result.get("errors"), list):
+        raise ContractError("FOUNDATION_BATCH_RESULT_INVALID: verify-session-trace-bundle-seal result is malformed")
+    return result
+
+
+def foundation_verify_raw_locator_slice(
+    root: str,
+    rel_path: str,
+    *,
+    byte_offset: int,
+    byte_length: int,
+    expected_slice_sha256: str,
+    node: str | None = None,
+) -> dict[str, Any]:
+    """Verify a raw transcript byte slice under root via Foundation readFileStrict + sha256."""
+    result = _invoke_mechanism(
+        "verify-raw-locator-slice",
+        {
+            "root": root,
+            "path": rel_path,
+            "byteOffset": byte_offset,
+            "byteLength": byte_length,
+            "expectedSliceSha256": expected_slice_sha256,
+        },
+        node=node,
+    )
+    if not isinstance(result, dict) or not isinstance(result.get("valid"), bool):
+        raise ContractError("FOUNDATION_BATCH_RESULT_INVALID: verify-raw-locator-slice result is malformed")
+    return result
+
+
+def require_session_trace_bundle(document: Any, *, node: str | None = None) -> dict[str, Any]:
+    """Reject a SessionTraceBundle unless Foundation accepts both schema and invariants."""
+    result = foundation_validate_session_trace_bundle(document, node=node)
+    if result["valid"] is True:
+        if not isinstance(document, dict):
+            raise ContractError("session-trace-bundle rejected: document is not an object")
+        return document
+    raise ContractError(f"session-trace-bundle rejected: {_validation_failure_message(result)}")
 
 
 def foundation_validate_professional_conclusion(

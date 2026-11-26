@@ -3,7 +3,7 @@
   "familyId": "skill-failure-auditor",
   "platformId": "codex",
   "product": "skill-failure-auditor",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "versionPolicy": "运行前探测客户端版本并写入包外证据",
   "deliveryMode": "codex_plugin_or_skill",
   "pluginManifest": ".codex-plugin/plugin.json",
@@ -35,5 +35,5 @@
     }
   ],
   "projectionStatus": "projection_complete",
-  "projectionDigest": "e881bd1cbfd214a0f84e98305d4a47a4f64468e0ee14defb9d71efde8e44e3a0"
+  "projectionDigest": "ff4953cc16130b57ecda6e7bac5b6c2208e6c25454e8f09b88a8c3f27bbe569d"
 }

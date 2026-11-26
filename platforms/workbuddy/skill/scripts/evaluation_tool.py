@@ -44,6 +44,7 @@ from registry_tool import (
     validate_selection_artifact,
 )
 from report_renderer import load_registry_names, render
+from stb_audit import run_stb_audit
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -1553,6 +1554,13 @@ def parser() -> argparse.ArgumentParser:
     proof = subcommands.add_parser("professional-proof-read", help="只读校验并解释本技能出具的共同证明文件（不重查目标，不跑 reuse-check）。")
     proof.add_argument("--proof-root", required=True, help="共同证明所在的绝对根目录。")
     proof.add_argument("--proof", required=True, help="相对于 --proof-root 的共同证明文件路径。")
+
+    stb = subcommands.add_parser("audit-stb", help="只读对账会话追溯包（SessionTraceBundle），输出对账报告与共同证明。")
+    stb.add_argument("--stb-root", required=True, help="包含待审 STB 文件的绝对根目录。")
+    stb.add_argument("--stb", required=True, help="相对于 --stb-root 的 STB JSON 文件路径。")
+    stb.add_argument("--output-root", required=True, help="输出目录的绝对根路径（须在受审目录与技能目录之外）。")
+    stb.add_argument("--report-output", required=True, help="相对于 --output-root 的对账报告输出路径。")
+    stb.add_argument("--conclusion-output", required=True, help="相对于 --output-root 的共同证明输出路径。")
     return root
 
 
@@ -1670,6 +1678,25 @@ def main() -> int:
             payload, exit_code = professional_proof_read(args.proof_root, args.proof)
             print(json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2))
             return exit_code
+        elif args.command == "audit-stb":
+            out_report = Path(args.output_root) / args.report_output
+            out_conc = Path(args.output_root) / args.conclusion_output
+            for target_out in (out_report, out_conc):
+                if output_inside_directory(Path(args.stb_root), target_out):
+                    raise ContractError("audit-stb output must be outside --stb-root")
+                if output_inside_directory(SCRIPT_DIR.parent, target_out):
+                    raise ContractError("audit-stb output must be outside the auditor skill root")
+            summary = run_stb_audit(
+                stb_root=args.stb_root,
+                stb_relative=args.stb,
+                output_root=args.output_root,
+                report_relative=args.report_output,
+                conclusion_relative=args.conclusion_output,
+                provider_id=PROVIDER_ID,
+                provider_version=provider_package_version(),
+            )
+            print(json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=2))
+            return 1 if summary["verdict"] != "PASS" else 0
         else:
             raise ContractError(f"unsupported command: {args.command}")
         return 0

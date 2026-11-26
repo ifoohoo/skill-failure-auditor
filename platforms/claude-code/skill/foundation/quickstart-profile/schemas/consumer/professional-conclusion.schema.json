@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://contracts.skill-family.example/v1/professional-conclusion.json",
   "title": "ProfessionalConclusion",
-  "description": "Minimal exchange contract for a provider-owned professional conclusion. Foundation fixes the common shape and completion semantics without interpreting the provider's domain code or details.",
+  "description": "提供方专业结论的最小交换契约：Foundation 仅固定外层公共字段与完成度语义，不解释提供方自有的领域结论码或详情字段。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -112,7 +112,7 @@
     },
     "details": {
       "type": "object",
-      "description": "Provider-owned JSON object. Foundation does not interpret its domain fields."
+      "description": "由提供方定义的 JSON 详情对象；Foundation 不解释其领域内部字段。"
     }
   },
   "allOf": [
