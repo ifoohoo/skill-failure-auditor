@@ -44,7 +44,7 @@ from registry_tool import (
     validate_selection_artifact,
 )
 from report_renderer import load_registry_names, render
-from stb_audit import run_stb_audit
+from stb_audit import run_export_repro_candidate, run_stb_audit
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -1561,6 +1561,17 @@ def parser() -> argparse.ArgumentParser:
     stb.add_argument("--output-root", required=True, help="输出目录的绝对根路径（须在受审目录与技能目录之外）。")
     stb.add_argument("--report-output", required=True, help="相对于 --output-root 的对账报告输出路径。")
     stb.add_argument("--conclusion-output", required=True, help="相对于 --output-root 的共同证明输出路径。")
+
+    repro = subcommands.add_parser(
+        "export-repro-candidate",
+        help="从检出伪造或治理缺陷的 STB 只读导出经凭据与路径脱敏的 FB-2 故障复现候选样例。",
+    )
+    repro.add_argument("--stb-root", required=True, help="包含待导出 STB 文件的绝对根目录。")
+    repro.add_argument("--stb", required=True, help="相对于 --stb-root 的 STB JSON 文件路径。")
+    repro.add_argument("--report-root", required=False, help="可选：已生成对账报告所在的绝对根目录。")
+    repro.add_argument("--report", required=False, help="可选：相对于 --report-root 的对账报告文件路径。")
+    repro.add_argument("--output-root", required=True, help="候选输出所在的绝对根目录（须在输入与技能目录之外）。")
+    repro.add_argument("--candidate-output", required=True, help="相对于 --output-root 的复现候选 JSON 新文件路径。")
     return root
 
 
@@ -1697,6 +1708,26 @@ def main() -> int:
             )
             print(json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=2))
             return 1 if summary["verdict"] != "PASS" else 0
+        elif args.command == "export-repro-candidate":
+            out_cand = Path(args.output_root) / args.candidate_output
+            if output_inside_directory(Path(args.stb_root), out_cand):
+                raise ContractError("export-repro-candidate output must be outside --stb-root")
+            if args.report_root and output_inside_directory(Path(args.report_root), out_cand):
+                raise ContractError("export-repro-candidate output must be outside --report-root")
+            if output_inside_directory(SCRIPT_DIR.parent, out_cand):
+                raise ContractError("export-repro-candidate output must be outside the auditor skill root")
+            repro_summary = run_export_repro_candidate(
+                stb_root=args.stb_root,
+                stb_relative=args.stb,
+                output_root=args.output_root,
+                candidate_relative=args.candidate_output,
+                provider_id=PROVIDER_ID,
+                provider_version=provider_package_version(),
+                report_root=args.report_root,
+                report_relative=args.report,
+            )
+            print(json.dumps(repro_summary, ensure_ascii=False, sort_keys=True, indent=2))
+            return 0
         else:
             raise ContractError(f"unsupported command: {args.command}")
         return 0

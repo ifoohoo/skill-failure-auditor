@@ -10,7 +10,7 @@
       "files": [
         {
           "path": "platform-manifest.json",
-          "sha256": "98b6d66a5e06ac0c216aa7a6258212306a20ae565d168a959a626f85286b4306",
+          "sha256": "829b71929152e8b38954d8533f094b390c3a179da42237a5c93fc913ec6bd184",
           "source": "platforms/claude-code/platform-manifest.json"
         },
         {
@@ -20,7 +20,7 @@
         },
         {
           "path": "skill/.claude-plugin/plugin.json",
-          "sha256": "af25e92aaa55bd4068e25a339c4fd4b71993377fd2211c64b6c6dc3f318a1141",
+          "sha256": "9f037543cc9bc66855521c8d2132e404d4057eb0533c14515a898541ae1da8ec",
           "source": "platforms/claude-code/.claude-plugin/plugin.json"
         },
         {
@@ -400,7 +400,7 @@
         },
         {
           "path": "skill/package.json",
-          "sha256": "eef65c69dc237f3106b64fd539cea3653f416718cd476ff0b76de48edff87c75",
+          "sha256": "dcbb36fb5128c216d325a3d5dac6e345115b880ac34b70595518a52eaa227823",
           "source": "package.json"
         },
         {
@@ -490,7 +490,7 @@
         },
         {
           "path": "skill/scripts/evaluation_tool.py",
-          "sha256": "67af796ec3405336b2bdbee5f3083e82e01ec94a9143132cf38805130f56ff28",
+          "sha256": "e5efa725abec1f5e31b5a8e0a82e43a6994229172ae95ba6491016f4f42a62f8",
           "source": "core/scripts/evaluation_tool.py"
         },
         {
@@ -515,7 +515,7 @@
         },
         {
           "path": "skill/scripts/stb_audit.py",
-          "sha256": "393357bc7fe64ffb64e7d46012852195162a129c8d74187eefd0c767d69d8a72",
+          "sha256": "48592cb28d4fe26e7743c5b133860b6769bcd0fa22b2080d09720305499c17d2",
           "source": "core/scripts/stb_audit.py"
         },
         {
@@ -529,8 +529,8 @@
           "source": "core/scripts/triage_symptom.py"
         }
       ],
-      "treeDigest": "d7baa6ecd9c21a3f5e2ca996ad6109fd3d7063cbe6330071503daee1afb26f44",
-      "projectionDigest": "1e7db346aaf7159ed46ad71ee109e019ce476ea99364f68007855db479627060"
+      "treeDigest": "02cdf31ab58809551643ccc92155f9d5e68d714d4883a121735a457406b0fb36",
+      "projectionDigest": "23f4ea8fb23e3297d18a05b3217e6366001aac7d76a23bb03a2b41d7bbea32e4"
     },
     "codex": {
       "platformId": "codex",
@@ -539,12 +539,12 @@
       "files": [
         {
           "path": ".codex-plugin/plugin.json",
-          "sha256": "a3ec78ccf9a62c9e4427dad0c855fa84b0b85ce74b8c51b957d7161ca4f0be38",
+          "sha256": "5aac53787f5c8b8e5f148b0dce705f8a8256583cc2f66b1917cfc8a10989d2b7",
           "source": "platforms/codex/.codex-plugin/plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "659e50205ee526af89921abc8df931ec46e5635cf00b187ad723c9b7c5e6a286",
+          "sha256": "8e6366b508431c27622f1c56b8c12048410712b53a9e51393944cb30a28746ca",
           "source": "platforms/codex/platform-manifest.json"
         },
         {
@@ -929,7 +929,7 @@
         },
         {
           "path": "skill/package.json",
-          "sha256": "eef65c69dc237f3106b64fd539cea3653f416718cd476ff0b76de48edff87c75",
+          "sha256": "dcbb36fb5128c216d325a3d5dac6e345115b880ac34b70595518a52eaa227823",
           "source": "package.json"
         },
         {
@@ -1019,7 +1019,7 @@
         },
         {
           "path": "skill/scripts/evaluation_tool.py",
-          "sha256": "67af796ec3405336b2bdbee5f3083e82e01ec94a9143132cf38805130f56ff28",
+          "sha256": "e5efa725abec1f5e31b5a8e0a82e43a6994229172ae95ba6491016f4f42a62f8",
           "source": "core/scripts/evaluation_tool.py"
         },
         {
@@ -1044,7 +1044,7 @@
         },
         {
           "path": "skill/scripts/stb_audit.py",
-          "sha256": "393357bc7fe64ffb64e7d46012852195162a129c8d74187eefd0c767d69d8a72",
+          "sha256": "48592cb28d4fe26e7743c5b133860b6769bcd0fa22b2080d09720305499c17d2",
           "source": "core/scripts/stb_audit.py"
         },
         {
@@ -1058,8 +1058,8 @@
           "source": "core/scripts/triage_symptom.py"
         }
       ],
-      "treeDigest": "fe46346a325510261f1ac13cb766fe226f15b98f5fa5cdf0beb43386e1b2909c",
-      "projectionDigest": "ff4953cc16130b57ecda6e7bac5b6c2208e6c25454e8f09b88a8c3f27bbe569d"
+      "treeDigest": "e58104788929dd4ec7c35bd8e757009061d2139624c3d0b4722d9d995ce748d3",
+      "projectionDigest": "2253439daf9b7f1d9d759c2a74594f59a682e65541b5571682117c31fcd1b329"
     },
     "kimi-code": {
       "platformId": "kimi-code",
@@ -1068,17 +1068,17 @@
       "files": [
         {
           "path": ".kimi-plugin/plugin.json",
-          "sha256": "fa9954a594734bc2356d8d6863f5bb7ffe62af384d3589f9472c08997f02f917",
+          "sha256": "80de50ebc54614cbf60169493aba9cae0fcfa933c6fa63a4eae9c2b0a7debcb4",
           "source": "generated-from:kimi.plugin.json"
         },
         {
           "path": "kimi.plugin.json",
-          "sha256": "4d237fd0656de96b3fb1ebd956369f277eb3c58f213268f53ee8adf31c98dbc4",
+          "sha256": "61a3f1b5a52969a98ed5ed2881f925520a89674a50d259d1b18a4239a82783a0",
           "source": "platforms/kimi-code/kimi.plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "f2eee9a511b2a258cc2aa691060494430620e4b4c68d453ff60db9a152cd7047",
+          "sha256": "497ee3e9d9674f069f16e98a53a6e526d6926acd6ad1be7a40464d9bdace7ca1",
           "source": "platforms/kimi-code/platform-manifest.json"
         },
         {
@@ -1463,7 +1463,7 @@
         },
         {
           "path": "skill/package.json",
-          "sha256": "eef65c69dc237f3106b64fd539cea3653f416718cd476ff0b76de48edff87c75",
+          "sha256": "dcbb36fb5128c216d325a3d5dac6e345115b880ac34b70595518a52eaa227823",
           "source": "package.json"
         },
         {
@@ -1553,7 +1553,7 @@
         },
         {
           "path": "skill/scripts/evaluation_tool.py",
-          "sha256": "67af796ec3405336b2bdbee5f3083e82e01ec94a9143132cf38805130f56ff28",
+          "sha256": "e5efa725abec1f5e31b5a8e0a82e43a6994229172ae95ba6491016f4f42a62f8",
           "source": "core/scripts/evaluation_tool.py"
         },
         {
@@ -1578,7 +1578,7 @@
         },
         {
           "path": "skill/scripts/stb_audit.py",
-          "sha256": "393357bc7fe64ffb64e7d46012852195162a129c8d74187eefd0c767d69d8a72",
+          "sha256": "48592cb28d4fe26e7743c5b133860b6769bcd0fa22b2080d09720305499c17d2",
           "source": "core/scripts/stb_audit.py"
         },
         {
@@ -1592,8 +1592,8 @@
           "source": "core/scripts/triage_symptom.py"
         }
       ],
-      "treeDigest": "138f213675758306a05e021f19d7b77e41fc8fb4b8b2194e8b19c3fc3d485d30",
-      "projectionDigest": "6d6e712994867980d3389c4cee2a7aa887d6901a6c8674bf502cb6b2be10fd6b"
+      "treeDigest": "a343f0d44cceca9951c12225c49ca99fa2ad9d826a766726e7e9d1cd0b9d6001",
+      "projectionDigest": "1d511eed0a1ddfc825c819896703e95ad3273646d36c91c95b1274a098d046f4"
     },
     "workbuddy": {
       "platformId": "workbuddy",
@@ -1602,12 +1602,12 @@
       "files": [
         {
           "path": ".codebuddy-plugin/plugin.json",
-          "sha256": "f97589e91275547647eecf446c4ec7ff793a997249bf4f86758dbfc52ec84266",
+          "sha256": "55526e54c84243e10f2b5a509b9eb0933473497ad2e20a217ea958e6fbbce618",
           "source": "platforms/workbuddy/.codebuddy-plugin/plugin.json"
         },
         {
           "path": "platform-manifest.json",
-          "sha256": "47528ac0217d19fcd4067695e385ea36cf0f7074c93d3b30ea0b60100c04ddfb",
+          "sha256": "d0421c43f1dddc6fc372630d792e648a2e0220441251eb73f1efdca0a7918872",
           "source": "platforms/workbuddy/platform-manifest.json"
         },
         {
@@ -1992,7 +1992,7 @@
         },
         {
           "path": "skill/package.json",
-          "sha256": "eef65c69dc237f3106b64fd539cea3653f416718cd476ff0b76de48edff87c75",
+          "sha256": "dcbb36fb5128c216d325a3d5dac6e345115b880ac34b70595518a52eaa227823",
           "source": "package.json"
         },
         {
@@ -2082,7 +2082,7 @@
         },
         {
           "path": "skill/scripts/evaluation_tool.py",
-          "sha256": "67af796ec3405336b2bdbee5f3083e82e01ec94a9143132cf38805130f56ff28",
+          "sha256": "e5efa725abec1f5e31b5a8e0a82e43a6994229172ae95ba6491016f4f42a62f8",
           "source": "core/scripts/evaluation_tool.py"
         },
         {
@@ -2107,7 +2107,7 @@
         },
         {
           "path": "skill/scripts/stb_audit.py",
-          "sha256": "393357bc7fe64ffb64e7d46012852195162a129c8d74187eefd0c767d69d8a72",
+          "sha256": "48592cb28d4fe26e7743c5b133860b6769bcd0fa22b2080d09720305499c17d2",
           "source": "core/scripts/stb_audit.py"
         },
         {
@@ -2121,8 +2121,8 @@
           "source": "core/scripts/triage_symptom.py"
         }
       ],
-      "treeDigest": "b31ed308665a37b84b830a6c0b0972fcd8f01418e47087c6286427682759a58d",
-      "projectionDigest": "f1aec9b34c8a5d3deb53e7f6f7ac7ba2b1c886cb204d040cecad9119662b3fe2"
+      "treeDigest": "d7840832956711dd12c801edf543e3164b47ddadf0e57b973468fd99719f689e",
+      "projectionDigest": "d14e4045f60bc98d6f2d444e02b44fb1e5ee8be3144dd0402bd5d6d0de7fd8e7"
     }
   }
 }

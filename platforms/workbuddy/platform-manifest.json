@@ -3,7 +3,7 @@
   "familyId": "skill-failure-auditor",
   "platformId": "workbuddy",
   "product": "skill-failure-auditor",
-  "version": "1.1.19",
+  "version": "1.1.20",
   "versionPolicy": "运行前同时探测应用壳版本与内嵌 CLI 版本并写入包外证据",
   "deliveryMode": "workbuddy_plugin",
   "pluginManifest": ".codebuddy-plugin/plugin.json",
@@ -39,5 +39,5 @@
     }
   ],
   "projectionStatus": "projection_complete",
-  "projectionDigest": "f1aec9b34c8a5d3deb53e7f6f7ac7ba2b1c886cb204d040cecad9119662b3fe2"
+  "projectionDigest": "d14e4045f60bc98d6f2d444e02b44fb1e5ee8be3144dd0402bd5d6d0de7fd8e7"
 }

@@ -3,7 +3,7 @@
   "familyId": "skill-failure-auditor",
   "platformId": "kimi-code",
   "product": "skill-failure-auditor",
-  "version": "1.1.19",
+  "version": "1.1.20",
   "minClientVersion": "0.31.0",
   "deliveryMode": "kimi_plugin",
   "authoritativeManifest": "kimi.plugin.json",
@@ -11,18 +11,24 @@
   "projectionRule": ".kimi-plugin/plugin.json 由 kimi.plugin.json 机械生成，字段完全相等",
   "entry": "SKILL.md",
   "auditContract": {
-    "supportedModes": ["static", "runtime", "combined"],
+    "supportedModes": [
+      "static",
+      "runtime",
+      "combined"
+    ],
     "targetAccess": "read-only",
     "targetExecution": "forbidden",
     "delegation": "forbidden",
     "outputBoundary": "new-audit-output-directory-only"
   },
-  "logicalMappings": [{
-    "logicalName": "skill-failure-auditor",
-    "physicalName": "skill-failure-auditor",
-    "path": "skill/SKILL.md",
-    "type": "human_entry",
-    "userInvocable": true
-  }],
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
   "projectionStatus": "projection_complete"
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.20 - 2026-11-27
+
+- 新增 `FB-2` 只读故障回流导出入口 `evaluation_tool.py export-repro-candidate`（及 `stb_audit.py` 内的 `build_repro_candidate_from_stb`）：对检出伪造完成或治理缺陷（`SUSPECTED_FABRICATION` / `FINDINGS`）的密封 `SessionTraceBundle` 自动清洗敏感凭据与个人宿主机路径，在受审目录外独占生成携带规范化 `candidateDigestSha256` 与 `humanReviewRequired: true` 标记的回归候选样例，供下游评测工具经人工确认摘要后导入回归集。
+- 同步更新 Claude Code、Codex、Kimi Code 与 WorkBuddy 四平台投影清单至 `1.1.20`。
+
 ## 1.1.19 - 2026-11-26
 
 - 升级对齐 `Foundation 0.39.2`（`Contracts 1.23.0`），新增 `audit-stb` 只读离线核验入口：支持对密封 `SessionTraceBundle`（`STB`）校验规范化摘要与“声明完成但验证失败/跳过”红牌伪造模式，并签发标准 `professional-conclusion`（`FAILURE_DIAGNOSIS_CLEAR` / `SUSPECTED_FABRICATION` / `STB_SEAL_INVALID`）。

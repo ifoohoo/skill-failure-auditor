@@ -3,24 +3,30 @@
   "familyId": "skill-failure-auditor",
   "platformId": "claude-code",
   "product": "skill-failure-auditor",
-  "version": "1.1.19",
+  "version": "1.1.20",
   "minClientVersion": "2.1.220",
   "deliveryMode": "claude_plugin",
   "pluginManifest": ".claude-plugin/plugin.json",
   "entry": "SKILL.md",
   "auditContract": {
-    "supportedModes": ["static", "runtime", "combined"],
+    "supportedModes": [
+      "static",
+      "runtime",
+      "combined"
+    ],
     "targetAccess": "read-only",
     "targetExecution": "forbidden",
     "delegation": "forbidden",
     "outputBoundary": "new-audit-output-directory-only"
   },
-  "logicalMappings": [{
-    "logicalName": "skill-failure-auditor",
-    "physicalName": "skill-failure-auditor",
-    "path": "skill/SKILL.md",
-    "type": "human_entry",
-    "userInvocable": true
-  }],
+  "logicalMappings": [
+    {
+      "logicalName": "skill-failure-auditor",
+      "physicalName": "skill-failure-auditor",
+      "path": "skill/SKILL.md",
+      "type": "human_entry",
+      "userInvocable": true
+    }
+  ],
   "projectionStatus": "projection_complete"
 }

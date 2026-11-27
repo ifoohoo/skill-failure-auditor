@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import fnmatch
+import re
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -25,6 +26,37 @@ from foundation_client import (
 )
 
 STB_AUDIT_ENTRY = "evaluation_tool.py audit-stb"
+REPRO_CANDIDATE_ENTRY = "evaluation_tool.py export-repro-candidate"
+_SENSITIVE_KEY_RE = re.compile(
+    r"(?:authorization|auth|api[_-]?key|token|secret|password|cookie|private[_-]?key|credential)",
+    re.IGNORECASE,
+)
+_REPRO_TEXT_REDACTION_RULES: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z0-9 ]*PRIVATE KEY-----"), "[REDACTED_PRIVATE_KEY]"),
+    (re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----[^\r\n]*(?:\r?\n[A-Za-z0-9+/=]{8,}[^\r\n]*)*"), "[REDACTED_PRIVATE_KEY]"),
+    (re.compile(r"\beyJ[A-Za-z0-9_-]{8,}\.eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}"), "[REDACTED_JWT]"),
+    (re.compile(r"\bsk-[A-Za-z0-9_-]{6,}"), "[REDACTED_SECRET]"),
+    (re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})"), "[REDACTED_SECRET]"),
+    (re.compile(r"\bnpm_[A-Za-z0-9]{20,}"), "[REDACTED_SECRET]"),
+    (re.compile(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}"), "[REDACTED_AWS_KEY]"),
+    (re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{10,}"), "[REDACTED_SLACK_TOKEN]"),
+    (re.compile(r"\bAIza[0-9A-Za-z_-]{20,}"), "[REDACTED_GCP_KEY]"),
+    (re.compile(r"\b(Bearer|Basic)\s+(?!\[REDACTED)[A-Za-z0-9._~+/=-]{6,}", re.IGNORECASE), r"\1 [REDACTED_SECRET]"),
+    (re.compile(r"(https?://)(?!\[REDACTED_AUTH\]@)([^/\s:@]+:[^/\s@]+@)", re.IGNORECASE), r"\1[REDACTED_AUTH]@"),
+    (re.compile(r'(\\"(?:[A-Za-z0-9_-]*(?:authorization|auth|api[_-]?key|apikey|secret|token|password|access[_-]?key|client[_-]?secret|cookie|private[_-]?key|credential))\\"\s*:\s*\\")(?!\[REDACTED)([^"\\]+)(\\")', re.IGNORECASE), r"\1[REDACTED_SECRET]\3"),
+    (re.compile(r'("(?:[A-Za-z0-9_-]*(?:authorization|auth|api[_-]?key|apikey|secret|token|password|access[_-]?key|client[_-]?secret|cookie|private[_-]?key|credential))"\s*:\s*")(?!\[REDACTED)([^"]+)(")', re.IGNORECASE), r"\1[REDACTED_SECRET]\3"),
+    (re.compile(r"('(?:[A-Za-z0-9_-]*(?:authorization|auth|api[_-]?key|apikey|secret|token|password|access[_-]?key|client[_-]?secret|cookie|private[_-]?key|credential))'\s*:\s*')(?!\[REDACTED)([^']+)(')", re.IGNORECASE), r"\1[REDACTED_SECRET]\3"),
+    (re.compile(r"\b([A-Za-z0-9_-]*(?:authorization|api[_-]?key|apikey|secret|token|password|access[_-]?key|client[_-]?secret|cookie|private[_-]?key|credential)\s*:\s*)(['\"]?)(?!\[REDACTED)([^\s\"',;}\]]+)\2", re.IGNORECASE), r"\1\2[REDACTED_SECRET]\2"),
+    (re.compile(r'\b([A-Za-z0-9_]*(?:API_KEY|APIKEY|SECRET|TOKEN|PASSWORD|ACCESS_KEY|CLIENT_SECRET|CREDENTIAL)=\\")(?!\[REDACTED)([^"\\]+)(\\")', re.IGNORECASE), r"\1[REDACTED_SECRET]\3"),
+    (re.compile(r'\b([A-Za-z0-9_]*(?:API_KEY|APIKEY|SECRET|TOKEN|PASSWORD|ACCESS_KEY|CLIENT_SECRET|CREDENTIAL)=")(?!\[REDACTED)([^"]+)(")', re.IGNORECASE), r"\1[REDACTED_SECRET]\3"),
+    (re.compile(r"\b([A-Za-z0-9_]*(?:API_KEY|APIKEY|SECRET|TOKEN|PASSWORD|ACCESS_KEY|CLIENT_SECRET|CREDENTIAL)=')(?!\[REDACTED)([^']+)(')", re.IGNORECASE), r"\1[REDACTED_SECRET]\3"),
+    (re.compile(r"\b([A-Za-z0-9_]*(?:API_KEY|APIKEY|SECRET|TOKEN|PASSWORD|ACCESS_KEY|CLIENT_SECRET|CREDENTIAL)=)(?!\[REDACTED|[\\\"'])([^\s\"'&;]+)", re.IGNORECASE), r"\1[REDACTED_SECRET]"),
+    (re.compile(r"[A-Za-z]:(?:\\\\|\\|/)[U]sers(?:\\\\|\\|/)[^\\/\s\"':;),]+"), "C:/[REDACTED_USER_HOME]"),
+    (re.compile(r"/[U]sers/[^/\s\"':;),]+"), "/[REDACTED_USER_HOME]"),
+    (re.compile(r"/[h]ome/[^/\s\"':;),]+"), "/[REDACTED_USER_HOME]"),
+    (re.compile(r"/[V]olumes/[^/\s\"':;),]+(?:\s(?!-)[^/\s\"':;),]+)*(?=/)"), "/[REDACTED_VOLUME]"),
+    (re.compile(r"/[V]olumes/[^/\s\"':;),]+"), "/[REDACTED_VOLUME]"),
+]
 STB_CHECKED_RULES = [
     "FM-01",
     "FM-02",
@@ -770,4 +802,223 @@ def run_stb_audit(
         "reportPath": str(Path(out_root_str) / rep_rel),
         "conclusionPath": str(Path(out_root_str) / conc_rel),
         "outcome": conclusion["outcome"],
+    }
+
+
+def scrub_repro_value(value: Any) -> Any:
+    """Recursively scrub secrets, credentials, and personal host paths from exported repro payloads."""
+    if isinstance(value, str):
+        out = value
+        for pat, repl in _REPRO_TEXT_REDACTION_RULES:
+            out = pat.sub(repl, out)
+        return out
+    if isinstance(value, list):
+        return [scrub_repro_value(item) for item in value]
+    if isinstance(value, dict):
+        cleaned: dict[str, Any] = {}
+        for key in sorted(value.keys()):
+            if _SENSITIVE_KEY_RE.search(str(key)):
+                cleaned[key] = "[REDACTED_SECRET]"
+            else:
+                cleaned[key] = scrub_repro_value(value[key])
+        return cleaned
+    return value
+
+
+def _sanitize_case_slug(raw: str) -> str:
+    slug = re.sub(r"[^A-Za-z0-9_-]+", "-", str(raw or "").strip()).strip("-_")
+    return (slug[:40] or "stb").upper()
+
+
+def build_repro_candidate_from_stb(
+    stb: dict[str, Any],
+    *,
+    provider_id: str,
+    provider_version: str,
+    stb_root: str | None = None,
+    reconciliation_report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build a scrubbed, digest-locked FB-2 failure reproduction candidate from a failing/fabricated STB."""
+    report, _ = evaluate_stb_document(
+        stb,
+        provider_id=provider_id,
+        provider_version=provider_version,
+        stb_root=stb_root,
+    )
+    if reconciliation_report is not None:
+        if (
+            not isinstance(reconciliation_report, dict)
+            or reconciliation_report.get("kind") != "skill-family.stb-reconciliation-report"
+            or reconciliation_report.get("recomputedBundleDigestSha256") != report["recomputedBundleDigestSha256"]
+            or reconciliation_report.get("verdict") != report["verdict"]
+        ):
+            raise ContractError(
+                "supplied reconciliation report does not match recomputed STB audit state"
+            )
+
+    verdict = report["verdict"]
+    if verdict not in {"SUSPECTED_FABRICATION", "FINDINGS"}:
+        raise ContractError(
+            f"export-repro-candidate requires SUSPECTED_FABRICATION or FINDINGS verdict (got {verdict})"
+        )
+
+    triggered_rules = sorted({f["ruleId"] for f in report.get("findings", []) if isinstance(f.get("ruleId"), str)})
+    primary_summary_raw = (
+        report["redCardReasons"][0]
+        if report.get("redCardReasons")
+        else (report["findings"][0]["summary"] if report.get("findings") else "STB failure detected")
+    )
+    failure_summary = scrub_repro_value(primary_summary_raw)
+
+    observed_calls = []
+    for idx, tc in enumerate(stb.get("toolCalls", [])):
+        observed_calls.append(
+            {
+                "seq": idx,
+                "toolName": scrub_repro_value(str(tc.get("toolName") or "tool")),
+                "category": str(tc.get("category") or "other"),
+                "sanitizedTarget": scrub_repro_value(str(tc.get("sanitizedCommandOrTarget") or "")),
+                "status": str(tc.get("status") or "failed"),
+                "exitCode": tc.get("exitCode") if isinstance(tc.get("exitCode"), int) else None,
+            }
+        )
+
+    contradicted_claims = [
+        {
+            "claimId": scrub_repro_value(str(rec.get("claimId") or "")),
+            "claimType": str(rec.get("claimType") or "unknown"),
+            "triggeredRules": list(rec.get("triggeredRules") or []),
+            "reason": scrub_repro_value(str(rec.get("reason") or "")),
+        }
+        for rec in report.get("claimReconciliations", [])
+        if rec.get("status") == "contradicted"
+    ]
+
+    bundle_digest = report["recomputedBundleDigestSha256"]
+    scrubbed_bundle_id = scrub_repro_value(str(stb["bundleId"]))
+    slug_source = re.sub(r"\[REDACTED_[A-Z0-9_]+\]", "", scrubbed_bundle_id)
+    case_id = f"REPRO-{_sanitize_case_slug(slug_source)}-{bundle_digest[:8]}"
+
+    unsigned_body: dict[str, Any] = {
+        "schemaVersion": 1,
+        "kind": "skill-failure-auditor.repro-candidate",
+        "feedbackLoopId": "FB-2",
+        "provider": {
+            "id": provider_id,
+            "version": provider_version,
+            "entry": REPRO_CANDIDATE_ENTRY,
+        },
+        "sourceBundle": {
+            "bundleId": scrub_repro_value(stb["bundleId"]),
+            "attemptId": scrub_repro_value(stb["attempt"]["attemptId"]),
+            "recomputedBundleDigestSha256": bundle_digest,
+            "verdict": verdict,
+            "suspectedFabrication": bool(report["suspectedFabrication"]),
+            "triggeredRuleIds": triggered_rules,
+        },
+        "subject": {
+            "id": scrub_repro_value(stb["subject"]["id"]),
+            "kind": stb["subject"]["kind"],
+            "version": scrub_repro_value(stb["subject"].get("version")),
+            "sourceTreeSha256": stb["subject"]["sourceTreeSha256"],
+        },
+        "redaction": {
+            "applied": True,
+            "policyId": "sfa-repro-scrubber-v1",
+        },
+        "humanReviewRequired": True,
+        "proposedCase": {
+            "caseId": case_id,
+            "category": "fb2_failure_regression",
+            "failureSummary": failure_summary,
+            "observedToolCalls": observed_calls,
+            "contradictedClaims": contradicted_claims,
+            "assertions": [
+                {"kind": "exit_code_zero"},
+                {
+                    "kind": "regex_match",
+                    "pattern": "^(?:VERIFIED_REGRESSION_FIXED|SAFE_BOUNDARY_HELD)$",
+                },
+            ],
+        },
+    }
+    candidate_digest = foundation_digest_document(unsigned_body)
+    return {
+        **unsigned_body,
+        "candidateDigestSha256": candidate_digest,
+    }
+
+
+def run_export_repro_candidate(
+    *,
+    stb_root: str,
+    stb_relative: str,
+    output_root: str,
+    candidate_relative: str,
+    provider_id: str,
+    provider_version: str,
+    report_root: str | None = None,
+    report_relative: str | None = None,
+) -> dict[str, Any]:
+    """Read a failing/fabricated STB strictly, scrub and build an FB-2 repro candidate, and publish exclusively."""
+    in_root = Path(stb_root)
+    out_root = Path(output_root)
+    if not in_root.is_absolute() or in_root.is_symlink() or not in_root.is_dir():
+        raise ContractError(f"--stb-root must be a real absolute directory: {stb_root}")
+    if not out_root.is_absolute() or out_root.is_symlink() or not out_root.is_dir():
+        raise ContractError(f"--output-root must be a real absolute directory: {output_root}")
+
+    in_root_str = str(in_root.resolve(strict=True))
+    out_root_str = str(out_root.resolve(strict=True))
+    stb_rel = normalize_relative_path(stb_relative)
+    cand_rel = normalize_relative_path(candidate_relative)
+
+    foundation_resolve_contained(in_root_str, stb_rel)
+    foundation_resolve_contained(out_root_str, cand_rel)
+
+    stb_receipt = foundation_read_file_strict(in_root_str, stb_rel)
+    stb_content = stb_receipt.get("content")
+    if not isinstance(stb_content, str):
+        raise ContractError("STB file did not return utf8 text")
+    stb_doc = strict_json_loads(stb_content, "session-trace-bundle")
+    if not isinstance(stb_doc, dict):
+        raise ContractError("session-trace-bundle must be a JSON object")
+
+    ext_report: dict[str, Any] | None = None
+    if report_root is not None or report_relative is not None:
+        if not report_root or not report_relative:
+            raise ContractError("--report-root and --report must be provided together")
+        rep_root_p = Path(report_root)
+        if not rep_root_p.is_absolute() or rep_root_p.is_symlink() or not rep_root_p.is_dir():
+            raise ContractError(f"--report-root must be a real absolute directory: {report_root}")
+        rep_root_str = str(rep_root_p.resolve(strict=True))
+        rep_rel = normalize_relative_path(report_relative)
+        foundation_resolve_contained(rep_root_str, rep_rel)
+        rep_receipt = foundation_read_file_strict(rep_root_str, rep_rel)
+        rep_text = rep_receipt.get("content")
+        if not isinstance(rep_text, str):
+            raise ContractError("reconciliation report file did not return utf8 text")
+        parsed_rep = strict_json_loads(rep_text, "stb-reconciliation-report")
+        if not isinstance(parsed_rep, dict):
+            raise ContractError("stb-reconciliation-report must be a JSON object")
+        ext_report = parsed_rep
+
+    candidate_doc = build_repro_candidate_from_stb(
+        stb_doc,
+        provider_id=provider_id,
+        provider_version=provider_version,
+        stb_root=in_root_str,
+        reconciliation_report=ext_report,
+    )
+    out_file = Path(out_root_str) / cand_rel
+    write_json_exclusive(out_file, candidate_doc)
+    return {
+        "status": "OK",
+        "feedbackLoopId": "FB-2",
+        "verdict": candidate_doc["sourceBundle"]["verdict"],
+        "suspectedFabrication": candidate_doc["sourceBundle"]["suspectedFabrication"],
+        "proposedCaseId": candidate_doc["proposedCase"]["caseId"],
+        "candidateDigestSha256": candidate_doc["candidateDigestSha256"],
+        "humanReviewRequired": True,
+        "candidatePath": str(out_file),
     }
